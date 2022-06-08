@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use fuma\Http\Controllers\S2GController;
+use fuma\SubmitJob;
 
 use fuma\User;
 
 
 class S2GFormTest extends TestCase
 {
+    public static $testName = 'TestS2GForm';
     public function setUp()
     {
         parent::setUp();
@@ -36,6 +38,7 @@ class S2GFormTest extends TestCase
     public function testExistenceOfSNP2GENEPage()
     {
         // Get and check SNP2GENE (new job) page check the page structure
+        print("Check page SNP2GENE new job exists...\r\n");
         $this->visit('/snp2gene')
             ->seePageIs('/snp2gene')
             ->see('New Job')
@@ -55,24 +58,27 @@ class S2GFormTest extends TestCase
 
     /**
      * Emulate job submission on the S2G controller
-     * @return void 
+     * If successful results in a NEW job in the database
+     * and the relevant files in a job directory.
+     * @return string Unique test case name used as job title
      */
     public function testS2GNewJob()
     {
+        $uniqueTestName = uniqid(S2GFormTest::$testName . '_');
+        print("Check SNP2GENE Controller...\r\n");
         $controller = new S2GController();
 
         $this->assertNotNull($controller);
 
-        $jobList = $controller->getJobList();
-        $this->assertNotNull($jobList);
-        print($jobList);
+        // print($jobList);
         // Using the default Crohns GWAS so no files
         $files = [
             'GWASsummary' => [],
             'leadSNPs' => [],
             'regions' => [],
         ];
-        $request = new Request(array(
+
+        $paramArray = array(
             'paramsID' => 0,
             'egGWAS' => 'on',
             'N' => 21389,
@@ -114,19 +120,63 @@ class S2GFormTest extends TestCase
             'magma' => 'on',
             'magma_window' => 0,
             'magma_exp' => array('GTEx/v8/gtex_v8_ts_avg_log2TPM', 'GTEx/v8/gtex_v8_ts_general_avg_log2TPM'),
-            'NewJobTitle' => 'Crohns Test 1',
+            'NewJobTitle' => $uniqueTestName,
             'SubmitNewJob' => 'Submit Job'
-        ));
+        );
+        $request = new Request($paramArray);
         $request->files->replace($files);
         //$this->request = $request; - will trigger the request on the current page
 
+        // Create a job using the controller
+        print("Check job creation...\r\n");
         $result = $controller->newJob($request); 
 
-        // success is a redirect to the jobsPanel
-        //$this->assertStringEndsWith('snp2gene#joblist-panel', $result->getTargetUrl());
-        //$this->assertEquals(302, $result->getStatusCode());
-        print(var_dump($result));
+        // Check that the job was created
+        $result = SubmitJob::where('title', $uniqueTestName)->get();
+        $this->assertEquals(sizeof($result), 1);
+        $this->assertEquals($result->first()->status, 'NEW');
+        print("Successfully created new job: ". $uniqueTestName . "\r\n").
 
+        // Check that the job files were correctly created
+        $jobID = $result->first()->jobID;
+        print("Check job directory and content for ID: ". $jobID. "...\r\n");
+
+        $jobDirectory = config('app.jobdir').'/jobs/'.$jobID; 
+        $this->assertDirectoryExists($jobDirectory);
+        print('Job: '. $uniqueTestName . " Status: ". $result->first()->status . "\r\n");
+        $paramsFile = $jobDirectory . "/params.config";
+        $this->assertFileExists($paramsFile);
+        // Check the contents of the params file against the expected
+        print("Verify job params.config\r\n");
+        $newParamsFile = parse_ini_file($paramsFile, false, INI_SCANNER_RAW);
+        $testAssetIni = parse_ini_file(__DIR__ . '/TestAsset/S2GForm/egGWAS_config.ini', false, INI_SCANNER_RAW);
+        $skipKeys = array('created_at', 'title');
+        foreach(array_keys($testAssetIni) as $key) {
+            if (!in_array($key, $skipKeys)) {
+                $this->assertEquals($testAssetIni[$key], $newParamsFile[$key]);
+            }
+        }
+        return $uniqueTestName;
+    }
+
+    /**
+     * @depends testS2GNewJob
+     */
+    function testQueue($uniqueTestName)
+    {
+        $controller = new S2GController();
+        print("Retrieve job: ".$uniqueTestName."...\r\n");
+        $result = SubmitJob::where('title', $uniqueTestName)->get();
+        $this->assertEquals(sizeof($result), 1);
+        // Get the job list - this will also queue the job just made
+        print("Schedule test job: ".$result->first()->jobID." ...\r\n");
+        $jobList = $controller->getJobList();
+        $this->assertNotNull($jobList);
+        //var_dump($jobList);
+
+        $result = SubmitJob::where('title', $uniqueTestName)->get();
+        print("Check job: ".$result->first()->jobID." is done ...\r\n");
+        $this->assertEquals($result->first()->status, 'OK');
     }
 
     function actingAsAdmin()
@@ -140,5 +190,6 @@ class S2GFormTest extends TestCase
     public function tearDown() {
        User::where('name', "Test Admin")->first()->delete();
        parent::tearDown();
+       // TODO Decide if also cleanup test jobs?
      }
 }
