@@ -46,6 +46,17 @@ return [
 
     'gwasDBdir' => env('APP_GWASDBDIR', ''),
 
+    /*
+    |--------------------------------------------------------------------------
+    | test asset root directory 
+    |--------------------------------------------------------------------------
+    |
+    | Where various test assests (e.g. test input and output data) are located
+    |
+    */
+
+    'testAssetRoot' => env('APP_TESTASSETROOT', ''),
+
 	/*
     |--------------------------------------------------------------------------
     | Developper's email address

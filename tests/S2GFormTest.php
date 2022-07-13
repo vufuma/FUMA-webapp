@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use fuma\Http\Controllers\S2GController;
+use fuma\Jobs\snp2geneProcess;
 use fuma\SubmitJob;
 
 use fuma\User;
@@ -161,6 +162,9 @@ class S2GFormTest extends TestCase
 
     /**
      * @depends testS2GNewJob
+     * 
+     * @param mixed $uniqueTestName 
+     * Use expectsJobs to allow job queuing without dispatch
      */
     function testQueue($uniqueTestName)
     {
@@ -168,15 +172,33 @@ class S2GFormTest extends TestCase
         print("Retrieve job: ".$uniqueTestName."...\r\n");
         $result = SubmitJob::where('title', $uniqueTestName)->get();
         $this->assertEquals(sizeof($result), 1);
+
         // Get the job list - this will also queue the job just made
         print("Schedule test job: ".$result->first()->jobID." ...\r\n");
+        // Allow the job to be dispatched without being executed
+        $this->expectsJobs(snp2geneProcess::class);
         $jobList = $controller->getJobList();
         $this->assertNotNull($jobList);
-        //var_dump($jobList);
 
         $result = SubmitJob::where('title', $uniqueTestName)->get();
-        print("Check job: ".$result->first()->jobID." is done ...\r\n");
-        $this->assertEquals($result->first()->status, 'OK');
+        print("Check job: ".$result->first()->jobID." is queued (will not be dispatched) ...\r\n");
+        $this->assertEquals($result->first()->status, 'QUEUED');
+    }
+
+    /**
+     * @depends testS2GNewJob
+     * 
+     * @param mixed $uniqueTestName 
+     * @return void 
+     */
+    function testS2GCompletion($uniqueTestName)
+    {
+        $this->emulateJobCompletion($uniqueTestName);
+
+        // Now check the job table - not really possible without Laravel Dusk
+        // to run the javascript
+        $this->visit('/snp2gene#joblist-panel')
+            ->seePageIs('/snp2gene');
     }
 
     function actingAsAdmin()
@@ -185,6 +207,24 @@ class S2GFormTest extends TestCase
             'name' => 'Test Admin',
             'email' => 'admin@test.com'
         ]));
+    }
+
+    function emulateJobCompletion($uniqueTestName)
+    {
+        print("Emulate job completion: ".$uniqueTestName."...\r\n");
+        $result = SubmitJob::where('title', $uniqueTestName)->get()->first();
+        $jobID = $result->jobID;
+        $created_at = $result->created_at;
+        $started_at = $result->updated_at;
+		DB::table('SubmitJobs') -> where('jobID', $jobID)
+			-> update(['status'=>'OK']);
+        $completed_at = date("Y-m-d H:i:s");
+        DB::table("JobMonitor")->insert([
+            "jobID"=>$jobID,
+            "created_at"=>$created_at,
+            "started_at"=>$started_at,
+            "completed_at"=>$completed_at
+        ]);        
     }
 
     public function tearDown() {

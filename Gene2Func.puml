@@ -1,0 +1,73 @@
+@startuml
+
+title Triggering GENE2FUNC on a JobID
+
+actor MyJobs_menu #Purple
+boundary routes #blue
+skinparam participant {
+    Bound DarkBlue
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+}
+participant G2FController [
+    =G2FController
+    ---
+    app/Http/Controllers/G2FController.php
+]
+participant G2F_page  [
+    =G2F_page
+    ---
+    resources/views/pages/gene2func.blade.php
+]
+/'participant FUMA_Controller [
+    =FUMA_Controller
+    ---
+    app/Http/Controllers/FUMAController.php
+]'/
+entity Server #green
+
+
+MyJobs_menu -> routes: POST gene2func/submit
+routes -> G2FController: gene2funcSubmit (with JobID) 
+hnote over G2FController: gene2funcSubmit
+
+alt no database entry for this Gene2Func
+G2FController -> G2FController: 1. Make gene2func dir
+G2FController -> G2FController: 2. Prepare the params.config
+G2FController -> routes: GET pages.gene2func 
+routes -> G2F_page: status = query  
+note right: call includes fumaJS struct
+hnote over G2F_page: gene2func.js
+G2F_page -> G2F_page: $(document.ready) 
+G2F_page -> G2F_page: if (status = query) 
+note right 
+ 1. unpack fumaJS parameters 
+    including jobID
+ 2. blank HeatMap and 
+    Enrichment
+end note
+G2F_page -> G2F_page: beforeSend
+note right
+HoldOn - 
+Display busy message
+"Running GENE2FUNC process."
+end note
+G2F_page -> routes: POST gene2func/geneQuery
+routes -> G2FController: geneQuery 
+hnote over G2FController: geneQuery
+G2FController -> Server: 1. exec Rscript gene2func.R
+G2FController -> Server: 2. exec python GeneSet.py
+G2F_page -> G2F_page: on success
+note right
+HoldOn -
+Clear busy message.
+end note
+note over G2FController: Display new GENE2FUNC result 
+G2F_page -> routes: GET gene2func/JobID
+
+else Gene2Func entry already exists
+note over G2FController: Display existing GENE2FUNC result 
+G2F_page -> routes: GET gene2func/JobID
+end
+
+@enduml
