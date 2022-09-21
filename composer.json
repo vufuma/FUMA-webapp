@@ -1,6 +1,7 @@
 {
     "name": "laravel/laravel",
     "config": {
+        "preferred-install": "dist",
         "platform": {
             "php": "7.3"
         }
@@ -47,8 +48,5 @@
         "post-create-project-cmd": [
             "php artisan key:generate"
         ]
-    },
-    "config": {
-        "preferred-install": "dist"
     }
 }
