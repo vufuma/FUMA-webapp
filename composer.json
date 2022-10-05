@@ -34,7 +34,10 @@
         ],
         "psr-4": {
             "fuma\\": "app/"
-        }
+        },
+        "files": [
+            "app/Helper/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

@@ -142,7 +142,7 @@ class G2FController extends Controller
 		$adjPcut = $request -> input('adjPcut');
 		$minOverlap = $request -> input('minOverlap');
 
-		$app_config = parse_ini_file(storage_path()."/scripts/app.config", false, INI_SCANNER_RAW);
+		$app_config = parse_ini_file(scripts_path('app.config'), false, INI_SCANNER_RAW);
 
 		// write parameters to config file
 		$paramfile = $filedir.'params.config';
@@ -191,10 +191,10 @@ class G2FController extends Controller
 	public function geneQuery(Request $request){
 		$filedir = $request -> input('filedir');
 
-		$script = storage_path()."/scripts/gene2func.R";
+		$script = scripts_path('gene2func.R');
 		exec("Rscript $script $filedir", $output, $error);
 
-		$script = storage_path()."/scripts/GeneSet.py";
+		$script = scripts_path('GeneSet.py');
 		exec("python $script $filedir", $output2, $error2);
 		exec("find ".$filedir." -type d -exec chmod 775 {} \;");
 		exec("find ".$filedir." -type f -exec chmod 664 {} \;");

@@ -618,7 +618,7 @@ MSG;
 			$magma_exp = implode(":", $request->input('magma_exp'));
 		}
 
-		$app_config = parse_ini_file(storage_path()."/scripts/app.config", false, INI_SCANNER_RAW);
+		$app_config = parse_ini_file(scripts_path('app.config'), false, INI_SCANNER_RAW);
 
 		// write parameter into a file
 		$paramfile = $filedir.'/params.config';
@@ -1150,7 +1150,7 @@ MSG;
 			File::delete($zipfile);
 		}
 		$zip -> open($zipfile, \ZipArchive::CREATE);
-		$zip->addFile(storage_path().'/README', "README");
+		$zip->addFile(public_path().'/README', "README");
 		foreach($files as $f){
 			$zip->addFile($filedir.$f, $f);
 		}
