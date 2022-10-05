@@ -48,10 +48,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | gwasDB directory (temmporary)
+    | downloads directory
     |--------------------------------------------------------------------------
     |
-    | Specify direcory of gwasDB (this will be moved to separate web application later on)
+    | Directory used for miscellaneous downloadable references (e.g. variant files)
     |
     */
 

@@ -21,7 +21,7 @@ use Mail;
 class FumaController extends Controller
 {
 	public function appinfo(){
-		$app_config = parse_ini_file(storage_path()."/scripts/app.config", false, INI_SCANNER_RAW);
+		$app_config = parse_ini_file(scripts_path("app.config"), false, INI_SCANNER_RAW);
 		$out["ver"] = $app_config['FUMA'];
 		$out["user"] = DB::table('users')->count();
 		$out["s2g"] = collect(DB::select("SELECT MAX(jobID) as max from SubmitJobs"))->first()->max;
@@ -86,7 +86,7 @@ class FumaController extends Controller
 		$search = $request -> input('search');
 		$search = $search['value'];
 
-		$script = storage_path().'/scripts/dt.py';
+		$script = scripts_path('dt.py');
 		$out = shell_exec("python $script $filedir $fin $draw $cols $order_column $order_dir $start $length $search");
 		echo $out;
 	}
@@ -195,7 +195,7 @@ class FumaController extends Controller
 
 	public function MAGMA_expPlot($prefix, $jobID){
 		$filedir = config('app.jobdir').'/'.$prefix.'/'.$jobID.'/';
-		$script = storage_path()."/scripts/magma_expPlot.py";
+		$script = scripts_path('magma_expPlot.py');
 	    $data = shell_exec("python $script $filedir");
 		return $data;
 	}
@@ -207,7 +207,7 @@ class FumaController extends Controller
       $rowI = $request->input('rowI');
       $filedir = config('app.jobdir').'/'.$prefix.'/'.$id.'/';
 
-      $script = storage_path()."/scripts/locusPlot.py";
+      $script = scripts_path('locusPlot.py');
       $out = shell_exec("python $script $filedir $rowI $type");
       return $out;
     }
@@ -264,7 +264,7 @@ class FumaController extends Controller
 
 		$filedir = config('app.jobdir').'/'.$prefix.'/'.$id.'/';
 
-		$script = storage_path()."/scripts/annotPlot.py";
+		$script = scripts_path('annotPlot.py');
 	    $data = shell_exec("python $script $filedir $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells");
 		return $data;
 	}
@@ -283,7 +283,7 @@ class FumaController extends Controller
 		$params = parse_ini_file($filedir."params.config", false, INI_SCANNER_RAW);
 		$ensembl = $params['ensembl'];
 
-		$script = storage_path()."/scripts/annotPlot.R";
+		$script = scripts_path('annotPlot.R');
 		$data = shell_exec("Rscript $script $filedir $chrom $xMin $xMax $eqtlgenes $eqtlplot $ciplot $ensembl");
 		$data = explode("\n", $data);
 		$data = $data[count($data)-1];
@@ -291,7 +291,7 @@ class FumaController extends Controller
 	}
 
 	public function legendText($file){
-		$f = storage_path().'/legends/'.$file;
+		$f = scripts_path('legends/'.$file);
 		if(file_exists($f)){
 			$file = fopen($f, 'r');
 			$header = fgetcsv($file, 0, "\t");
@@ -435,7 +435,7 @@ class FumaController extends Controller
 			File::delete($zipfile);
 		}
 		$zip -> open($zipfile, \ZipArchive::CREATE);
-		$zip->addFile(storage_path().'/README_g2f', "README_g2f");
+		$zip->addFile(public_path().'/README_g2f', "README_g2f");
 		foreach($files as $f){
 			$zip->addFile($filedir.$f, $f);
 		}
@@ -545,7 +545,7 @@ class FumaController extends Controller
 		if($prefix=="public"){
 			$filedir .= 'g2f/';
 		}
-		$script = storage_path()."/scripts/g2f_expPlot.py";
+		$script = scripts_path('g2f_expPlot.py');
 	    $data = shell_exec("python $script $filedir $dataset");
 		return $data;
 	}
@@ -555,7 +555,7 @@ class FumaController extends Controller
 		if($prefix=="public"){
 			$filedir .= 'g2f/';
 		}
-		$script = storage_path()."/scripts/g2f_DEGPlot.py";
+		$script = scripts_path('g2f_DEGPlot.py');
 	    $data = shell_exec("python $script $filedir");
 		return $data;
 	}
