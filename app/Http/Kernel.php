@@ -55,6 +55,6 @@ class Kernel extends HttpKernel
         'isAdmin' => \fuma\Http\Middleware\AdminMiddleware::class,
         'timeout' => \fuma\Http\Middleware\SessionTimeout::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
     ];
 }
