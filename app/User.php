@@ -3,6 +3,7 @@
 namespace fuma;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Traits\HasRoles;
 use fuma\Rules\Lowercase;
 
@@ -27,7 +28,8 @@ class User extends Authenticatable
                 'email', 
                 'max:255', 
                 new Lowercase, 
-                empty($modifyingUserId) ? ['unique:users,email'] : ['unique:users,email,'.$modifyingUserId],
+                empty($modifyingUserId) ? Rule::unique('users','email') : Rule::unique('users','email')->ignore($modifyingUserId)
+            ]
         ];
     } 
 
