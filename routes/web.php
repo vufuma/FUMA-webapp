@@ -35,7 +35,6 @@ Route::group([], function(){
 		return view('pages.updates');
 	});
 
-
 	Route::get('faq', function(){
 		return view('pages.faq');
 	});
