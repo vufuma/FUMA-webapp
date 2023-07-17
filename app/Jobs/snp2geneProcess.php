@@ -54,17 +54,31 @@ class snp2geneProcess extends Job implements ShouldQueue
 
 		// file check
 		if(!file_exists(config('app.jobdir').'/jobs/'.$jobID.'/input.gwas')){
+
 			DB::table('SubmitJobs') -> where('jobID', $jobID)
 				->delete();
 			File::deleteDirectory(config('app.jobdir').'/jobs/'.$jobID);
 			if($email!=null){
 				$this->sendJobCompMail($email, $jobtitle, $jobID, -1, $msg);
-			return;
+				return;
 			}
 		}
 
 		// get parameters
 		$filedir = config('app.jobdir').'/jobs/'.$jobID.'/';
+		if(!file_exists($filedir."params.config")) {
+			$msg = "Job parameters not found.";
+			$this->rmFiles($filedir);
+			$this->chmod($filedir);
+			DB::table('SubmitJobs') -> where('jobID', $jobID)
+				-> update(['status'=>'ERROR:100']);
+			$this->JobMonitorUpdate($jobID, $created_at, $started_at);
+			if($email!=null){
+				$this->sendJobCompMail($email, $jobtitle, $jobID, 100, $msg);
+				return;
+			}
+			return;			
+		}
 		$params = parse_ini_file($filedir."params.config", false, INI_SCANNER_RAW);
 
 		// log files
@@ -74,7 +88,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 		//gwas_file.pl
 		file_put_contents($logfile, "----- gwas_file.py -----\n");
 		file_put_contents($errorfile, "----- gwas_file.py -----\n");
-		$script = storage_path().'/scripts/gwas_file.py';
+		$script = scripts_path('gwas_file.py');
 		exec("python $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 		if($error != 0){
 			$this->rmFiles($filedir);
@@ -82,9 +96,12 @@ class snp2geneProcess extends Job implements ShouldQueue
 			DB::table('SubmitJobs') -> where('jobID', $jobID)
 				-> update(['status'=>'ERROR:001']);
 
-			$errorout = file_get_contents($errorfile);
-			$errorout = explode("\n", $errorout);
-			$msg = $errorout[count($errorout)-2];
+			$msg = "No error log found for SNP2GENE job ID: $jobID";
+			if(file_exists($errorfile)) {
+				$errorout = file_get_contents($errorfile);
+				$errorout = explode("\n", $errorout);
+				$msg = $errorout[count($errorout)-2];
+			}
 			$this->JobMonitorUpdate($jobID, $created_at, $started_at);
 			if($email!=null){
 				$this->sendJobCompMail($email, $jobtitle, $jobID, 1, $msg);
@@ -92,13 +109,15 @@ class snp2geneProcess extends Job implements ShouldQueue
 			}
 		}
 
-		$script = storage_path().'/scripts/allSNPs.py';
+		file_put_contents($logfile, "----- allSNPs.py -----\n", FILE_APPEND);
+		file_put_contents($errorfile, "----- allSNPs.py -----\n", FILE_APPEND);
+		$script = scripts_path('allSNPs.py');
 		exec("python $script $filedir");
 
 		if($params['magma']==1){
 			file_put_contents($logfile, "\n----- magma.py -----\n", FILE_APPEND);
 			file_put_contents($errorfile, "\n----- magma.py -----\n", FILE_APPEND);
-			$script = storage_path().'/scripts/magma.py';
+			$script = scripts_path('magma.py');
 			exec("python $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 			if($error != 0){
 				$errorout = file_get_contents($errorfile);
@@ -120,7 +139,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 
 		file_put_contents($logfile, "\n----- manhattan_filt.py -----\n", FILE_APPEND);
 		file_put_contents($errorfile, "\n----- manhattan_filt.py -----\n", FILE_APPEND);
-		$script = storage_path().'/scripts/manhattan_filt.py';
+		$script = scripts_path('manhattan_filt.py');
 		exec("python $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 		if($error != 0){
 			$this->rmFiles($filedir);
@@ -136,7 +155,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 
 		file_put_contents($logfile, "\n----- QQSNPs_filt.py -----\n", FILE_APPEND);
 		file_put_contents($errorfile, "\n----- QQSNPs_filt.py -----\n", FILE_APPEND);
-		$script = storage_path().'/scripts/QQSNPs_filt.py';
+		$script = scripts_path('QQSNPs_filt.py');
 		exec("python $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 		if($error != 0){
 			$this->rmFiles($filedir);
@@ -152,7 +171,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 
 		file_put_contents($logfile, "\n----- getLD.py -----\n", FILE_APPEND);
 		file_put_contents($errorfile, "\n----- getLD.py -----\n", FILE_APPEND);
-		$script = storage_path().'/scripts/getLD.py';
+		$script = scripts_path('getLD.py');
 		// $process = new Proces("/usr/bin/perl $script $filedir $pop $leadP $KGSNPs $gwasP $maf $r2 $gwasformat $leadfile $addleadSNPs $regionfile $mergeDist $exMHC $extMHC");
 		// $process -> start();
 		// echo "perl $script $filedir $pop $leadP $KGSNPs $gwasP $maf $r2 $gwasformat $leadfile $addleadSNPs $regionfile $mergeDist $exMHC $extMHC";
@@ -168,7 +187,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 				}
 			}
 			if($NoCandidates){
-				$script = storage_path().'/scripts/getTopSNPs.py';
+				$script = scripts_path('getTopSNPs.py');
 				exec("python $script $filedir >>$logfile 2>>$errorfile");
 				$this->rmFiles($filedir);
 				$this->chmod($filedir);
@@ -194,7 +213,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 
 		file_put_contents($logfile, "\n----- SNPannot.R -----\n", FILE_APPEND);
 		file_put_contents($errorfile, "\n----- SNPannot.R -----\n", FILE_APPEND);
-		$script = storage_path().'/scripts/SNPannot.R';
+		$script = scripts_path('SNPannot.R');
 		exec("Rscript $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 		if($error != 0){
 			$this->rmFiles($filedir);
@@ -210,7 +229,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 
 		file_put_contents($logfile, "\n----- getGWAScatalog.py -----\n", FILE_APPEND);
 		file_put_contents($errorfile, "\n----- getGWAScatalog.py -----\n", FILE_APPEND);
-		$script = storage_path().'/scripts/getGWAScatalog.py';
+		$script = scripts_path('getGWAScatalog.py');
 		exec("python $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 		if($error != 0){
 			$this->rmFiles($filedir);
@@ -224,12 +243,12 @@ class snp2geneProcess extends Job implements ShouldQueue
 			}
 		}
 
-		#$script = storage_path().'/scripts/getExAC.pl';
+		#$script = scripts_path('getExAC.pl');
 		#exec("perl $script $filedir");
 		if($params['eqtlMap']==1){
 			file_put_contents($logfile, "\n----- geteQTL.py -----\n", FILE_APPEND);
 			file_put_contents($errorfile, "\n----- geteQTL.py -----\n", FILE_APPEND);
-			$script = storage_path().'/scripts/geteQTL.py';
+			$script = scripts_path('geteQTL.py');
 			exec("python $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 			if($error != 0){
 				$this->rmFiles($filedir);
@@ -247,7 +266,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 		if($params['ciMap']==1){
 			file_put_contents($logfile, "\n----- getCI.R -----\n", FILE_APPEND);
 			file_put_contents($errorfile, "\n----- getCI.R -----\n", FILE_APPEND);
-			$script = storage_path().'/scripts/getCI.R';
+			$script = scripts_path('getCI.R');
 			exec("Rscript $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 			if($error != 0){
 				$this->rmFiles($filedir);
@@ -267,7 +286,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 
 		file_put_contents($logfile, "\n----- geneMap.R -----\n", FILE_APPEND);
 		file_put_contents($errorfile, "\n----- geneMap.R -----\n", FILE_APPEND);
-		$script = storage_path().'/scripts/geneMap.R';
+		$script = scripts_path('geneMap.R');
 		exec("Rscript $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 		if($error != 0){
 			$this->rmFiles($filedir);
@@ -284,7 +303,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 		if($params['ciMap']==1){
 			file_put_contents($logfile, "\n----- createCircosPlot.py -----\n", FILE_APPEND);
 			file_put_contents($errorfile, "\n----- createCircosPlot.py -----\n", FILE_APPEND);
-			$script = storage_path().'/scripts/createCircosPlot.py';
+			$script = scripts_path('createCircosPlot.py');
 			exec("python $script $filedir >>$logfile 2>>$errorfile", $output, $error);
 			if($error != 0){
 				$this->rmFiles($filedir);
@@ -315,7 +334,7 @@ class snp2geneProcess extends Job implements ShouldQueue
 		return;
 	}
 
-	public function failed(){
+	public function failed($exception){
 		$jobID = $this->jobID;
 		$user = $this->user;
         $email = $user->email;

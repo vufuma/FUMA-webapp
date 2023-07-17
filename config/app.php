@@ -2,6 +2,18 @@
 use Illuminate\Html\HtmlServiceProvider;
 return [
 
+        /*
+    |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    */
+
+    'name' => 'FUMA GWAS',
+
     /*
     |--------------------------------------------------------------------------
     | Subdirectory
@@ -46,7 +58,18 @@ return [
 
     'gwasDBdir' => env('APP_GWASDBDIR', ''),
 
-	/*
+    /*
+    |--------------------------------------------------------------------------
+    | downloads directory
+    |--------------------------------------------------------------------------
+    |
+    | Directory used for miscellaneous downloadable references (e.g. variant files)
+    |
+    */
+
+    'downloadsDir' => env('APP_DOWNLOADS', ''),
+
+    /*
     |--------------------------------------------------------------------------
     | Developper's email address
     |--------------------------------------------------------------------------
@@ -95,6 +118,17 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application name
+    |--------------------------------------------------------------------------
+    |
+    | This application name
+    |
+    */
+
+    'name' => env('APP_NAME', 'fuma'),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,7 +197,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    //'log' => env('APP_LOG', 'single'),
 
     /*
     |--------------------------------------------------------------------------
@@ -193,12 +227,14 @@ return [
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
         Illuminate\Pagination\PaginationServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        Illuminate\Session\SessionServiceProvider::class,
+        //Illuminate\Session\SessionServiceProvider::class,
+        Rairlie\LockingSession\LockingSessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
@@ -208,14 +244,26 @@ return [
          */
         fuma\Providers\AppServiceProvider::class,
         fuma\Providers\AuthServiceProvider::class,
+        //fuma\Providers\BroadcastServiceProvider::class,
         fuma\Providers\EventServiceProvider::class,
         fuma\Providers\RouteServiceProvider::class,
 
         'Collective\Html\HtmlServiceProvider',
         'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
-        'Chumper\Zipper\ZipperServiceProvider'
         // GeneaLabs\LaravelCaffeine\LaravelCaffeineServiceProvider::class
+        Laravel\Tinker\TinkerServiceProvider::class,
 
+        /*
+         * User permissions
+         */
+        Spatie\Permission\PermissionServiceProvider::class, 
+
+        /*
+         * HTMLform builder - 
+         * supplies the Form class used in the permission/role forms
+         * see https://laravelcollective.com/docs/5.8/html
+         */
+        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -243,12 +291,16 @@ return [
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,
+        'Form' => Collective\Html\FormFacade::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Html' => Collective\Html\HtmlFacade::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
+        'Pusher' => Pusher\Pusher::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,
@@ -263,7 +315,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => 'Collective\Html\FormFacade',
         'HTML' => 'Collective\Html\HtmlFacade',
-        'Zipper' => 'Chumper\Zipper\Zipper'
 
     ],
 

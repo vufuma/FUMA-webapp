@@ -12,8 +12,8 @@ class PublicResults extends Migration
      */
     public function up()
     {
-		Schema::table('PublicResults', function (Blueprint $table) {
-            $table->bigIncrements('id');
+		Schema::create('PublicResults', function (Blueprint $table) {
+            $table->bigIncrements('id')->change();
 			$table->integer('jobID');
 			$table->integer('g2f_jobID');
 			$table->string('title');
