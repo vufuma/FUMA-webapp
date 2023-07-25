@@ -18,13 +18,20 @@
 		</tr>
 	</thead>
     <tbody>
-        <tr>
-            <td>12 May 2023</td>
-            <td>v1.5.4</td>
-            <td>
-                        User roles and permissions added.
-            </td>
-        </tr>
+	<tr>
+		<td>26 July 2023</td>
+		<td>v1.5.5</td>
+		<td>
+					Ensembl v102 added and Ensembl v92 removed. v92 is no longer available in the BioMart databases.
+		</td>
+	</tr>
+    <tr>
+        <td>12 May 2023</td>
+        <td>v1.5.4</td>
+        <td>
+                    User roles and permissions added.
+        </td>
+    </tr>
 	<tr>
     	    <td>06 April 2023</td>
             <td>v1.5.3</td>
