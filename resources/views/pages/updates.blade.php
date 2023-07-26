@@ -19,10 +19,10 @@
 	</thead>
     <tbody>
 	<tr>
-		<td>26 July 2023</td>
+		<td>27 July 2023</td>
 		<td>v1.5.5</td>
 		<td>
-					Ensembl v102 added and Ensembl v92 removed. v92 is no longer available in the BioMart databases.
+					Ensembl v102 and v110 added and Ensembl v92 removed. v92 is no longer available in the BioMart databases.
 		</td>
 	</tr>
     <tr>
