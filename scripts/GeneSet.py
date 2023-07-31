@@ -40,7 +40,7 @@ def hypTest(l, c):
 	x = len(gin)
 	if x>0:
 		p = stats.hypergeom.sf(x-1, N, n, m)
-		gin = ENSG[ArrayIn(ENSG[:,ENSGheads.index("ensembl_gene_id")], gin),ENSGheads.index("external_gene_name")]
+		gin = ENSG[ArrayIn(ENSG[:,ENSGheads.index("entrezID")], gin),ENSGheads.index("external_gene_name")]
 		if len(l)>3:
 			return([c, l[0], n, x, p, 1.0, ":".join(gin.astype(str)), l[1]])
 		else:
@@ -112,13 +112,13 @@ genes = [s.upper() for s in genes]
 ENSG = pd.read_csv(ensgdir+"/"+ensg_v+"/"+ensgfile, sep="\t", dtype=str)
 ENSGheads = list(ENSG.columns.values)
 ENSG = np.array(ENSG)
-ENSG = ENSG[ENSG[:,ENSGheads.index("ensembl_gene_id")]!="NA"]
+ENSG = ENSG[ENSG[:,ENSGheads.index("entrezID")]!="NA"]
 
 if bkgtype == "select":
 	bkgval = list(bkgval.split(":"))
 	if "all" not in bkgval:
 		ENSG = ENSG[ArrayIn(ENSG[:,ENSGheads.index("gene_biotype")], bkgval),]
-	bkgenes = list(ENSG[:,ENSGheads.index("ensembl_gene_id")])
+	bkgenes = list(ENSG[:,ENSGheads.index("entrezID")])
 elif bkgtype == "text":
 	bkgenes = bkgval.split(":")
 	bkgenes = [s.upper() for s in bkgenes]
@@ -144,27 +144,27 @@ if not MHC:
 Type = 0
 if len(ArrayIn(genes, ENSG[:,ENSGheads.index("external_gene_name")]))>0:
 	Type = 0
-	genes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("external_gene_name")], genes),ENSGheads.index("ensembl_gene_id")])
+	genes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("external_gene_name")], genes),ENSGheads.index("entrezID")])
 elif len(ArrayIn(genes, ENSG[:,ENSGheads.index("ensembl_gene_id")]))>0:
 	Type = 1
-	genes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("ensembl_gene_id")], genes),ENSGheads.index("ensembl_gene_id")])
+	genes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("ensembl_gene_id")], genes),ENSGheads.index("entrezID")])
 elif len(ArrayIn(genes, ENSG[:,ENSGheads.index("entrezID")]))>0:
 	Type = 2
-	genes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("entrezID")], genes),ENSGheads.index("ensembl_gene_id")])
+	genes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("entrezID")], genes),ENSGheads.index("entrezID")])
 genes = np.array(genes)
 genes = np.unique(genes)
 
 ## bkgenes ID
 if bkgtype != "select":
 	if len(ArrayIn(bkgenes, ENSG[:,ENSGheads.index("external_gene_name")]))>0 :
-		bkgenes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("external_gene_name")], bkgenes),ENSGheads.index("ensembl_gene_id")])
+		bkgenes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("external_gene_name")], bkgenes),ENSGheads.index("entrezID")])
 	elif len(ArrayIn(bkgenes, ENSG[:,ENSGheads.index("ensembl_gene_id")]))>0 :
-		bkgenes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("ensembl_gene_id")], bkgenes),ENSGheads.index("ensembl_gene_id")])
+		bkgenes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("ensembl_gene_id")], bkgenes),ENSGheads.index("entrezID")])
 	elif len(ArrayIn(bkgenes, ENSG[:,ENSGheads.index("entrezID")]))>0:
-		bkgenes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("entrezID")], bkgenes),ENSGheads.index("ensembl_gene_id")])
+		bkgenes = list(ENSG[ArrayIn(ENSG[:,ENSGheads.index("entrezID")], bkgenes),ENSGheads.index("entrezID")])
 bkgenes = np.array(bkgenes)
 bkgenes = np.unique(bkgenes)
-bkgenes = bkgenes[ArrayIn(bkgenes, ENSG[:,ENSGheads.index("ensembl_gene_id")])]
+bkgenes = bkgenes[ArrayIn(bkgenes, ENSG[:,ENSGheads.index("entrezID")])]
 genes = genes[ArrayIn(genes, bkgenes)]
 
 if len(genes)==0:
@@ -172,7 +172,7 @@ if len(genes)==0:
 if len(genes)==1:
 	sys.exit("Only one gene remained")
 
-ENSG = ENSG[ArrayIn(ENSG[:,ENSGheads.index("ensembl_gene_id")], genes)]
+ENSG = ENSG[ArrayIn(ENSG[:,ENSGheads.index("entrezID")], genes)]
 
 files = glob.glob(gsdir+'/*.gmt')
 if nFiles>0:
