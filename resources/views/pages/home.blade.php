@@ -42,6 +42,8 @@ $(document).ready(function(){
 	</p>
 	<p>
 		<strong style="font-size: large;">News</strong><br/>
+		<b>02 August 2023: </b> FUMA is upgraded to version 1.5.6.<br/>
+		The GWAS catalog and MSigDB data were updated. Old versions of these files are available for download in the tutorial sections.<br/>
 		<b>12 May 2023: </b> FUMA is upgraded to version 1.5.4.<br/>
 		User roles and permissions were added for resource management purposes.<br/>
 		<b>06 April 2023: </b> FUMA is upgraded to version 1.5.3.<br/>

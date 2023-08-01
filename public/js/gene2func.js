@@ -207,7 +207,7 @@ function checkInput(){
 	var g = document.getElementById('genes').value;
 	var gfile = $('#genesfile').val().length;
 	if(g.length==0 && gfile==0){
-		$('#GeneCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please either copy-paste or upload a liet of genes to test.</div>');
+		$('#GeneCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please either copy-paste or upload a list of genes to test.</div>');
 		$('#geneSubmit').attr("disabled", true);
 	}else if(g.length>0 && gfile>0){
 		$('#GeneCheck').html('<div class="alert alert-warning" style="padding-bottom: 10; padding-top: 10;">OK. Genes in the text box will be used. To use uploaded file, please clear the text box.</div>');
@@ -229,7 +229,7 @@ function checkInput(){
 	var bkgfile = $('#bkgenesfile').val().length;
 
 	if(bkg_select==0 && bkg.length==0 && bkgfile==0){
-		$('#bkGeneCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide backgrond genes.</div>');
+		$('#bkGeneCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide background genes.</div>');
 		$('#geneSubmit').attr("disabled", true);
 	}else if(bkg_select==1 && (bkg.length>0 || bkgfile>0)){
 		$('#bkGeneCheck').html('<div class="alert alert-warning" style="padding-bottom: 10; padding-top: 10;">OK. You have provided multiple options. Selected gene types are used as background gene. To use other options, please clear the selection.</div>');

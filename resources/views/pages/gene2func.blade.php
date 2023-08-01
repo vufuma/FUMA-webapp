@@ -149,7 +149,7 @@ var loggedin = "{{ Auth::check() }}";
 						Custom gene set files:
 						<button type="button" class="btn btn-default btn-xs" id="gsFileAdd">add file</button>
 						<input type="hidden" value="0" id="gsFileN" name="gsFileN">
-						<span class="info"><i class="fa fa-info"></i>File is required to have GMT format with an extension ".gmt".</span>
+						<span class="info"><i class="fa fa-info"></i>File is required to have GMT format with an extension ".gmt" and the gene IDs must be entrez ID.</span>
 						<br/>
 						<span id="gsFiles"></span><br/>
 						<tab>

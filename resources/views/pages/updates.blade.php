@@ -19,6 +19,16 @@
 	</thead>
     <tbody>
 	<tr>
+		<td>02 August 2023</td>
+		<td>v1.5.6</td>
+		<td>
+					The MSigDB version was updated to v2023.1.Hs in the SNP2GENE and GENE2FUNC modules.
+					The GWAScatalog version was updated to e110_r2023-07-20 in the SNP2GENE and GENE2FUNC modules.
+					The SNP2GENE geneset file and the GENE2FUNC geneset files from FUMA version 1.3.5d to 1.5.5 are downloadable in the tutorial sections.
+					The new version of these geneset files can also be downloaded in the tutorial sections.
+		</td>
+	</tr>
+	<tr>
 		<td>27 July 2023</td>
 		<td>v1.5.5</td>
 		<td>
