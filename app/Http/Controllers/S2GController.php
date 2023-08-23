@@ -1147,8 +1147,8 @@ MSG;
 			}
 		}
 		if($request -> filled('GRCh38file')){
-			if(File::exists($filedir."droppedvariants.txt.gz")){
-			  $files[] = "droppedvariants.txt.gz";
+			if(File::exists($filedir."GRCh38_droppedvariants.txt.gz")){
+			  $files[] = "GRCh38_droppedvariants.txt.gz";
 			}
 		  }
 

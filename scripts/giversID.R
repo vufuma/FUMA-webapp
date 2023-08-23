@@ -1,7 +1,6 @@
 args = commandArgs(trailingOnly=TRUE)
-#args<-c("chromosome","base_pair_location","effect_allele","other_allele","input.gwas")
-#system("rm droppedvariants.txt.gz")
-#system("rm input.gwas1")
+#usage Rscript giversID.R chromosome position effectallele noneffectallele path2inputfile
+
 print("Using GRCh38 position to get rsIDs")
 
 #get file names
@@ -13,7 +12,7 @@ config <- ConfigParser(file=paste(dirname(curfile),'/app.config', sep=""))
 library(data.table)
 
 #read in user file
-a<-fread(args[5])
+a<-fread(paste(args[5],"input.gwas",sep=""),header=T)
 
 #set chromosome, position, and allele columns to a specific name
 #chr_10001, pos_10001, allele_10001, allele_20001
@@ -52,7 +51,7 @@ a[a$CHR_10001=="X"]<-23
 #save rows that are dropped for later
 badc<-a[!a$CHR_10001 %in% 1:23,]
 badc<-badc[,-c("CHR_10001","POS_10001","ALLELE_10001","ALLELE_20001")]
-fwrite(badc, file="droppedvariants.txt.gz", sep="\t", col.names=T, row.names=F, na=NA, quote=F, append=T)
+fwrite(badc, file=paste(args[5],"GRCh38_droppedvariants.txt.gz",sep=""), sep="\t", col.names=T, row.names=F, na=NA, quote=F, append=T)
 
 #remove chr not in 1:23
 a<-a[a$CHR_10001 %in% 1:23,]
@@ -102,7 +101,7 @@ a1<-merge(a1,ref,by="UNIQID",all.x=T)
 badc<-a1[is.na(a1$rsID),]
 if (length(badc$CHR_10001)>0) {
 	badc<-badc[,-c("CHR_10001","POS_10001","ALLELE_10001","ALLELE_20001","rsID","min","max","UNIQID")]
-	fwrite(badc, file="droppedvariants.txt.gz", sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
+	fwrite(badc, file=paste(args[5],"GRCh38_droppedvariants.txt.gz",sep=""), sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
 	a1<-a1[!is.na(a1$rsID),]
 }
 
@@ -110,7 +109,7 @@ if (length(badc$CHR_10001)>0) {
 badc<-a1[duplicated(a1$rsID) | duplicated(a1$rsID, fromLast=T),]
 if (length(badc$CHR_10001)>0) {
 	badc<-badc[,-c("CHR_10001","POS_10001","ALLELE_10001","ALLELE_20001","rsID","min","max","UNIQID")]
-	fwrite(badc, file="droppedvariants.txt.gz", sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
+	fwrite(badc, file=paste(args[5],"GRCh38_droppedvariants.txt.gz",sep=""), sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
 	a1<-a1[!duplicated(a1$rsID) | duplicated(a1$rsID, fromLast=T),]
 }
 
@@ -122,7 +121,7 @@ tmp<-which(colnames(a1)==args[2])
 a1<-a1[,-..tmp]
 
 #save in file
-fwrite(a1, file="input.gwas1", sep="\t", col.names=T, row.names=F, na=NA, quote=F, append=T)
+fwrite(a1, file=paste(args[5],"input.gwas",sep=""), sep="\t", col.names=T, row.names=F, na=NA, quote=F, append=F)
 
 #now do the other chromosomes
 for (i in unique(a$CHR_10001)[-1]) {
@@ -139,14 +138,14 @@ for (i in unique(a$CHR_10001)[-1]) {
 	badc<-a1[is.na(a1$rsID),]
 	if (length(badc$CHR_10001)>0) {
 		badc<-badc[,-c("CHR_10001","POS_10001","ALLELE_10001","ALLELE_20001","rsID","min","max","UNIQID")]
-		fwrite(badc, file="droppedvariants.txt.gz", sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
+		fwrite(badc, file=paste(args[5],"GRCh38_droppedvariants.txt.gz",sep=""), sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
 		a1<-a1[!is.na(a1$rsID),]
 	}
 	#remove duplicates
 	badc<-a1[duplicated(a1$rsID) | duplicated(a1$rsID, fromLast=T),]
 	if (length(badc$CHR_10001)>0) {
 		badc<-badc[,-c("CHR_10001","POS_10001","ALLELE_10001","ALLELE_20001","rsID","min","max","UNIQID")]
-		fwrite(badc, file="droppedvariants.txt.gz", sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
+		fwrite(badc, file=paste(args[5],"GRCh38_droppedvariants.txt.gz",sep=""), sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
 		a1<-a1[!duplicated(a1$rsID) | duplicated(a1$rsID, fromLast=T),]
 	}
 	#remove chr and pos column, and the columns I added
@@ -156,6 +155,5 @@ for (i in unique(a$CHR_10001)[-1]) {
 	tmp<-which(colnames(a1)==args[2])
 	a1<-a1[,-..tmp]
 	#save in file
-	fwrite(a1, file="input.gwas1", sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
+	fwrite(a1, file=paste(args[5],"input.gwas",sep=""), sep="\t", col.names=F, row.names=F, na=NA, quote=F, append=T)
 }
-system("mv input.gwas1 input.gwas")

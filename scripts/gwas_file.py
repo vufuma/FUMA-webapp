@@ -101,7 +101,7 @@ if chrcol is not None and poscol is not None and eacol is not None and neacol is
 	poscolname = param.get('inputfiles', 'poscol')
 	neacolname = param.get('inputfiles', 'neacol')
 	eacolname = param.get('inputfiles', 'eacol')
-	command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcolname+" "+poscolname+" "+eacolname+" "+neacolname+" input.gwas"
+	command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcolname+" "+poscolname+" "+eacolname+" "+neacolname+" "+filedir
 	os.system(command)
 	chrcol = "NA"
 	poscol = "NA"
