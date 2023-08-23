@@ -86,6 +86,11 @@ class BrowseController extends Controller
           $files[] = "magma_exp_general.gcov.out";
         }
       }
+      if($request -> filled('GRCh38file')){
+        if(File::exists($filedir."droppedvariants.txt.gz")){
+          $files[] = "droppedvariants.txt.gz";
+        }
+      }
 
       $zip = new \ZipArchive();
 	  if($prefix=="public"){
