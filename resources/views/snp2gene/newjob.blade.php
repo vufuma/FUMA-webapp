@@ -74,7 +74,7 @@
 							<i class="fa fa-question-circle-o fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" class="form-check-input" name="GRCh38" id="GRCh38" value="1" checked onchange="CheckAll()"></td>
+					<td><input type="checkbox" class="form-check-input" name="GRCh38" id="GRCh38" value="1" unchecked onchange="CheckAll()"></td>
 					<td></td>
 				</tr>
 				<tr>

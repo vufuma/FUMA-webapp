@@ -455,34 +455,38 @@ function CheckAll(){
 
 	if($('#chrcol').val().length>0 && $('#poscol').val().length>0 && $('#eacol').val().length>0 && $('#neacol').val().length>0){
 		$('#GRCh38').attr("disabled", false);
+		$(table.rows[2].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			+'<i class="fa fa-exclamation-circle"></i> Optional. <br/>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br/> The chromosome and position must be on build GRCh38.<br/></div></td>');
 	}else{
 		$('#GRCh38').attr("disabled", true);
+		$(table.rows[2].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			+'<i class="fa fa-exclamation-circle"></i> Optional. <br/>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br/> The chromosome and position must be on build GRCh38.<br/></div></td>');
 	}
 
 	if($('#leadSNPs').val().length==0){
-		$(table.rows[2].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-			+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		$(table.rows[3].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
+		$(table.rows[4].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-exclamation-circle"></i> Optional. <br/>This is only valid when predefined lead SNPs are provided.</div></td>');
 		$('#addleadSNPs').attr("disabled", true);
 	}else{
 		$('#addleadSNPs').attr("disabled", false);
-		$(table.rows[2].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+		$(table.rows[3].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		if($('#addleadSNPs').is(":checked")==true){
-			$(table.rows[3].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			$(table.rows[4].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-check"></i> OK.</div></td>');
 		}else{
-			$(table.rows[3].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			$(table.rows[4].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}
 	}
 
 	if($('#regions').val().length==0){
-		$(table.rows[4].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+		$(table.rows[5].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 	}else{
-		$(table.rows[4].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+		$(table.rows[5].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 	}
 

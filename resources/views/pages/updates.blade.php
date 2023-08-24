@@ -19,6 +19,17 @@
 	</thead>
     <tbody>
 	<tr>
+		<td>26 August 2023</td>
+		<td>v1.6.0</td>
+		<td>
+		<strong>As of v1.6.0, FUMA SNP2GENE allows input data on build GRCh38 if the input contains chromosome, position, effect allele, and noneffect allele columns.</strong>
+					FUMA SNP2GENE previously worked with input data on build GRCh38 if rsIDs were present and chromosome and position columns were not present.
+					This update now allows for input data on build GRCh38 when chromosome, position, effect allele, and noneffect allele columns are present by annotating variants with rsIDs using dbSNP v150 data.
+					To reduce computational time, only variants that are present in any of the FUMA SNP2GENE reference panels will be annotated with rsIDs.
+					Variants that could not be successfully annotated with rsIDs can be downloaded with the rest of the job results.
+		</td>
+	</tr>
+	<tr>
 		<td>02 August 2023</td>
 		<td>v1.5.6</td>
 		<td>

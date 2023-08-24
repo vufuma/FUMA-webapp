@@ -42,6 +42,8 @@ $(document).ready(function(){
 	</p>
 	<p>
 		<strong style="font-size: large;">News</strong><br/>
+		<b>26 August 2023: </b> FUMA is upgraded to version 1.6.0.<br/>
+		FUMA now accepts GRCh38 data when rsID is present or when chromosome, position, effect allele, and noneffect allele are present.<br/>
 		<b>02 August 2023: </b> FUMA is upgraded to version 1.5.6.<br/>
 		The GWAS catalog and MSigDB data were updated. Old versions of these files are available for download in the tutorial sections.<br/>
 		<b>12 May 2023: </b> FUMA is upgraded to version 1.5.4.<br/>
