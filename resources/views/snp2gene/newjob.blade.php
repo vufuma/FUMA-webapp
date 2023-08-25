@@ -69,6 +69,15 @@
 					</td>
 				</tr>
 				<tr>
+					<td>Input is build GRCh38
+						<a class="infoPop" data-toggle="popover" title="GRCh38 Input" data-content="The input file has chromosome and position columns on build GRCh38. The column names for the chromosome, position, effect allele, and non-effect allele must be specified above.">
+							<i class="fa fa-question-circle-o fa-lg"></i>
+						</a>
+					</td>
+					<td><input type="checkbox" class="form-check-input" name="GRCh38" id="GRCh38" value="1" unchecked onchange="CheckAll()"></td>
+					<td></td>
+				</tr>
+				<tr>
 					<td>Pre-defined lead SNPs
 						<a class="infoPop" data-toggle="popover" title="Pre-defined lead SNPs" data-content="This option can be used when you already have determined lead SNPs and do not want FUMA to do this for you. This option can be also used when you want to include specific SNPs as lead SNPs which do no reach significant P-value threshold. The input file should have 3 columns, rsID, chromosome and position with header (header could be anything but the order of columns have to match).">
 							<i class="fa fa-question-circle-o fa-lg"></i>

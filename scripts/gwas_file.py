@@ -91,6 +91,23 @@ secol = param.get('inputfiles', 'secol').upper()
 Ncol = param.get('params', 'Ncol').upper()
 N = param.get('params', 'N')
 
+GRCh38 = param.get('params', 'GRCh38')
+if (chrcol is None or poscol is None or eacol is None or neacol is None) and GRCh38=='1':
+    sys.exit("You selected GRCh38 but did not specify chromosome, position, effect allele, or non effect allele")
+
+
+if chrcol is not None and poscol is not None and eacol is not None and neacol is not None and GRCh38=='1':
+	chrcolname = param.get('inputfiles', 'chrcol')
+	poscolname = param.get('inputfiles', 'poscol')
+	neacolname = param.get('inputfiles', 'neacol')
+	eacolname = param.get('inputfiles', 'eacol')
+	command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcolname+" "+poscolname+" "+eacolname+" "+neacolname+" "+filedir
+	os.system(command)
+	chrcol = "NA"
+	poscol = "NA"
+	rsIDcol = "RSID"
+
+
 ##### get header of sum stats #####
 fin = open(gwas, 'r')
 header = fin.readline()

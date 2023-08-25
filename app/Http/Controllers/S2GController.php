@@ -269,6 +269,10 @@ MSG;
 			File::copy($exfile, $filedir.'/input.gwas');
 			$GWASfileup = 1;
 		}
+		
+		// GRCh38
+		if($request -> has('GRCh38')){$GRCh38=1;}
+		else{$GRCh38=0;}
 
 		// pre-defined lead SNPS file
 		if($request -> hasFile('leadSNPs')){
@@ -660,6 +664,7 @@ MSG;
 		else{File::append($paramfile, "regionsfile=NA\n");}
 
 		File::append($paramfile, "\n[params]\n");
+		File::append($paramfile, "GRCh38=$GRCh38\n");		
 		File::append($paramfile, "N=$N\n");
 		File::append($paramfile, "Ncol=$Ncol\n");
 		File::append($paramfile, "exMHC=$exMHC\n");
@@ -1141,7 +1146,11 @@ MSG;
 				$files[] = preg_replace("/.+\/(magma_exp_*)/", '$1', $tmp[$i]);
 			}
 		}
-
+		if($request -> filled('GRCh38file')){
+			if(File::exists($filedir."GRCh38_droppedvariants.txt.gz")){
+			  $files[] = "GRCh38_droppedvariants.txt.gz";
+			}
+		  }
 
 		$zip = new \ZipArchive();
 		if($prefix=="gwas"){
