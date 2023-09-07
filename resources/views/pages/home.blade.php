@@ -38,12 +38,13 @@ $(document).ready(function(){
 		You can browse public results of FUMA (including example jobs) from <a href="{{ Config::get('app.subdir') }}/browse">Browse Public Results</a> without registration or login.
 	</p>
 	<p>
-		Please post any questions, suggestions and bug reports on Google Forum: <a target="_blank" href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a>.<br/>
+		Please post any questions, suggestions and bug reports on the Google Forum: <a target="_blank" href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a>.<br/>
 	</p>
 	<p>
 		<strong style="font-size: large;">News</strong><br/>
-		<b>26 August 2023: </b> FUMA is upgraded to version 1.6.0.<br/>
+		<b>7 September 2023: </b> FUMA is upgraded to version 1.6.0.<br/>
 		FUMA now accepts GRCh38 data when rsID is present or when chromosome, position, effect allele, and noneffect allele are present.<br/>
+		This is a new feature so please share any bug reports on the Google Forum: <a target="_blank" href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a>.<br/>
 		<b>02 August 2023: </b> FUMA is upgraded to version 1.5.6.<br/>
 		The GWAS catalog and MSigDB data were updated. Old versions of these files are available for download in the tutorial sections.<br/>
 		<b>12 May 2023: </b> FUMA is upgraded to version 1.5.4.<br/>

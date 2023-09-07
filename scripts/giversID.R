@@ -19,19 +19,19 @@ a<-fread(paste(args[5],"input.gwas",sep=""),header=T)
 #check if these columns already exist
 if (any(c("chr_10001","pos_10001","allele_10001","allele_20001") %in% colnames(a))) {
 	print("chr_10001, pos_10001, allele_10001, allele_20001 are in input. Please rename columns to something else.")
-	stop()
+	quit(status=2)
 }
 
 #stop if they give incorrect column names
 if (any(!args[1:4] %in% colnames(a))) {
 	print("not all specified columns match input file")
-	stop()
+	quit(status=3)
 }
 
 #check if the colnames match multiple columns
-if (any(colnames(a)[duplicated(colnames(a))])) {
+if (length(colnames(a)[duplicated(colnames(a))])>0) {
 	print("Some column names are duplicated in the input file")
-	stop()
+	quit(status=4)
 }
 
 
@@ -82,6 +82,11 @@ if (length(tmp)>0) {
 	a<-a[,-..tmp]
 }
 
+#remove rsID column if name supplied
+if (!args[6]=="NA") {
+	tmp<-which(colnames(a)==args[5])
+	a<-a[,-..tmp]
+}
 
 #recursively load in the conversion data and annotate with rsID
 #subset to single chromosome
@@ -93,7 +98,7 @@ a1$max<-apply(a1[,c("ALLELE_10001","ALLELE_20001")], 1, FUN = max)
 a1$UNIQID<-paste(a1$CHR_10001,a1$POS_10001,a1$min,a1$max,sep=":")
 
 #merge with reference file
-ref<-fread(paste(config$data$GRCh38,1,"_FUMA_DuplicatesResolved_dbSNP_v152_GRCh38.txt.gz",sep=""), header=F)
+ref<-fread(paste(config$data$GRCh38,unique(a$CHR_10001)[1],"_FUMA_DuplicatesResolved_dbSNP_v152_GRCh38.txt.gz",sep=""), header=F)
 colnames(ref)<-c("UNIQID","rsID")
 a1<-merge(a1,ref,by="UNIQID",all.x=T)
 

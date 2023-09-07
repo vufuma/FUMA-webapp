@@ -19,7 +19,7 @@
 	</thead>
     <tbody>
 	<tr>
-		<td>26 August 2023</td>
+		<td>7 September 2023</td>
 		<td>v1.6.0</td>
 		<td>
 		<strong>As of v1.6.0, FUMA SNP2GENE allows input data on build GRCh38 if the input contains chromosome, position, effect allele, and noneffect allele columns.</strong>

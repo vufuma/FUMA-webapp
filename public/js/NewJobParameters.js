@@ -132,6 +132,9 @@ function setParams(data){
 	if(data.addleadSNPs=="1"){$('#addleadSNPs').prop('checked', true);}
 	else{$('#addleadSNPs').prop('checked', false);}
 
+	if(data.GRCh38=="1"){$('#GRCh38').prop('checked', true);}
+	else{$('#GRCh38').prop('checked', false);}
+
 	// params
 	if(data.N == "NA"){
 		$('#N').val('');

@@ -101,11 +101,20 @@ if chrcol is not None and poscol is not None and eacol is not None and neacol is
 	poscolname = param.get('inputfiles', 'poscol')
 	neacolname = param.get('inputfiles', 'neacol')
 	eacolname = param.get('inputfiles', 'eacol')
-	command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcolname+" "+poscolname+" "+eacolname+" "+neacolname+" "+filedir
-	os.system(command)
+	rsIDcol = param.get('inputfiles', 'rsIDcol')
+	command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcolname+" "+poscolname+" "+eacolname+" "+neacolname+" "+filedir+" "+rsIDcol
+	Rsuc=os.system(command)
 	chrcol = "NA"
 	poscol = "NA"
 	rsIDcol = "RSID"
+	if Rsuc==512:
+		sys.exit("chr_10001, pos_10001, allele_10001, allele_20001 are in input. Please rename columns to something else.")
+	elif Rsuc==768:
+		sys.exit("not all specified columns match input file")
+	elif Rsuc==1024:
+		sys.exit("Some column names are duplicated in the input file")
+	elif Rsuc!=0:
+		sys.exit("Something went wrong when converting GRCh38 to rsID. Please contact the developer.")
 
 
 ##### get header of sum stats #####
