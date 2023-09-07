@@ -47,7 +47,7 @@ a$ALLELE_20001<-a[,..tmp]
 
 
 #set X chromosome to 23
-a[a$CHR_10001=="X"]<-23
+a$CHR_10001[a$CHR_10001=="X"]<-23
 #save rows that are dropped for later
 badc<-a[!a$CHR_10001 %in% 1:23,]
 badc<-badc[,-c("CHR_10001","POS_10001","ALLELE_10001","ALLELE_20001")]
