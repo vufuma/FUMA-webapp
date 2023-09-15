@@ -2,12 +2,13 @@
 @section('head')
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{!! URL::asset('js/tutorial_utils.js') !!}"></script>
 <script type="text/javascript">
-var loggedin = "{{ Auth::check() }}";
 </script>
 @stop
 @section('content')
 <div class="container" style="padding-top: 50px;">
+<strong> Please click the download symbol in the third column to download the data files.</strong>
 <table class="table table-bordered" style="width:auto">
 		<thead>
 			<th>Data source</th>
