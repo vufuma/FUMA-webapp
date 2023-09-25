@@ -492,6 +492,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		Only the gene level (ge) files were included.
 		Details of each dataset are described below.
 		Datasets which were already present on FUMA have not been included (DICE & xQTLServer).
+		As of FUMA v1.6.1, only nominally significant (P&lt;0.05) eQTLs identified in the data were included.
 	</p>
 	<p><strong>Description</strong><br/>
 		The eQTLs were mapped to hg19 from hg38 using liftOver software.

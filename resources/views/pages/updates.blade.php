@@ -25,7 +25,8 @@
 			<strong>Update 1</strong>: Two human pancreatic islet eQTL datasets were added (TIGER and InsPIRE) .<br/>
 			<strong>Update 2</strong>: The GENE2FUNC button on the SNP2GENE job page was updated so that SNP2GENE jobs that do not run MAGMA will use GTEx v8 data in the GENE2FUNC tissue expression analyses when the GENE2FUNC button is pressed. Prior to this update no tissue expression analyses were run and a minor bug prevented the gene table from being dislayed.<br/>
 			<strong>Update 3</strong>: A minor bug with the ANNOVAR enrichment analysis in the SNP2GENE pipeline was fixed. Now if candidate SNPs do not map to a gene but are annotated by ANNOVAR, they will be included in the ANNOVAR enrichment analyses. Previous versions of FUMA excluded variants which were not mapped to a nearest gene by ANNOVAR in the enrichment analysis.<br/>
-			<strong>Update 3</strong>: A downloads page was added where some reference data used by FUMA can be downloaded. 
+			<strong>Update 4</strong>: A downloads page was added where some reference data used by FUMA can be downloaded. 
+			<strong>Update 5</strong>: Variant-gene connections in the eQTL catalogue datasets that had unadjusted P-values >=0.05 were removed. Now only nominally significant variant-gene connections in the eQTL catalogue are available for variant annotation in the SNP2GENE pipeline. 
 		</td>
 	</tr>
 	<tr>
