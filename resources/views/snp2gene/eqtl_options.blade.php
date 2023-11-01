@@ -1,3 +1,7 @@
+<option class="level1" value="null"> TIGER (1)</option>
+<option class="level2" value="TIGER/Nom_Alonso_Pancreatic_islets.txt.gz">Alonso et al. 2021 Pancreatic islets</option>
+<option class="level1" value="null">InsPIRE (1)</option>
+<option class="level2" value="InsPIRE/Nom_InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz">Viñuela et al. 2020 Pancreatic islets </option>
 <option class="level1" value="null">EyeGEx (1)</option>
 <option class="level2" value="EyeGEx/EyeGEx.txt.gz">EyeGEx</option>
 <option class="level1" value="null">eQTL catalogue (45)</option>

@@ -59,7 +59,10 @@ while(<IN>){
 	}elsif($line[0] eq "intergenic"){
 		my @genes = split(/,/, $line[1]);
 		foreach my $g (@genes){
-			next if($g =~ /NONE/);
+			if($g =~ /NONE/){
+				print OUT "$id\tNA\t$line[0]\tNA\tNA\tNA\n";
+				next;
+			}
 			$g =~ /(.+)\(dist=(\d+)\)/;
 			my $gene = $1;
 			my $dist = $2;

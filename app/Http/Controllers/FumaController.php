@@ -479,6 +479,57 @@ class FumaController extends Controller
 			case "GENE2FUNC2":
 				$name = "GENE2FUNC_genesets_v156plus.tar.gz";
 				break;
+			case "GTExDEG30v8":
+				$name = "gtex_v8_ts_general_DEG.txt";
+				break;
+			case "GTExDEG54v8":
+				$name = "gtex_v8_ts_DEG.txt";
+				break;
+			case "GTExDEG30v7":
+				$name = "gtex_v7_ts_general_DEG.txt";
+				break;
+			case "GTExDEG54v7":
+				$name = "gtex_v7_ts_DEG.txt";
+				break;
+			case "GTExDEG30v6":
+				$name = "gtex_v6_ts_general_DEG.txt";
+				break;
+			case "GTExDEG54v6":
+				$name = "gtex_v6_ts_DEG.txt";
+				break;
+			case "GTEx30v8":
+				$name = "gtex_v8_ts_general_avg_log2TPM.txt";
+				break;
+			case "GTEx54v8":
+				$name = "gtex_v8_ts_avg_log2TPM.txt";
+				break;
+			case "GTEx30v7":
+				$name = "gtex_v7_ts_general_avg_log2TPM.txt";
+				break;
+			case "GTEx54v7":
+				$name = "gtex_v7_ts_avg_log2TPM.txt";
+				break;
+			case "GTEx30v6":
+				$name = "gtex_v6_ts_general_avg_log2RPKM.txt";
+				break;
+			case "GTEx54v6":
+				$name = "gtex_v6_ts_avg_log2RPKM.txt";
+				break;
+			case "MAGMAgenev85":
+				$name = "ENSGv85.coding.genes.txt";
+				break;
+			case "MAGMAgenev92":
+				$name = "ENSGv92.coding.genes.txt";
+				break;
+			case "MAGMAgenev102":
+				$name = "ENSGv102.coding.genes.txt";
+				break;
+			case "MAGMAgenev110":
+				$name = "ENSGv110.coding.genes.txt";
+				break;
+			case "GRCh382rsID":
+				$name = "GRCh38_to_rsID_dbSNPv152.txt.gz";
+				break;
 			default:
 				return redirect()->back();
 

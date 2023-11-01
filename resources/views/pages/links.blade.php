@@ -270,6 +270,30 @@ var loggedin = "{{ Auth::check() }}";
 				</td>
 			</tr>
 			<tr>
+				<td>InsPIRE</td>
+				<td>cis-eQTLs from Human pancreatic islets.</td>
+				<td>
+					Info: <a target="_blank" href="https://zenodo.org/record/3408356">https://zenodo.org/record/3408356</a> <br/>
+					Data: <a href="https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1">https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1</a>
+				</td>
+				<td> 27 September 2023</td>
+				<td>
+					See tutorial <a target="_blank" href="https://fuma.ctglab.nl/tutorial#eQTLs">https://fuma.ctglab.nl/tutorial#eQTLs</a>.
+				</td>
+			</tr>
+			<tr>
+				<td>TIGER</td>
+				<td>cis-eQTLs from Human pancreatic islets.</td>
+				<td>
+					Info: <a target="_blank" href="http://tiger.bsc.es/downloads">http://tiger.bsc.es/downloads</a> <br/>
+					Data: <a href="http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz">http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz</a>
+				</td>
+				<td>27 September 2023</td>
+				<td>
+					See tutorial <a target="_blank" href="https://fuma.ctglab.nl/tutorial#eQTLs">https://fuma.ctglab.nl/tutorial#eQTLs</a>.
+				</td>
+			</tr>
+			<tr>
 				<td>FANTOM5</td>
 				<td>SNP annotations (enhancer and promoter) and enhancer-promoter correlations.</td>
 				<td>
