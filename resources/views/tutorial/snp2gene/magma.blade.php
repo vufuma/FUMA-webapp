@@ -57,6 +57,7 @@ In this section, reference panels and gene expression data sets are described de
 	</form>
 	The gene-sets were downloaded from MSigDB with Entrez gene IDs and then converted to Ensembl gene IDs using biomaRt. When one Entrez gene ID matched multiple Ensembl gene IDs, all of the matching Ensembl gene IDs were included.
 	<br/>
+	<br/>
 	Gene set analysis is performed by the following command.<br/>
 	<code class="codebox">
 		magma --gene-results [path to]/magma.genes.raw \</br>

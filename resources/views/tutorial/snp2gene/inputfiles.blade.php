@@ -15,6 +15,16 @@
 			anything else such as G/- or I2/D will not match with the selected reference panel.
 		</span>
 	</p>
+	<p>
+	<p><strong>Input Build</strong><br/>
+		The reference data included in FUMA SNP2GENE is on build GRCh37 (hg19).<br>
+		If your data is build GRCh37, you can upload your file.<br>
+		If your data is build GRCh38, you can upload your file if it includes rsIDs and does not include chromosome and position columns.<br>
+		As of FUMA v1.6.0, there is now the option to upload data with build GRCh38 if it includes columns for chromosome, position, effect allele, and noneffect allele.
+		If your input data includes all of these columns and you select "Input is build GRCh38" in the submission page, then your data will be annotated with rsIDs based on dbSNP v150 data.
+		Only variants included in the user selected reference panel ("Reference panel population") will be given an rsID.
+		The variants that could not be given rsIDs can be downloaded after your job is completed (GRCh38_droppedvariants.txt.gz).
+	</p>
 	<p><strong>Mandatory columns</strong><br/>
 		The input file must include a P-value and either an rsID or chromosome index + genetic position on hg19 reference genome.
 		When either chromosome or position is missing, they are extracted from dbSNP build 146 based on rsID.
