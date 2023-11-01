@@ -3,7 +3,7 @@
 @section('content')
 	<div class="container" style="padding-top:50px;">
 		<div style="text-align: center;">
-			<h2>FUMA GWAS</h2>
+			<h2>FUMA GWASSSSS</h2>
 			<h2>Functional Mapping and Annotation of Genome-Wide Association Studies</h2>
 		</div>
 		<br/>
