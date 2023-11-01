@@ -139,7 +139,8 @@ var loggedin = "{{ Auth::check() }}";
 						<span class="form-inline">
 							Ensembl version:
 							<select class="form-control" id="ensembl" name="ensembl">
-								<option selected value="v92">v92</option>
+							<option selected value="v102">v102</option>
+								<!-- REMOVED: no longer supported by biomart option value="v92">v92</option-->
 								<!-- REMOVED: no longer supported by biomart option value="v85">v85</option-->
 							</select>
 						</span><br/>
