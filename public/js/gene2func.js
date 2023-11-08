@@ -235,7 +235,7 @@ function checkInput(){
 	var bkgfile = $('#bkgenesfile').val().length;
 
 	if(bkg_select==0 && bkg.length==0 && bkgfile==0){
-		$('#bkGeneCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide backgrond genes.</div>');
+		$('#bkGeneCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide background genes.</div>');
 		$('#geneSubmit').attr("disabled", true);
 	}else if(bkg_select==1 && (bkg.length>0 || bkgfile>0)){
 		$('#bkGeneCheck').html('<div class="alert alert-warning" style="padding-bottom: 10; padding-top: 10;">OK. You have provided multiple options. Selected gene types are used as background gene. To use other options, please clear the selection.</div>');

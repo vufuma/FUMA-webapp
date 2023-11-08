@@ -1582,7 +1582,7 @@
 			<table class="table table-bordered inputTable" id="NewJobGene" style="width: auto;">
 				<tr>
 					<td>Gene type
-						<a class="infoPop" data-toggle="popover" title="Gene Type" data-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl 85). By default, only protein-coding genes are used for mapping.">
+						<a class="infoPop" data-toggle="popover" title="Gene Type" data-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl). By default, only protein-coding genes are used for mapping.">
 							<i class="fa fa-question-circle-o fa-lg"></i>
 						</a><br/>
 						<span class="info"><i class="fa fa-info"></i> Multiple gene type can be selected.</span>

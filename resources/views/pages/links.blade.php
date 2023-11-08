@@ -264,6 +264,30 @@
 					</td>
 				</tr>
 				<tr>
+					<td>InsPIRE</td>
+					<td>cis-eQTLs from Human pancreatic islets.</td>
+					<td>
+						Info: <a target="_blank" href="https://zenodo.org/record/3408356">https://zenodo.org/record/3408356</a> <br/>
+						Data: <a href="https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1">https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1</a>
+					</td>
+					<td> 27 September 2023</td>
+					<td>
+						See tutorial <a target="_blank" href="https://fuma.ctglab.nl/tutorial#eQTLs">https://fuma.ctglab.nl/tutorial#eQTLs</a>.
+					</td>
+				</tr>
+				<tr>
+					<td>TIGER</td>
+					<td>cis-eQTLs from Human pancreatic islets.</td>
+					<td>
+						Info: <a target="_blank" href="http://tiger.bsc.es/downloads">http://tiger.bsc.es/downloads</a> <br/>
+						Data: <a href="http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz">http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz</a>
+					</td>
+					<td>27 September 2023</td>
+					<td>
+						See tutorial <a target="_blank" href="https://fuma.ctglab.nl/tutorial#eQTLs">https://fuma.ctglab.nl/tutorial#eQTLs</a>.
+					</td>
+				</tr>
+				<tr>
 					<td>FANTOM5</td>
 					<td>SNP annotations (enhancer and promoter) and enhancer-promoter correlations.</td>
 					<td>
@@ -330,10 +354,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td>MsigDB v7.0</td>
+					<td>MsigDB v2023.1.Hs</td>
 					<td>Collection of publicly available gene sets. Data sets include e.g. KEGG, Reactome, BioCarta, GO terms and so on.</td>
 					<td>Info and data: <a href="http://software.broadinstitute.org/gsea/msigdb" target="_blank">http://software.broadinstitute.org/gsea/msigdb</a></td>
-					<td>14 Oct 2019</td>
+					<td>02 Aug 2023</td>
 					<td>
 						Liberzon, A. et al. 2011. Molecular signatures database (MSigDB) 3.0. <i>Bioinformatics.</i> <b>27</b>, 1739-40.<br/>
 						<a href="https://www.ncbi.nlm.nih.gov/pubmed/21546393" target="_blank">PMID:21546393</a>
@@ -353,13 +377,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td>GWAS-catalog e0_r2022-11-29</td>
+					<td>GWAS-catalog e110_r2023-07-20</td>
 					<td>A database of reported SNP-trait associations.</td>
 					<td>
 						Info: <a href="https://www.ebi.ac.uk/gwas/" target="_blank">https://www.ebi.ac.uk/gwas/</a><br/>
 						Data: <a href="https://www.ebi.ac.uk/gwas/downloads" target="_blank">https://www.ebi.ac.uk/gwas/downloads</a>
 					</td>
-					<td>02 Dec 2022</td>
+					<td>02 Aug 2023</td>
 					<td>
 						MacArthur, J., et al. 2016. The new NHGRI-EBI Catalog of published genome-wide association studies (GWAS Catalog). <i>Nucleic Acids Res.</i> pii:gkw1133.<br/>
 						<a href="https://www.ncbi.nlm.nih.gov/pubmed/27899670" target="_blank">PMID:27899670</a>

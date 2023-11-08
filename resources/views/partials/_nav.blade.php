@@ -20,6 +20,7 @@
 				<li class="{{ Request::is('gene2func*') ? 'active' : ''}}"><a href="/gene2func">GENE2FUNC</a></li>
 				<li class="{{ Request::is('celltype*') ? 'active' : ''}}"><a href="/celltype">Cell Type</a></li>
 				<li class="{{ Request::is('links') ? 'active' : ''}}"><a href="/links">Links</a></li>
+				<li class="{{ Request::is('downloadPage') ? 'active' : ''}}"><a href="/downloadPage">Downloads</a></li>
 				<li class="{{ Request::is('faq') ? 'active' : ''}}"><a href="/faq">FAQs</a></li>
 				<li class="{{ Request::is('updates') ? 'active' : ''}}"><a href="/updates">Updates</a></li>
 				<li>
