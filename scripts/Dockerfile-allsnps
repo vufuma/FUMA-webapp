@@ -14,7 +14,15 @@ ARG USERNAME
 ARG PUID
 ARG PGID
 
+ARG PGIDSCISTOR
+ARG PGIDREF
+ARG PGIDUSR
+
 RUN groupadd --gid ${PGID} $USERNAME && \
-    useradd -l --non-unique --uid ${PUID} --gid ${PGID} $USERNAME
+    groupadd --gid ${PGIDSCISTOR} scistor_share_r && \
+    groupadd --gid ${PGIDREF} reference_data_r && \
+    groupadd --gid ${PGIDUSR} users_data_c && \
+    useradd -l --non-unique --uid ${PUID} --gid ${PGID} $USERNAME && \
+    usermod -a -G scistor_share_r,reference_data_r,users_data_c $USERNAME
 
 USER $USERNAME
