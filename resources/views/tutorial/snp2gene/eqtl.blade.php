@@ -492,6 +492,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		Only the gene level (ge) files were included.
 		Details of each dataset are described below.
 		Datasets which were already present on FUMA have not been included (DICE & xQTLServer).
+		As of FUMA v1.6.1, only nominally significant (P&lt;0.05) eQTLs identified in the data were included.
 	</p>
 	<p><strong>Description</strong><br/>
 		The eQTLs were mapped to hg19 from hg38 using liftOver software.
@@ -554,6 +555,41 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		The eQTLs were identified from 406 individuals.
 		<br/>
 	</p><br/>
+	
+	<h4><strong>16. InsPIRE </strong></h4>
+	<p><strong>Data source</strong><br/>
+		eQTL data was downloaded from zenodo <a href="https://zenodo.org/record/3408356">https://zenodo.org/record/3408356</a>. The file containing the cis-eQTLs can be downloaded from  <a href="https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1">https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1</a>.
+		All nominally significant (P&lt;0.05) eQTLs identified in the data were included except two variant-gene connections which were reported twice (5:150176501:C:A-ENSG00000197083.7 and 5:150176501:C:A-ENSG00000211445.7).
+	</p>
+	<p><strong>Description</strong><br/>
+		Human pancreatic islets were the tested tissue.
+		Please refer to the original study for more details (<a href="https://doi.org/10.1038/s41467-020-18581-8">Viñuela et al. 2020</a>).
+		Ensembl gene ID is used as provided in the original file after the version number was removed (e.g. ENSG00000211445.7 became ENSG00000211445). The FDR reported in the paper could not be calculated using the downloaded data. Instead the FDR value was set to 1 for all variants except those found to be independently significant (included in <a href="https://zenodo.org/record/3408356/files/PacreaticIslets_independent_gene_eQTLs.txt?download=1">PacreaticIslets_independent_gene_eQTLs.txt</a>). The FDR value of the independently significant variants was set to 1e-5.
+		<br/>
+		The signed statistics are betas.
+	</p>
+	<p><strong>Samples</strong><br/>
+		The eQTLs were identified from 420 individuals.
+		<br/>
+	</p><br/>
+
+	<h4><strong>17. TIGER </strong></h4>
+	<p><strong>Data source</strong><br/>
+		eQTL data was downloaded from the TIGER website <a href="http://tiger.bsc.es/downloads">http://tiger.bsc.es/downloads</a>. The file containing the cis-eQTLs can be downloaded from <a href="http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz">http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz</a>.
+		All nominally significant (P&lt;0.05) eQTLs identified in the data were included. The eQTLs on the X chromosome were not included because the X chromosome was analysed separately for males and females, which would have led to duplicate measurements for the same variant-gene connection. 
+	</p>
+	<p><strong>Description</strong><br/>
+		Human pancreatic islets were the tested tissue.
+		Please refer to the original study for more details (<a href="https://doi.org/10.1016/j.celrep.2021.109807">Alonso et al. 2021</a>).
+		Ensembl gene ID is used as provided in the original file. FDR values were calculated by adjusting the P-values so that an FDR of 0.05 was equal to a P-value of 6.2e-4. This was the significance threshold described in the original paper.
+		<br/>
+		The signed statistics are Z-scores.
+	</p>
+	<p><strong>Samples</strong><br/>
+		The eQTLs were identified from 404 individuals.
+		<br/>
+	</p><br/>
+
 
 </div>
 <br/>

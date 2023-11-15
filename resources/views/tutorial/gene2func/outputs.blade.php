@@ -76,7 +76,114 @@
 	<p>
 		Hypergeometric tests are performed to test if genes of interest are overrepresented in any of  the pre-defined gene sets.
 		Multiple test correction is performed per category, (i.e. canonical pathways, GO biological processes and so on, separately).
-		Gene sets were obtained from MsigDB, WikiPathways and reported genes from the GWAS-catalog.
+		Gene sets were obtained from MSigDB, WikiPathways and reported genes from the GWAS-catalog.
+		The MSigDB and WikiPathways data were downloaded with entrez IDs and included without modification.
+		The GWAS catalog data was downloaded with gene symbols and then converted to entrez ID using biomaRt. 
+		If a single gene symbol matched multiple entrez IDs, then all matching entrez IDs were included in the geneset.
+		<br/>
+		The following files were used to make the GENE2FUNC genesets:
+		<br/>
+		<table class="table table-bordered table-hover" style="width:auto">
+			<thead>
+				<th>GENE2FUNC name</th>
+				<th>File used</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Hallmark gene sets (MsigDB h)</td>
+					<td>h.all.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Positional gene sets (MsigDB c1)</td>
+					<td>c1.all.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Curated_gene_sets</td>
+					<td>c2.all.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Chemical and Genetic pertubation gene sets (MsigDB c2)</td>
+					<td>c2.cgp.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>All Canonical Pathways (MsigDB c2)</td>
+					<td>c2.cp.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>BioCarta (MsigDB c2)</td>
+					<td>c2.cp.biocarta.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>KEGG (MsigDB c2)</td>
+					<td>c2.cp.kegg.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Reactome (MsigDB c2)</td>
+					<td>c2.cp.reactome.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>microRNA targets (MsigDB c3)</td>
+					<td>c3.mir.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>TF targets (MsigDB c3)</td>
+					<td>c3.tft.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>All computational gene sets (MsigDB c4)</td>
+					<td>c4.all.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Cancer gene neighborhoods (MsigDB c4)</td>
+					<td>c4.cgn.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Cancer gene modules (MsigDB c4)</td>
+					<td>c4.cm.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>GO biological processes (MsigDB c5)</td>
+					<td>c5.go.bp.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>GO cellular components (MsigDB c5)</td>
+					<td>c5.go.cc.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>GO molecular functions (MsigDB c5)</td>
+					<td>c5.go.mf.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Oncogenic signatures (MsigDB c6)</td>
+					<td>c6.all.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Immunologic signatures (MsigDB c7)</td>
+					<td>c7.all.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>WikiPathways</td>
+					<td>c2.cp.wikipathways.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+				<tr>
+					<td>Cell_type_signature (MSigDB c8)</td>
+					<td>c8.all.v2023.1.Hs.entrez.gmt</td>
+				</tr>
+			</tbody>
+		</table>
+	</p>
+	<p>
+		The genesets used in the GENE2FUNC module can be downloaded here:
+		<br/>
+		<div class="clickable" onclick='tutorialDownloadVariant("GENE2FUNC1")'>
+		Genesets used in FUMA version 1.3.5d to 1.5.5.
+		<img class="fontsvg" src="{{URL::asset('/image/download.svg')}}"/> 22M
+		</div>
+		<br/>
+		<div class="clickable" onclick='tutorialDownloadVariant("GENE2FUNC2")'>
+		Genesets used in FUMA version 1.5.6 onwards.
+		<img class="fontsvg" src="{{URL::asset('/image/download.svg')}}"/> 29M
+		</div>
 	</p>
 	<p>
 		The full results are downloadable as a text file at the top of the page. <br/>
