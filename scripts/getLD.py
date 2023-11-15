@@ -622,8 +622,8 @@ def getGenomicRiskLoci(gidx, chrom, snps, ld, IndSigSNPs, leadSNPs, params):
 			start = min(list(map(int, snps[n,3])))
 			end = max(list(map(int, snps[n,3])))
 			if start <= int(loci[iloci][7]) or start-int(loci[iloci][7])<params.mergeDist:
-				loci[iloci][6] = str(min(start, int(loci[iloci][6])))
-				loci[iloci][7] = str(max(end, int(loci[iloci][7])))
+				loci[iloci][6] = str(min(int(start), int(loci[iloci][6])))
+				loci[iloci][7] = str(max(int(end), int(loci[iloci][7])))
 				loci[iloci][8] = str(len(nonGWASSNPs)+len(GWASSNPs))
 				loci[iloci][9] = str(len(GWASSNPs))
 				loci[iloci][10] = str(len(inInd))
@@ -637,8 +637,8 @@ def getGenomicRiskLoci(gidx, chrom, snps, ld, IndSigSNPs, leadSNPs, params):
 					loci[iloci][5] = leadSNPs[i,4]
 				if iloci > 0 and int(loci[iloci][6])-int(loci[iloci-1][7])<params.mergeDist:
 					iloci -= 1
-					loci[iloci][6] = str(min(loci[iloci][6], loci[iloci+1][6]))
-					loci[iloci][7] = str(max(loci[iloci][7], loci[iloci+1][7]))
+					loci[iloci][6] = str(min(int(loci[iloci][6]), int(loci[iloci+1][6])))
+					loci[iloci][7] = str(max(int(loci[iloci][7]), int(loci[iloci+1][7])))
 					loci[iloci][11] = ";".join(unique(loci[iloci][11].split(";")+loci[iloci+1][11].split(";")))
 					loci[iloci][10] = len(loci[iloci][11].split(";"))
 					loci[iloci][13] = ";".join(unique(loci[iloci][13].split(";")+loci[iloci+1][13].split(";")))

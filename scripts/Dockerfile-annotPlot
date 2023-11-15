@@ -8,8 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
     && rm -rf /var/lib/apt/lists/*
     
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'rjson', 'BiocManager'))"
-RUN Rscript -e "BiocManager::install('biomaRt')"
+RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'rjson'))"
 
 COPY app.config ./
 COPY annotPlot.py ./

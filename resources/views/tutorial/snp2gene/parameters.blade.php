@@ -590,7 +590,7 @@
 				<td>Gene type</td>
 				<td>Mandatory</td>
 				<td>Gene type to map.
-				This is based on gene_biotype obtained from BioMart of Ensembl build 85.
+				This is based on gene_biotype obtained from BioMart of Ensembl.
 				Please see <a href="http://vega.sanger.ac.uk/info/about/gene_and_transcript_types.html">here</a> for details
 				</td>
 				<td>Multiple selection.</td>

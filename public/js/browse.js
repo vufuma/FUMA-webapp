@@ -220,7 +220,7 @@ $(document).ready(function(){
 				});
 			} else {
 				$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' MAGMA was not perform.</span><br/></div>');
+					+ ' MAGMA was not performed.</span><br/></div>');
 			}
 			if (ciMap == 1) {
 				$.ajax({

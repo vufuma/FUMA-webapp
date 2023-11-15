@@ -69,6 +69,15 @@
 					</td>
 				</tr>
 				<tr>
+					<td>Input is build GRCh38
+						<a class="infoPop" data-toggle="popover" title="GRCh38 Input" data-content="The input file has chromosome and position columns on build GRCh38. The column names for the chromosome, position, effect allele, and non-effect allele must be specified above.">
+							<i class="fa fa-question-circle-o fa-lg"></i>
+						</a>
+					</td>
+					<td><input type="checkbox" class="form-check-input" name="GRCh38" id="GRCh38" value="1" unchecked onchange="CheckAll()"></td>
+					<td></td>
+				</tr>
+				<tr>
 					<td>Pre-defined lead SNPs
 						<a class="infoPop" data-toggle="popover" title="Pre-defined lead SNPs" data-content="This option can be used when you already have determined lead SNPs and do not want FUMA to do this for you. This option can be also used when you want to include specific SNPs as lead SNPs which do no reach significant P-value threshold. The input file should have 3 columns, rsID, chromosome and position with header (header could be anything but the order of columns have to match).">
 							<i class="fa fa-question-circle-o fa-lg"></i>
@@ -924,7 +933,9 @@
 					<td>Ensembl version</td>
 					<td>
 						<select class="form-control" id="ensembl" name="ensembl">
-							<option selected value="v92">v92</option>
+						<option selected value="v110">v110</option>
+						<option selected value="v102">v102</option>
+							<!-- REMOVED: no longer supported by biomart option value="v92">v92</option-->
 							<!-- REMOVED: no longer supported by biomart option value="v85">v85</option-->
 						</select>
 					</td>
@@ -936,7 +947,7 @@
 				</tr>
 				<tr>
 					<td>Gene type
-						<a class="infoPop" data-toggle="popover" title="Gene Type" data-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl 85). By default, only protein-coding genes are used for mapping.">
+						<a class="infoPop" data-toggle="popover" title="Gene Type" data-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl). By default, only protein-coding genes are used for mapping.">
 							<i class="fa fa-question-circle-o fa-lg"></i>
 						</a><br/>
 						<span class="info"><i class="fa fa-info"></i> Multiple gene type can be selected.</span>
