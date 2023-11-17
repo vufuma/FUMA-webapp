@@ -25,6 +25,7 @@
 		<div id="downFileCheck">
 			<input type="checkbox" name="paramfile" id="paramfile" checked onchange="DownloadFiles();">Parameter settings</br>
 			<input type="checkbox" name="magmafile" id="magmafile" checked onchange="DownloadFiles();">MAGMA (full) results<br/>
+			<input type="checkbox" name="GRCh38file" id="GRCh38file" checked onchange="DownloadFiles();">Variants dropped during rsID annotation from GRCh38 input<br/>
 		</div>
 		<span class="form-inline">
 			<input class="btn btn-default btn-xs" type="submit" name="download" id="download" value="Download files"/>

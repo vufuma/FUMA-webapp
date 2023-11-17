@@ -143,7 +143,7 @@ summary[summary[,2]=="", 2] <- "NA"
 write.table(summary, paste0(filedir, "summary.txt"), quote=F, row.names=F, col.names=F, sep="\t")
 write.table(geneIDs, paste0(filedir, "geneIDs.txt"), quote=F, row.names=F, sep="\t")
 
-if(length(gene_exp)>0 | gene_exp!="NA"){
+if(length(gene_exp)>0 && gene_exp!="NA"){
 	##### gene expression #####
 	for(f in gene_exp){
 		load(paste0(config$data$GeneExp, "/", f, ".RData"))

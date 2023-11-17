@@ -126,7 +126,9 @@ header('X-Frame-Options: GOFORIT');
                                 <span class="form-inline">
                                     Ensembl version:
                                     <select class="form-control" id="ensembl" name="ensembl">
-                                        <option selected value="v92">v92</option>
+                                        <option selected value="v110">v110</option>
+							            <option selected value="v102">v102</option>
+                                        <!-- REMOVED: no longer supported by biomart option value="v92">v92</option-->
                                         <!-- REMOVED: no longer supported by biomart option value="v85">v85</option-->
                                     </select>
                                 </span><br />
@@ -135,8 +137,7 @@ header('X-Frame-Options: GOFORIT');
                                     <button type="button" class="btn btn-default btn-xs" id="gsFileAdd">add
                                         file</button>
                                     <input type="hidden" value="0" id="gsFileN" name="gsFileN">
-                                    <span class="info"><i class="fa fa-info"></i>File is required to have GMT format
-                                        with an extension ".gmt".</span>
+                                    <span class="info"><i class="fa fa-info"></i>File is required to have GMT format with an extension ".gmt" and the gene IDs must be entrez ID.</span>
                                     <br />
                                     <span id="gsFiles"></span><br />
                                     <tab>

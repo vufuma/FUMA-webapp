@@ -161,6 +161,12 @@ class BrowseController extends Controller
             }
         }
 
+        if ($request->filled('GRCh38file')) {
+            if (Storage::exists($filedir . "GRCh38_droppedvariants.txt.gz")) {
+                $files[] = "GRCh38_droppedvariants.txt.gz";
+            }
+        }
+
         $zip = new \ZipArchive();
         if ($prefix == "public") {
             $zipfile = $filedir . "FUMA_public" . $id . ".zip";

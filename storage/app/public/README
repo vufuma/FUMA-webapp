@@ -8,6 +8,7 @@ Version: 1.3.1 (27 Apr 2018)
 Version: 1.3.4 (8 Feb 2019)
 Version: 1.3.5 (27 May 2019)
 Version: 1.3.5d (14 Oct 2019)
+Version: 1.6.0 (7 September 2023)
 
 
 This file contains description of columns for every downloadable file.
@@ -404,3 +405,10 @@ When genotype data is available, we recommend to re-run MAGMA locally with genot
   This tests positive relationship between gene expression in a specific category and genetic associations.
   magma_exp_xxx.gcov.out: output of user selected data sets.
 Please refer to the manual of MAGMA from https://ctg.cncr.nl/software/magma for more details.
+
+######################
+# GRCh38_droppedvariants.txt.gz
+# A gzipped file included in your download if you selected "Input is build GRCh38" in the submission page
+######################
+This file contains the rows of your input data that could not be given an rsID. Since your input was GRCh38, rsIDs are necessary to connect the input data to the reference data in FUMA which is on build GRCh37.
+Variants could be lost due to their position and alleles not matching rsIDs present in dbSNP v150 or any of the reference panels in FUMA.

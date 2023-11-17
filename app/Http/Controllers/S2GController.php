@@ -386,6 +386,13 @@ class S2GController extends Controller
             Storage::copy($exfile, $filedir . '/input.gwas');
         }
 
+        // GRCh38
+        if ($request->has('GRCh38')) {
+            $GRCh38 = 1;
+        } else {
+            $GRCh38 = 0;
+        }
+
         // pre-defined lead SNPS file
         if ($request->hasFile('leadSNPs')) {
             myFile::fileValidationAndStore($request->file('leadSNPs'), $leadSNPs, $filedir);
@@ -787,6 +794,7 @@ class S2GController extends Controller
         }
 
         Storage::append($paramfile, "\n[params]");
+        Storage::append($paramfile, "GRCh38=$GRCh38\n");
         Storage::append($paramfile, "N=$N");
         Storage::append($paramfile, "Ncol=$Ncol");
         Storage::append($paramfile, "exMHC=$exMHC");
@@ -1309,6 +1317,12 @@ class S2GController extends Controller
             $tmp = Helper::my_glob($filedir, "/magma_exp_.*\.gsa\.out/");
             for ($i = 0; $i < count($tmp); $i++) {
                 $files[] = preg_replace("/.+\/(magma_exp_*)/", '$1', $tmp[$i]);
+            }
+        }
+
+        if ($request->filled('GRCh38file')) {
+            if (Storage::exists($filedir . "GRCh38_droppedvariants.txt.gz")) {
+                $files[] = "GRCh38_droppedvariants.txt.gz";
             }
         }
 
