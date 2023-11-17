@@ -267,6 +267,9 @@ class G2FController extends Controller
             $params = parse_ini_string(Storage::get($s2gfiledir . 'params.config'), false, INI_SCANNER_RAW);
             $ensembl = $params['ensembl'];
             $gene_exp = $params['magma_exp'];
+            if ($gene_exp == "NA") {
+                $gene_exp = "GTEx/v8/gtex_v8_ts_avg_log2TPM:GTEx/v8/gtex_v8_ts_general_avg_log2TPM";
+            }
             $MHC = $params['exMHC'];
             $bkgval = $params['genetype'];
             $adjPmeth = "fdr_bh";

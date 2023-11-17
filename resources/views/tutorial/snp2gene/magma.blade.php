@@ -37,7 +37,26 @@ In this section, reference panels and gene expression data sets are described de
 	For FUMA &ge; v1.3.1, 10655 gene sets (curated gene sets: 4738, GO terms: 5917) from MsigDB v6.1 are used.
 	For FUMA &ge; v1.3.4, 10678 gene sets (curated gene sets: 4761, GO terms: 5917) from MsigDB v6.2 are used.
 	Bonferroni correction was performed for the all tested gene sets.
-	To customise, you can download the output file and select a specific gene sets.<br/>
+	To customise, you can download the output file and select a specific gene sets.
+	<br/>
+	<br/>
+	The MSigDB v7.0 gene-set file used in FUMA from version 1.3.5d to 1.5.5 can be downloaded here:
+	<div class="clickable" onclick='tutorialDownloadVariant("MSigDB7")'>
+		MSigDB v7.0 
+		<img class="fontsvg" src="{{URL::asset('/image/download.svg')}}"/> 22M
+	</div>
+	The MSigDB v2023.1Hs gene-set file used in FUMA from version 1.5.6+ can be downloaded here:
+	<div class="clickable" onclick='tutorialDownloadVariant("MSigDB20231Hs")'>
+		MSigDB v2023.1Hs 
+		<img class="fontsvg" src="{{URL::asset('/image/download.svg')}}"/> 24M
+	</div>
+	<form method="post" target="_blank" action="/tutorial/download_variants">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+		<input type="hidden" name="variant_code" id="tutorialDownloadVariantCode" value=""/>
+		<input type="submit" id="tutorialDownloadVariantSubmit" class="ImgDownSubmit" style="display: none;"/>
+	</form>
+	The gene-sets were downloaded from MSigDB with Entrez gene IDs and then converted to Ensembl gene IDs using biomaRt. When one Entrez gene ID matched multiple Ensembl gene IDs, all of the matching Ensembl gene IDs were included.
+	<br/>
 	<br/>
 	Gene set analysis is performed by the following command.<br/>
 	<code class="codebox">
