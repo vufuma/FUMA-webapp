@@ -1,22 +1,25 @@
 @extends('layouts.master')
 @section('title', '| Edit User')
 
+@section('stylesheets')
+@endsection
+
 @section('content')
+    <div id="page-content-wrapper">
+        <div class='col-lg-4 col-lg-offset-4' style="padding-top:50px;">
 
-<div id="page-content-wrapper">
-    <div class='col-lg-4 col-lg-offset-4' style="padding-top:50px;">
+            <h1><i class='fa fa-user-plus'></i> Edit {{ $user->name }}</h1>
+            <hr>
 
-        <h1><i class='fa fa-user-plus'></i> Edit {{$user->name}}</h1>
-        <hr>
-
-        {{-- modelForm bind to $user model populate our fields with data using model names --}}
-        {{ html()->modelForm($user, 'PUT', route('users.update', $user->id))->open() }}
+            {{-- modelForm bind to $user model populate our fields with data using model names --}}
+            {{ html()->modelForm($user, 'PUT', route('users.update', $user->id))->open() }}
 
             {{-- The user model contains: name, email and password --}}
             <div class="form-group @error('name')) has-error @enderror">
                 {{ html()->label('Name')->for('name') }}
                 {{ html()->text('name')->placeholder('Name')->class(['form-control', 'is-invalid' => $errors->has('name')]) }}
-                @error('name'))
+                @error('name')
+                    )
                     <span class="help-block">
                         <strong>{{ $errors->first('name') }}</strong>
                     </span>
@@ -39,13 +42,12 @@
             <div class='form-group'>
                 @foreach ($roles as $role)
                     {{ html()->div(
-                            html()->label(
-                                html()->checkbox('roles[]', $user->roles->contains($role->id), $role->id)
-                                ->id('role-'.$role->id) 
-                                    . "&nbsp;". ucwords($role->name)
-                            )->for('role-'.$role->id) . "<br>"
-                        )
-                    }}
+                        html()->label(
+                                html()->checkbox('roles[]', $user->roles->contains($role->id), $role->id)->id('role-' . $role->id) .
+                                    '&nbsp;' .
+                                    ucwords($role->name),
+                            )->for('role-' . $role->id) . '<br>',
+                    ) }}
                 @endforeach
             </div>
 
@@ -70,18 +72,21 @@
                 @endif
             </div>
 
-        {{ html()->submit('Apply', array('class' => 'btn btn-primary')) }}
+            {{ html()->submit('Apply', ['class' => 'btn btn-primary']) }}
 
-        {{ html()->closeModelForm() }}
+            {{ html()->closeModelForm() }}
 
+        </div>
     </div>
-</div>
-
 @endsection
 
 @section('scripts')
-    {{-- Set the confirm password to be correct by default to allow update to work--}}
+    {{-- Imports from the web --}}
+
+    {{-- Hand written ones --}}
+    {{-- Set the confirm password to be correct by default to allow update to work --}}
     <script type="text/javascript">
         document.getElementById("password_confirmation").value = document.getElementById("password").value;
     </script>
+    {{-- Imports from the project --}}
 @endsection
