@@ -10,12 +10,10 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-use Session;
-
 class PermissionController extends Controller
 {
     public const VALIDATION_RULES = [
-        'name'=>'required|max:40',
+        'name' => 'required|max:40',
     ];
 
     /**
@@ -23,7 +21,8 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $permissions = Permission::all(); //Get all permissions
 
         return view('permissions.index')->with('permissions', $permissions);
@@ -35,7 +34,8 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         $roles = Role::get(); //Get all roles
 
         return view('permissions.create')->with('roles', $roles);
@@ -47,7 +47,8 @@ class PermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $this->validate($request, $this::VALIDATION_RULES);
 
         $name = $request['name'];
@@ -68,8 +69,10 @@ class PermissionController extends Controller
         }
 
         return redirect()->route('permissions.index')
-            ->with('alert-success',
-            'Permission'. $permission->name.' added!');
+            ->with(
+                'alert-success',
+                'Permission' . $permission->name . ' added!'
+            );
     }
 
     /**
@@ -79,7 +82,8 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         return redirect()->route('permissions.index');
     }
 
@@ -89,7 +93,8 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $permission = Permission::findOrFail($id);
 
         return view('permissions.edit', compact('permission'));
@@ -102,15 +107,18 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $permission = Permission::findOrFail($id);
         $this->validate($request, $this::VALIDATION_RULES);
         $input = $request->all();
         $permission->fill($input)->save();
 
         return redirect()->route('permissions.index')
-            ->with('alert-success',
-            'Permission'. $permission->name.' updated!');
+            ->with(
+                'alert-success',
+                'Permission' . $permission->name . ' updated!'
+            );
     }
     /**
      * Remove the specified resource from storage.
@@ -118,21 +126,25 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $permission = Permission::findOrFail($id);
 
-    //Make it impossible to delete this specific permission    
-    if ($permission->name == "Administer roles & permissions") {
+        //Make it impossible to delete this specific permission    
+        if ($permission->name == "Administer roles & permissions") {
             return redirect()->route('permissions.index')
-            ->with('alert-danger',
-             'Cannot delete this Permission!');
+                ->with(
+                    'alert-danger',
+                    'Cannot delete this Permission!'
+                );
         }
 
         $permission->delete();
 
         return redirect()->route('permissions.index')
-            ->with('alert-success',
-             'Permission deleted!');
-
+            ->with(
+                'alert-success',
+                'Permission deleted!'
+            );
     }
 }

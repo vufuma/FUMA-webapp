@@ -11,13 +11,11 @@ use Spatie\Permission\Models\Permission;
 
 use Illuminate\Support\Facades\Log;
 
-use Session;
-
 class RoleController extends Controller
 {
     public const VALIDATION_RULES = [
-        'name'=>'required|max:20|unique:roles,name',
-        'permissions' =>'required',
+        'name' => 'required|max:20|unique:roles,name',
+        'permissions' => 'required',
     ];
 
     /**
@@ -25,8 +23,9 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $roles = Role::all();//Get all roles
+    public function index()
+    {
+        $roles = Role::all(); //Get all roles
 
         return view('roles.index')->with('roles', $roles);
     }
@@ -36,10 +35,11 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        $permissions = Permission::all();//Get all permissions
+    public function create()
+    {
+        $permissions = Permission::all(); //Get all permissions
 
-        return view('roles.create', ['permissions'=>$permissions]);
+        return view('roles.create', ['permissions' => $permissions]);
     }
 
     /**
@@ -51,7 +51,8 @@ class RoleController extends Controller
      *         permissions: array of integer Permission ids
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //Validate name and permissions field
         $this->validate($request, $this::VALIDATION_RULES);
 
@@ -65,17 +66,19 @@ class RoleController extends Controller
         //Looping thru selected permissions
         foreach ($permissions as $permission) {
             Log::info("Getting permission: " . $permission . " from DB ");
-            $p = Permission::where('id', '=', $permission)->firstOrFail(); 
+            $p = Permission::where('id', '=', $permission)->firstOrFail();
             Log::info("Processing permission: " . $permission . " for role: " . $name);
             //Fetch the newly created role and assign permission
-            $role = Role::where('name', '=', $name)->first(); 
+            $role = Role::where('name', '=', $name)->first();
             $role->givePermissionTo($p);
             Log::info("Assign permission: " . $permission . " to role: " . $name);
         }
         Log::info("Assign complete - redirect");
         return redirect()->route('roles.index')
-            ->with('alert-success',
-                'Role'. $role->name.' added!'); 
+            ->with(
+                'alert-success',
+                'Role' . $role->name . ' added!'
+            );
     }
 
     /**
@@ -84,7 +87,8 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         return redirect('roles');
     }
 
@@ -94,7 +98,8 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
 
@@ -108,8 +113,9 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        $role = Role::findOrFail($id);//Get role with the given id
+    public function update(Request $request, $id)
+    {
+        $role = Role::findOrFail($id); //Get role with the given id
         //Validate name and permission fields - ignore existing id for unique
         $rules = $this::VALIDATION_RULES;
         $rules['name'] .= ",$id";
@@ -119,7 +125,7 @@ class RoleController extends Controller
         $permissions = $request['permissions'];
         $role->fill($input)->save();
 
-        $p_all = Permission::all();//Get all permissions
+        $p_all = Permission::all(); //Get all permissions
 
         foreach ($p_all as $p) {
             $role->revokePermissionTo($p); //Remove all permissions associated with role
@@ -131,8 +137,10 @@ class RoleController extends Controller
         }
 
         return redirect()->route('roles.index')
-            ->with('alert-success',
-            'Role'. $role->name.' updated!');
+            ->with(
+                'alert-success',
+                'Role' . $role->name . ' updated!'
+            );
     }
 
     /**
@@ -147,8 +155,9 @@ class RoleController extends Controller
         $role->delete();
 
         return redirect()->route('roles.index')
-            ->with('alert-success',
-             'Role deleted!');
-
+            ->with(
+                'alert-success',
+                'Role deleted!'
+            );
     }
 }

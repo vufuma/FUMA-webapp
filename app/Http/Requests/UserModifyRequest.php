@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
 class UserModifyRequest extends FormRequest
@@ -31,7 +30,7 @@ class UserModifyRequest extends FormRequest
         $id = $this->route('user');
         // In User modification password is optional but if present requires confirmation
         $rules = User::getValidationRules($id) + [
-            'password'=>'nullable|min:8|confirmed'
+            'password' => 'nullable|min:8|confirmed'
         ];
         return $rules;
     }
