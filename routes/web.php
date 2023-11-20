@@ -86,7 +86,7 @@ Auth::routes();
  * 			"a href="{{ route('roles.index') }}"
  */
 Route::group([
-        'middleware'=>['auth'], 
+        'middleware'=>['auth', 'isAdmin'], 
         'prefix'=>'admin'
     ], function() {
         Route::resources([
@@ -98,7 +98,7 @@ Route::group([
 );
 
 // Add isAdmin to route middleware list
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'isAdmin']], function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('/jobs', [AdminController::class, 'showJobs']);
