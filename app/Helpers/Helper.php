@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use App\Models\SubmitJob;
 use Auth;
 
@@ -77,24 +78,54 @@ class Helper
     /**
      * This is a public function called "deleteJob" that takes two parameters: $filedir (string) and $jobID (integer).
      * It finds the job with the given ID using the "find" method.
+     * It then checks if the job exists. If it doesn't, it returns an error message.
+     * It then checks if the job belongs to the current user. If it doesn't, it returns an error message.
      * It then checks if the job is running or queued. If it is, it returns an error message.
-     * Otherwise, it sets the "removed_at" and "removed_by" fields of the job to the current date and time and the ID of the current user, respectively.
+     * If none of the above conditions are met, it starts a database transaction.
+     * It sets the "removed_at" and "removed_by" fields of the job to the current date and time and the ID of the current user, respectively.
      * It then saves the job and deletes the directory containing the job files using the "Storage::deleteDirectory" method.
+     * If the deletion of the directory fails, it rolls back the database transaction and returns an error message.
+     * If the deletion of the directory succeeds, it commits the database transaction and returns a success message.
      */
     public static function deleteJob($filedir, $jobID)
     {
         $job = SubmitJob::find($jobID);
-        
+
+        // Verify this job exists
+        if (!$job) {
+            return "Job not found.";
+        }
+
+        // Verify this job belongs to the user
+        if ($job->user_id != Auth::user()->id) {
+            return "You can't delete other user's jobs.";
+        }
+
         // check if job is running or queued
         if (in_array($job->status, ['RUNNING', 'QUEUED'])) {
             return "You can't delete running or queued jobs. PLease try again later.";
         }
 
+        DB::beginTransaction();
+
+        // set removed_at and removed_by fields
         $job->removed_at = date('Y-m-d H:i:s');
         $job->removed_by = Auth::user()->id;
         $job->save();
 
-        Storage::deleteDirectory($filedir . $jobID);
+        try {
+            // delete job files
+            Storage::deleteDirectory($filedir . $jobID);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return "Failed to delete job files. Please try again later.";
+        }
+        
         // check if deleteDirectory failed
+        if (Storage::exists($filedir . $jobID)) {
+            DB::rollBack();
+            return "Failed to delete job files. Please try again later.";
+        }
+        DB::commit();
     }
 }
