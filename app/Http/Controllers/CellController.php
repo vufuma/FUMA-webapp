@@ -152,7 +152,7 @@ class CellController extends Controller
         $submitJob->email = $email;
         $submitJob->user_id = $user_id;
         $submitJob->type = 'celltype';
-        $submitJob->parent_id = $s2gID;
+        $submitJob->parent_id = ($s2gID == 0) ? Null : $s2gID;
         $submitJob->title = $title;
         $submitJob->status = 'NEW';
         $submitJob->save();
