@@ -26,36 +26,34 @@ use App\Http\Controllers\RolesPermissions\RoleController;
 |
 */
 
-Route::group([], function(){
 
-    Route::get('/', function () {
-        return view('pages.home');
-    });
+Route::get('/', function () {
+    return view('pages.home');
+});
 
-    Route::get('/home', function () {
-        return view('pages.home');
-    });
+Route::get('/home', function () {
+    return view('pages.home');
+});
 
-    Route::get('appinfo', [FumaController::class, 'appinfo']);
+Route::get('appinfo', [FumaController::class, 'appinfo']);
 
-    Route::get('/tutorial', function () {
-        return view('pages.tutorial');
-    });
-    Route::post('tutorial/download_variants', [FumaController::class, 'download_variants']);
+Route::get('/tutorial', function () {
+    return view('pages.tutorial');
+});
+Route::post('tutorial/download_variants', [FumaController::class, 'download_variants']);
 
-    Route::get('downloadPage', function(){
-        return view('pages.downloadPage');
-    });
+Route::get('downloadPage', function () {
+    return view('pages.downloadPage');
+});
 
-    Route::get('/links', function () {
-        return view('pages.links');
-    });
+Route::get('/links', function () {
+    return view('pages.links');
+});
 
-    Route::get('/updates', [UpdateController::class, 'showUpdates']);
+Route::get('/updates', [UpdateController::class, 'showUpdates']);
 
-    Route::get('/faq', function () {
-        return view('pages.faq');
-    });
+Route::get('/faq', function () {
+    return view('pages.faq');
 });
 
 Auth::routes();
@@ -85,10 +83,12 @@ Auth::routes();
  * 			"redirect()->route('users.index')"
  * 			"a href="{{ route('roles.index') }}"
  */
-Route::group([
-        'middleware'=>['auth', 'isAdmin'], 
-        'prefix'=>'admin'
-    ], function() {
+Route::group(
+    [
+        'middleware' => ['auth', 'isAdmin'],
+        'prefix' => 'admin'
+    ],
+    function () {
         Route::resources([
             'users' => UserController::class,
             'roles' => RoleController::class,
