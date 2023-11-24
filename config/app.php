@@ -10,14 +10,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Subdirectory
+    | Absolute path to jobs directory on host 
     |--------------------------------------------------------------------------
     |
-    | Specify subdirectory
+    | Specify absolute path to jobs directory on host
     |
     */
 
     'abs_path_to_jobs_dir_on_host' => env('ABSOLUTE_PATH_TO_JOBS_DIR_ON_HOST', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Absolute path to reference data directory on host
+    |--------------------------------------------------------------------------
+    |
+    | Specify absolute path to reference data directory on host
+    |
+    */
+
     'ref_data_on_host_path' => env('REF_DATA_ON_HOST', ''),
 
     /*
@@ -44,10 +54,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | gwasDB directory (temmporary)
+    | Downloads directory
     |--------------------------------------------------------------------------
     |
-    | Specify direcory of gwasDB (this will be moved to separate web application later on)
+    | Specify direcory of downloads storage
     |
     */
 

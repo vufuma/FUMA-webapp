@@ -80,7 +80,10 @@ return [
         public_path('storage') => storage_path('app/public'),
 
         # comment out this line if you want to store jobs in the default storage location /storage/app/fuma
-        storage_path('app/' . config('app.jobdir')) => env('ABSOLUTE_PATH_TO_JOBS_DIR_ON_HOST'),
+        storage_path('app/' . config('app.jobdir')) => config('app.abs_path_to_jobs_dir_on_host'),
+
+        # This link connects the storage/app/downloads symlink to the downloads directory in the reference data directory
+        storage_path('app/' . config('app.downloadsDir')) => config('app.ref_data_on_host_path') . config('app.downloadsDir'),
     ],
 
 ];
