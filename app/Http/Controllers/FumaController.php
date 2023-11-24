@@ -490,7 +490,7 @@ class FumaController extends Controller
         $path = config("app.downloadsDir") . "/$name";
         # Log::error("Variant path $path");
         $headers = array('Content-Type: application/gzip');
-        return response()->download($path, $name, $headers);
+        return response()->download(Storage::path($path), $name, $headers);
     }
 
     public function g2f_d3text($prefix, $id, $file)
