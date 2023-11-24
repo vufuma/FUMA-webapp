@@ -3,7 +3,7 @@ import os
 import sys
 import pandas as pd
 import numpy as np
-import ConfigParser
+import configparser
 import re
 
 def main():
@@ -16,10 +16,10 @@ def main():
 		filedir += '/'
 
 	##### get config files #####
-	cfg = ConfigParser.ConfigParser()
+	cfg = configparser.ConfigParser()
 	cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
-	param_cfg = ConfigParser.ConfigParser()
+	param_cfg = configparser.ConfigParser()
 	param_cfg.read(filedir+'params.config')
 
 	##### parameters #####
