@@ -13,7 +13,9 @@
 			<ul class="nav navbar-nav navbar-right">
 				<!-- local_start -->
 				<li class="{{ Request::is('/') ? 'active' : ''}}"><a href="/">Home</a></li>
+				@hasrole('Admin')
 				<li class="{{ Request::is('admin') ? 'active' : ''}}"><a href="/admin">Admin Dashboard</a></li>
+				@endrole
 				<li class="{{ Request::is('tutorial') ? 'active' : ''}}"><a href="/tutorial">Tutorial</a></li>
 				<li class="{{ Request::is('browse*') ? 'active' : ''}}"><a href="/browse">Browse Public Results</a></li>
 				<li class="{{ Request::is('snp2gene*') ? 'active' : ''}}"><a href="/snp2gene">SNP2GENE</a></li>
@@ -51,7 +53,12 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="{{ Config::get('app.subdir') }}/snp2gene#joblist-panel">SNP2GENE My Jobs</a></li>
 							<li><a href="{{ Config::get('app.subdir') }}/gene2func#queryhistory">GENE2FUNC History</a></li>
-							<!-- logout via POST method -->
+							@hasrole('Admin')
+								<li><a href="{{ url('/admin/users') }}">
+									<i class="fa fa-btn fa-unlock"></i>
+									Admin
+								</a></li>
+							@endrole
 							<li>
 								<a href="{{ url('/logout') }}" id="fuma-logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 									<i class="fa fa-btn fa-sign-out"></i>
