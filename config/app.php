@@ -17,6 +17,7 @@ return [
     |
     */
 
+    'abs_path_to_jobs_dir_on_host' => env('ABSOLUTE_PATH_TO_JOBS_DIR_ON_HOST', ''),
     'ref_data_on_host_path' => env('REF_DATA_ON_HOST', ''),
 
     /*

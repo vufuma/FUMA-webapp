@@ -62,8 +62,9 @@ class CelltypeProcess implements ShouldQueue
         
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'magma_celltype');
+        $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
                 
-        $cmd = "docker run --rm --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_cell_jobs_on_host') . "/$jobID/:/app/job " . $image_name . " /bin/sh -c 'Rscript magma_celltype.R job >>job/job.log 2>>job/error.log'";
+        $cmd = "docker run --rm --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript magma_celltype.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($logfile, "Command to be executed:");
         Storage::append($logfile, $cmd . "\n");
 
