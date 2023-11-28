@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -15,6 +16,31 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    /**
+     * The common validation rules for the User are stored in 
+     * the model and may be appended to in the FormRequests (app/Http/Request/*)
+     * as needed.
+     * 
+     * @param mixed $modifyingUserId (optional) 
+     *      If modifying a user then email uniqueness will be ignored in the rule
+     * @return (string|(string|Lowercase|bool)[])[] 
+     *      An array of array containing the validation rules for 
+     *      name and email 
+     */
+    public static function getValidationRules($modifyingUserId = null)
+    {
+        return [
+            'name' => 'required|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'lowercase',
+                empty($modifyingUserId) ? Rule::unique('users', 'email') : Rule::unique('users', 'email')->ignore($modifyingUserId)
+            ]
+        ];
+    }
 
     /**
      * Add a mutator to ensure hashed passwords at one centralized place
