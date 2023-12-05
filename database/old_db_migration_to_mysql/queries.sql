@@ -49,7 +49,7 @@ WHERE fuma_new.SubmitJobs.type = 'snp2gene';
 --
 -- Populate SubmitJobs table adding public jobs when there is no match neither based on id
 -- nor on email (completely unknown jobs)
--- assigne these jobs to the user with user_id = 2
+-- assigne these jobs to the user with user_id = 13064
 --
 INSERT INTO
 fuma_new.SubmitJobs(
@@ -75,8 +75,8 @@ fuma_new.SubmitJobs(
 SELECT 
 fuma_new_tmp.PublicResults.jobID                         AS jobID,
 fuma_new_tmp.PublicResults.id                            AS old_id,
-2                                                        AS user_id,
-(SELECT email FROM fuma_new.users WHERE id = 2)          AS email,
+13064                                                    AS user_id,
+(SELECT email FROM fuma_new.users WHERE id = 13064)      AS email,
 fuma_new_tmp.PublicResults.title                         AS title,
 fuma_new_tmp.PublicResults.created_at                    AS created_at,
 fuma_new_tmp.PublicResults.update_at                     AS updated_at,
@@ -171,7 +171,7 @@ LEFT JOIN fuma_new.SubmitJobs sj ON g2f.snp2gene = sj.jobID AND sj.type = 'snp2g
 -- --------------------------------------------------------
 
 --
--- Insert gene2func jobs on SubmitJobs table based on the g2f_jobID of Public results (whene there is no match)
+-- Insert gene2func jobs on SubmitJobs table based on the g2f_jobID of Public results (when there is no match)
 -- these jobs (gene2func) are child jobs of public snp2gene jobs that have been deleted by the users
 --
 INSERT INTO
@@ -212,10 +212,10 @@ SELECT
     fuma_new_tmp.PublicResults.sumstats_ref                                             AS sumstats_ref,
     fuma_new_tmp.PublicResults.notes                                                    AS notes,
     fuma_new_tmp.PublicResults.created_at                                               AS published_at
-FROM SubmitJobs 
-RIGHT JOIN fuma_new_tmp.PublicResults ON SubmitJobs.old_id = fuma_new_tmp.PublicResults.g2f_jobID AND SubmitJobs.type = 'gene2func'
+FROM fuma_new.SubmitJobs 
+RIGHT JOIN fuma_new_tmp.PublicResults ON fuma_new.SubmitJobs.old_id = fuma_new_tmp.PublicResults.g2f_jobID AND fuma_new.SubmitJobs.type = 'gene2func'
 WHERE fuma_new_tmp.PublicResults.g2f_jobID != 0
-AND SubmitJobs.old_id is null;
+AND fuma_new.SubmitJobs.old_id is null;
 
 
 -- -- only those that do not exist (there is no match), this should return public gene2func jobs that have been deleted by the users
