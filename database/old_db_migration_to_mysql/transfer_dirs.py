@@ -88,7 +88,8 @@ os.system("mkdir " + new_share_jobs + "/gene2func")
 
 time.sleep(2);
 
-for index, row in jobs_df.iterrows():
+for i, (index, row) in zip(np.arange(len(jobs_df.index)), jobs_df.iterrows()):
+    print("Currently on row: {}; Currently iterrated {}% of rows".format(index, (i + 1)/len(jobs_df.index) * 100))
     one_location_at_least_exists = False
     if os.path.isdir(row['location']):
         location = row['location']
