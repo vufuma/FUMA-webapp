@@ -2,10 +2,10 @@ FROM python:3
 
 WORKDIR /app
 
-COPY requirements.txt ./
+COPY Docker/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ../transfer_dirs.py ./
+COPY transfer_dirs.py ./
 
 # Configure non-root user.
 ARG USERNAME
