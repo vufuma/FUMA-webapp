@@ -102,7 +102,7 @@ for i, (index, row) in zip(np.arange(len(jobs_df.index)), jobs_df.iterrows()):
     if one_location_at_least_exists:
         # os.system("rsync -rtlHv " + location + " " + row['destination'])
 
-        result = subprocess.run("rsync -rtlHv " + location + " " + row['destination'],
+        result = subprocess.run("rsync -rtlHv " + location + "/ " + row['destination'],
                     shell=True, capture_output=True,
                     check=True, text=True)
         
