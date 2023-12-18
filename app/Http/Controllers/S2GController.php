@@ -146,7 +146,7 @@ class S2GController extends Controller
 
     public function getFilesContents(Request $request)
     {
-        $jobID = $request->input('jobID');
+        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('jobID'));
         $fileNames = $request->input('fileNames');
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
 
@@ -172,7 +172,7 @@ class S2GController extends Controller
     */
     public function MAGMA_expPlot(Request $request)
     {
-        $jobID = $request->input('jobID');
+        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('jobID'));
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
 
 
@@ -1241,10 +1241,15 @@ class S2GController extends Controller
 
     public function filedown(Request $request)
     {
-        $id = $request->input('id');
+        $old_id = $request->input('id');
+        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($old_id);
         $prefix = $request->input('prefix');
-        $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
-        // $zip = new ZipArchive();
+        if ($prefix == "public") {
+            $filedir = config('app.jobdir') . '/jobs/' . $id . '/';
+        } else {
+            $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
+        }
+
         $files = [];
         if ($request->filled('paramfile')) {
             $files[] = "params.config";
@@ -1328,6 +1333,8 @@ class S2GController extends Controller
 
         if ($prefix == "gwas") {
             $zipfile = $filedir . "FUMA_gwas" . $id . ".zip";
+        } else if ($prefix == "public") {
+            $zipfile = $filedir . "FUMA_public_job" . $old_id . ".zip";
         } else {
             $zipfile = $filedir . "FUMA_job" . $id . ".zip";
         }

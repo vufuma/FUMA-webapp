@@ -101,6 +101,7 @@ class BrowseController extends Controller
 
     public function filedown(Request $request)
     {
+        // Not used, the one in the S2GController is used
         $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/jobs/' . $id . '/';
@@ -204,6 +205,7 @@ class BrowseController extends Controller
 
     public function imgdown(Request $request)
     {
+        // Not used, the one in the FumaController is used
         $svg = $request->input('data');
         $prefix = $request->input('dir');
         $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
@@ -237,6 +239,7 @@ class BrowseController extends Controller
 
     public function DEGPlot($type, $jobID)
     {
+        // Not used, the one in the FumaController is used
         $filedir = config('app.jobdir') . '/public/' . $jobID . '/g2f/';
         $file = "";
         if ($type == "general") {
@@ -297,6 +300,7 @@ class BrowseController extends Controller
 
     public function geneTable(Request $request)
     {
+        // Not used, the one in the FumaController is used
         // TODO: make this function using column names instead of column indecies
         $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $filedir = config('app.jobdir') . '/public/' . $jobID . '/g2f/';
@@ -333,6 +337,7 @@ class BrowseController extends Controller
 
     public function g2f_filedown(Request $request)
     {
+        // Not used, the one in the FumaController is used
         $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/g2f/';

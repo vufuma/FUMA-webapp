@@ -136,7 +136,7 @@ Route::prefix('browse')->group(function () {
     Route::post('/g2f_sumTable', [FumaController::class, 'g2f_sumTable']);
     Route::post('/g2f_paramTable', [FumaController::class, 'paramTable']);
     Route::post('/expDataOption', [FumaController::class, 'expDataOption']);
-    Route::post('/filedown', [FumaController::class, 'filedown']);
+    Route::post('/filedown', [S2GController::class, 'filedown']);
     Route::post('/imgdown', [FumaController::class, 'imgdown']);
     Route::post('/annotPlot/getData', [FumaController::class, 'annotPlotGetData']);
     Route::post('/annotPlot/getGenes', [FumaController::class, 'annotPlotGetGenes']);
