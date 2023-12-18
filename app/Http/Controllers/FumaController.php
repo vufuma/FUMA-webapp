@@ -30,7 +30,7 @@ class FumaController extends Controller
 
     public function DTfile(Request $request)
     {
-        $id = $request->input('id');
+        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $prefix = $request->input('prefix');
         $fin = $request->input('infile');
         $cols = $request->input('header');
@@ -42,7 +42,7 @@ class FumaController extends Controller
 
     public function DTfileServerSide(Request $request)
     {
-        $jobID = $request->input('id');
+        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $fin = $request->input('infile');
         $cols = $request->input('header');
 
@@ -72,7 +72,7 @@ class FumaController extends Controller
 
     public function paramTable(Request $request)
     {
-        $id = $request->input('id');
+        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $prefix = $request->input('prefix');
         $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . 'params.config';
 
@@ -81,7 +81,7 @@ class FumaController extends Controller
 
     public function sumTable(Request $request)
     {
-        $id = $request->input('id');
+        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $prefix = $request->input('prefix');
         $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . 'summary.txt';
 
@@ -90,7 +90,7 @@ class FumaController extends Controller
 
     public function locusPlot(Request $request)
     {
-        $jobID = $request->input('id');
+        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $type = $request->input('type');
         $rowI = $request->input('rowI');
 
@@ -105,7 +105,7 @@ class FumaController extends Controller
 
     public function annotPlot(Request $request)
     {
-        $id = $request->input('id');
+        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
         $type = $request->input('annotPlotSelect');
@@ -164,7 +164,7 @@ class FumaController extends Controller
 
     public function annotPlotGetData(Request $request)
     {
-        $jobID = $request->input("id");
+        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input("id"));
         $prefix = $request->input("prefix");
         $type = $request->input("type");
         $rowI = $request->input("rowI");
@@ -192,7 +192,7 @@ class FumaController extends Controller
 
     public function annotPlotGetGenes(Request $request)
     {
-        $jobID = $request->input("id");
+        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input("id"));
         $prefix = $request->input("prefix");
         $chrom = $request->input("chrom");
         $eqtlplot = $request->input("eqtlplot");
@@ -232,7 +232,7 @@ class FumaController extends Controller
 
     public function circos_chr(Request $request)
     {
-        $id = $request->input("id");
+        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input("id"));
         $filedir = config('app.jobdir') . '/jobs/' . $id . '/circos/';
 
         $file_paths = Helper::my_glob($filedir, "/circos_chr.*\.png/");
@@ -255,7 +255,7 @@ class FumaController extends Controller
 
     public function circosDown(Request $request)
     {
-        $jobID = $request->input('id');
+        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
         $type = $request->input('type');
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/circos/';
         $zip = new \ZipArchive();
@@ -329,11 +329,16 @@ class FumaController extends Controller
     public function g2f_filedown(Request $request)
     {
         $id = $request->input('id');
+        $id_tmp = $id;
         $prefix = $request->input('prefix');
-        $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
+
         if ($prefix == "public") {
-            $filedir .= 'g2f/';
+            $parent_job = (new SubmitJob)->find_public_job_from_id($id);
+            $id = $parent_job->child->jobID;
         }
+
+        $filedir = config('app.jobdir') . '/gene2func/' . $id . '/';
+
         $files = [];
         if ($request->filled('summaryfile')) {
             $files[] = "summary.txt";
@@ -364,7 +369,7 @@ class FumaController extends Controller
         }
 
         if ($prefix == "public") {
-            $zipfile = $filedir . "FUMA_gene2func_public" . $id . ".zip";
+            $zipfile = $filedir . "FUMA_gene2func_public" . $id_tmp . ".zip";
         } else {
             $zipfile = $filedir . "FUMA_gene2func" . $id . ".zip";
         }
@@ -521,20 +526,13 @@ class FumaController extends Controller
         $id = $request->input('id');
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
-        if ($prefix == "public") {
-            $filedir .= 'g2f/';
-        }
+
         $params = parse_ini_string(Storage::get($filedir . 'params.config'), false, INI_SCANNER_RAW);
         return $params['gene_exp'];
     }
 
     public function expPlot($prefix, $id, $dataset)
     {
-        $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
-        if ($prefix == "public") {
-            $filedir .= 'g2f/';
-        }
-
         $container_name = DockerNamesBuilder::containerName($id);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($id, 'gene2func');
@@ -546,11 +544,6 @@ class FumaController extends Controller
 
     public function DEGPlot($prefix, $id)
     {
-        $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
-        if ($prefix == "public") {
-            $filedir .= 'g2f/';
-        }
-
         $container_name = DockerNamesBuilder::containerName($id);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($id, 'gene2func');
@@ -562,13 +555,11 @@ class FumaController extends Controller
 
     public function geneTable(Request $request)
     {
-        // TODO: make this function using column names instead of column indecies
+        // TODO: make this function use column names instead of column indecies
         $id = $request->input('id');
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
-        if ($prefix == "public") {
-            $filedir .= 'g2f/';
-        }
+
         if (Storage::exists($filedir . "geneTable.txt")) {
             $f = fopen(Storage::path($filedir . "geneTable.txt"), 'r');
             $head = fgetcsv($f, 0, "\t");
