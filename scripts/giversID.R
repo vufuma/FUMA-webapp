@@ -1,41 +1,43 @@
-args = commandArgs(trailingOnly=TRUE)
-#usage Rscript giversID.R chromosome position effectallele noneffectallele path2inputfile
+# Retrieve command-line arguments and store them in the 'args' variable
+# Usage: Rscript giversID.R chromosome position effectallele noneffectallele path2inputfile
+args = commandArgs(trailingOnly = TRUE)
 
+# Print a message indicating the use of GRCh38 position to obtain rsIDs
 print("Using GRCh38 position to get rsIDs")
 
-#get file names
+# Load required libraries
 library(kimisc)
-curfile <- thisfile()
-source(paste(dirname(curfile), '/ConfigParser.R', sep=""))
-config <- ConfigParser(file=paste(dirname(curfile),'/app.config', sep=""))
-
 library(data.table)
 
-#read in user file
-a<-fread(paste(args[5],"input.gwas",sep=""),header=T)
+# Retrieve file paths and configurations using 'ConfigParser.R' and 'app.config'
+curfile <- whereami::thisfile()
+source(paste(dirname(curfile), '/ConfigParser.R', sep = ""))
+config <- ConfigParser(file = paste(dirname(curfile), '/app.config', sep = ""))
 
-#set chromosome, position, and allele columns to a specific name
-#chr_10001, pos_10001, allele_10001, allele_20001
-#check if these columns already exist
-if (any(c("chr_10001","pos_10001","allele_10001","allele_20001") %in% colnames(a))) {
+# Read in a (GWAS) input file using 'fread' from 'data.table'
+a<-fread(paste(args[5], "input.gwas", sep = ""), header = T)
+
+# Check if specific columns already exist in the input file; prompt for column renaming and quit if they do
+# chr_10001, pos_10001, allele_10001, allele_20001
+if (any(c("chr_10001", "pos_10001", "allele_10001", "allele_20001") %in% colnames(a))) {
 	print("chr_10001, pos_10001, allele_10001, allele_20001 are in input. Please rename columns to something else.")
-	quit(status=2)
+	quit(status = 2)
 }
 
-#stop if they give incorrect column names
+# Stop script if specified columns do not match the input file
 if (any(!args[1:4] %in% colnames(a))) {
 	print("not all specified columns match input file")
 	quit(status=3)
 }
 
-#check if the colnames match multiple columns
-if (length(colnames(a)[duplicated(colnames(a))])>0) {
+# Check for duplicate column names in the input file
+# Check if the colnames match multiple columns
+if (length(colnames(a)[duplicated(colnames(a))]) > 0) {
 	print("Some column names are duplicated in the input file")
-	quit(status=4)
+	quit(status = 4)
 }
 
-
-#make new columns with uniform names
+# Rename columns with uniform names based on provided arguments
 tmp<-which(colnames(a)==args[1])
 a$CHR_10001<-a[,..tmp]
 tmp<-which(colnames(a)==args[2])
