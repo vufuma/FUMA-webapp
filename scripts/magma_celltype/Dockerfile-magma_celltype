@@ -1,9 +1,6 @@
-FROM python:3
+FROM r-base:4.2.3
 
 WORKDIR /app
-
-COPY magma/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl unzip build-essential r-base \
     && curl https://ctg.cncr.nl/software/MAGMA/prog/magma_v1.10_static.zip -o magma_v1.10_static.zip\
@@ -12,13 +9,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl unzip buil
     && rm magma_v1.10_static.zip \
     && rm -rf /var/lib/apt/lists/*
     
-
-RUN Rscript -e "install.packages('data.table')"
-RUN Rscript -e "install.packages('kimisc')"
+RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc'))"
 
 COPY app.config ./
-COPY magma.py ./
-COPY magma_gene.R ./
+COPY magma_celltype/magma_celltype.R ./
 COPY ConfigParser.R ./
 
 # Configure non-root user.

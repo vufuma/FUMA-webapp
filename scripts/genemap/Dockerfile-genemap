@@ -1,22 +1,16 @@
-FROM python:3
+FROM r-base:4.2.3
 
 WORKDIR /app
 
-COPY create_circos_plot/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
-RUN apt-get update && apt-get install -y --no-install-recommends curl cpanminus libgd-dev\
-    && curl http://circos.ca/distribution/circos-0.69-9.tgz -o circos-0.69-9.tgz\
-    && tar -xf circos-0.69-9.tgz -C /usr/local/share \
-    && rm circos-0.69-9.tgz \
+RUN apt-get update && apt-get install -y --no-install-recommends libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY create_circos_plot/cpanfile ./
-RUN cpanm --installdeps .
+RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'BiocManager'))"
+RUN Rscript -e "BiocManager::install('GenomicRanges')"
 
 COPY app.config ./
-COPY createCircosPlot.py ./
-COPY config/circos ./config/circos
+COPY ConfigParser.R ./
+COPY genemap/geneMap.R ./
 
 # Configure non-root user.
 ARG USERNAME

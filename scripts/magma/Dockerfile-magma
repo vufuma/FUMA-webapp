@@ -1,20 +1,25 @@
 FROM python:3
 
-# Set default work directory
 WORKDIR /app
 
-COPY gwas_file/requirements.txt ./
+COPY magma/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
+RUN apt-get update && apt-get install -y --no-install-recommends curl unzip build-essential r-base \
+    && curl https://ctg.cncr.nl/software/MAGMA/prog/magma_v1.10_static.zip -o magma_v1.10_static.zip\
+    && unzip magma_v1.10_static.zip -d /usr/local/share/MAGMA \
+    && chmod +x /usr/local/share/MAGMA/* \
+    && rm magma_v1.10_static.zip \
     && rm -rf /var/lib/apt/lists/*
+    
 
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'R.utils'))"
+RUN Rscript -e "install.packages('data.table')"
+RUN Rscript -e "install.packages('kimisc')"
 
 COPY app.config ./
-COPY gwas_file.py ./
+COPY magma/magma.py ./
+COPY magma/magma_gene.R ./
 COPY ConfigParser.R ./
-COPY giversID.R ./
 
 # Configure non-root user.
 ARG USERNAME

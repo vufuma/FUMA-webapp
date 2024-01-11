@@ -1,19 +1,15 @@
-FROM python:3
+FROM r-base:4.2.3
 
 WORKDIR /app
 
-COPY annotPlot/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
-    
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'rjson'))"
+
+RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc'))"
 
 COPY app.config ./
-COPY annotPlot.py ./
-COPY annotPlot.R ./
 COPY ConfigParser.R ./
+COPY g2f_r/gene2func.R ./
 
 # Configure non-root user.
 ARG USERNAME

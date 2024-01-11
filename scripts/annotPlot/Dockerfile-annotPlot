@@ -1,11 +1,19 @@
-FROM python:2
+FROM python:3
 
 WORKDIR /app
 
-COPY locusPlot/requirements.txt ./
+COPY annotPlot/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY locusPlot.py ./
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
+    && rm -rf /var/lib/apt/lists/*
+    
+RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'rjson'))"
+
+COPY app.config ./
+COPY annotPlot/annotPlot.py ./
+COPY annotPlot/annotPlot.R ./
+COPY ConfigParser.R ./
 
 # Configure non-root user.
 ARG USERNAME

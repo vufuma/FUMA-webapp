@@ -1,16 +1,12 @@
-FROM r-base:4.2.3
+FROM python:2
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends libcurl4-openssl-dev tabix \
-    && rm -rf /var/lib/apt/lists/*
+COPY celltype_plot_data/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'BiocManager'))"
-RUN Rscript -e "BiocManager::install('GenomicRanges')"
-
-COPY app.config ./
-COPY ConfigParser.R ./
-COPY getCI.R ./
+COPY celltype_plot_data/celltype_stepPlotData.py ./
+COPY celltype_plot_data/celltype_perDatasetPlotData.py ./
 
 # Configure non-root user.
 ARG USERNAME

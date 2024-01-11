@@ -1,12 +1,16 @@
-FROM python:2
+FROM r-base:4.2.3
 
 WORKDIR /app
 
-COPY manhattan_filt/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get install -y --no-install-recommends libcurl4-openssl-dev tabix \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'BiocManager'))"
+RUN Rscript -e "BiocManager::install('GenomicRanges')"
 
 COPY app.config ./
-COPY manhattan_filt.py ./
+COPY ConfigParser.R ./
+COPY getci/getCI.R ./
 
 # Configure non-root user.
 ARG USERNAME

@@ -6,7 +6,7 @@ COPY qqsnps_filt/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.config ./
-COPY QQSNPs_filt.py ./
+COPY qqsnps_filt/QQSNPs_filt.py ./
 
 # Configure non-root user.
 ARG USERNAME

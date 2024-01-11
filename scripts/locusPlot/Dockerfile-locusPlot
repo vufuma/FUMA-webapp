@@ -2,10 +2,10 @@ FROM python:2
 
 WORKDIR /app
 
-COPY dt/requirements.txt ./
+COPY locusPlot/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY dt.py ./
+COPY locusPlot/locusPlot.py ./
 
 # Configure non-root user.
 ARG USERNAME
