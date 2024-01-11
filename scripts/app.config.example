@@ -21,6 +21,7 @@ geneIDs=/data/genes
 geneScores=/data/GeneScores
 circos_config=/app/config/circos
 circos_path=/usr/local/share/circos-0.69-9/bin
+GRCh38=/data/GRCh38/
 
 [magma]
 magmadir=/usr/local/share/MAGMA
