@@ -1,0 +1,65 @@
+------------------------------------
+How to read this file:
+All the requirements are listed in the following format:
+    1!) Existing requirement (meaning that this requirement is already implemented)
+    2+) New requirement (meaning that this requirement is not yet implemented)
+------------------------------------
+
+The gwas_file.py script is called as such:
+
+    python gwas_file.py $job_location
+
+This means that the only argument as input to this file is the directory of the corresponding job.
+
+Regarding arguments, the script should:
+1!) Check if the number of arguments is > than 2, if so, print error message and exit
+2+) validate the job directory, if it's not a directory or it doesn't exist, print error message and exit
+
+Regarding the pre-defined lead SNPS file:
+1!) If the leadfile is provided, it checks if the file is empty or
+2!) if it has < 3 columns
+TODO: More checks must be added here
+
+Regarding the genomic regions file:
+1!) If the regionfile is provided, it checks if the file is empty or
+2!) if it has < 3 columns
+TODO: More checks must be added here
+
+Regarding the parameters preparation, the script reads the parameter from the params file and:
+1!) if (chrcol is None or poscol is None or eacol is None or neacol is None) and at the same time GRCh38=='1'
+    it prints "You selected GRCh38 but did not specify chromosome, position, effect allele, or non effect allele" message and exits 
+2!) In reverse, if none of the abovementioned columns are None and GRCh38=='1' 
+    it runs the script giversID.R
+
+TODO: More checks must be added here, for example, we should check the validity of the parameters types (int, str, etc)
+
+Regarding the header of the gwas file:
+1!) The script must be able to skip lines start with #
+2!) The script must be able read the acctual header of the file and automaticaly detect the delimiter of the file
+3!) The script checks if any of the gwas file columns match the user defined columns (from the parameters) 
+4!) The script then checks if any of the remaining (if exist) un-matched gwas file columns satisfy the any of the following:
+    - param chrcol == "NA" and re.match("CHR$|^chromosome$|^chrom$", header[i], re.IGNORECASE)
+    - param rsIDcol == "NA" and re.match("SNP$|^MarkerName$|^rsID$|^snpid$", header[i], re.IGNORECASE)
+    - param poscol == "NA" and re.match("^BP$|^pos$|^position$", header[i], re.IGNORECASE)
+    - param eacol == "NA" and re.match("^A1$|^Effect_allele$|^allele1$|^alleleB$", header[i], re.IGNORECASE)
+    - param neacol == "NA" and re.match("^A2$|^Non_Effect_allele$|^allele2$|^alleleA$", header[i], re.IGNORECASE)
+    - param pcol == "NA" and re.match("^P$|^pval$|^pvalue$|^p-value$|^p_value$", header[i], re.IGNORECASE)
+    - param orcol == "NA" and re.match("^or$", header[i], re.IGNORECASE)
+    - param becol == "NA" and re.match("^beta$", header[i], re.IGNORECASE)
+    - param secol == "NA" and re.match("^se$", header[i], re.IGNORECASE)
+    - param Ncol == "NA" and N=="NA" and re.match("^N$", header[i], re.IGNORECASE)
+
+    This means that if a user defined param is NA and a column found to satisfy any of those criteria is considered
+    as automatically detected column.
+    As for the regex this is an example broken down:
+        re.match("SNP$|^MarkerName$|^rsID$|^snpid$", header[i], re.IGNORECASE)
+            SNP$: This part matches the string "SNP" only if it appears at the end of the line (indicated by the dollar sign $).
+            |^MarkerName$: This part matches the string "MarkerName" only if it appears at the beginning of the line (indicated by the caret ^) or at the end of the line.
+            |^rsID$: This part matches the string "rsID" only if it appears at the beginning of the line or at the end of the line.
+            |^snpid$: This part matches the string "snpid" only if it appears at the beginning of the line or at the end of the line.
+            
+            header[i]: This represents the value at index i in the list or string header.
+            re.IGNORECASE: This is an optional flag that makes the pattern matching case-insensitive, so it will match regardless of whether the characters are uppercase or lowercase.
+    
+    TODO: More regex patterns should be included here, if we want to improve the auto-detection of columns. This way we will make the script less prone to errors because of different column names.
+    
