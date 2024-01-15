@@ -19,11 +19,13 @@ Regarding the pre-defined lead SNPS file:
 1!) If the leadfile is provided, it checks if the file is empty or
 2!) if it has < 3 columns
 TODO: More checks must be added here
+Observation during refactoring: This file is used nowhere in this script even if it is provided.
 
 Regarding the genomic regions file:
 1!) If the regionfile is provided, it checks if the file is empty or
 2!) if it has < 3 columns
 TODO: More checks must be added here
+Observation during refactoring: This file is used nowhere in this script even if it is provided.
 
 Regarding the parameters preparation, the script reads the parameter from the params file and:
 1!) if (chrcol is None or poscol is None or eacol is None or neacol is None) and at the same time GRCh38=='1'
