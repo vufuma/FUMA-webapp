@@ -62,4 +62,8 @@ Regarding the header of the gwas file:
             re.IGNORECASE: This is an optional flag that makes the pattern matching case-insensitive, so it will match regardless of whether the characters are uppercase or lowercase.
     
     TODO: More regex patterns should be included here, if we want to improve the auto-detection of columns. This way we will make the script less prone to errors because of different column names.
-    
+5!) The script returns error only if any of the user input colum names does not exits in the gwas file and not automatically detected.
+6!) The script checks if only one allele is defined, this has to be alt (effect) allele
+7!) The script checks if pcol is None, if it is it exits with error
+8!) The script checks if either of chrcol or poscol and rsIDcol are none at the same time, it then exists with error
+
