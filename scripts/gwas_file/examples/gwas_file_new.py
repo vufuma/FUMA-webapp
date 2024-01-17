@@ -97,6 +97,15 @@ for i, value in enumerate(gwas_file_df_columns): # loop through the columns of t
 			col[input_col_index].index = i # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
 			col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
 
+# find out which user defined columns were not undetected
+# user defined variable which are still undetected will be those that have not been found and are not NA, because NA means that the user did not define the column
+undetected_user_defined_columns = []
+for input_col_index, input_col in col.items():
+	if input_col.name != 'NA' and input_col.found == False:
+		undetected_user_defined_columns.append(input_col.name) # add the column name to the undetected_user_defined_columns list
+if len(undetected_user_defined_columns) > 0: # return error if there is at least one user defined column that is not found
+	sys.exit("The following header(s) was/were not detected in your input file: " + ", ".join(undetected_user_defined_columns))
+
 # then automatic detection
 for input_col_index, input_col in col.items(): # loop through the columns of the params.config file
 	if input_col.found == False: # if the column name of the params.config file is not found in the gwas file
