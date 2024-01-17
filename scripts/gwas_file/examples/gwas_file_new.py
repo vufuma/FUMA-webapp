@@ -92,3 +92,7 @@ gwas_file_df_columns = [x.upper() for x in gwas_file_df_columns] # make sure the
 ##### detect column index #####
 # user defined colum name - simply check if the column name is in the gwas file
 for i, value in enumerate(gwas_file_df_columns): # loop through the columns of the gwas file
+	for input_col_index, input_col in col.items(): # loop through the columns of the params.config file
+		if input_col.name == value: # if the column name of the params.config file is found in the gwas file
+			col[input_col_index].index = i # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
+			col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
