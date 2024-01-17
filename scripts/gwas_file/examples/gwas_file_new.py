@@ -89,6 +89,18 @@ gwas_file_df_columns = list(gwas_file_df.columns) # get the columns only of the 
 gwas_file_df_num_of_columns = len(gwas_file_df_columns) # get the number of columns of the gwas file
 gwas_file_df_columns = [x.upper() for x in gwas_file_df_columns] # make sure the columns are in upper case
 
+##### Run GRCh38 #####
+if GRCh38 == '1': # if GRCh38 is selected
+	if col['chrcol'].name != "NA" and col['poscol'].name != "NA" and col['eacol'].name != "NA" and col['neacol'].name != "NA":
+		command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+col['chrcol'].name+" "+col['poscol'].name+" "+col['eacol'].name+" "+col['neacol'].name+" "+filedir+" "+col['rsIDcol'].name
+		Rsuc = os.system(command)
+		col['chrcol'].name = "NA"
+		col['poscol'].name = "NA"
+		col['rsIDcol'].name = "RSID"
+		bh.grcg38_errors(Rsuc)
+	else:
+		sys.exit("You selected GRCh38 but did not specify chromosome, position, effect allele, or non effect allele")
+
 ##### detect column index #####
 # user defined colum name - simply check if the column name is in the gwas file
 for i, value in enumerate(gwas_file_df_columns): # loop through the columns of the gwas file
