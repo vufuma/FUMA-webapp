@@ -122,12 +122,16 @@ if len(undetected_user_defined_columns) > 0: # return error if there is at least
 for input_col_index, input_col in col.items(): # loop through the columns of the params.config file
 	if input_col.found == False: # if the column name of the params.config file is not found in the gwas file
 		for i, value in enumerate(gwas_file_df_columns): # loop through the columns of the gwas file
+			# check if there is a regex defined, if the column name is NA (meaning that the user hasn't defined this column), and if the regex matches the column name of the gwas file
 			if input_col.regex is not None and input_col.name == 'NA' and re.match(input_col.regex, value, re.IGNORECASE): # if the column name ish of the params.config file is found in the gwas file
 				col[input_col_index].name = value # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
 				col[input_col_index].index = i # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
 				col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
-			
+
+# rename the columns that are still NA to None so that they can be ignored later, for consistency
 for input_col_index, input_col in col.items():
+	if input_col.name == 'NA':
+		input_col.name = None
 	print(input_col_index , '-->' , input_col.name, input_col.index, input_col.found)
 
 
