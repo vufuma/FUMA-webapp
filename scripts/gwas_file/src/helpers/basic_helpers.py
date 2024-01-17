@@ -1,6 +1,14 @@
 import re
 import csv
 import sys
+from dataclasses import dataclass
+
+@dataclass
+class Column:
+	name: str
+	regex: str = None
+	index: int = None
+	found: bool = False
 
 # This function is used to detect the delimiter of a CSV file.
 # The function takes a header parameter, which is assumed to be the first row of a CSV file.

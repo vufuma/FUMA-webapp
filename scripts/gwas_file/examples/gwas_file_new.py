@@ -14,14 +14,6 @@ import subprocess
 import argparse
 from pathlib import Path
 import helpers.basic_helpers as bh
-from dataclasses import dataclass
-
-@dataclass
-class Column:
-	name: str
-	regex: str = None
-	index: int = None
-	found: bool = False
 
 parser = argparse.ArgumentParser() # Create the parser
 parser.add_argument('filedir', type=str, help='the file directory') # Add an argument
@@ -46,16 +38,16 @@ outMAGMA = filedir / "magma.in"
 
 # store the column names in a dictionary as col['variable_name'] = [column_name]
 col = {}
-col['chrcol'] = Column(param.get('inputfiles', 'chrcol').upper(), "CHR$|^chromosome$|^chrom$")
-col['poscol'] = Column(param.get('inputfiles', 'poscol').upper(), "^BP$|^pos$|^position$")
-col['rsIDcol'] = Column(param.get('inputfiles', 'rsIDcol').upper(), "SNP$|^MarkerName$|^rsID$|^snpid$")
-col['pcol'] = Column(param.get('inputfiles', 'pcol').upper(), "^P$|^pval$|^pvalue$|^p-value$|^p_value$")
-col['neacol'] = Column(param.get('inputfiles', 'neacol').upper(), "^A2$|^Non_Effect_allele$|^allele2$|^alleleA$")
-col['eacol'] = Column(param.get('inputfiles', 'eacol').upper(), "^A1$|^Effect_allele$|^allele1$|^alleleB$")
-col['orcol'] = Column(param.get('inputfiles', 'orcol').upper(), "^or$")
-col['becol'] = Column(param.get('inputfiles', 'becol').upper(), "^beta$")
-col['secol'] = Column(param.get('inputfiles', 'secol').upper(), "^se$")
-col['Ncol'] = Column(param.get('params', 'Ncol').upper(), "^N$")
+col['chrcol'] = bh.Column(param.get('inputfiles', 'chrcol').upper(), "CHR$|^chromosome$|^chrom$")
+col['poscol'] = bh.Column(param.get('inputfiles', 'poscol').upper(), "^BP$|^pos$|^position$")
+col['rsIDcol'] = bh.Column(param.get('inputfiles', 'rsIDcol').upper(), "SNP$|^MarkerName$|^rsID$|^snpid$")
+col['pcol'] = bh.Column(param.get('inputfiles', 'pcol').upper(), "^P$|^pval$|^pvalue$|^p-value$|^p_value$")
+col['neacol'] = bh.Column(param.get('inputfiles', 'neacol').upper(), "^A2$|^Non_Effect_allele$|^allele2$|^alleleA$")
+col['eacol'] = bh.Column(param.get('inputfiles', 'eacol').upper(), "^A1$|^Effect_allele$|^allele1$|^alleleB$")
+col['orcol'] = bh.Column(param.get('inputfiles', 'orcol').upper(), "^or$")
+col['becol'] = bh.Column(param.get('inputfiles', 'becol').upper(), "^beta$")
+col['secol'] = bh.Column(param.get('inputfiles', 'secol').upper(), "^se$")
+col['Ncol'] = bh.Column(param.get('params', 'Ncol').upper(), "^N$")
 
 GRCh38 = param.get('params', 'GRCh38')
 N = param.get('params', 'N')
