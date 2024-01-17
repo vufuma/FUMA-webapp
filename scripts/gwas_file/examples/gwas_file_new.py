@@ -99,13 +99,12 @@ for i, value in enumerate(gwas_file_df_columns): # loop through the columns of t
 
 # then automatic detection
 for input_col_index, input_col in col.items(): # loop through the columns of the params.config file
-	if input_col.found == True: # if the column name of the params.config file is found in the gwas file
-		continue # skip this iteration
-	for i, value in enumerate(gwas_file_df_columns): # loop through the columns of the gwas file
-		if input_col.regex is not None and input_col.name == 'NA' and re.match(input_col.regex, value, re.IGNORECASE): # if the column name ish of the params.config file is found in the gwas file
-			col[input_col_index].name = value # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
-			col[input_col_index].index = i # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
-			col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
+	if input_col.found == False: # if the column name of the params.config file is not found in the gwas file
+		for i, value in enumerate(gwas_file_df_columns): # loop through the columns of the gwas file
+			if input_col.regex is not None and input_col.name == 'NA' and re.match(input_col.regex, value, re.IGNORECASE): # if the column name ish of the params.config file is found in the gwas file
+				col[input_col_index].name = value # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
+				col[input_col_index].index = i # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
+				col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
 			
 for input_col_index, input_col in col.items():
 	print(input_col_index , '-->' , input_col.name, input_col.index, input_col.found)
