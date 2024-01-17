@@ -96,3 +96,32 @@ for i, value in enumerate(gwas_file_df_columns): # loop through the columns of t
 		if input_col.name == value: # if the column name of the params.config file is found in the gwas file
 			col[input_col_index].index = i # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
 			col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
+
+# then automatic detection
+for input_col_index, input_col in col.items(): # loop through the columns of the params.config file
+	if input_col.found == True: # if the column name of the params.config file is found in the gwas file
+		continue # skip this iteration
+	for i, value in enumerate(gwas_file_df_columns): # loop through the columns of the gwas file
+		if input_col.regex is not None and input_col.name == 'NA' and re.match(input_col.regex, value, re.IGNORECASE): # if the column name ish of the params.config file is found in the gwas file
+			col[input_col_index].name = value # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
+			col[input_col_index].index = i # set the value of the corresponding variable of the params.config file to the column index number of the gwas file
+			col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
+			
+for input_col_index, input_col in col.items():
+	print(input_col_index , '-->' , input_col.name, input_col.index, input_col.found)
+
+
+
+
+
+##### Run GRCh38 ##### this will be placed after the identification of the columns
+# if GRCh38=='1': # if GRCh38 is selected
+# 	if chrcol is None or poscol is None or eacol is None or neacol is None:
+# 		sys.exit("You selected GRCh38 but did not specify chromosome, position, effect allele, or non effect allele")
+# 	if chrcol is not None and poscol is not None and eacol is not None and neacol is not None:
+# 		command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcol+" "+poscol+" "+eacol+" "+neacol+" "+filedir+" "+rsIDcol
+# 		Rsuc=os.system(command)
+# 		chrcol = "NA"
+# 		poscol = "NA"
+# 		rsIDcol = "RSID"
+# 		bh.grcg38_errors(Rsuc)
