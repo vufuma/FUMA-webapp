@@ -16,6 +16,12 @@ def DetectDelim(header):
 	dialect = sniffer.sniff(header)
 	return dialect.delimiter
 
+def get_header_of_file(file, comment_char="#"):
+	with open(file, 'r') as f:
+		for line in f:
+			if not line.startswith(comment_char):
+				return line
+
 # this function is used to check if a variable is a float
 def is_float(s):
     return isinstance(s, float)

@@ -53,30 +53,32 @@ N = param.get('params', 'N')
 ##### check format of pre-defined lead SNPS and genomic regions if files are provided #####
 if leadfile != "NA":
 	leadfile = filedir / "input.lead"
-	delimiter = bh.DetectDelim(open(leadfile).readline())
-	leadfile_df = pd.read_csv(leadfile, sep=delimiter)
-	leadfile_df_num_of_columns = len(leadfile_df.columns)
-	if leadfile_df_num_of_columns == 0 or leadfile_df_num_of_columns < 3:
+	header = bh.get_header_of_file(leadfile) # get the header of the lead SNPs file
+	delimiter = bh.DetectDelim(header) # detect the delimiter of the lead SNPs file
+	leadfile_df = pd.read_csv(leadfile, comment='#', sep=delimiter) # read the lead SNPs file
+	leadfile_df_num_of_columns = len(leadfile_df.columns) # get the number of columns of the lead SNPs file
+	if leadfile_df_num_of_columns == 0 or leadfile_df_num_of_columns < 3: # check if the lead SNPs file has at least 3 columns
 		sys.exit("Input lead SNPs file does not have enought columns.")
 	# TODO: add more checks regarding the format of the lead SNPs file
 
 if regionfile != "NA":
 	regionfile = filedir / "input.regions"
-	delimiter = bh.DetectDelim(open(regionfile).readline())
-	regionfile_df = pd.read_csv(regionfile, sep=delimiter)
-	regionsfile_df_num_of_columns = len(regionfile_df.columns)
-	if regionsfile_df_num_of_columns == 0 or regionsfile_df_num_of_columns < 3:
+	header = bh.get_header_of_file(regionfile) # get the header of the genomic region file
+	delimiter = bh.DetectDelim(header) # detect the delimiter of the genomic region file
+	regionfile_df = pd.read_csv(regionfile, comment='#', sep=delimiter) # read the genomic region file
+	regionsfile_df_num_of_columns = len(regionfile_df.columns) # get the number of columns of the genomic region file
+	if regionsfile_df_num_of_columns == 0 or regionsfile_df_num_of_columns < 3: # check if the genomic region file has at least 3 columns
 		sys.exit("Input genomic region file does not have enought columns.")
 	# TODO: add more checks regarding the format of the genomic region file
 
-##### Run GRCh38 #####
-if GRCh38=='1':
-	if chrcol is None or poscol is None or eacol is None or neacol is None:
-		sys.exit("You selected GRCh38 but did not specify chromosome, position, effect allele, or non effect allele")
-	if chrcol is not None and poscol is not None and eacol is not None and neacol is not None:
-		command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcol+" "+poscol+" "+eacol+" "+neacol+" "+filedir+" "+rsIDcol
-		Rsuc=os.system(command)
-		chrcol = "NA"
-		poscol = "NA"
-		rsIDcol = "RSID"
-		bh.grcg38_errors(Rsuc)
+##### Read gwas file #####
+header = bh.get_header_of_file(gwas) # get the header of the gwas file
+delimiter = bh.DetectDelim(header) # detect the delimiter of the gwas file
+gwas_file_df = pd.read_csv(gwas, comment='#', sep=delimiter) # read the gwas file
+gwas_file_df_columns = list(gwas_file_df.columns) # get the columns only of the gwas file in a list
+gwas_file_df_num_of_columns = len(gwas_file_df_columns) # get the number of columns of the gwas file
+gwas_file_df_columns = [x.upper() for x in gwas_file_df_columns] # make sure the columns are in upper case
+
+##### detect column index #####
+# user defined colum name - simply check if the column name is in the gwas file
+for i, value in enumerate(gwas_file_df_columns): # loop through the columns of the gwas file
