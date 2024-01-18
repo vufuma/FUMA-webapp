@@ -1,14 +1,7 @@
 import re
 import csv
 import sys
-from dataclasses import dataclass
-
-@dataclass
-class Column:
-	name: str
-	regex: str = None
-	index: int = None
-	found: bool = False
+from Column import Column
 
 # This function is used to detect the delimiter of a CSV file.
 # The function takes a header parameter, which is assumed to be the first row of a CSV file.
@@ -44,3 +37,15 @@ def grcg38_errors(err_code):
 	elif err_code != 0:
 		sys.exit("Something went wrong when converting GRCh38 to rsID. Please contact the developer.")
 	return err_code
+
+def only_one_allele_defined(eacol: Column, neacol: Column):
+	if neacol.found and not eacol.found:
+		eacol.name = neacol.name
+		eacol.index = neacol.index
+		eacol.found = neacol.found
+
+		neacol.name = None
+		neacol.index = None
+		neacol.found = False
+
+	return eacol, neacol
