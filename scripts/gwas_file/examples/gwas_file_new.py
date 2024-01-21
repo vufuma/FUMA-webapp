@@ -35,6 +35,7 @@ regionfile = param.get('inputfiles', 'regionsfile')
 
 gwas = filedir / cfg.get('inputfiles', 'gwas')
 outSNPs = filedir / "input.snps"
+rejected_snps = filedir / "rejected.snps"
 outMAGMA = filedir / "magma.in"
 
 # store the column names in a dictionary as col['variable_name'] = [column_name]
@@ -185,6 +186,9 @@ gwas_file_df = gwas_file_df.astype({ # convert the data types of the columns
 gwas_file_df = gwas_file_df.sort_values([col['chrcol'].hardcoded_name, col['poscol'].hardcoded_name], ascending=[True, True]) # sort the dataframe by chromosome and position in ascending order
 
 rejected_rows = tmp[~tmp.index.isin(gwas_file_df.index)] # get the actual rows that were not accepted based on the index of the non-accepted rows
+
+gwas_file_df.to_csv(outSNPs, sep='\t', index=False) # write the gwas_file_df dataframe to a file
+rejected_rows.to_csv(rejected_snps, sep='\t', index=False) # write the rejected_rows dataframe to a file
 
 print(rejected_rows)
 print(gwas_file_df)
