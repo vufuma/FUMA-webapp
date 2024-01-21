@@ -163,11 +163,11 @@ tmp = gwas_file_df.copy(deep=True) # create a copy of the gwas_file_df dataframe
 pcol = col['pcol'].index # get the index of the p-value column
 gwas_file_df.iloc[:, pcol] = gwas_file_df.iloc[:, pcol].apply(pd.to_numeric, errors='coerce') # convert the p-value column to float non-convertible values will be converted to NaN
 
-##### Drop rows with p-values that are not between 0 and 1 #####
+##### Find rows with p-values that are not between 0 and 1 and exclude them from the dataframe #####
 accepted_p_values_only = gwas_file_df[(gwas_file_df.iloc[:, pcol] > 0) & (gwas_file_df.iloc[:, pcol] <= 1)] # get the rows with p-values that are between 0 and 1, 1 is included, 0 is not included
 gwas_file_df = accepted_p_values_only # set the gwas_file_df to the accepted_p_values_only dataframe
 
-##### Delete chr and CHR strings from chrcol column, then set non-convertible float values to NaN #####
+##### Parse chromosome column <chrcol> #####
 if col['chrcol'].found:
 	chrcol = col['chrcol'].index # get the index of the chr column
 	gwas_file_df = gwas_file_df.astype({col['chrcol'].hardcoded_name: 'str'}) # convert the chrcol column to string
