@@ -157,37 +157,38 @@ for input_col in col.values():
 	if input_col.found:
 		gwas_file_df.columns.values[input_col.index] = input_col.hardcoded_name # rename the column to the hardcoded column name
 
-##### Drop rows with NA values #####
-na_free = gwas_file_df.dropna() # drop rows with NA values
-only_na = gwas_file_df[~gwas_file_df.index.isin(na_free.index)] # get rows with NA values by getting the rows that are not in the na_free dataframe
-gwas_file_df = na_free # set the gwas_file_df to the na_free dataframe
+tmp = gwas_file_df.copy(deep=True) # create a copy of the gwas_file_df dataframe, this will be used later to return the actual rows that were not accepted based on the index of the non-accepted rows
 
-##### Drop rows with p-values that are not float #####
+##### Set rows with p-values that are not float to NaN #####
 pcol = col['pcol'].index # get the index of the p-value column
-only_floats = gwas_file_df.iloc[:, pcol].apply(pd.to_numeric, errors='coerce').dropna() # get the rows with p-values that are floats
-only_nonfloats = gwas_file_df[~gwas_file_df.index.isin(only_floats.index)] # get the rows with p-values that are not floats by getting the rows that are not in the only_floats dataframe
-gwas_file_df = gwas_file_df[gwas_file_df.index.isin(only_floats.index)].astype({col['pcol'].hardcoded_name: 'float64'}) # set the gwas_file_df to the only_floats dataframe and convert the p-value column to float64
+gwas_file_df.iloc[:, pcol] = gwas_file_df.iloc[:, pcol].apply(pd.to_numeric, errors='coerce') # convert the p-value column to float non-convertible values will be converted to NaN
 
 ##### Drop rows with p-values that are not between 0 and 1 #####
 accepted_p_values_only = gwas_file_df[(gwas_file_df.iloc[:, pcol] > 0) & (gwas_file_df.iloc[:, pcol] <= 1)] # get the rows with p-values that are between 0 and 1, 1 is included, 0 is not included
-non_accepted_p_values_only = gwas_file_df[~gwas_file_df.index.isin(accepted_p_values_only.index)] # get the rows with p-values that are not between 0 and 1 by getting the rows that are not in the accepted_p_values_only dataframe
 gwas_file_df = accepted_p_values_only # set the gwas_file_df to the accepted_p_values_only dataframe
 
-##### Delete chr and CHR strings from chrcol column #####
+##### Delete chr and CHR strings from chrcol column, then set non-convertible float values to NaN #####
 if col['chrcol'].found:
 	chrcol = col['chrcol'].index # get the index of the chr column
 	gwas_file_df = gwas_file_df.astype({col['chrcol'].hardcoded_name: 'str'}) # convert the chrcol column to string
 	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].str.replace('chr', '', case = False) # replace chr/CHR with nothing
-	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].apply(pd.to_numeric, errors='coerce').dropna()
+	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].str.replace('x', '23', case = False) # replace chr/CHR with nothing
+	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].apply(pd.to_numeric, errors='coerce') # convert the chrcol column to float non-convertible values will be converted to NaN
+	gwas_file_df[(gwas_file_df.iloc[:, chrcol] < 1) | (gwas_file_df.iloc[:, chrcol] > 23)] = np.nan # set values that are not between 1 and 23 to NaN
 
+gwas_file_df = gwas_file_df.dropna() # drop all rows with NA values
+gwas_file_df = gwas_file_df.astype({ # convert the data types of the columns
+	col['pcol'].hardcoded_name: 'float64',
+	col['chrcol'].hardcoded_name: 'int64',
+	col['poscol'].hardcoded_name: 'int64',
+	})
+gwas_file_df = gwas_file_df.sort_values([col['chrcol'].hardcoded_name, col['poscol'].hardcoded_name], ascending=[True, True]) # sort the dataframe by chromosome and position in ascending order
 
+rejected_rows = tmp[~tmp.index.isin(gwas_file_df.index)] # get the actual rows that were not accepted based on the index of the non-accepted rows
 
-
-
+print(rejected_rows)
 print(gwas_file_df)
 print(gwas_file_df.dtypes)
-# print(gwas_file_df.dropna())
-
 
 
 # printing the results
