@@ -122,23 +122,74 @@ for input_col_index, input_col in col.items(): # loop through the columns of the
 				col[input_col_index].found = True # set the found variable of the corresponding variable of the params.config file to True
 
 # rename the columns that are still NA to None so that they can be ignored later, for consistency
-for input_col_index, input_col in col.items():
+for input_col in col.values():
 	if input_col.name == 'NA':
 		input_col.name = None
-	print(input_col_index , '-->' , input_col.name, input_col.index, input_col.found)
+
+# The above 3 loops (user defined detection, automatic detection, renaming) can be combined into one loop, but I think this is more readable
+
+#### allele column check #####
+# if only one allele is defined, this has to be alt (effect) allele
+col['eacol'], col['neacol'] = bh.only_one_allele_defined(col['eacol'], col['neacol'])
+
+##### Mandatory header check #####
+if not col['pcol'].found:
+    sys.exit("P-value column was not found")
+if (not col['chrcol'].found or not col['poscol'].found) and not col['rsIDcol'].found:
+    sys.exit("Chromosome or position and rsID column was not found")
+
+##### Rewrite params.config if optional headers were detected #####
+if param.get('inputfiles', 'orcol') == "NA" and col['orcol'].found:
+	param.set('inputfiles', 'orcol', 'or')
+if param.get('inputfiles', 'becol') == "NA" and col['becol'].found:
+	param.set('inputfiles', 'becol', 'beta')
+if param.get('inputfiles', 'secol') == "NA" and col['secol'].found:
+	param.set('inputfiles', 'secol', 'se')
+
+##### Uncomment this if you want to write the params.config file #####
+# paramout = open(filedir / "params.config", 'w+')
+# param.write(paramout)
+# paramout.close()
+
+##### Rename gwas file columns #####
+# if the column name is found in the gwas file, rename the column to the hardcoded column name
+for input_col in col.values():
+	if input_col.found:
+		gwas_file_df.columns.values[input_col.index] = input_col.hardcoded_name # rename the column to the hardcoded column name
+
+##### Drop rows with NA values #####
+na_free = gwas_file_df.dropna() # drop rows with NA values
+only_na = gwas_file_df[~gwas_file_df.index.isin(na_free.index)] # get rows with NA values by getting the rows that are not in the na_free dataframe
+gwas_file_df = na_free # set the gwas_file_df to the na_free dataframe
+
+##### Drop rows with p-values that are not float #####
+pcol = col['pcol'].index # get the index of the p-value column
+only_floats = gwas_file_df.iloc[:, pcol].apply(pd.to_numeric, errors='coerce').dropna() # get the rows with p-values that are floats
+only_nonfloats = gwas_file_df[~gwas_file_df.index.isin(only_floats.index)] # get the rows with p-values that are not floats by getting the rows that are not in the only_floats dataframe
+gwas_file_df = gwas_file_df[gwas_file_df.index.isin(only_floats.index)].astype({col['pcol'].hardcoded_name: 'float64'}) # set the gwas_file_df to the only_floats dataframe and convert the p-value column to float64
+
+##### Drop rows with p-values that are not between 0 and 1 #####
+accepted_p_values_only = gwas_file_df[(gwas_file_df.iloc[:, pcol] > 0) & (gwas_file_df.iloc[:, pcol] <= 1)] # get the rows with p-values that are between 0 and 1, 1 is included, 0 is not included
+non_accepted_p_values_only = gwas_file_df[~gwas_file_df.index.isin(accepted_p_values_only.index)] # get the rows with p-values that are not between 0 and 1 by getting the rows that are not in the accepted_p_values_only dataframe
+gwas_file_df = accepted_p_values_only # set the gwas_file_df to the accepted_p_values_only dataframe
+
+##### Delete chr and CHR strings from chrcol column #####
+if col['chrcol'].found:
+	chrcol = col['chrcol'].index # get the index of the chr column
+	gwas_file_df = gwas_file_df.astype({col['chrcol'].hardcoded_name: 'str'}) # convert the chrcol column to string
+	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].str.replace('chr', '', case = False) # replace chr/CHR with nothing
+	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].apply(pd.to_numeric, errors='coerce').dropna()
 
 
 
 
 
-##### Run GRCh38 ##### this will be placed after the identification of the columns
-# if GRCh38=='1': # if GRCh38 is selected
-# 	if chrcol is None or poscol is None or eacol is None or neacol is None:
-# 		sys.exit("You selected GRCh38 but did not specify chromosome, position, effect allele, or non effect allele")
-# 	if chrcol is not None and poscol is not None and eacol is not None and neacol is not None:
-# 		command = "Rscript "+os.path.dirname(os.path.realpath(__file__))+"/giversID.R "+chrcol+" "+poscol+" "+eacol+" "+neacol+" "+filedir+" "+rsIDcol
-# 		Rsuc=os.system(command)
-# 		chrcol = "NA"
-# 		poscol = "NA"
-# 		rsIDcol = "RSID"
-# 		bh.grcg38_errors(Rsuc)
+print(gwas_file_df)
+print(gwas_file_df.dtypes)
+# print(gwas_file_df.dropna())
+
+
+
+# printing the results
+# for input_col_index, input_col in col.items():
+# 	print(input_col_index , '-->' , input_col.name, input_col.index, input_col.found, input_col.regex, input_col.hardcoded_name)
