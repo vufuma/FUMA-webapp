@@ -9,8 +9,6 @@ import configparser
 import time
 from bisect import bisect_left
 import tabix
-import csv
-import subprocess
 import argparse
 from pathlib import Path
 import basic_helpers as bh
