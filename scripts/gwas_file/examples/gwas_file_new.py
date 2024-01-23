@@ -189,6 +189,11 @@ rejected_rows = tmp[~tmp.index.isin(gwas_file_df.index)] # get the actual rows t
 gwas_file_df.to_csv(outSNPs, sep='\t', index=False) # write the gwas_file_df dataframe to a file
 rejected_rows.to_csv(rejected_snps, sep='\t', index=False) # write the rejected_rows dataframe to a file
 
+# TODO: check how many snps left in the gwas_file_df, if 0, exit with error message
+if len(gwas_file_df.index) == 0:
+	sys.exit("No SNPs left after filtering. Please check your input file.")
+
+
 print(rejected_rows)
 print(gwas_file_df)
 print(gwas_file_df.dtypes)
