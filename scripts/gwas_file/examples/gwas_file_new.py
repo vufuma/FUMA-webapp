@@ -186,6 +186,22 @@ gwas_file_df = gwas_file_df.sort_values([col['chrcol'].hardcoded_name, col['posc
 
 rejected_rows = tmp[~tmp.index.isin(gwas_file_df.index)] # get the actual rows that were not accepted based on the index of the non-accepted rows
 
+
+# when all columns are provided
+# In this case, if the rsID columns is wrongly labeled, it will be problem later (not checked here)
+if col['chrcol'].found and col['poscol'].found and col['rsIDcol'].found and col['eacol'].found and col['neacol'].found:
+	pass
+
+# if both chr and pos are provided
+elif col['chrcol'].found and col['poscol'].found:
+	pass
+
+# if either chr or pos is not procided, use rsID to extract position
+elif not col['chrcol'].found or not col['poscol'].found:
+	pass
+
+
+
 gwas_file_df.to_csv(outSNPs, sep='\t', index=False) # write the gwas_file_df dataframe to a file
 rejected_rows.to_csv(rejected_snps, sep='\t', index=False) # write the rejected_rows dataframe to a file
 
