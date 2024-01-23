@@ -177,6 +177,12 @@ if col['chrcol'].found:
 
 gwas_file_df = gwas_file_df.dropna() # drop all rows with NA values
 gwas_file_df = gwas_file_df.astype({ # convert the data types of the columns
+##### Turn columns to uppercase #####
+# This sgould be placed adter the dropna because you don't want to convert nan to uppercase, if that happened, the new string uppercase nans would not be dropped
+if col['eacol'].found: 
+	gwas_file_df = bh.turn_column_to_uppercase(gwas_file_df, col['eacol'])
+if col['neacol'].found:
+	gwas_file_df = bh.turn_column_to_uppercase(gwas_file_df, col['neacol'])
 	col['pcol'].hardcoded_name: 'float64',
 	col['chrcol'].hardcoded_name: 'int64',
 	col['poscol'].hardcoded_name: 'int64',

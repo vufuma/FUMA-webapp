@@ -1,6 +1,8 @@
 import re
 import csv
 import sys
+import pandas as pd
+import numpy as np
 from Column import Column
 
 # This function is used to detect the delimiter of a CSV file.
@@ -49,3 +51,9 @@ def only_one_allele_defined(eacol: Column, neacol: Column):
 		neacol.found = False
 
 	return eacol, neacol
+
+def turn_column_to_uppercase(df, col):
+	index = col.index # get the index of the column
+	df = df.astype({col.hardcoded_name: 'str'}) # convert the column to string
+	df.iloc[:, index] = df.iloc[:, index].str.upper() # convert the column to uppercase
+	return df
