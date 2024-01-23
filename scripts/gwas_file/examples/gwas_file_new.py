@@ -168,12 +168,7 @@ gwas_file_df = accepted_p_values_only # set the gwas_file_df to the accepted_p_v
 
 ##### Parse chromosome column <chrcol> #####
 if col['chrcol'].found:
-	chrcol = col['chrcol'].index # get the index of the chr column
-	gwas_file_df = gwas_file_df.astype({col['chrcol'].hardcoded_name: 'str'}) # convert the chrcol column to string
-	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].str.replace('chr', '', case = False) # replace chr/CHR with nothing
-	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].str.replace('x', '23', case = False) # replace chr/CHR with nothing
-	gwas_file_df.iloc[:, chrcol] = gwas_file_df.iloc[:, chrcol].apply(pd.to_numeric, errors='coerce') # convert the chrcol column to float non-convertible values will be converted to NaN
-	gwas_file_df[(gwas_file_df.iloc[:, chrcol] < 1) | (gwas_file_df.iloc[:, chrcol] > 23)] = np.nan # set values that are not between 1 and 23 to NaN
+	gwas_file_df = bh.parse_chrcol(gwas_file_df, col['chrcol'])
 
 gwas_file_df = gwas_file_df.dropna() # drop all rows with NA values
 gwas_file_df = gwas_file_df.astype({ # convert the data types of the columns

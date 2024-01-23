@@ -57,3 +57,12 @@ def turn_column_to_uppercase(df, col):
 	df = df.astype({col.hardcoded_name: 'str'}) # convert the column to string
 	df.iloc[:, index] = df.iloc[:, index].str.upper() # convert the column to uppercase
 	return df
+
+def parse_chrcol(df, chrcol):
+	index = chrcol.index # get the index of the chr column
+	df = df.astype({chrcol.hardcoded_name: 'str'}) # convert the chrcol column to string
+	df.iloc[:, index] = df.iloc[:, index].str.replace('chr', '', case = False) # replace chr/CHR with nothing
+	df.iloc[:, index] = df.iloc[:, index].str.replace('x', '23', case = False) # replace x/X with 23
+	df.iloc[:, index] = df.iloc[:, index].apply(pd.to_numeric, errors='coerce') # convert the chrcol column to float non-convertible values will be converted to NaN
+	df[(df.iloc[:, index] < 1) | (df.iloc[:, index] > 23)] = np.nan # set values that are not between 1 and 23 to NaN
+	return df
