@@ -158,13 +158,11 @@ for input_col in col.values():
 
 tmp = gwas_file_df.copy(deep=True) # create a copy of the gwas_file_df dataframe, this will be used later to return the actual rows that were not accepted based on the index of the non-accepted rows
 
-##### Set rows with p-values that are not float to NaN #####
+##### Set rows with p-values that are not float to NaN and exclude the rows with p-values that are not between 0 and 1 #####
+# TODO: make it function
 pcol = col['pcol'].index # get the index of the p-value column
 gwas_file_df.iloc[:, pcol] = gwas_file_df.iloc[:, pcol].apply(pd.to_numeric, errors='coerce') # convert the p-value column to float non-convertible values will be converted to NaN
-
-##### Find rows with p-values that are not between 0 and 1 and exclude them from the dataframe #####
-accepted_p_values_only = gwas_file_df[(gwas_file_df.iloc[:, pcol] > 0) & (gwas_file_df.iloc[:, pcol] <= 1)] # get the rows with p-values that are between 0 and 1, 1 is included, 0 is not included
-gwas_file_df = accepted_p_values_only # set the gwas_file_df to the accepted_p_values_only dataframe
+gwas_file_df = gwas_file_df[(gwas_file_df.iloc[:, pcol] > 0) & (gwas_file_df.iloc[:, pcol] <= 1)] # get the rows with p-values that are between 0 and 1, 1 is included, 0 is not included
 
 ##### Parse chromosome column <chrcol> #####
 if col['chrcol'].found:
@@ -221,5 +219,5 @@ print(gwas_file_df.dtypes)
 
 
 # printing the results
-# for input_col_index, input_col in col.items():
-# 	print(input_col_index , '-->' , input_col.name, input_col.index, input_col.found, input_col.regex, input_col.hardcoded_name)
+for input_col_index, input_col in col.items():
+	print(input_col_index , '-->' , input_col.name, input_col.index, input_col.found, input_col.regex, input_col.hardcoded_name)
