@@ -171,17 +171,22 @@ if col['chrcol'].found:
 	gwas_file_df = bh.parse_chrcol(gwas_file_df, col['chrcol'])
 
 gwas_file_df = gwas_file_df.dropna() # drop all rows with NA values
-gwas_file_df = gwas_file_df.astype({ # convert the data types of the columns
+
 ##### Turn columns to uppercase #####
 # This sgould be placed adter the dropna because you don't want to convert nan to uppercase, if that happened, the new string uppercase nans would not be dropped
 if col['eacol'].found: 
 	gwas_file_df = bh.turn_column_to_uppercase(gwas_file_df, col['eacol'])
 if col['neacol'].found:
 	gwas_file_df = bh.turn_column_to_uppercase(gwas_file_df, col['neacol'])
+
+##### Convert columns to specific data types #####
+gwas_file_df = gwas_file_df.astype({
+	# TODO: make this dynamic, only convert the columns that are found to specific data types 
 	col['pcol'].hardcoded_name: 'float64',
 	col['chrcol'].hardcoded_name: 'int64',
 	col['poscol'].hardcoded_name: 'int64',
 	})
+
 gwas_file_df = gwas_file_df.sort_values([col['chrcol'].hardcoded_name, col['poscol'].hardcoded_name], ascending=[True, True]) # sort the dataframe by chromosome and position in ascending order
 
 rejected_rows = tmp[~tmp.index.isin(gwas_file_df.index)] # get the actual rows that were not accepted based on the index of the non-accepted rows
