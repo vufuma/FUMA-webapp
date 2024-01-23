@@ -5,7 +5,10 @@
 conda env create -f conda_environment.yml
 ```
 
-2. Execute `fuma_new_tmp.sql` queries in mysql.
+2. Execute `fuma_new_tmp.sql` queries in mysql. For example run:
+```
+mysql -h 127.0.0.1  -u root -p < fuma_new_tmp.sql
+```
 
 3. Comment in/out as follows:
 ```
