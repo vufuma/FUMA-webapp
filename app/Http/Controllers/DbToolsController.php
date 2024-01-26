@@ -10,4 +10,9 @@ class DbToolsController extends Controller
     {
         return view('admin.dbtools.dbtools');
     }
+
+    public function syncDbStorage()
+    {
+        return view('admin.dbtools.syncdbstorage');
+    }
 }

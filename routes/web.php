@@ -118,7 +118,7 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
 
         Route::prefix('db-tools')->group(function () {
             Route::get('/', [DbToolsController::class, 'index']);
-
+            Route::get('/sync-db-storage', [DbToolsController::class, 'syncDbStorage']);
         });
 
         Route::get('/', [AdminController::class, 'index']);
