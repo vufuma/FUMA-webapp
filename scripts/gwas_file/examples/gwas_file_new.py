@@ -193,10 +193,21 @@ rejected_rows = tmp[~tmp.index.isin(gwas_file_df.index)] # get the actual rows t
 # when all columns are provided
 # In this case, if the rsID columns is wrongly labeled, it will be problem later (not checked here)
 if col['chrcol'].found and col['poscol'].found and col['rsIDcol'].found and col['eacol'].found and col['neacol'].found:
+	# There is nothing else to do here, go to the end (writing files and final checks)
 	pass
 
 # if both chr and pos are provided
 elif col['chrcol'].found and col['poscol'].found:
+	##### init variables #####
+	##### read input.gwas line by line #####
+		# do many things here and prepare the variables that will be passed to tabix
+		# for each line in the input.gwas file calculate things and construct the variables that will be passed to tabix
+	
+
+		# Do some checks and if they satisfy the conditions, call tabix
+		# Tabix(cur_chr, minpos, maxpos, temp)
+	
+	# There is nothing else to do here, go to the end (writing files and final checks)
 	pass
 
 # if either chr or pos is not procided, use rsID to extract position
