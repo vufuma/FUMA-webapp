@@ -52,8 +52,8 @@ class DockerFactory
      */
     public function dispatchCommand(
         string $socketPath,
-        string $requestType = 'GET',
         string $endpoint,
+        string $requestType = 'GET',
         string $queryParameters = null,
         array $bodyParameters = null
     ): array {
@@ -134,8 +134,8 @@ class DockerFactory
 
         $resposne = $obj->dispatchCommand(
             $socketPath,
-            $requestType,
             '/containers/create',
+            $requestType,
             http_build_query($queryParameters),
             $bodyParameters
         );
@@ -171,8 +171,8 @@ class DockerFactory
         if (!is_null($obj->Id)) {
             $resposne = $obj->dispatchCommand(
                 $socketPath,
-                $requestType,
-                '/containers/' . $obj->Id . '/kill'
+                '/containers/' . $obj->Id . '/kill',
+                $requestType
             );
 
             if (isset($resposne['message'])) {
@@ -200,8 +200,8 @@ class DockerFactory
         if (!is_null($obj->Id)) {
             $resposne = $obj->dispatchCommand(
                 $socketPath,
-                $requestType,
-                '/containers/' . $obj->Id . '/start'
+                '/containers/' . $obj->Id . '/start',
+                $requestType
             );
 
             if (isset($resposne['message'])) {
@@ -229,8 +229,8 @@ class DockerFactory
         if (!is_null($obj->Id)) {
             $resposne = $obj->dispatchCommand(
                 $socketPath,
-                $requestType,
-                '/containers/' . $obj->Id . '/pause'
+                '/containers/' . $obj->Id . '/pause',
+                $requestType
             );
 
             if (isset($resposne['message'])) {
@@ -258,8 +258,8 @@ class DockerFactory
         if (!is_null($obj->Id)) {
             $resposne = $obj->dispatchCommand(
                 $socketPath,
-                $requestType,
-                '/containers/' . $obj->Id . '/unpause'
+                '/containers/' . $obj->Id . '/unpause',
+                $requestType
             );
 
             if (isset($resposne['message'])) {
@@ -295,8 +295,8 @@ class DockerFactory
 
             $resposne = $obj->dispatchCommand(
                 $socketPath,
-                $requestType,
                 '/containers/' . $obj->Id,
+                $requestType,
                 http_build_query($queryParameters),
             );
 
