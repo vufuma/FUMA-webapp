@@ -8,6 +8,7 @@ use App\Mail\JobCompletedSuccessfully;
 use App\Mail\JobFailedWithErrorCode;
 use Mail;
 
+use App\CustomClasses\DockerApi\DockerFactory;
 
 class JobHelper
 {
@@ -51,5 +52,61 @@ class JobHelper
     {
         // Clean up some files if nessesary
         return;
+    }
+
+    public static function kill_docker_containers_based_on_jobID($jobID)
+    {
+        $client = new DockerFactory();
+        $parameters = array(
+            'label' => array(
+                'com.docker.compose.project=laradock-fuma',
+            ),
+            'name' => array(
+                'job-' . $jobID . '-',
+            ),
+        );
+        $parameters = 'filters=' . json_encode($parameters);
+        $dockerContainers = $client->dispatchCommand('/var/run/docker.sock', '/containers/json', 'GET', $parameters);
+
+        $containers = array();
+        foreach ($dockerContainers as $container) {
+            array_push($containers, array(
+                'name' => implode(', ', $container['Names']),
+                'status' => $container['Status'],
+                'service_name' => $container['Labels']['com.docker.compose.service'],
+                'state' => $container['State'],
+            ));
+        }
+
+        foreach ($containers as $container) {
+            $client = new DockerFactory();
+
+            $container_name = substr($container['name'], 1); // remove the first character of the container name which is '/'
+
+            $dockerContainerRequest = $client->kill($container_name); //kill the container
+
+            if ($dockerContainerRequest->getCurlError()) {
+                // there was an error with the curl request
+                // print the curl error message and curl error code 
+                $err = 'Curl Error: ' . $dockerContainerRequest->getCurlError() . '   Http Response Code: ' . $dockerContainerRequest->getHttpResponseCode();
+                echo $err . "\n";
+                return false;
+            }
+            if ($dockerContainerRequest->getHttpResponseCode() == "204") {
+                // the container was deleted successfully
+                // there in no message from docker api
+                // print the http response code $dockerContainerRequest->getHttpResponseCode()
+                echo "The container: " . $container_name . " has been killed successfully.\n";
+                return true;
+            } else {
+                // there is a message from the docker api
+                // print the message $dockerContainerRequest->getMessage()
+                // print the http response code $dockerContainerRequest->getHttpResponseCode()
+                $err = 'Message: ' . $dockerContainerRequest->getMessage() . '   Http Response Code: ' . $dockerContainerRequest->getHttpResponseCode();
+                echo $err . "\n";
+                return false;
+            }
+        }
+        return true;
     }
 }
