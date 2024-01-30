@@ -30,7 +30,8 @@ $(document).ready(function () {
 	$('#deleteJob').on('click', function () {
 		swal({
 			title: "Are you sure?",
-			text: "Do you really want to remove selected jobs?",
+			html: true,
+			text: "Do you really want to remove selected jobs?<br/><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>",
 			type: "warning",
 			showCancelButton: true,
 			closeOnConfirm: true,
