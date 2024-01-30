@@ -1,23 +1,13 @@
-FROM python:2
+FROM python:3
 
 WORKDIR /app
 
-COPY getld/requirements.txt ./
+COPY allsnps/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-
-ARG ANNOVAR_DOWNLOAD_LINK
-
-RUN apt-get update && apt-get install -y --no-install-recommends gzip curl \
-    && curl ${ANNOVAR_DOWNLOAD_LINK} -o annovar.latest.tar.gz \
-    && tar -xf annovar.latest.tar.gz -C /usr/local/share \
-    && rm annovar.latest.tar.gz \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y tabix && rm -rf /var/lib/apt/lists/*
 
 COPY app.config ./
-COPY getLD.py ./
-COPY annovar.py ./
-COPY annov_geneSNPs.pl ./
-COPY getTopSNPs.py ./
+COPY allsnps/allSNPs.py ./
 
 # Configure non-root user.
 ARG USERNAME

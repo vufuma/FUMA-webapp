@@ -1,15 +1,11 @@
-FROM r-base:4.2.3
+FROM python:2
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+COPY dt/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc'))"
-
-COPY app.config ./
-COPY ConfigParser.R ./
-COPY gene2func.R ./
+COPY dt/dt.py ./
 
 # Configure non-root user.
 ARG USERNAME

@@ -1,14 +1,19 @@
 FROM python:2
 
-# Set default work directory
 WORKDIR /app
 
-COPY gwas_file/requirements.txt ./
+COPY geteqtl/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.config ./
-COPY gwas_file.py ./
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
+    && rm -rf /var/lib/apt/lists/*
+    
 
+RUN Rscript -e "install.packages('data.table')"
+
+COPY app.config ./
+COPY geteqtl/geteQTL.py/ ./
+COPY geteqtl/align_eqtl.R/ ./
 
 # Configure non-root user.
 ARG USERNAME

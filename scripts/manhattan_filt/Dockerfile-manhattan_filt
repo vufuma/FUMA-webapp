@@ -2,11 +2,11 @@ FROM python:2
 
 WORKDIR /app
 
-COPY celltype_plot_data/requirements.txt ./
+COPY manhattan_filt/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY celltype_stepPlotData.py ./
-COPY celltype_perDatasetPlotData.py ./
+COPY app.config ./
+COPY manhattan_filt/manhattan_filt.py ./
 
 # Configure non-root user.
 ARG USERNAME

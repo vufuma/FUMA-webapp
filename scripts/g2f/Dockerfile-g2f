@@ -1,19 +1,15 @@
 FROM python:2
 
+# Set default work directory
 WORKDIR /app
 
-COPY geteqtl/requirements.txt ./
+COPY g2f/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
-    && rm -rf /var/lib/apt/lists/*
-    
-
-RUN Rscript -e "install.packages('data.table')"
-
 COPY app.config ./
-COPY geteQTL.py/ ./
-COPY align_eqtl.R/ ./
+COPY g2f/g2f_DEGPlot.py ./
+COPY g2f/g2f_expPlot.py ./
+COPY g2f/GeneSet.py ./
 
 # Configure non-root user.
 ARG USERNAME

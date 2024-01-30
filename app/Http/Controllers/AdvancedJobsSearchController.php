@@ -88,7 +88,7 @@ class AdvancedJobsSearchController extends Controller
                         ),
                     );
                     $parameters = 'filters=' . json_encode($parameters);
-                    $dockerContainers = $client->dispatchCommand('/var/run/docker.sock', 'GET', '/containers/json', $parameters);
+                    $dockerContainers = $client->dispatchCommand('/var/run/docker.sock', '/containers/json', 'GET', $parameters);
 
                     $tmp = array();
                     foreach ($dockerContainers as $container) {

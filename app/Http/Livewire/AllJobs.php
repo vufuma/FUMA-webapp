@@ -66,7 +66,7 @@ class AllJobs extends Component
                     ),
                 );
                 $parameters = 'filters=' . json_encode($parameters);
-                $dockerContainers = $client->dispatchCommand('/var/run/docker.sock', 'GET', '/containers/json', $parameters);
+                $dockerContainers = $client->dispatchCommand('/var/run/docker.sock', '/containers/json', 'GET', $parameters);
 
                 $tmp['containers'] = array();
 

@@ -1,12 +1,23 @@
-FROM python:3
+FROM python:2
 
 WORKDIR /app
 
-COPY get_gwas_catalog/requirements.txt ./
+COPY getld/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+ARG ANNOVAR_DOWNLOAD_LINK
+
+RUN apt-get update && apt-get install -y --no-install-recommends gzip curl \
+    && curl ${ANNOVAR_DOWNLOAD_LINK} -o annovar.latest.tar.gz \
+    && tar -xf annovar.latest.tar.gz -C /usr/local/share \
+    && rm annovar.latest.tar.gz \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY app.config ./
-COPY getGWAScatalog.py ./
+COPY getld/getLD.py ./
+COPY getld/annovar.py ./
+COPY getld/annov_geneSNPs.pl ./
+COPY getld/getTopSNPs.py ./
 
 # Configure non-root user.
 ARG USERNAME

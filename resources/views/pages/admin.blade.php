@@ -16,6 +16,7 @@
             <li><a href="/admin/search-jobs">Search Jobs</a></li>
             <li><a href="/admin/analysis">Analysis</a></li>
             <li><a href="/admin/updates">Updates</a></li>
+            <li><a href="/admin/db-tools">DB tools</a></li>
         </ul>
     </div>
 @endsection

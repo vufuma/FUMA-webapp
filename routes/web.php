@@ -13,6 +13,7 @@ use App\Http\Controllers\AdvancedJobsSearchController;
 use App\Http\Controllers\RolesPermissions\UserController;
 use App\Http\Controllers\RolesPermissions\PermissionController;
 use App\Http\Controllers\RolesPermissions\RoleController;
+use App\Http\Controllers\DbToolsController;
 
 
 /*
@@ -114,6 +115,11 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
         Route::resources([
             'updates' => UpdateController::class,
         ]);
+
+        Route::prefix('db-tools')->group(function () {
+            Route::get('/', [DbToolsController::class, 'index']);
+            Route::get('/sync-db-storage', [DbToolsController::class, 'syncDbStorage']);
+        });
 
         Route::get('/', [AdminController::class, 'index']);
     });

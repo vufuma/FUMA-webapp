@@ -1,16 +1,12 @@
-FROM r-base:4.2.3
+FROM python:2
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends libcurl4-openssl-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'BiocManager'))"
-RUN Rscript -e "BiocManager::install('GenomicRanges')"
+COPY qqsnps_filt/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.config ./
-COPY ConfigParser.R ./
-COPY geneMap.R ./
+COPY qqsnps_filt/QQSNPs_filt.py ./
 
 # Configure non-root user.
 ARG USERNAME

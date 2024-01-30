@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\TimeoutExceededException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Process;
 use App\Models\SubmitJob;
 use JobHelper;
 
@@ -20,13 +21,15 @@ class Snp2geneProcess implements ShouldQueue
 
     protected $user;
     protected $jobID;
+    protected $logfile;
+    protected $errorfile;
 
     /**
      * The number of seconds the job can run before timing out.
      *
      * @var int
      */
-    public $timeout = 3600;
+    public $timeout = 28800; // 8 hours
 
     /**
      * Create a new job instance.
@@ -78,6 +81,9 @@ class Snp2geneProcess implements ShouldQueue
         if ($job_type === 'snp2gene') {
             if (!$this->gwas_file()) {
                 // error handling
+                // fail the job properly
+                // $this->fail($exception); ??
+                // $this->fail('Something went wrong.'); ??
                 return;
             }
 
@@ -179,7 +185,7 @@ class Snp2geneProcess implements ShouldQueue
         return;
     }
 
-    public function gwas_file()
+    private function gwas_file()
     {
         $jobID = $this->jobID;
         Storage::put($this->logfile, "----- gwas_file.py -----\n");
@@ -193,7 +199,8 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
-        exec($cmd, $output, $error);
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -224,7 +231,9 @@ class Snp2geneProcess implements ShouldQueue
 
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -251,10 +260,12 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'magma');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $new_cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python magma.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python magma.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
-        Storage::append($this->logfile, $new_cmd . "\n");
-        exec($new_cmd, $output, $error);
+        Storage::append($this->logfile, $cmd . "\n");
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             $errorout = Storage::get($this->errorfile);
@@ -291,7 +302,10 @@ class Snp2geneProcess implements ShouldQueue
         $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python manhattan_filt.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
+
         if ($error) {
             JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 5);
@@ -313,7 +327,9 @@ class Snp2geneProcess implements ShouldQueue
         $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python QQSNPs_filt.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -336,7 +352,9 @@ class Snp2geneProcess implements ShouldQueue
         $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getLD.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             $NoCandidates = false;
@@ -356,7 +374,9 @@ class Snp2geneProcess implements ShouldQueue
                 $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getTopSNPs.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
                 Storage::append($this->logfile, "Command to be executed:");
                 Storage::append($this->logfile, $cmd . "\n");
-                exec($cmd, $output, $error);
+
+                $process = Process::forever()->run($cmd);
+                $error = $process->exitCode();
 
                 JobHelper::rmFiles($this->filedir);
                 JobHelper::JobTerminationHandling($jobID, 7);
@@ -378,11 +398,13 @@ class Snp2geneProcess implements ShouldQueue
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'snpannot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
-        
+
         $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript SNPannot.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -405,7 +427,9 @@ class Snp2geneProcess implements ShouldQueue
         $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getGWAScatalog.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -424,11 +448,13 @@ class Snp2geneProcess implements ShouldQueue
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'geteqtl');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
-        
+
         $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python geteQTL.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -451,7 +477,9 @@ class Snp2geneProcess implements ShouldQueue
         $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript getCI.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -479,7 +507,9 @@ class Snp2geneProcess implements ShouldQueue
         $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript geneMap.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -502,7 +532,9 @@ class Snp2geneProcess implements ShouldQueue
         $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python createCircosPlot.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
-        exec($cmd, $output, $error);
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -519,6 +551,8 @@ class Snp2geneProcess implements ShouldQueue
 
     public function failed($exception): void
     {
+        JobHelper::kill_docker_containers_based_on_jobID($this->jobID);
+        
         if ($exception instanceof TimeoutExceededException) {
             JobHelper::JobTerminationHandling($this->jobID, 17);
         } else {

@@ -2,10 +2,9 @@
 import sys
 import os
 import re
-import gzip
 import pandas as pd
 import numpy as np
-import ConfigParser
+import configparser
 import time
 from bisect import bisect_left
 import tabix
@@ -24,7 +23,7 @@ def ArrayNotIn(a1, a2):
 ##### detect file delimiter from the header #####
 def DetectDelim(header):
 	if re.match(r'.*\s\s.*', header) is not None:
-		return '\s+'
+		return r'\s+'
 	sniffer = csv.Sniffer()
 	dialect = sniffer.sniff(header)
 	return dialect.delimiter
@@ -46,14 +45,14 @@ start = time.time()
 
 ##### add '/' to the filedir #####
 filedir = sys.argv[1]
-if re.match(".+\/$", filedir) is None:
+if re.match(r".+/$", filedir) is None:
 	filedir += '/'
 
 ##### config variables #####
-cfg = ConfigParser.ConfigParser()
+cfg = configparser.ConfigParser()
 cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
-param = ConfigParser.RawConfigParser()
+param = configparser.RawConfigParser()
 param.optionxform = str
 param.read(filedir+'params.config')
 
@@ -412,10 +411,10 @@ elif chrcol is not None and poscol is not None:
 			temp = tb.querys(str(chrom)+":"+str(start)+"-"+str(end))
 			for l in temp:
 				if int(l[1]) in poss:
-				    j = bisect_left(pos, int(l[1]))
-				    if snps[j,pcol] is None:
+					j = bisect_left(pos, int(l[1]))
+					if snps[j,pcol] is None:
 						continue
-				    if eacol is not None:
+					if eacol is not None:
 						if snps[j,eacol].upper()==l[3] or snps[j,eacol].upper()==l[4]:
 							a = "NA"
 							if snps[j,eacol]==l[3]:
@@ -435,7 +434,7 @@ elif chrcol is not None and poscol is not None:
 							if Ncol is not None:
 								out.write("\t"+snps[j,Ncol])
 							out.write("\n")
-				    else:
+					else:
 						if rsIDcol is None:
 							out.write("\t".join([l[0],l[1], l[3], l[4], l[2], snps[j,pcol]]))
 						else:
@@ -491,7 +490,7 @@ elif chrcol is not None and poscol is not None:
 	gwasIn.readline()
 	for l in gwasIn:
 		if re.match("^#", l):
-		    next
+			next
 		l = l.replace("nan", "")
 		l = l.strip('\n').split(' ')
 		if len(l) < nheader:
@@ -504,7 +503,7 @@ elif chrcol is not None and poscol is not None:
 			continue
 		l[chrcol] = l[chrcol].replace("chr", "").replace("CHR", "")
 		if re.match(r"x", l[chrcol], re.IGNORECASE):
-		    l[chrcol] = '23'
+			l[chrcol] = '23'
 		if not l[chrcol].isdigit():
 			continue
 		if int(l[chrcol]) not in range(1,24):
@@ -513,12 +512,12 @@ elif chrcol is not None and poscol is not None:
 		#     l[pcol] = str(1e-308)
 
 		if int(float(l[chrcol])) == cur_chr:
-		    if minpos==0:
-		        minpos = int(float(l[poscol]))
-		    if int(float(l[poscol]))-minpos<=1000000:
-		        maxpos = int(float(l[poscol]))
-		        temp.append(l)
-		    else:
+			if minpos==0:
+				minpos = int(float(l[poscol]))
+			if int(float(l[poscol]))-minpos<=1000000:
+				maxpos = int(float(l[poscol]))
+				temp.append(l)
+			else:
 				if str(cur_chr) in [str(x) for x in range(1,24)]:
 					Tabix(cur_chr, minpos, maxpos, temp)
 				minpos = int(float(l[poscol]))
@@ -538,7 +537,7 @@ elif chrcol is not None and poscol is not None:
 		Tabix(cur_chr, minpos, maxpos, temp)
 # if either chr or pos is not procided, use rsID to extract position
 elif chrcol is None or poscol is None:
-	print "Either chr or pos is not provided"
+	print("Either chr or pos is not provided")
 	##### read input file #####
 	gwas = pd.read_csv(gwas, comment="#", sep=delim, dtype=str)
 	gwas = gwas.as_matrix()
@@ -577,7 +576,7 @@ elif chrcol is None or poscol is None:
 
 	##### process per chromosome #####
 	for chrom in range(1,24):
-		print "start chr"+str(chrom)
+		print("start chr"+str(chrom))
 		for chunk in pd.read_csv(dbSNPfile+"/dbSNP146.chr"+str(chrom)+".vcf.gz", header=None, sep="\t", dtype=str, chunksize=10000):
 			chunk = np.array(chunk)
 			for l in chunk:
@@ -649,4 +648,4 @@ if wc < 2:
 	sys.exit("There was no SNPs remained after formatting the input summary statistics.")
 
 ##### total time #####
-print time.time()-start
+print(time.time()-start)
