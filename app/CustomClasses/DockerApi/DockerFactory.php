@@ -10,6 +10,9 @@ class DockerFactory
     /** @param string */
     private $socketPath;
 
+    /** @param string */
+    private $requestType;
+
     /** @param string|null */
     private $curlError = null;
 
