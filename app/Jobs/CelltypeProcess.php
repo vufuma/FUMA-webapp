@@ -73,8 +73,7 @@ class CelltypeProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error != 0) {
             JobHelper::rmFiles($filedir);

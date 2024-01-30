@@ -200,8 +200,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -234,8 +233,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -267,8 +265,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             $errorout = Storage::get($this->errorfile);
@@ -307,8 +304,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -333,8 +329,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -359,8 +354,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             $NoCandidates = false;
@@ -382,8 +376,7 @@ class Snp2geneProcess implements ShouldQueue
                 Storage::append($this->logfile, $cmd . "\n");
 
                 $process = Process::run($cmd);
-                $output = $process->output();
-                $error = $process->errorOutput();
+                $error = $process->exitCode();
 
                 JobHelper::rmFiles($this->filedir);
                 JobHelper::JobTerminationHandling($jobID, 7);
@@ -411,8 +404,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -437,8 +429,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -463,8 +454,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -489,8 +479,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -520,8 +509,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
@@ -546,8 +534,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd . "\n");
 
         $process = Process::run($cmd);
-        $output = $process->output();
-        $error = $process->errorOutput();
+        $error = $process->exitCode();
 
         if ($error) {
             JobHelper::rmFiles($this->filedir);
