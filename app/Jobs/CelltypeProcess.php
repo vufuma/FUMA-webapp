@@ -72,7 +72,7 @@ class CelltypeProcess implements ShouldQueue
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
-        $process = Process::run($cmd);
+        $process = Process::forever()->run($cmd);
         $error = $process->exitCode();
 
         if ($error != 0) {
