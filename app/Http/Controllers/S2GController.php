@@ -50,7 +50,7 @@ class S2GController extends Controller
     {
         $user_id = Auth::user()->id;
         $results = (new SubmitJob)->getJobList_snp2gene_and_geneMap_only($user_id);
-        $this->queueNewJobs(); // TODO: move this to a cron job
+        // $this->queueNewJobs(); // TODO: move this to a cron job
         return response()->json($results);
     }
 
