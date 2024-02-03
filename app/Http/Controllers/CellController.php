@@ -91,8 +91,6 @@ class CellController extends Controller
             $queries = array();
         }
 
-        $this->queueNewJobs();
-
         return response()->json($queries);
     }
 
@@ -192,6 +190,8 @@ class CellController extends Controller
         Storage::append($paramfile, "adjPmeth=$adjPmeth");
         Storage::append($paramfile, "step2=$step2");
         Storage::append($paramfile, "step3=$step3");
+
+        $this->queueNewJobs();
 
         return redirect("/celltype#joblist");
     }
