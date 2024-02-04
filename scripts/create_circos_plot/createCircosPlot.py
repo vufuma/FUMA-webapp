@@ -182,7 +182,7 @@ def main():
 		ci = np.c_[ci[:,0], chr1, pos1min, pos1max, chr2, pos2min, pos2max]
 		ci = np.array(ci, dtype=str)
 		if len(ci)>1:
-			ci = np.vstack({tuple(row) for row in ci})
+			ci = np.vstack([tuple(row) for row in ci])
 		### take top 100000 links per chromosome
 		ci_chrom = unique(ci[:,1])
 		ci_tmp = []
@@ -222,7 +222,7 @@ def main():
 		for c in e_chrom:
 			tmp = eqtl[eqtl[:,2]==c]
 			tmp = tmp[tmp[:,1].astype(float).argsort()][:,[0,2,3]]
-			tmp = np.vstack({tuple(row) for row in tmp})
+			tmp = np.vstack([tuple(row) for row in tmp])
 			if len(tmp)>10000:
 				tmp = tmp[0:10000]
 			if len(eqtl_tmp)==0:

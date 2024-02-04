@@ -112,7 +112,7 @@ function GWplot(data) {
 
 			if (value == null || value.length == 0) {
 				$("#geneManhattan").html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' ERROR:002 MAGMA was not able to perform.</span><br/></div>');
+					+ ' MAGMA was not able to perform.</span><br/></div>');
 			} else {
 				var chromSize = [];
 				for (var i = 0; i < 23; i++) { chromSize.push(0) }
@@ -306,7 +306,7 @@ function QQplot(data) {
 		} else if (key == 'magma.genes.out') {
 			if (value == null || value.length == 0) {
 				$("#geneQQplot").html('<div style="text-align:center; padding-top:24px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' ERROR:002 MAGMA was not able to perform.</span><br/></div>');
+					+ ' MAGMA was not able to perform.</span><br/></div>');
 			} else {
 
 				let obs = [];
