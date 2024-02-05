@@ -136,7 +136,8 @@ $(document).ready(function () {
 				if (data == "OK") {
 					loadResults();
 				} else if (data == "ERROR:005") {
-					error5();
+					loadResults();
+					// error5(); // TODO: error5 function has to be implemented better
 				}
 			}
 		});
