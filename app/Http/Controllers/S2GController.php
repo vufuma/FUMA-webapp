@@ -37,13 +37,13 @@ class S2GController extends Controller
 
     public function authcheck($jobID)
     {
-        $check = SubmitJob::find($jobID);
+        $job = SubmitJob::find($jobID);
 
-        if ($check->jobID == $jobID) {
+        if ($job != null && $job->user->id == Auth::user()->id) {
             return view('pages.snp2gene', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'snp2gene', 'prefix' => 'jobs']);
-        } else {
-            return view('pages.snp2gene', ['id' => null, 'status' => null, 'page' => 'snp2gene', 'prefix' => 'jobs']);
         }
+
+        return view('pages.snp2gene', ['id' => null, 'status' => null, 'page' => 'snp2gene', 'prefix' => 'jobs']);
     }
 
     public function getJobList()

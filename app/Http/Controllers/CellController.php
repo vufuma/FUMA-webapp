@@ -36,13 +36,13 @@ class CellController extends Controller
 
     public function authcheck($jobID)
     {
-        $check = SubmitJob::find($jobID);
+        $job = SubmitJob::find($jobID);
 
-        if ($check->jobID == $jobID) {
+        if ($job != null && $job->user->id == Auth::user()->id) {
             return view('pages.celltype', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'celltype', 'prefix' => 'celltype']);
-        } else {
-            return view('pages.celltype', ['id' => null, 'status' => null, 'page' => 'celltype', 'prefix' => 'celltype']);
         }
+
+        return view('pages.celltype', ['id' => null, 'status' => null, 'page' => 'celltype', 'prefix' => 'celltype']);
     }
 
     public function checkJobStatus($jobID)
