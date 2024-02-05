@@ -165,7 +165,7 @@
 
 				<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/circosDown">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					<input type="hidden" name="id" id="circosPlotID" val=""/>
+					<input type="hidden" name="jobID" id="circosPlotID" val=""/>
 					<input type="hidden" name="prefix" id="circosPlotDir" val=""/>
 					<input type="hidden" name="type" id="circosPlotType" val=""/>
 					<input type="submit" id="circosPlotSubmit" class="ImgDownSubmit"/>
@@ -268,7 +268,7 @@
 					<form action="{{ Config::get('app.subdir') }}/{{$page}}/annotPlot" method="post" target="_blank">
 						<!-- Select region to plot: <span style="color:red">Mandatory</span><br/> -->
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-						<input type="hidden" name="id" value="{{$id}}"/>
+						<input type="hidden" name="jobID" value="{{$id}}"/>
 						<input type="hidden" name="prefix" value="{{$prefix}}"/>
 						<input type="hidden" name="annotPlotSelect" id="annotPlotSelect" value="null"/>
 						<input type="hidden" name="annotPlotRow" id="annotPlotRow" value="null"/>

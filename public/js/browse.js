@@ -96,7 +96,7 @@ $(document).ready(function(){
 			url: subdir+'/'+page+'/checkG2F',
 			type: 'POST',
 			data:{
-				id: id,
+				jobID: id,
 			},
 			error: function(){
 				alert('checkG2F error');
@@ -227,7 +227,7 @@ $(document).ready(function(){
 					url: '/browse' + '/circos_chr',
 					type: 'POST',
 					data: {
-						id: id
+						jobID: id
 					},
 					success: function (data) {
 						ciMapCircosPlot(data);

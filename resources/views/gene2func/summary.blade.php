@@ -9,7 +9,7 @@
 	<div id="downloads">
 		<form action="{{ Config::get('app.subdir') }}/{{$page}}/g2f_filedown" method="post" target="_blank">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="hidden" name="id" value="<?php echo $id;?>"/>
+			<input type="hidden" name="jobID" value="<?php echo $id;?>"/>
 			<input type="hidden" name="prefix" value="{{$prefix}}"/>
 			<div id="downFileCheck">
 				<input type="checkbox" name="paramfile" id="paramfile" checked onchange="DownloadFiles();">Parameter settings</br>

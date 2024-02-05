@@ -4,7 +4,7 @@ function loadResults(id){
 		url: subdir+'/'+page+'/checkFileList',
 		type: 'POST',
 		data: {
-			id: id
+			jobID: id
 		},
 		error: function(){alert("getFileList error")},
 		success: function(data){
@@ -21,7 +21,7 @@ function loadResults(id){
 		url: subdir+'/'+page+'/getDataList',
 		type: 'POST',
 		data: {
-			id: id
+			jobID: id
 		},
 		error: function(){alert("getDataList error")},
 		success: function(data){
@@ -45,7 +45,7 @@ function loadResults(id){
 		url: subdir+'/'+page+'/getStepPlotData',
 		type: 'POST',
 		data: {
-			id: id
+			jobID: id
 		},
 		error: function(){alert("getStepPlotData error")},
 		success: function(data){
@@ -65,7 +65,7 @@ function updatePerDatasetPlot(){
 		url: subdir+'/'+page+'/getPerDatasetData',
 		type: 'POST',
 		data: {
-			id: id,
+			jobID: id,
 			ds: ds
 		},
 		error: function(){alert("getPlotData error")},

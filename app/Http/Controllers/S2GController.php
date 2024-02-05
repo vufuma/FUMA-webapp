@@ -30,20 +30,14 @@ class S2GController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($id = null)
+    public function index()
     {
-        return view('pages.snp2gene', ['id' => $id, 'status' => null, 'page' => 'snp2gene', 'prefix' => 'jobs']);
+        return view('pages.snp2gene', ['id' => null, 'status' => null, 'page' => 'snp2gene', 'prefix' => 'jobs']);
     }
 
-    public function authcheck($jobID)
+    public function viewJob($jobID)
     {
-        $job = SubmitJob::find($jobID);
-
-        if ($job != null && $job->user->id == Auth::user()->id) {
-            return view('pages.snp2gene', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'snp2gene', 'prefix' => 'jobs']);
-        }
-
-        return view('pages.snp2gene', ['id' => null, 'status' => null, 'page' => 'snp2gene', 'prefix' => 'jobs']);
+        return view('pages.snp2gene', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'snp2gene', 'prefix' => 'jobs']);
     }
 
     public function getJobList()
@@ -82,7 +76,7 @@ class S2GController extends Controller
 
     public function loadParams(Request $request)
     {
-        $id = $request->input("id");
+        $id = $request->input('jobID');
         $filedir = config('app.jobdir') . '/jobs/' . $id . '/';
         $params = parse_ini_string(Storage::get($filedir . "params.config"), false, INI_SCANNER_RAW);
         return json_encode($params);
@@ -146,7 +140,7 @@ class S2GController extends Controller
 
     public function getFilesContents(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('jobID'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $fileNames = $request->input('fileNames');
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
 
@@ -172,7 +166,7 @@ class S2GController extends Controller
     */
     public function MAGMA_expPlot(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('jobID'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
 
 
@@ -1241,8 +1235,8 @@ class S2GController extends Controller
 
     public function filedown(Request $request)
     {
-        $old_id = $request->input('id');
-        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($old_id);
+        $old_id = $request->input('jobID');
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($old_id);
         $prefix = $request->input('prefix');
         if ($prefix == "public") {
             $filedir = config('app.jobdir') . '/jobs/' . $id . '/';
@@ -1369,7 +1363,7 @@ class S2GController extends Controller
 
     public function checkPublish(Request $request)
     {
-        $job_id = $request->input('id');
+        $job_id = $request->input('jobID');
         $job = SubmitJob::find($job_id);
         $out = [];
 
@@ -1420,53 +1414,6 @@ class S2GController extends Controller
         $job = SubmitJob::find($jobID);
         $job->is_public = 0;
         $job->save();
-        return;
-    }
-
-    private function filePreprocessAndStore($file, $file_name, $filedir)
-    {
-        $acceptable_zip_mime_types = array(
-            "application/zip",
-            "application/x-zip",
-            "application/x-zip-compressed"
-        );
-
-        $acceptable_gzip_mime_types = array(
-            "application/x-gzip",
-            "application/gzip"
-        );
-
-        $type = $file->getClientMimeType();
-        if ($type == "text/plain" || $type == "application/octet-stream") {
-            Storage::put($filedir . '/' . $file_name, file_get_contents($file));
-        } else if (in_array($type, $acceptable_zip_mime_types)) {
-            Storage::put($filedir . '/' . 'temp', file_get_contents($file));
-
-            $zip = new \ZipArchive;
-            $zip->open(Storage::path($filedir . '/temp'));
-
-
-            $zf = $zip->getNameIndex(0);
-            $zip->extractTo(Storage::path($filedir));
-            $zip->close();
-
-            Storage::move($filedir . '/' . $zf, $filedir . '/' . $file_name);
-            Storage::delete($filedir . '/temp');
-        } else if (in_array($type, $acceptable_gzip_mime_types)) {
-            Storage::put($filedir . '/' . 'temp', file_get_contents($file));
-
-            $buffer_size = 4096; // The number of bytes that needs to be read at a specific time, 4KB here
-            $file = gzopen(Storage::path($filedir . '/temp'), 'rb'); //Opening the file in binary mode
-            $out_file = fopen(Storage::path($filedir . '/' . $file_name), 'wb');
-            // Keep repeating until the end of the input file
-            while (!gzeof($file)) {
-                fwrite($out_file, gzread($file, $buffer_size)); //Read buffer-size bytes.
-            }
-            fclose($out_file); //Close the files once they are done with
-            gzclose($file);
-
-            Storage::delete($filedir . '/temp');
-        }
         return;
     }
 }

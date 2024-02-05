@@ -244,7 +244,7 @@ $(document).ready(function () {
 						url: subdir + '/' + page + '/circos_chr',
 						type: 'POST',
 						data: {
-							id: id
+							jobID: id
 						},
 						success: function (data) {
 							ciMapCircosPlot(data);
@@ -494,7 +494,7 @@ function checkPublish(id) {
 		url: subdir + "/" + page + "/checkPublish",
 		type: "POST",
 		data: {
-			id: id
+			jobID: id
 		},
 		error: function () {
 			alert("JQuery chechPublish error")

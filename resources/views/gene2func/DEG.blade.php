@@ -18,7 +18,7 @@
 		<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<input type="hidden" name="dir" id="DEGDir" val=""/>
-			<input type="hidden" name="id" id="DEGJobID" val=""/>
+			<input type="hidden" name="jobID" id="DEGJobID" val=""/>
 			<input type="hidden" name="data" id="DEGData" val=""/>
 			<input type="hidden" name="type" id="DEGType" val=""/>
 			<input type="hidden" name="fileName" id="DEGFileName" val=""/>

@@ -29,20 +29,14 @@ class CellController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($id = null)
+    public function index()
     {
-        return view('pages.celltype', ['id' => $id, 'status' => null, 'page' => 'celltype', 'prefix' => 'celltype']);
+        return view('pages.celltype', ['id' => null, 'status' => null, 'page' => 'celltype', 'prefix' => 'celltype']);
     }
 
-    public function authcheck($jobID)
+    public function viewJob($jobID)
     {
-        $job = SubmitJob::find($jobID);
-
-        if ($job != null && $job->user->id == Auth::user()->id) {
-            return view('pages.celltype', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'celltype', 'prefix' => 'celltype']);
-        }
-
-        return view('pages.celltype', ['id' => null, 'status' => null, 'page' => 'celltype', 'prefix' => 'celltype']);
+        return view('pages.celltype', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'celltype', 'prefix' => 'celltype']);
     }
 
     public function checkJobStatus($jobID)
@@ -68,7 +62,7 @@ class CellController extends Controller
 
     public function checkMagmaFile(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         if (Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.raw")) {
             return 1;
         } else {
@@ -198,7 +192,7 @@ class CellController extends Controller
 
     public function checkFileList(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         $filedir = config('app.jobdir') . '/celltype/' . $id;
         $params = parse_ini_string(Storage::get($filedir . '/params.config'), false, INI_SCANNER_RAW);
         if ($params['MAGMA'] == "v1.06") {
@@ -218,7 +212,7 @@ class CellController extends Controller
 
     public function getDataList(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         $filedir = config('app.jobdir') . '/celltype/' . $id;
         $params = parse_ini_string(Storage::get($filedir . '/params.config'), false, INI_SCANNER_RAW);
         $ds = explode(":", $params['datasets']);
@@ -227,7 +221,7 @@ class CellController extends Controller
 
     public function filedown(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
         $params = parse_ini_string(Storage::get($filedir . 'params.config'), false, INI_SCANNER_RAW);
@@ -293,13 +287,13 @@ class CellController extends Controller
 
     public function getPerDatasetData(Request $request)
     {
-        $jobID = $request->input('id');
+        $jobID = $request->input('jobID');
         $ds = $request->input('ds');
 
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
-        
+
         $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_perDatasetPlotData.py $job_location/ $ds'";
         $json = shell_exec($cmd);
         return $json;
@@ -307,7 +301,7 @@ class CellController extends Controller
 
     public function getStepPlotData(Request $request)
     {
-        $jobID = $request->input('id');
+        $jobID = $request->input('jobID');
 
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');

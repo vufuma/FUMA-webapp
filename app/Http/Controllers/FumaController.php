@@ -30,7 +30,7 @@ class FumaController extends Controller
 
     public function DTfile(Request $request)
     {
-        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input('prefix');
         $fin = $request->input('infile');
         $cols = $request->input('header');
@@ -42,7 +42,7 @@ class FumaController extends Controller
 
     public function DTfileServerSide(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $fin = $request->input('infile');
         $cols = $request->input('header');
 
@@ -72,7 +72,7 @@ class FumaController extends Controller
 
     public function paramTable(Request $request)
     {
-        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input('prefix');
         $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . 'params.config';
 
@@ -81,7 +81,7 @@ class FumaController extends Controller
 
     public function sumTable(Request $request)
     {
-        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input('prefix');
         $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . 'summary.txt';
 
@@ -90,7 +90,7 @@ class FumaController extends Controller
 
     public function locusPlot(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $type = $request->input('type');
         $rowI = $request->input('rowI');
 
@@ -105,9 +105,9 @@ class FumaController extends Controller
 
     public function annotPlot(Request $request)
     {
-        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input('prefix');
-        $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
+        $filedir = config('app.jobdir') . '/' . $prefix . '/' . $jobID . '/';
         $type = $request->input('annotPlotSelect');
         $rowI = $request->input('annotPlotRow');
 
@@ -147,7 +147,7 @@ class FumaController extends Controller
         }
 
         return view('pages.annotPlot', [
-            'id' => $id,
+            'jobID' => $jobID,
             'prefix' => $prefix,
             'type' => $type,
             'rowI' => $rowI,
@@ -164,7 +164,7 @@ class FumaController extends Controller
 
     public function annotPlotGetData(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input("id"));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input("prefix");
         $type = $request->input("type");
         $rowI = $request->input("rowI");
@@ -192,7 +192,7 @@ class FumaController extends Controller
 
     public function annotPlotGetGenes(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input("id"));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input("prefix");
         $chrom = $request->input("chrom");
         $eqtlplot = $request->input("eqtlplot");
@@ -232,7 +232,7 @@ class FumaController extends Controller
 
     public function circos_chr(Request $request)
     {
-        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input("id"));
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $filedir = config('app.jobdir') . '/jobs/' . $id . '/circos/';
 
         $file_paths = Helper::my_glob($filedir, "/circos_chr.*\.png/");
@@ -255,7 +255,7 @@ class FumaController extends Controller
 
     public function circosDown(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('id'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $type = $request->input('type');
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/circos/';
         $zip = new \ZipArchive();
@@ -286,7 +286,7 @@ class FumaController extends Controller
     public function imgdown(Request $request)
     {
         $svg = $request->input('data');
-        $jobID = $request->input('id');
+        $jobID = $request->input('jobID');
         $type = $request->input('type');
         $fileName = $request->input('fileName') . "_FUMA_" . "jobs" . $jobID;
 
@@ -328,12 +328,12 @@ class FumaController extends Controller
 
     public function g2f_filedown(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         $id_tmp = $id;
         $prefix = $request->input('prefix');
 
         if ($prefix == "public") {
-            $parent_job = (new SubmitJob)->find_public_job_from_id($id);
+            $parent_job = (new SubmitJob)->get_job_from_old_or_new_id_prioritizing_public($id);
             $id = $parent_job->child->jobID;
         }
 
@@ -514,7 +514,7 @@ class FumaController extends Controller
 
     public function g2f_sumTable(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
 
@@ -523,7 +523,7 @@ class FumaController extends Controller
 
     public function expDataOption(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
 
@@ -556,7 +556,7 @@ class FumaController extends Controller
     public function geneTable(Request $request)
     {
         // TODO: make this function use column names instead of column indecies
-        $id = $request->input('id');
+        $id = $request->input('jobID');
         $prefix = $request->input('prefix');
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
 

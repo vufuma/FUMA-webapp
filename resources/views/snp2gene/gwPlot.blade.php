@@ -17,7 +17,7 @@
 		<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<input type="hidden" name="dir" id="manhattanDir" val=""/>
-			<input type="hidden" name="id" id="manhattanID" val=""/>
+			<input type="hidden" name="jobID" id="manhattanID" val=""/>
 			<input type="hidden" name="data" id="manhattanData" val=""/>
 			<input type="hidden" name="type" id="manhattanType" val=""/>
 			<input type="hidden" name="fileName" id="manhattanFileName" val=""/>
@@ -42,7 +42,7 @@
 		<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<input type="hidden" name="dir" id="geneManhattanDir" val=""/>
-			<input type="hidden" name="id" id="geneManhattanID" val=""/>
+			<input type="hidden" name="jobID" id="geneManhattanID" val=""/>
 			<input type="hidden" name="data" id="geneManhattanData" val=""/>
 			<input type="hidden" name="type" id="geneManhattanType" val=""/>
 			<input type="hidden" name="fileName" id="geneManhattanFileName" val=""/>
@@ -73,7 +73,7 @@
 				<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" name="dir" id="QQplotDir" val=""/>
-					<input type="hidden" name="id" id="QQplotID" val=""/>
+					<input type="hidden" name="jobID" id="QQplotID" val=""/>
 					<input type="hidden" name="data" id="QQplotData" val=""/>
 					<input type="hidden" name="type" id="QQplotType" val=""/>
 					<input type="hidden" name="fileName" id="QQplotFileName" val=""/>
@@ -98,7 +98,7 @@
 				<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<input type="hidden" name="dir" id="geneQQplotDir" val=""/>
-					<input type="hidden" name="id" id="geneQQplotID" val=""/>
+					<input type="hidden" name="jobID" id="geneQQplotID" val=""/>
 					<input type="hidden" name="data" id="geneQQplotData" val=""/>
 					<input type="hidden" name="type" id="geneQQplotType" val=""/>
 					<input type="hidden" name="fileName" id="geneQQplotFileName" val=""/>
@@ -137,7 +137,7 @@
 			<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<input type="hidden" name="dir" id="expDir" val=""/>
-				<input type="hidden" name="id" id="expJobID" val=""/>
+				<input type="hidden" name="jobID" id="expJobID" val=""/>
 				<input type="hidden" name="data" id="expData" val=""/>
 				<input type="hidden" name="type" id="expType" val=""/>
 				<input type="hidden" name="fileName" id="expFileName" val=""/>
