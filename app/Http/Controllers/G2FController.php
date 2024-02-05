@@ -35,6 +35,14 @@ class G2FController extends Controller
 
     public function viewJob($jobID)
     {
+        $job = SubmitJob::where('jobID', $jobID)
+            ->where('type', 'gene2func')
+            ->whereNull('removed_at')
+            ->first();
+        if ($job == null) {
+            return redirect('gene2func');
+        }
+
         return view('pages.gene2func', ['status' => 'getJob', 'id' => $jobID, 'page' => 'gene2func', 'prefix' => 'gene2func']);
     }
 

@@ -37,6 +37,14 @@ class S2GController extends Controller
 
     public function viewJob($jobID)
     {
+        $job = SubmitJob::where('jobID', $jobID)
+            ->where('type', 'snp2gene')
+            ->whereNull('removed_at')
+            ->first();
+        if ($job == null) {
+            return redirect('snp2gene');
+        }
+
         return view('pages.snp2gene', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'snp2gene', 'prefix' => 'jobs']);
     }
 

@@ -21,6 +21,10 @@ class EnsureJobIsPublic
 
         if (!is_null($job)) {
             if ($job->is_public == 1 || (!is_null($job->parent) && $job->type == 'gene2func' && $job->parent->is_public)) {
+                if (in_array($job->status, ['QUEUED', 'RUNNING'])) {
+                    return abort(403, "This job is still running or queued. Please wait until it's finished.");
+                }
+                
                 return $next($request);
             }
         }
