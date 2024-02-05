@@ -265,7 +265,13 @@ function updateList(){
 					val.parent = null;
 				}
 
-				var status = '<a href="'+subdir+'/gene2func/'+val.jobID+'">load results</a>';
+				if (val.status == "OK") {
+					var status = '<a href="'+subdir+'/gene2func/'+val.jobID+'">load results</a>';
+				}
+				else {
+					var status = val.status;
+				}
+
 				items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title+"</td><td>"
 					+(val.parent != null ? val.parent.jobID : '-')+"</td><td>"+(val.parent != null ? val.parent.title : '-')+"</td><td>"
 					+val.created_at+"</td><td>"+status+"</td>"
