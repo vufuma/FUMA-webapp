@@ -119,6 +119,7 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
         Route::prefix('db-tools')->group(function () {
             Route::get('/', [DbToolsController::class, 'index']);
             Route::get('/sync-db-storage', [DbToolsController::class, 'syncDbStorage']);
+            Route::post('/sync-db-storage/del', [DbToolsController::class, 'del']);
         });
 
         Route::get('/', [AdminController::class, 'index']);
@@ -173,33 +174,37 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/getjobIDs', [S2GController::class, 'getjobIDs']);
         Route::post('/getGeneMapIDs', [S2GController::class, 'getFinishedjobsIDs']);
         Route::post('/geneMap', [S2GController::class, 'geneMap']);
-        Route::post('/loadParams', [S2GController::class, 'loadParams']);
-        Route::get('/checkJobStatus/{jobid}', [S2GController::class, 'checkJobStatus']);
-        Route::post('/getParams', [S2GController::class, 'getParams']);
-        Route::post('/getFilesContents', [S2GController::class, 'getFilesContents']);
-        Route::post('/MAGMA_expPlot', [S2GController::class, 'MAGMA_expPlot']);
-        Route::post('/Error5', [S2GController::class, 'Error5']);
-        Route::get('/{jobID}', [S2GController::class, 'authcheck']);
-        Route::post('/checkPublish', [S2GController::class, 'checkPublish']);
-        Route::post('/publish', [S2GController::class, 'publish']);
-        Route::post('/deletePublicRes', [S2GController::class, 'deletePublicRes']);
-        Route::post('/filedown', [S2GController::class, 'filedown']);
-        Route::post('/deleteJob', [S2GController::class, 'deleteJob']);
 
-        Route::post('/DTfile', [FumaController::class, 'DTfile']);
-        Route::post('/DTfileServerSide', [FumaController::class, 'DTfileServerSide']);
-        Route::post('/paramTable', [FumaController::class, 'paramTable']);
-        Route::post('/sumTable', [FumaController::class, 'sumTable']);
-        Route::post('/locusPlot', [FumaController::class, 'locusPlot']);
-        Route::get('/d3text/{prefix}/{id}/{file}', [FumaController::class, 'd3text']);
+        Route::get('/checkJobStatus/{jobid}', [S2GController::class, 'checkJobStatus']);
         Route::post('/annotPlot/legendText', [FumaController::class, 'legendText']);
-        Route::post('/annotPlot', [FumaController::class, 'annotPlot']);
-        Route::post('/annotPlot/getData', [FumaController::class, 'annotPlotGetData']);
-        Route::post('/annotPlot/getGenes', [FumaController::class, 'annotPlotGetGenes']);
-        Route::post('/circos_chr', [FumaController::class, 'circos_chr']);
-        Route::get('/circos_image/{prefix}/{id}/{file}', [FumaController::class, 'circos_image']);
-        Route::post('/circosDown', [FumaController::class, 'circosDown']);
-        Route::post('/imgdown', [FumaController::class, 'imgdown']);
+
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::post('/loadParams', [S2GController::class, 'loadParams']);
+            Route::post('/getParams', [S2GController::class, 'getParams']);
+            Route::post('/getFilesContents', [S2GController::class, 'getFilesContents']);
+            Route::post('/MAGMA_expPlot', [S2GController::class, 'MAGMA_expPlot']);
+            Route::post('/Error5', [S2GController::class, 'Error5']);
+            Route::get('/{jobID}', [S2GController::class, 'viewJob']);
+            Route::post('/checkPublish', [S2GController::class, 'checkPublish']);
+            Route::post('/publish', [S2GController::class, 'publish']);
+            Route::post('/deletePublicRes', [S2GController::class, 'deletePublicRes']);
+            Route::post('/filedown', [S2GController::class, 'filedown']);
+            Route::post('/deleteJob', [S2GController::class, 'deleteJob']);
+
+            Route::post('/DTfile', [FumaController::class, 'DTfile']);
+            Route::post('/DTfileServerSide', [FumaController::class, 'DTfileServerSide']);
+            Route::post('/paramTable', [FumaController::class, 'paramTable']);
+            Route::post('/sumTable', [FumaController::class, 'sumTable']);
+            Route::post('/locusPlot', [FumaController::class, 'locusPlot']);
+            Route::get('/d3text/{prefix}/{jobID}/{file}', [FumaController::class, 'd3text']);
+            Route::post('/annotPlot', [FumaController::class, 'annotPlot']);
+            Route::post('/annotPlot/getData', [FumaController::class, 'annotPlotGetData']);
+            Route::post('/annotPlot/getGenes', [FumaController::class, 'annotPlotGetGenes']);
+            Route::post('/circos_chr', [FumaController::class, 'circos_chr']);
+            Route::get('/circos_image/{prefix}/{jobID}/{file}', [FumaController::class, 'circos_image']);
+            Route::post('/circosDown', [FumaController::class, 'circosDown']);
+            Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        });
     });
 
     // ********************** GENE2FUNC ************************
@@ -207,38 +212,42 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [G2FController::class, 'index']);
         Route::get('/getG2FJobList', [G2FController::class, 'getJobList']);
         Route::post('/submit', [G2FController::class, 'gene2funcSubmit']);
-        Route::post('/geneQuery', [G2FController::class, 'geneQuery']);
-        Route::post('/geneSubmit', [G2FController::class, 'snp2geneGeneQuery']);
-        Route::get('/{jobID}', [G2FController::class, 'authcheck']);
-        Route::post('/deleteJob', [G2FController::class, 'deleteJob']);
 
-        Route::post('/g2f_filedown', [FumaController::class, 'g2f_filedown']);
-        Route::post('/g2f_paramTable', [FumaController::class, 'paramTable']);
-        Route::post('/g2f_sumTable', [FumaController::class, 'g2f_sumTable']);
-        Route::post('/expDataOption', [FumaController::class, 'expDataOption']);
-        Route::get('/expPlot/{prefix}/{id}/{dataset}', [FumaController::class, 'expPlot']);
-        Route::get('/DEGPlot/{prefix}/{id}', [FumaController::class, 'DEGPlot']);
-        Route::post('/geneTable', [FumaController::class, 'geneTable']);
-        Route::get('/g2f_d3text/{prefix}/{id}/{file}', [FumaController::class, 'g2f_d3text']);
-        Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::get('/{jobID}', [G2FController::class, 'viewJob']);
+            Route::post('/geneQuery', [G2FController::class, 'geneQuery']);
+            Route::post('/geneSubmit', [G2FController::class, 'snp2geneGeneQuery']);
+            Route::post('/deleteJob', [G2FController::class, 'deleteJob']);
+            Route::post('/g2f_filedown', [FumaController::class, 'g2f_filedown']);
+            Route::post('/g2f_paramTable', [FumaController::class, 'paramTable']);
+            Route::post('/g2f_sumTable', [FumaController::class, 'g2f_sumTable']);
+            Route::post('/expDataOption', [FumaController::class, 'expDataOption']);
+            Route::get('/expPlot/{prefix}/{jobID}/{dataset}', [FumaController::class, 'expPlot']);
+            Route::get('/DEGPlot/{prefix}/{jobID}', [FumaController::class, 'DEGPlot']);
+            Route::post('/geneTable', [FumaController::class, 'geneTable']);
+            Route::get('/g2f_d3text/{prefix}/{jobID}/{file}', [FumaController::class, 'g2f_d3text']);
+            Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        });
     });
 
     // ********************** Cell Type ************************
     Route::prefix('celltype')->group(function () {
         Route::get('/', [CellController::class, 'index']);
         Route::post('/getS2GIDs', [CellController::class, 'getS2GIDs']);
-        Route::post('/checkMagmaFile', [CellController::class, 'checkMagmaFile']);
         Route::get('/getJobList', [CellController::class, 'getJobList']);
-        Route::post('/deleteJob', [CellController::class, 'deleteJob']);
         Route::post('/submit', [CellController::class, 'newJob']);
-        Route::get('/{jobID}', [CellController::class, 'authcheck']);
-        Route::get('/checkJobStatus/{jobID}', [CellController::class, 'checkJobStatus']);
-        Route::post('/checkFileList', [CellController::class, 'checkFileList']);
-        Route::post('/getDataList', [CellController::class, 'getDataList']);
-        Route::post('/filedown', [CellController::class, 'filedown']);
-        Route::post('/getPerDatasetData', [CellController::class, 'getPerDatasetData']);
-        Route::post('/getStepPlotData', [CellController::class, 'getStepPlotData']);
 
-        Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::post('/checkMagmaFile', [CellController::class, 'checkMagmaFile']);
+            Route::post('/deleteJob', [CellController::class, 'deleteJob']);
+            Route::get('/{jobID}', [CellController::class, 'viewJob']);
+            Route::get('/checkJobStatus/{jobID}', [CellController::class, 'checkJobStatus']);
+            Route::post('/checkFileList', [CellController::class, 'checkFileList']);
+            Route::post('/getDataList', [CellController::class, 'getDataList']);
+            Route::post('/filedown', [CellController::class, 'filedown']);
+            Route::post('/getPerDatasetData', [CellController::class, 'getPerDatasetData']);
+            Route::post('/getStepPlotData', [CellController::class, 'getStepPlotData']);
+            Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        });
     });
 });

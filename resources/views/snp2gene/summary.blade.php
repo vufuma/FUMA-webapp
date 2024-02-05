@@ -28,7 +28,7 @@
 			<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<input type="hidden" name="dir" id="snpAnnotPlotDir" val=""/>
-				<input type="hidden" name="id" id="snpAnnotPlotID" val=""/>
+				<input type="hidden" name="jobID" id="snpAnnotPlotID" val=""/>
 				<input type="hidden" name="data" id="snpAnnotPlotData" val=""/>
 				<input type="hidden" name="type" id="snpAnnotPlotType" val=""/>
 				<input type="hidden" name="fileName" id="snpAnnotPlotFileName" val=""/>
@@ -54,7 +54,7 @@
 		<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<input type="hidden" name="dir" id="lociPlotDir" val=""/>
-			<input type="hidden" name="id" id="lociPlotID" val=""/>
+			<input type="hidden" name="jobID" id="lociPlotID" val=""/>
 			<input type="hidden" name="data" id="lociPlotData" val=""/>
 			<input type="hidden" name="type" id="lociPlotType" val=""/>
 			<input type="hidden" name="fileName" id="lociPlotFileName" val=""/>

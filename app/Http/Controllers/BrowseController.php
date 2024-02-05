@@ -66,7 +66,7 @@ class BrowseController extends Controller
 
     public function checkG2F(Request $request)
     {
-        $old_id = $request->input('id');
+        $old_id = $request->input('jobID');
 
         $public_job = (new SubmitJob)->find_public_job_from_id($old_id);
         $public_job_gene2func_child = $public_job->childs

@@ -4,7 +4,7 @@ function paramTable(subdir, page, prefix, id) {
         type: "POST",
         data: {
             prefix: prefix,
-            id: id
+            jobID: id
         },
         error: function () {
             alert("param table error");
@@ -30,7 +30,7 @@ function sumTable(subdir, page, prefix, id) {
         type: "POST",
         data: {
             prefix: prefix,
-            id: id
+            jobID: id
         },
         success: function (data) {
             $('#sumTable').append(data);
@@ -65,7 +65,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             url: "DTfile",
             type: "POST",
             data: {
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 infile: "GenomicRiskLoci.txt",
                 header: "GenomicLocus:uniqID:rsID:chr:pos:p:start:end:nSNPs:nGWASSNPs:nIndSigSNPs:IndSigSNPs:nLeadSNPs:LeadSNPs"
@@ -86,7 +86,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             url: "DTfile",
             type: "POST",
             data: {
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 infile: "leadSNPs.txt",
                 header: "No:GenomicLocus:uniqID:rsID:chr:pos:p:nIndSigSNPs:IndSigSNPs"
@@ -107,7 +107,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             url: "DTfile",
             type: "POST",
             data: {
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 infile: "IndSigSNPs.txt",
                 header: "No:GenomicLocus:uniqID:rsID:chr:pos:p:nSNPs:nGWASSNPs"
@@ -154,7 +154,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             url: 'DTfile',
             type: "POST",
             data: {
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 infile: "snps.txt",
                 header: cols
@@ -179,7 +179,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             url: 'DTfile',
             type: "POST",
             data: {
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 infile: "annov.txt",
                 header: "uniqID:chr:pos:gene:symbol:dist:annot:exonic_func:exon"
@@ -216,7 +216,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             url: 'DTfile',
             type: "POST",
             data: {
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 infile: "genes.txt",
                 header: col
@@ -236,7 +236,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
                 url: 'DTfileServerSide',
                 type: "POST",
                 data: {
-                    id: id,
+                    jobID: id,
                     prefix: prefix,
                     infile: "eqtl.txt",
                     header: "uniqID:chr:pos:testedAllele:db:tissue:gene:symbol:p:FDR:signed_stats:RiskIncAllele:alignedDirection"
@@ -257,7 +257,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
                 url: 'DTfileServerSide',
                 type: "POST",
                 data: {
-                    id: id,
+                    jobID: id,
                     prefix: prefix,
                     infile: "ci.txt",
                     header: "GenomicLocus:region1:region2:FDR:type:DB:tissue/cell:inter/intra:SNPs:genes"
@@ -276,7 +276,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
                 url: 'DTfileServerSide',
                 type: "POST",
                 data: {
-                    id: id,
+                    jobID: id,
                     prefix: prefix,
                     infile: "ciSNPs.txt",
                     header: "uniqID:rsID:chr:pos:reg_region:type:tissue/cell"
@@ -295,7 +295,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
                 url: 'DTfileServerSide',
                 type: "POST",
                 data: {
-                    id: id,
+                    jobID: id,
                     prefix: prefix,
                     infile: "ciProm.txt",
                     header: "region2:reg_region:type:tissue/cell:genes"
@@ -314,7 +314,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             url: 'DTfile',
             type: "POST",
             data: {
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 infile: "gwascatalog.txt",
                 header: "GenomicLocus:IndSigSNP:chr:bp:snp:PMID:Trait:FirstAuth:Date:P"
@@ -341,7 +341,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             type: "POST",
             data: {
                 type: "IndSigSNP",
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 rowI: rowI
             },
@@ -376,7 +376,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             type: "POST",
             data: {
                 type: "leadSNP",
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 rowI: rowI
             },
@@ -411,7 +411,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             type: "POST",
             data: {
                 type: "loci",
-                id: id,
+                jobID: id,
                 prefix: prefix,
                 rowI: rowI
             },

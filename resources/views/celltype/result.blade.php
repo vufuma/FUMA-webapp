@@ -6,7 +6,7 @@
 	    <div class="panel-body">
 			<form action="{{ Config::get('app.subdir') }}/{{$page}}/filedown" method="post" target="_blank">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
-				<input type="hidden" name="id" value="{{$id}}"/>
+				<input type="hidden" name="jobID" value="{{$id}}"/>
 				<input type="hidden" name="prefix" value="{{$prefix}}"/>
 				<div id="downFileCheck">
 					<input checked class="form-check-input" type="checkbox" value="step1" name="files[]" id="step1_file" onchange="DownloadFiles()"> Per dataset MAGMA output (Step 1)<br/>
@@ -27,7 +27,7 @@
 		<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<input type="hidden" name="dir" id="celltypeDir" val=""/>
-			<input type="hidden" name="id" id="celltypeID" val="{{$id}}"/>
+			<input type="hidden" name="jobID" id="celltypeID" val="{{$id}}"/>
 			<input type="hidden" name="data" id="celltypeData" val=""/>
 			<input type="hidden" name="type" id="celltypeType" val=""/>
 			<input type="hidden" name="fileName" id="celltypeFileName" val=""/>

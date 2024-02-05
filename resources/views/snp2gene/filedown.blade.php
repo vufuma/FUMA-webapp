@@ -3,7 +3,7 @@
 	<h4 style="color: #00004d">Download files</h4>
 	<form action="{{ Config::get('app.subdir') }}/{{$page}}/filedown" method="post" target="_blank">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
-		<input type="hidden" name="id" value="{{$id}}"/>
+		<input type="hidden" name="jobID" value="{{$id}}"/>
 		<input type="hidden" name="prefix" value="{{$prefix}}"/>
 		<div id="downFileCheck">
 			<input type="checkbox" name="paramfile" id="paramfile" checked onchange="DownloadFiles();">Parameter settings</br>

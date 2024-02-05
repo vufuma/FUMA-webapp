@@ -165,7 +165,7 @@ $(document).ready(function(){
 			url: "geneQuery",
 			type: "POST",
 			data: {
-				id: id
+				jobID: id
 			},
 			beforeSend: function(){
 				var options = {

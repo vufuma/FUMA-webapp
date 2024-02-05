@@ -28,20 +28,14 @@ class G2FController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($id = null)
+    public function index()
     {
         return view('pages.gene2func', ['status' => 'new', 'id' => 'none', 'page' => 'gene2func', 'prefix' => 'gene2func']);
     }
 
-    public function authcheck($jobID)
+    public function viewJob($jobID)
     {
-        $job = SubmitJob::find($jobID);
-
-        if ($job != null && $job->user->id == Auth::user()->id) {
-            return view('pages.gene2func', ['status' => 'getJob', 'id' => $jobID, 'page' => 'gene2func', 'prefix' => 'gene2func']);
-        }
-
-        return view('pages.gene2func', ['status' => null, 'id' => $jobID, 'page' => 'gene2func', 'prefix' => 'gene2func']);
+        return view('pages.gene2func', ['status' => 'getJob', 'id' => $jobID, 'page' => 'gene2func', 'prefix' => 'gene2func']);
     }
 
     public function getJobList()
@@ -180,7 +174,7 @@ class G2FController extends Controller
         Storage::append($paramfile, "minOverlap=$minOverlap");
 
         $data = [
-            'id' => $jobID,
+            'jobID' => $jobID,
             'filedir' => $filedir,
             'gtype' => $gtype,
             'gval' => $gval,
@@ -200,7 +194,7 @@ class G2FController extends Controller
     public function geneQuery(Request $request)
     {
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
-        $jobID = $request->input('id');
+        $jobID = $request->input('jobID');
 
         $job = SubmitJob::where('jobID', $jobID)
             ->whereNull('removed_at')

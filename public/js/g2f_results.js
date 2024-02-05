@@ -3,7 +3,7 @@ function summaryTable(id){
 		url: subdir+'/'+page+'/g2f_sumTable',
 		type: "POST",
 		data: {
-			id: id,
+			jobID: id,
 			prefix: prefix
 		},
 		error: function(){
@@ -27,7 +27,7 @@ function parametersTable(id){
 		url: subdir+"/"+page+"/g2f_paramTable",
 		type: "POST",
 		data: {
-			id: id,
+			jobID: id,
 			prefix: prefix
 		},
 		error: function(){
@@ -54,7 +54,7 @@ function expHeatMap(id){
 		url: subdir+'/'+page+'/expDataOption',
 		type: "POST",
 		data: {
-			id: id,
+			jobID: id,
 			prefix: prefix
 		},
 		error: function(){
@@ -735,7 +735,7 @@ function GeneTable(id){
 			url: "geneTable",
 			type: "POST",
 			data: {
-				id: id,
+				jobID: id,
 				prefix: prefix
 			}
 		},

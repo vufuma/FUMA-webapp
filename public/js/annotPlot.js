@@ -14,7 +14,7 @@ $(document).ready(function () {
 		url: 'annotPlot/getData',
 		type: 'POST',
 		data: {
-			id: id,
+			jobID: id,
 			prefix: prefix,
 			type: type,
 			rowI: rowI,
@@ -53,7 +53,7 @@ $(document).ready(function () {
 				url: 'annotPlot/getGenes',
 				type: 'POST',
 				data: {
-					id: id,
+					jobID: id,
 					prefix: prefix,
 					chrom: chrom,
 					eqtlplot: eqtlplot,

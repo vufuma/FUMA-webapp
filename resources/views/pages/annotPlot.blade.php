@@ -30,7 +30,7 @@
 			<form method="post" target="_blank" action="imgdown">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<input type="hidden" name="dir" id="annotPlotDir" val=""/>
-				<input type="hidden" name="id" id="annotPlotID" val=""/>
+				<input type="hidden" name="jobID" id="annotPlotID" val=""/>
 				<input type="hidden" name="data" id="annotPlotData" val=""/>
 				<input type="hidden" name="type" id="annotPlotType" val=""/>
 				<input type="hidden" name="fileName" id="annotPlotFileName" val=""/>
@@ -110,7 +110,7 @@
 			headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
 		});
 		var loggedin = "{{ Auth::check() }}";
-		var id = "{{$id}}";
+		var id = "{{$jobID}}";
 		var prefix = "{{$prefix}}";
 		var type = "{{$type}}";
 		var rowI = parseInt("{{$rowI}}");

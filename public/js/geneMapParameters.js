@@ -35,7 +35,7 @@ function loadGeneMap(){
 			url: subdir+"/snp2gene/loadParams",
 			type: "POST",
 			data: {
-				"id": geneMapID
+				jobID: geneMapID
 			},
 			error: function(){
 				alert("error for loadParams");

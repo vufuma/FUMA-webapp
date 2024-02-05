@@ -95,7 +95,7 @@ function loadParams(){
 			url: subdir+"/snp2gene/loadParams",
 			type: "POST",
 			data: {
-				"id": paramsID
+				jobID: paramsID
 			},
 			error: function(){
 				alert("error for loadParams");

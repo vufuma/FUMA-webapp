@@ -140,7 +140,7 @@ function CheckInput(){
 			$.ajax({
 				url: subdir+"/celltype/checkMagmaFile",
 				type: 'POST',
-				data: { id: s2gID },
+				data: { jobID: s2gID },
 				error: function(){alert("error from checkMagmaFile")},
 				success: function(data){
 					if(data==1){filecheck=true}
