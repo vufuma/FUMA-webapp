@@ -140,7 +140,7 @@ class S2GController extends Controller
 
     public function getFilesContents(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('jobID'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $fileNames = $request->input('fileNames');
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
 
@@ -166,7 +166,7 @@ class S2GController extends Controller
     */
     public function MAGMA_expPlot(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('jobID'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
 
 
@@ -1236,7 +1236,7 @@ class S2GController extends Controller
     public function filedown(Request $request)
     {
         $old_id = $request->input('jobID');
-        $id = (new SubmitJob)->get_public_job_id_from_old_or_not_id($old_id);
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($old_id);
         $prefix = $request->input('prefix');
         if ($prefix == "public") {
             $filedir = config('app.jobdir') . '/jobs/' . $id . '/';

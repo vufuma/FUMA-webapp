@@ -26,13 +26,14 @@ class BrowseController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($id = null)
+    public function index()
     {
-        if (!is_null($id) && !(new SubmitJob)->find_public_job_from_id($id)) {
-            return redirect()->route('login');
-        }
+        return view('pages.browse', ['id' => null, 'page' => 'browse', 'prefix' => 'public']);
+    }
 
-        return view('pages.browse', ['id' => $id, 'page' => 'browse', 'prefix' => 'public']);
+    public function viewJob($jobID)
+    {
+        return view('pages.browse', ['id' => $jobID, 'page' => 'browse', 'prefix' => 'public']);
     }
 
     public function getGwasList()
@@ -68,7 +69,7 @@ class BrowseController extends Controller
     {
         $old_id = $request->input('jobID');
 
-        $public_job = (new SubmitJob)->find_public_job_from_id($old_id);
+        $public_job = (new SubmitJob)->get_job_from_old_or_new_id_prioritizing_public($old_id);
         $public_job_gene2func_child = $public_job->childs
             ->where('type', 'gene2func')
             ->whereNull('removed_at')
@@ -83,7 +84,7 @@ class BrowseController extends Controller
 
     public function getParams(Request $request)
     {
-        $jobID = (new SubmitJob)->get_public_job_id_from_old_or_not_id($request->input('jobID'));
+        $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
         $params = parse_ini_string(Storage::get($filedir . 'params.config'), false, INI_SCANNER_RAW);
         $posMap = $params['posMap'];

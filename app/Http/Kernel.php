@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'isAdmin' => \App\Http\Middleware\AdminMiddleware::class,
         'jobBelongsToLoggedInUser' => \App\Http\Middleware\EnsureJobBelongsToLoggedInUser::class,
+        'isPublicJob' => \App\Http\Middleware\EnsureJobIsPublic::class,
     ];
 }

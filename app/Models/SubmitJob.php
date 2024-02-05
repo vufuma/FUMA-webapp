@@ -115,7 +115,7 @@ class SubmitJob extends Model
             ->update(['status' => $status]);
     }
 
-    public function find_public_job_from_id($id): SubmitJob | NULL
+    public function get_job_from_old_or_new_id_prioritizing_public($id): SubmitJob | NULL
     {
         $job = $this->where('old_id', $id)
             ->where('is_public', 1)
@@ -127,24 +127,12 @@ class SubmitJob extends Model
         } else {
             return $this->where('jobID', $id)
                 ->whereNull('removed_at')
-                ->first();  
+                ->first();
         }
     }
 
-    public function get_public_job_id_from_old_or_not_id($id): int
+    public function get_job_id_from_old_or_new_id_prioritizing_public($id): int
     {
-        $job = $this->where('old_id', $id)
-            ->where('is_public', 1)
-            ->whereNull('removed_at')
-            ->first();
-
-        if ($job != NULL) {
-            return $job->jobID;
-        } else {
-            return $this->where('jobID', $id)
-                ->whereNull('removed_at')
-                ->first()
-                ->jobID;
-        }
+        return $this->get_job_from_old_or_new_id_prioritizing_public($id)->jobID;
     }
 }

@@ -129,36 +129,39 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
 Route::prefix('browse')->group(function () {
     Route::get('/', [BrowseController::class, 'index']);
     Route::get('/getGwasList', [BrowseController::class, 'getGwasList']);
-    Route::get('/{id}', [BrowseController::class, 'index']);
-    Route::post('/checkG2F', [BrowseController::class, 'checkG2F']);
-    Route::post('/getParams', [BrowseController::class, 'getParams']);
-    Route::post('/getFilesContents', [S2GController::class, 'getFilesContents']);
-    Route::post('/MAGMA_expPlot', [S2GController::class, 'MAGMA_expPlot']);
-    Route::post('/circos_chr', [FumaController::class, 'circos_chr']);
-    Route::post('/paramTable', [FumaController::class, 'paramTable']);
-    Route::post('/DTfile', [FumaController::class, 'DTfile']);
-    Route::post('/DTfileServerSide', [FumaController::class, 'DTfileServerSide']);
-    Route::post('/locusPlot', [FumaController::class, 'locusPlot']);
-    Route::post('/sumTable', [FumaController::class, 'sumTable']);
-    Route::post('/g2f_sumTable', [FumaController::class, 'g2f_sumTable']);
-    Route::post('/g2f_paramTable', [FumaController::class, 'paramTable']);
-    Route::post('/expDataOption', [FumaController::class, 'expDataOption']);
-    Route::post('/filedown', [S2GController::class, 'filedown']);
-    Route::post('/imgdown', [FumaController::class, 'imgdown']);
-    Route::post('/annotPlot/getData', [FumaController::class, 'annotPlotGetData']);
-    Route::post('/annotPlot/getGenes', [FumaController::class, 'annotPlotGetGenes']);
 
-    Route::get('/d3text/{prefix}/{id}/{file}', [FumaController::class, 'd3text']);
-    Route::get('/g2f_d3text/{prefix}/{id}/{file}', [FumaController::class, 'g2f_d3text']);
-    Route::get('/circos_image/{prefix}/{id}/{file}', [FumaController::class, 'circos_image']);
-    Route::post('/circosDown', [FumaController::class, 'circosDown']);
-    Route::post('/annotPlot', [FumaController::class, 'annotPlot']);
+    Route::group(['middleware' => ['isPublicJob']], function () {
+        Route::get('/{jobID}', [BrowseController::class, 'viewJob']);
+        Route::post('/checkG2F', [BrowseController::class, 'checkG2F']);
+        Route::post('/getParams', [BrowseController::class, 'getParams']);
+        Route::post('/getFilesContents', [S2GController::class, 'getFilesContents']);
+        Route::post('/MAGMA_expPlot', [S2GController::class, 'MAGMA_expPlot']);
+        Route::post('/circos_chr', [FumaController::class, 'circos_chr']);
+        Route::post('/paramTable', [FumaController::class, 'paramTable']);
+        Route::post('/DTfile', [FumaController::class, 'DTfile']);
+        Route::post('/DTfileServerSide', [FumaController::class, 'DTfileServerSide']);
+        Route::post('/locusPlot', [FumaController::class, 'locusPlot']);
+        Route::post('/sumTable', [FumaController::class, 'sumTable']);
+        Route::post('/g2f_sumTable', [FumaController::class, 'g2f_sumTable']);
+        Route::post('/g2f_paramTable', [FumaController::class, 'paramTable']);
+        Route::post('/expDataOption', [FumaController::class, 'expDataOption']);
+        Route::post('/filedown', [S2GController::class, 'filedown']);
+        Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        Route::post('/annotPlot/getData', [FumaController::class, 'annotPlotGetData']);
+        Route::post('/annotPlot/getGenes', [FumaController::class, 'annotPlotGetGenes']);
 
-    Route::get('/legendText/{file}', [FumaController::class, 'legendText']);
-    Route::get('/expPlot/{prefix}/{id}/{dataset}', [FumaController::class, 'expPlot']);
-    Route::get('/DEGPlot/{prefix}/{id}', [FumaController::class, 'DEGPlot']);
-    Route::post('/geneTable', [FumaController::class, 'geneTable']);
-    Route::post('/g2f_filedown', [FumaController::class, 'g2f_filedown']);
+        Route::get('/d3text/{prefix}/{jobID}/{file}', [FumaController::class, 'd3text']);
+        Route::get('/g2f_d3text/{prefix}/{jobID}/{file}', [FumaController::class, 'g2f_d3text']);
+        Route::get('/circos_image/{prefix}/{jobID}/{file}', [FumaController::class, 'circos_image']);
+        Route::post('/circosDown', [FumaController::class, 'circosDown']);
+        Route::post('/annotPlot', [FumaController::class, 'annotPlot']);
+
+        Route::get('/legendText/{file}', [FumaController::class, 'legendText']);
+        Route::get('/expPlot/{prefix}/{jobID}/{dataset}', [FumaController::class, 'expPlot']);
+        Route::get('/DEGPlot/{prefix}/{jobID}', [FumaController::class, 'DEGPlot']);
+        Route::post('/geneTable', [FumaController::class, 'geneTable']);
+        Route::post('/g2f_filedown', [FumaController::class, 'g2f_filedown']);
+    });
 });
 
 // Group of protected pages by auth middleware
