@@ -36,6 +36,14 @@ class CellController extends Controller
 
     public function viewJob($jobID)
     {
+        $job = SubmitJob::where('jobID', $jobID)
+            ->where('type', 'celltype')
+            ->whereNull('removed_at')
+            ->first();
+        if ($job == null) {
+            return redirect('celltype');
+        }
+
         return view('pages.celltype', ['id' => $jobID, 'status' => 'jobquery', 'page' => 'celltype', 'prefix' => 'celltype']);
     }
 
