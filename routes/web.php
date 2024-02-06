@@ -86,7 +86,7 @@ Auth::routes();
  */
 Route::group(
     [
-        'middleware' => ['auth', 'role:Super Admin'],
+        'middleware' => ['auth', 'permission:Administer roles & permissions'],
         'prefix' => 'admin'
     ],
     function () {
@@ -98,7 +98,7 @@ Route::group(
     }
 );
 
-Route::group(['middleware' => ['auth', 'role:Admin|Super Admin']], function () {
+Route::group(['middleware' => ['auth', 'permission:Access Admin Page']], function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('/jobs', [AdminController::class, 'showJobs']);
