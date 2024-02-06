@@ -29,18 +29,18 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $adminRole = null;
         // create an admin permission for managing roles and permissions
-        if(!$this->roleExists('Admin')) 
+        if(!$this->roleExists('Super Admin')) 
         {
             echo "Create Admin Role and permissions \n";
             // create an admin permission for managing roles and permissions
             Permission::create(['guard_name' => 'web', 'name' => 'Administer roles & permissions']);
-            $adminRole = Role::create(['guard_name' => 'web', 'name' => 'Admin'])
+            $adminRole = Role::create(['guard_name' => 'web', 'name' => 'Super Admin'])
                 ->givePermissionTo('Administer roles & permissions');
             $adminRole->givePermissionTo(Permission::all());
         } 
         else {
             echo "Load existing Admin Role \n";
-            $adminRole = Role::findByName('Admin')->get();
+            $adminRole = Role::findByName('Super Admin')->get();
         }
 
         $seed_admin_email = getenv('SEED_ADMIN_EMAIL', '');
@@ -55,7 +55,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 error_log("Please set a valid user email in environment variable SEED_ADMIN_EMAIL");
                 throw ValidationException::withMessages(["SEED_ADMIN_EMAIL" => "" . $seed_admin_email]);
             }
-            $admin_user->assignRole("Admin");
+            $admin_user->assignRole("Super Admin");
         }
     }
 
