@@ -86,7 +86,7 @@ Auth::routes();
  */
 Route::group(
     [
-        'middleware' => ['auth', 'isAdmin'],
+        'middleware' => ['auth', 'role:Super Admin'],
         'prefix' => 'admin'
     ],
     function () {
@@ -98,8 +98,7 @@ Route::group(
     }
 );
 
-// Add isAdmin to route middleware list
-Route::group(['middleware' => ['auth', 'isAdmin']], function () {
+Route::group(['middleware' => ['auth', 'role:Admin|Super Admin']], function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('/jobs', [AdminController::class, 'showJobs']);
