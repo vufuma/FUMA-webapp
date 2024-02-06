@@ -216,14 +216,14 @@ class G2FController extends Controller
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f_r');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'gene2func');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript gene2func.R $job_location/'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript gene2func.R $job_location/'";
         exec($cmd, $output, $error);
 
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'gene2func');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python GeneSet.py $job_location/'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python GeneSet.py $job_location/'";
         exec($cmd, $output, $error);
 
         $job->status = config('snp2gene_status_codes.15.short_name');

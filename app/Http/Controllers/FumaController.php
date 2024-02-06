@@ -59,7 +59,7 @@ class FumaController extends Controller
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'dt');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python dt.py $job_location/ $fin $draw $cols $order_column $order_dir $start $length $search'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python dt.py $job_location/ $fin $draw $cols $order_column $order_dir $start $length $search'";
         $out = shell_exec($cmd);
         echo $out;
 
@@ -98,7 +98,7 @@ class FumaController extends Controller
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'locus_plot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python locusPlot.py $job_location/ $rowI $type'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python locusPlot.py $job_location/ $rowI $type'";
         $out = shell_exec($cmd);
         return $out;
     }
@@ -184,7 +184,7 @@ class FumaController extends Controller
 
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python annotPlot.py $job_location/ $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python annotPlot.py $job_location/ $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells'";
 
         $data = shell_exec($cmd);
         return $data;
@@ -211,7 +211,7 @@ class FumaController extends Controller
 
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'Rscript annotPlot.R $job_location/ $chrom $xMin $xMax $eqtlgenes $eqtlplot $ciplot $ensembl'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'Rscript annotPlot.R $job_location/ $chrom $xMin $xMax $eqtlgenes $eqtlplot $ciplot $ensembl'";
 
         $data = shell_exec($cmd);
         $data = explode("\n", $data);
@@ -537,7 +537,7 @@ class FumaController extends Controller
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($id, 'gene2func');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python g2f_expPlot.py $job_location/ $dataset'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python g2f_expPlot.py $job_location/ $dataset'";
         $data = shell_exec($cmd);
         return $data;
     }
@@ -548,7 +548,7 @@ class FumaController extends Controller
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($id, 'gene2func');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python g2f_DEGPlot.py $job_location/'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python g2f_DEGPlot.py $job_location/'";
         $data = shell_exec($cmd);
         return $data;
     }
