@@ -182,7 +182,7 @@ class G2FController extends Controller
         Storage::append($paramfile, "minOverlap=$minOverlap");
 
         $data = [
-            'jobID' => $jobID,
+            'id' => $jobID,
             'filedir' => $filedir,
             'gtype' => $gtype,
             'gval' => $gval,
