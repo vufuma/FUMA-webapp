@@ -195,7 +195,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'gwas_file');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python gwas_file.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python gwas_file.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -227,7 +227,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'allsnps');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python allSNPs.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python allSNPs.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
 
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
@@ -260,7 +260,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'magma');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python magma.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python magma.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -299,7 +299,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'manhattan_filt');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python manhattan_filt.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python manhattan_filt.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -324,7 +324,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'qqsnps_filt');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python QQSNPs_filt.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python QQSNPs_filt.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -349,7 +349,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'getld');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getLD.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getLD.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -371,7 +371,7 @@ class Snp2geneProcess implements ShouldQueue
                 $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'getld');
                 $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-                $cmd = "docker run --rm --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getTopSNPs.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+                $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getTopSNPs.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
                 Storage::append($this->logfile, "Command to be executed:");
                 Storage::append($this->logfile, $cmd . "\n");
 
@@ -399,7 +399,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'snpannot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript SNPannot.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript SNPannot.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -424,7 +424,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'getgwascatalog');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getGWAScatalog.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python getGWAScatalog.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -449,7 +449,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'geteqtl');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python geteQTL.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python geteQTL.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -474,7 +474,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'getci');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript getCI.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript getCI.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -504,7 +504,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'genemap');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript geneMap.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript geneMap.R $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
@@ -529,7 +529,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'create_circos_plot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python createCircosPlot.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python createCircosPlot.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
