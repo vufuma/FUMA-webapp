@@ -85,7 +85,7 @@ def createConfig(c, filedir, circos_config, loci, ci, snps, genes):
 	if len(snps) > 50000:
 		snps = snps[snps[:,2].argsort()[::-1]]
 		snps = snps[0:50000]
-		snps = snps[snps[:,1].argsort()]
+		snps = snps[snps[:,1].astype(int).argsort()]
 
 	maxlogP = int(max(snps[:,2]))+1
 	minlogP = 0
