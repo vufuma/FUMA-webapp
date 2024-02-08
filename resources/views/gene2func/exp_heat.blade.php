@@ -48,7 +48,7 @@
 	<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<input type="hidden" name="dir" id="expHeatDir" val=""/>
-		<input type="hidden" name="jobID" id="expHeatID" val=""/>
+		<input type="hidden" name="jobID" id="expHeatJobID" val=""/>
 		<input type="hidden" name="data" id="expHeatData" val=""/>
 		<input type="hidden" name="type" id="expHeatType" val=""/>
 		<input type="hidden" name="fileName" id="expHeatFileName" val=""/>
