@@ -38,7 +38,7 @@ class S2GController extends Controller
     public function viewJob($jobID)
     {
         $job = SubmitJob::where('jobID', $jobID)
-            ->where('type', 'snp2gene')
+            ->wherein('type', ['snp2gene', 'genemap'])
             ->whereNull('removed_at')
             ->first();
         if ($job == null) {
