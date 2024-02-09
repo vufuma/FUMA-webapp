@@ -98,7 +98,9 @@ class S2GController extends Controller
         if ($newJobs->count() > 0) {
             foreach ($newJobs as $job) {
                 (new SubmitJob)->updateStatus($job->jobID, 'QUEUED');
-                Snp2geneProcess::dispatch($user, $job->jobID)->afterCommit();
+                Snp2geneProcess::dispatch($user, $job->jobID)
+                    ->afterCommit()
+                    ->delay(now()->addMinutes(2));
             }
         }
     }
