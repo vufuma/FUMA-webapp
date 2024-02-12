@@ -113,6 +113,12 @@ class Helper
         $job->removed_by = Auth::user()->id;
         $job->save();
 
+        // check if directory is missing
+        if (Storage::directoryMissing($filedir . $jobID)) {
+            DB::rollBack();
+            return "Failed to delete job files. Please try again later.";
+        }
+
         try {
             // delete job files
             Storage::deleteDirectory($filedir . $jobID);
@@ -120,9 +126,9 @@ class Helper
             DB::rollBack();
             return "Failed to delete job files. Please try again later.";
         }
-        
+
         // check if deleteDirectory failed
-        if (Storage::exists($filedir . $jobID)) {
+        if (Storage::directoryExists($filedir . $jobID)) {
             DB::rollBack();
             return "Failed to delete job files. Please try again later.";
         }
