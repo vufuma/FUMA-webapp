@@ -89,7 +89,7 @@ class SyncdbstorageJobs extends Component
             }
 
             $this->dirs_not_in_db = array_intersect_key($storage_jobs, array_flip($dirs_not_in_db));
-            $this->jobs_not_in_dir = array_slice(array_intersect_key($db_jobs, array_flip($jobs_not_in_dir)), 0, 10); // only show the first 10, remove this before production
+            $this->jobs_not_in_dir = array_intersect_key($db_jobs, array_flip($jobs_not_in_dir)); // only show the first 10, remove this before production
         } else {
             $this->shown_job = null;
         }

@@ -84,7 +84,7 @@ class ListDirectoryContents implements ShouldQueue
         // DB entries
         // get all the jobIDs from the submit_jobs table
         $db_jobs = SubmitJob::whereNull('removed_at')
-            ->wherein('type', ['snp2gene', 'gene2func', 'celltype'])
+            ->wherein('type', ['snp2gene', 'gene2func', 'celltype', 'geneMap']) // remove the geneMap type after the first cleanup
             ->orderBy('created_at', 'desc')
             ->get([
                 'jobID',
