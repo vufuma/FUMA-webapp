@@ -75,6 +75,23 @@ class Helper
         return $matchingFiles;
     }
 
+    public static function writeToCsv($filePath, $data, $delim = "\t")
+    {
+        // Open file for writing
+        $file = fopen($filePath, 'w');
+
+        // Write header
+        fputcsv($file, array_keys(reset($data)), $delim);
+
+        // Write data
+        foreach ($data as $row) {
+            fputcsv($file, $row, $delim);
+        }
+
+        // Close file
+        fclose($file);
+    }
+
     /**
      * This is a public function called "deleteJob" that takes two parameters: $filedir (string) and $jobID (integer).
      * It finds the job with the given ID using the "find" method.
@@ -133,5 +150,132 @@ class Helper
             return "Failed to delete job files. Please try again later.";
         }
         DB::commit();
+    }
+
+    public static function deleteJobDirectoryOnly($filedir, $jobID)
+    {
+        $result = [
+            'deletion_status' => False,
+            'message' => ''
+        ];
+
+        // check if directory is missing
+        if (Storage::directoryMissing($filedir . $jobID)) {
+            $result['message'] = "Job dir not found.";
+            return $result;
+        }
+
+        try {
+            // delete job files
+            Storage::deleteDirectory($filedir . $jobID);
+        } catch (\Exception $e) {
+            $result['message'] = "Failed to delete job dir.";
+            return $result;
+        }
+
+        // check if deleteDirectory failed
+        if (Storage::directoryExists($filedir . $jobID)) {
+            $result['message'] = "Failed to delete job dir.";
+            return $result;
+        }
+
+        $result['deletion_status'] = True;
+        return $result;
+    }
+
+    public static function deleteJobDbEntryOnly($jobID)
+    {
+        $result = [
+            'deletion_status' => False,
+            'message' => ''
+        ];
+
+        $job = SubmitJob::find($jobID);
+
+        // Verify this job exists
+        if (!$job) {
+            $result['message'] = "Job not found.";
+            return $result;
+        }
+
+        // check if job is running or queued
+        if (in_array($job->status, ['RUNNING', 'QUEUED'])) {
+            $result['message'] = "Running or queued job.";
+            return $result;
+        }
+
+        DB::beginTransaction();
+
+        // set removed_at and removed_by fields
+        $job->removed_at = date('Y-m-d H:i:s');
+        $job->removed_by = Auth::user()->id;
+        $job->save();
+
+        DB::commit();
+
+        $result['deletion_status'] = True;
+        return $result;
+    }
+
+    /**
+     * Turn an array like the following:
+     * 
+     * $inputArray = [
+     * 0 => [
+     *    "jobID" => 444531,
+     *    "type" => "snp2gene",
+     *    "status" => "OK",
+     *    "otherField" => "value1",
+     *    // ... other fields
+     *  ],
+     *  1 => [
+     *    "jobID" => 444530,
+     *    "type" => "snp2gene",
+     *    "status" => "OK",
+     *    "otherField" => "value2",
+     *    // ... other fields
+     *  ]
+     * ];
+     * 
+     * Into an array like the following:
+     * $outputArray = [
+     * 444531 => [
+     *    "jobID" => 444531, (if $include_key is true)
+     *    "type" => "snp2gene",
+     *    "status" => "OK",
+     *    "otherField" => "value1",
+     *    // ... other fields
+     *  ],
+     *  444530 => [
+     *    "jobID" => 444530, (if $include_key is true)
+     *    "type" => "snp2gene",
+     *    "status" => "OK",
+     *    "otherField" => "value2",
+     *    // ... other fields
+     *  ]
+     * ];
+     */
+    public static function flattenArrayByNestedKey($inputArray, $key_column, $include_key = False)
+    {
+        // It is necessary to write the outer loop twice for speed. In the first loop,
+        // there is no need to check if the key exists in the output array and if the
+        // include_key is true or false every time.
+        $outputArray = [];
+        if ($include_key) {
+            foreach ($inputArray as $item) {
+                $outputArray[$item[$key_column]] = $item;
+            }
+            return $outputArray;
+        }
+
+        foreach ($inputArray as $item) {
+            $outputArray[$item[$key_column]] = [];
+            foreach ($item as $key => $value) {
+                if ($key !== $key_column) {
+                    $outputArray[$item[$key_column]][$key] = $value;
+                }
+            }
+        }
+        return $outputArray;
     }
 }

@@ -8,6 +8,7 @@
         <div class="table-title">
             <h2>Database <b>Tools</b></h2>
         </div>
+
         <br>
         <ul>
             <li><a href="{{ url('admin/db-tools/sync-db-storage') }}">Sync Db</a></li>
