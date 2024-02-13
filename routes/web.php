@@ -119,6 +119,7 @@ Route::group(['middleware' => ['auth', 'permission:Access Admin Page']], functio
             Route::get('/', [DbToolsController::class, 'index']);
             Route::get('/sync-db-storage', [DbToolsController::class, 'syncDbStorage']);
             Route::post('/sync-db-storage/del', [DbToolsController::class, 'del']);
+            Route::post('/sync-db-storage/new_listing_job', [DbToolsController::class, 'newListingJob']);
         });
 
         Route::get('/', [AdminController::class, 'index']);

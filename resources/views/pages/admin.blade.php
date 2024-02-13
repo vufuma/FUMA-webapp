@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('stylesheets')
-    @livewireStyles
 @endsection
 
 @section('content')
@@ -22,7 +21,6 @@
 @endsection
 
 @section('scripts')
-    @livewireScripts
     {{-- Imports from the web --}}
 
     {{-- Hand written ones --}}
