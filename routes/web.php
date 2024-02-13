@@ -14,6 +14,7 @@ use App\Http\Controllers\RolesPermissions\UserController;
 use App\Http\Controllers\RolesPermissions\PermissionController;
 use App\Http\Controllers\RolesPermissions\RoleController;
 use App\Http\Controllers\DbToolsController;
+use App\Http\Controllers\SyncDbAndStorageController;
 
 
 /*
@@ -117,9 +118,9 @@ Route::group(['middleware' => ['auth', 'permission:Access Admin Page']], functio
 
         Route::prefix('db-tools')->group(function () {
             Route::get('/', [DbToolsController::class, 'index']);
-            Route::get('/sync-db-storage', [DbToolsController::class, 'syncDbStorage']);
-            Route::post('/sync-db-storage/del', [DbToolsController::class, 'del']);
-            Route::post('/sync-db-storage/new_listing_job', [DbToolsController::class, 'newListingJob']);
+            Route::get('/sync-db-storage', [SyncDbAndStorageController::class, 'index']);
+            Route::post('/sync-db-storage/del', [SyncDbAndStorageController::class, 'del']);
+            Route::post('/sync-db-storage/new_listing_job', [SyncDbAndStorageController::class, 'newListingJob']);
         });
 
         Route::get('/', [AdminController::class, 'index']);
