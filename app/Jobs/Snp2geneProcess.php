@@ -56,12 +56,6 @@ class Snp2geneProcess implements ShouldQueue
             ]);
         $job_type = SubmitJob::find($jobID)->type;
 
-        // file check
-        if (!Storage::exists(config('app.jobdir') . '/jobs/' . $jobID . '/input.gwas')) {
-            JobHelper::JobTerminationHandling($jobID, 0);
-            return;
-        }
-
         // get parameters
         $this->filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
         $this->ref_data_path_on_host = config('app.ref_data_on_host_path');
@@ -79,6 +73,12 @@ class Snp2geneProcess implements ShouldQueue
         $this->errorfile = $this->filedir . "error.log";
 
         if ($job_type === 'snp2gene') {
+            // file check, only necessary for snp2gene, input.gwas not necessary for geneMap
+            if (!Storage::exists(config('app.jobdir') . '/jobs/' . $jobID . '/input.gwas')) {
+                JobHelper::JobTerminationHandling($jobID, 0);
+                return;
+            }
+
             if (!$this->gwas_file()) {
                 // error handling
                 // fail the job properly
@@ -552,7 +552,7 @@ class Snp2geneProcess implements ShouldQueue
     public function failed($exception): void
     {
         JobHelper::kill_docker_containers_based_on_jobID($this->jobID);
-        
+
         if ($exception instanceof TimeoutExceededException) {
             JobHelper::JobTerminationHandling($this->jobID, 17);
         } else {
