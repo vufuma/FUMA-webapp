@@ -1,0 +1,38 @@
+FROM python:3
+
+WORKDIR /app
+
+COPY create_circos_plot/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN apt-get update && apt-get install -y --no-install-recommends curl cpanminus libgd-dev\
+    # --insecure is needed because the SSL certificate is not valid, TODO: fix this, --insecure is not a good practice
+    && curl --insecure https://circos.ca/distribution/circos-0.69-9.tgz -o circos-0.69-9.tgz\
+    && tar -xf circos-0.69-9.tgz -C /usr/local/share \
+    && rm circos-0.69-9.tgz \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY create_circos_plot/cpanfile ./
+RUN cpanm --installdeps .
+
+COPY app.config ./
+COPY create_circos_plot/createCircosPlot.py ./
+COPY create_circos_plot/config/circos ./config/circos
+
+# Configure non-root user.
+ARG USERNAME
+ARG PUID
+ARG PGID
+
+ARG PGIDSCISTOR
+ARG PGIDREF
+ARG PGIDUSR
+
+RUN groupadd --gid ${PGID} $USERNAME && \
+    groupadd --gid ${PGIDSCISTOR} scistor_share_r && \
+    groupadd --gid ${PGIDREF} reference_data_r && \
+    groupadd --gid ${PGIDUSR} users_data_c && \
+    useradd -l --non-unique --uid ${PUID} --gid ${PGID} $USERNAME && \
+    usermod -a -G scistor_share_r,reference_data_r,users_data_c $USERNAME
+
+USER $USERNAME

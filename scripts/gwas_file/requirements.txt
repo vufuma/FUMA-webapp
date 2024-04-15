@@ -1,0 +1,5 @@
+# gwas_file.py dependencies
+numpy
+pandas
+pytabix
+configparser
