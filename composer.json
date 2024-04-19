@@ -15,7 +15,7 @@
         "livewire/livewire": "^3.4",
         "predis/predis": "^2.2",
         "spatie/laravel-html": "^3.7",
-        "spatie/laravel-permission": "^6.4"
+        "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
