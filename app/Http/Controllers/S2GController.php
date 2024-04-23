@@ -95,10 +95,16 @@ class S2GController extends Controller
         $user = Auth::user();
         $newJobs = (new SubmitJob)->getNewJobs_snp2gene_and_geneMap_only($user->id);
 
+        $queue = 'default';
+        if ($user->can('Access Priority Queue')) {
+            $queue = 'high';
+        }
+
         if ($newJobs->count() > 0) {
             foreach ($newJobs as $job) {
                 (new SubmitJob)->updateStatus($job->jobID, 'QUEUED');
                 Snp2geneProcess::dispatch($user, $job->jobID)
+                    ->onQueue($queue)
                     ->afterCommit();
             }
         }
