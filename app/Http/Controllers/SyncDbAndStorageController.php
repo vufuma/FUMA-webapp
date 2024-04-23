@@ -54,7 +54,9 @@ class SyncDbAndStorageController extends Controller
         Storage::makeDirectory($filedir);
 
         (new SubmitJob)->updateStatus($jobID, 'QUEUED');
-        DelDirectoryAndDbContents::dispatch($jobID, $dirs, $db_entries)->afterCommit();
+        DelDirectoryAndDbContents::dispatch($jobID, $dirs, $db_entries)
+            ->onQueue('high')
+            ->afterCommit();
 
         // return redirect('/admin/db-tools/sync-db-storage');
 
@@ -80,7 +82,9 @@ class SyncDbAndStorageController extends Controller
         Storage::makeDirectory($filedir);
 
         (new SubmitJob)->updateStatus($jobID, 'QUEUED');
-        ListDirectoryContents::dispatch($jobID)->afterCommit();
+        ListDirectoryContents::dispatch($jobID)
+            ->onQueue('high')
+            ->afterCommit();
 
         return redirect('/admin/db-tools/sync-db-storage');
     }

@@ -99,13 +99,19 @@ class CellController extends Controller
     public function queueNewJobs()
     {
         $user = Auth::user();
-        $user_id = $user->id;
         $newJobs = (new SubmitJob)->getNewJobs_celltype_only($user->id);
+
+        $queue = 'default';
+        if ($user->can('Access Priority Queue')) {
+            $queue = 'high';
+        }
 
         if (count($newJobs) > 0) {
             foreach ($newJobs as $job) {
                 (new SubmitJob)->updateStatus($job->jobID, 'QUEUED');
-                CelltypeProcess::dispatch($user, $job->jobID)->afterCommit();
+                CelltypeProcess::dispatch($user, $job->jobID)
+                    ->onQueue($queue)
+                    ->afterCommit();
             }
         }
         return;
