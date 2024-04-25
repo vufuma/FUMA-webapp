@@ -156,7 +156,7 @@ class Helper
     {
         $result = [
             'deletion_status' => False,
-            'message' => ''
+            'message' => 'Deleted successfully.'
         ];
 
         // check if directory is missing
@@ -187,7 +187,7 @@ class Helper
     {
         $result = [
             'deletion_status' => False,
-            'message' => ''
+            'message' => 'Deleted successfully.'
         ];
 
         $job = SubmitJob::find($jobID);
@@ -199,16 +199,22 @@ class Helper
         }
 
         // check if job is running or queued
-        if (in_array($job->status, ['RUNNING', 'QUEUED'])) {
-            $result['message'] = "Running or queued job.";
+        if (in_array($job->status, ['NEW', 'QUEUED', 'RUNNING'])) {
+            $result['message'] = "New, queued or running jobs can't be deleted.";
+            return $result;
+        }
+
+        if ($job->removed_at !== NULL) {
+            $result['message'] = "Job already deleted.";
             return $result;
         }
 
         DB::beginTransaction();
 
-        // set removed_at and removed_by fields
+        // set removed_at fields
+        // removed_by field is not set because the job is deleted by the system
+        // search for removed_at (not null) and removed_by (null) to find jobs deleted by the system
         $job->removed_at = date('Y-m-d H:i:s');
-        $job->removed_by = Auth::user()->id;
         $job->save();
 
         DB::commit();
