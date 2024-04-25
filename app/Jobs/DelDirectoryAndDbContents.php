@@ -54,7 +54,7 @@ class DelDirectoryAndDbContents implements ShouldQueue
             ]);
 
         // define the job directories you want to look into for jobs
-        $job_directories = [
+        $this->job_directories = [
             'jobs',
             'gene2func',
             'celltype'
@@ -64,12 +64,20 @@ class DelDirectoryAndDbContents implements ShouldQueue
 
         // delete directories
         if (!empty($this->dirs)) {
-            $result = $this->deleteDirs($this->dirs);
+            $results = $this->deleteDirs($this->dirs);
+
+            // write the contents to a csv file
+            $out_file = Storage::path(config('app.jobdir') . '/delDirectoryAndDbContents/' . $this->jobID . '/on_dirs_deletion_log.csv');
+            Helper::writeToCsv($out_file, $results);
         }
 
         // delete db entries
         if (!empty($this->db_entries)) {
-            $result = $this->deleteDbEntries($this->db_entries);
+            $results = $this->deleteDbEntries($this->db_entries);
+
+            // write the contents to a csv file
+            $out_file = Storage::path(config('app.jobdir') . '/delDirectoryAndDbContents/' . $this->jobID . '/on_db_entries_deletion_log.csv');
+            Helper::writeToCsv($out_file, $results);
         }
 
         JobHelper::JobTerminationHandling($jobID, 15);
@@ -87,36 +95,39 @@ class DelDirectoryAndDbContents implements ShouldQueue
 
     private function deleteDirs($dirs)
     {
-        // $filedir = config('app.jobdir') . '/delDirectoryAndDbContents/' . $this->jobID . '/';
-        // $result = [
-        //     'deletion_status' => False,
-        //     'message' => ''
-        // ];
+        $results = [];
 
-        // foreach ($dirs as $dir) {
-        //     $result = Helper::deleteJobDirectoryOnly($filedir, $dir);
-        //     if ($result['deletion_status'] == False) {
-        //         return $result;
-        //     }
-        // }
+        foreach ($dirs as $dir) {
+            foreach ($this->job_directories as $job_directory) {
+                $filedir = config('app.jobdir') . '/' . $job_directory . '/';
+                $result = Helper::deleteJobDirectoryOnly($filedir, $dir);
 
-        // return $result;
+                array_push($results, [
+                    'dir' => $job_directory . '/' . $dir,
+                    'message' => $result['message']
+                ]);
+
+                if ($result['deletion_status'] == True) {
+                    break;
+                }
+            }
+        }
+
+        return $results;
     }
 
     private function deleteDbEntries($db_entries)
     {
-        // $result = [
-        //     'deletion_status' => False,
-        //     'message' => ''
-        // ];
+        $results = [];
 
-        // foreach ($db_entries as $db_entry) {
-        //     $result = Helper::deleteJobDbEntryOnly($db_entry);
-        //     if ($result['deletion_status'] == False) {
-        //         return $result;
-        //     }
-        // }
+        foreach ($db_entries as $db_entry) {
+            $result = Helper::deleteJobDbEntryOnly($db_entry);
+            array_push($results, [
+                'dir' => $db_entry,
+                'message' => $result['message']
+            ]);
+        }
 
-        // return $result;
+        return $results;
     }
 }
