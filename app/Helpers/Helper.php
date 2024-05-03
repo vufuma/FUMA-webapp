@@ -199,8 +199,8 @@ class Helper
         }
 
         // check if job is running or queued
-        if (in_array($job->status, ['QUEUED', 'RUNNING'])) {
-            $result['message'] = "Queued or running jobs can't be deleted.";
+        if (in_array($job->status, ['NEW', 'QUEUED', 'RUNNING'])) {
+            $result['message'] = "New, queued or running jobs can't be deleted.";
             return $result;
         }
 
