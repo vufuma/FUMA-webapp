@@ -92,6 +92,48 @@ class Helper
         fclose($file);
     }
 
+    public static function deleteJobByAdmin($filedir, $jobID)
+    {
+        $job = SubmitJob::find($jobID);
+
+        // Verify this job exists
+        if (!$job) {
+            return "Job not found in DB.";
+        }
+
+        // check if job is running or queued
+        if (in_array($job->status, ['RUNNING', 'QUEUED'])) {
+            return "Running or queued job.";
+        }
+
+        DB::beginTransaction();
+
+        // set removed_at and removed_by fields
+        $job->removed_at = date('Y-m-d H:i:s');
+        $job->save();
+
+        // check if directory is missing
+        if (Storage::directoryMissing($filedir . $jobID)) {
+            DB::rollBack();
+            return "Directory not found.";
+        }
+
+        try {
+            // delete job files
+            Storage::deleteDirectory($filedir . $jobID);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return "Failed to delete job files.";
+        }
+
+        // check if deleteDirectory failed
+        if (Storage::directoryExists($filedir . $jobID)) {
+            DB::rollBack();
+            return "Directory was still found after deletion.";
+        }
+        DB::commit();
+    }
+
     /**
      * This is a public function called "deleteJob" that takes two parameters: $filedir (string) and $jobID (integer).
      * It finds the job with the given ID using the "find" method.
