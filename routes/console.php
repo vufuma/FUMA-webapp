@@ -50,18 +50,19 @@ Schedule::call(function () {
         return config('snp2gene_status_codes.' . $index . '.short_name');
     }, $err_indices);
 
-    array_push($err_codes, [
+    array_push(
+        $err_codes,
         'ADMIN_KILLED',
         'ERROR',
         'PENDING',
         'NEW_geneMap',
         'JOB FAILED'
-    ]);
+    );
 
     // created at last year
     $jobs = SubmitJob::wherein('status', $err_codes)
         ->where('created_at', '<', now()->subMonth(3))
-        ->where('removed_at' , null)
+        ->where('removed_at', null)
         ->get(['jobID', 'created_at', 'type']);
 
     $result = [];
