@@ -68,7 +68,7 @@ Schedule::call(function () {
     $result = [];
     foreach ($jobs as $job) {
 
-        if ($job->type == 'snp2gene') {
+        if ($job->type == 'snp2gene' || $job->type == 'geneMap') {
             $job->dir = $dir . '/jobs/';
         } else {
             $job->dir = $dir . '/' . $job->type . '/';
