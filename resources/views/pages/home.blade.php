@@ -5,25 +5,6 @@
 		<div class="alert alert-danger">
 			<p><strong>Here you can find a detailed list of the error codes. We kindly advise thorough consultation of this troubleshooting list prior to seeking assistance through Google groups. <a href="https://groups.google.com/g/fuma-gwas-users/c/JdxuqR4ihS4">Troubleshooting List</a></strong></p>
 		</div>
-		<div class="alert alert-success">
-			<p><strong>Maintenance Notice:</strong> FUMA Maintenance has been Completed</p>
-			<br/>
-			Dear FUMA Users, <br/>
-			We would like to inform you that FUMA maintenance has been completed. The FUMA server is now back online and available for use.
-			<br/>
-			<br/>
-			<strong>Key Points:</strong>
-			<ul>
-				<li><p><strong>Server Update:</strong> Fuma backend is now updated and more computational resources are available for use.</p></li>
-				<li><p><strong>Database Cleaning:</strong> We will perform a thorough cleaning of the database in the next few days. All faulty jobs will be deleted, excluding public jobs. However, any faulty jobs that still have the potential to produce results will be retained.</p></li>
-				<li><p><strong>Manual Deletion Activated:</strong> The manual deletion of jobs is active again.</p></li>
-				<li><p><strong>Job ID Changes:</strong> Job IDs are updated to be compatible with the new database. However, rest assured that the new IDs point to the same jobs, and your data are not affected.</p></li>
-				<li><p><strong>Trial Period:</strong> We will be monitoring the server for the next few days to ensure that everything is working as intended. If you encounter any issues, please reach out to our support team.</p></li>
-			</ul>
-			<br/>
-			<p>We appreciate your understanding and patience during the maintenance period. If you have any concerns or questions, please reach out to our support team.</p>
-			<p>Thank you for being a valued member of the FUMA community.</p>
-		</div>
 
 		<div style="text-align: center;">
 			<h2>FUMA GWAS</h2>
