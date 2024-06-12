@@ -61,7 +61,6 @@ class Snp2geneProcess implements ShouldQueue
         $this->ref_data_path_on_host = config('app.ref_data_on_host_path');
 
         if (!Storage::exists($this->filedir . "params.config")) {
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 1);
             return;
         }
@@ -179,7 +178,6 @@ class Snp2geneProcess implements ShouldQueue
 
         //-------------------------------------------------------------------
 
-        JobHelper::rmFiles($this->filedir);
         JobHelper::JobTerminationHandling($jobID, 15);
 
         return;
@@ -203,8 +201,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
-
             $msg = "No error log found for SNP2GENE job ID: $jobID";
             if (Storage::exists($this->errorfile)) {
                 $errorout = Storage::get($this->errorfile);
@@ -236,8 +232,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
-
             $msg = "No error log found for SNP2GENE job ID: $jobID";
             if (Storage::exists($this->errorfile)) {
                 $errorout = Storage::get($this->errorfile);
@@ -282,7 +276,6 @@ class Snp2geneProcess implements ShouldQueue
                 $msg = "server error";
             }
 
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 4, $msg);
             return false;
         }
@@ -307,7 +300,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 5);
             return false;
         }
@@ -332,7 +324,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 6);
             return false;
         }
@@ -378,11 +369,9 @@ class Snp2geneProcess implements ShouldQueue
                 $process = Process::forever()->run($cmd);
                 $error = $process->exitCode();
 
-                JobHelper::rmFiles($this->filedir);
                 JobHelper::JobTerminationHandling($jobID, 7);
                 return false;
             }
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 8);
             return false;
         }
@@ -407,7 +396,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 9);
             return false;
         }
@@ -432,7 +420,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 10);
             return false;
         }
@@ -457,7 +444,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 11);
             return false;
         }
@@ -482,8 +468,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
-
             $errorout = Storage::get($this->errorfile);
             $errorout = explode("\n", $errorout);
             $msg = $errorout[count($errorout) - 2];
@@ -512,7 +496,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
             JobHelper::JobTerminationHandling($jobID, 13);
             return false;
         }
@@ -537,8 +520,6 @@ class Snp2geneProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error) {
-            JobHelper::rmFiles($this->filedir);
-
             $errorout = Storage::get($this->errorfile);
             $errorout = explode("\n", $errorout);
             $msg = $errorout[count($errorout) - 2];
