@@ -76,12 +76,10 @@ class CelltypeProcess implements ShouldQueue
         $error = $process->exitCode();
 
         if ($error != 0) {
-            JobHelper::rmFiles($filedir);
             JobHelper::JobTerminationHandling($jobID, 18, 'CellType error occured');
             return;
         }
 
-        JobHelper::rmFiles($filedir);
         JobHelper::JobTerminationHandling($jobID, 15);
         return;
     }

@@ -9,6 +9,7 @@ use App\Mail\JobFailedWithErrorCode;
 use Mail;
 
 use App\CustomClasses\DockerApi\DockerFactory;
+use Illuminate\Support\Facades\Storage;
 
 class JobHelper
 {
@@ -45,12 +46,37 @@ class JobHelper
             // success
             JobHelper::sendJobMail($job, new JobCompletedSuccessfully($job, $msg));
         }
+
+        JobHelper::rmFiles($job);
+
         return;
     }
 
-    public static function rmFiles($filedir)
+    public static function rmFiles($job)
     {
-        // Clean up some files if nessesary
+        if ($job->type == 'snp2gene') {
+            $job_dir = config('app.jobdir') . '/jobs/' . $job->jobID;
+
+            if (Storage::exists($job_dir . '/input.gwas')) {
+                Storage::delete($job_dir . '/input.gwas');
+            }
+
+            if (Storage::exists($job_dir . '/input.snps')) {
+                Storage::delete($job_dir . '/input.snps');
+            }
+
+            if (Storage::exists($job_dir . '/input.lead')) {
+                Storage::delete($job_dir . '/input.lead');
+            }
+
+            if (Storage::exists($job_dir . '/input.regions')) {
+                Storage::delete($job_dir . '/input.regions');
+            }
+
+            if (Storage::exists($job_dir . '/magma.input')) {
+                Storage::delete($job_dir . '/magma.input');
+            }
+        }
         return;
     }
 

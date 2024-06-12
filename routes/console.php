@@ -56,7 +56,8 @@ Schedule::call(function () {
         'ERROR',
         'PENDING',
         'NEW_geneMap',
-        'JOB FAILED'
+        'JOB FAILED',
+        'NEW' // since this will delete only jobs that are older than 3 months, stuck NEW jobs can also be deleted safely, consider pussing this to the production
     );
 
     // created at last year
