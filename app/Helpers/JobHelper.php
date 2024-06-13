@@ -54,7 +54,7 @@ class JobHelper
 
     public static function rmFiles($job)
     {
-        if ($job->type == 'snp2gene') {
+        if ($job->type == 'snp2gene' || $job->type == 'geneMap') {
             $job_dir = config('app.jobdir') . '/jobs/' . $job->jobID;
 
             if (Storage::exists($job_dir . '/input.gwas')) {
