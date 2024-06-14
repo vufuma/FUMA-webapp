@@ -1,79 +1,75 @@
 <html>
-<head><h3>FUMA an error occurred</h3></head>
+
+<head>
+    <h3>FUMA an error occurred</h3>
+</head>
+
 <body>
 
-<p>
-	This is unfortunate! An error occurred during the process of your job (job ID: {{ $jobID }}, job title: {{ $jobtitle }}).<br/>
-	ERROR: {{ $status }}
+    <p>
+        This is unfortunate! An error occurred during the process of your job (job ID: {{ $jobID }}, job title:
+        {{ $jobtitle }}).<br />
+        {{ $status }}
+    </p>
 
-	<?php
-	if($status==-1){
-		echo ' File upload failed.<br/>
-		This error is because your file upload failed. Please try again. Do not leave the page while uploading the file (after clicking the submit button).<br/>
-		Only click the "Submit Job" once.
-		The job has been deleted but the last job you have submitted could still be under process.<br/>
-		Please check the list of jobs from <a href="https://fuma.ctglab.nl/snp2gene">here</a> (login required).';
-	}else if($status==1){
-		echo ' (Input file format was not correct / <span style="color:blue;"><strong>'.$msg.'</strong></span>)<br/>
-		Please make sure your input file has sufficient column names.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#prepare-input-files">Tutorial<a/> for details.<br/>';
-	}else if($status==2){
-		echo ' (Error from MAGMA / <span style="color:blue;"><strong>'.$msg.'</strong></span>)<br/>
-		This error can occur if the rsID and/or p-value columns are mistakenly labelled wrong.
-		Please make sure your input file has the correct column names.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#prepare-input-files">Tutorial<a/> for details.<br/>';
-	}else if($status==3 || $status==4){
-		echo ' (Error during SNPs filtering for Manhattan plot)<br/>
-		This error can occur if the p-value column is mistakenly labelled wrong.
-		Please make sure your input file have sufficient column names.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#prepare-input-files">Tutorial<a/> for details.<br/>';
-	}else if($status==5){
-		echo ' (Error from lead SNPs and candidate SNPs identification / <span style="color:blue;"><strong>No significant SNPs were identified</strong></span>)<br/>
-		This error can occur when no candidate SNPs were identified. Note that indels are included in the FUMA from v1.3.0 but both alleles need to match exactly with selected reference panel.
-		MHC region is also excluded by default.
-		1. If there is no significant hit at your defined P-value cutoff for lead SNPs and GWAS tagged SNPs,
-		you can try to use a less stringent P-value threshold or provide predefined lead SNPs.
-		2. If there are significant SNPs with very low minor allele frequency, try decreasing MAF threshold (default 0.01).
-		Manhattan plots and significant top 10 SNPs in your input file are available from <a href="https://fuma.ctglab.nl/snp2gene/'.$jobID.'">SNP2GENE<a/>.<br/>';
-	}else if($status==6){
-		echo ' (Error from lead SNPs and candidate SNPs identification)<br/>
-		This error can occur because  1. invalid input parameters or 2. columns are mistakenly labelled wrong.
-		Please make sure your input file has the correct column names.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#prepare-input-files">Tutorial<a/> for details.<br/>';
-	}else if($status==7){
-		echo ' (Error during SNPs annotation extraction)<br/>
-		This error can occur because  1. invalid input parameters or 2. columns are mistakenly labelled wrong.
-		Please make sure your input file has the correct column names.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#prepare-input-files">Tutorial<a/> for details.<br/>';
-	}else if($status==8 || $status==9){
-		echo ' (Error during extracting external data sources)<br/>
-		This error can occur because  1. invalid input parameters or 2. columns are mistakenly labelled wrong.
-		Please make sure your input file has the correct column names.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#prepare-input-files">Tutorial<a/> for details.<br/>';
-	}else if($status==10){
-		echo ' (Error from chromatin interaction mapping / <span style="color:blue;"><strong>'.$msg.'</strong></span>)<br/>
-		This error might be because one of the uploaded chromatin interaction files did not follow the correct format.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#ciMap">Tutorial<a/> for details.<br/>';
-	}else if($status==11){
-		echo ' (Error during gene mapping)<br/>
-		This error can occur because  1. invalid input parameters or 2. columns are mistakenly labelled wrong.
-		Please make sure your input file has the correct column names.
-		Please refer <a href="https://fuma.ctglab.nl/tutorial#prepare-input-files">Tutorial<a/> for details.<br/>';
-	}else if($status==12){
-		echo ' (Error from circos / <span style="color:blue;"><strong>'.$msg.'</strong></span>)<br/>
-		This error is most likely due to server side error. Please contact the developer for details.<br/>';
-	}else if($status==100){
-		echo ' (Unknown error in job'.$msg.'</strong></span>)<br/>
-		This may be a result of job submission failure, job abort or perhaps a server side error. If this persists please contact the developer for details.<br/>';
-	}
-	?>
-</p>
-<p>
-	You can post questions, suggestions and bug reports on Google Forum:
-	<a href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a><br/><br/>
-	FUMA development team<br/>
-	VU University Amsterdam<br/>
-	Dept. Complex Trait Genetics<br/>
-</p>
+    {!! $err_specific_msg !!}
+
+    <h1>Make sure that your data is correctly formatted for FUMA</h1>
+    <ol>
+        <li>Make sure that there is a header (column name) in your input file.
+            <ul>
+                <li>The header should <strong>not</strong> start with a comment character (#). Any lines that starts
+                    with # will be ignored.</li>
+                <li>The number of column names should be equal to the number of columns in your input file.
+                    <ul>
+                        <li>sometimes the input file has a row index which means that there is one fewer column name
+                            in the header as compared to when the actual data starts.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <li>rsID if exists has to be in rsID format. See tutorial.</li>
+
+        <li>Use <strong>gzip</strong> software to compress with <strong>.gz</strong> extension or <strong>ZIP</strong> software with <strong>.zip</strong> extension. 
+			Make sure you haven't renamed the file manually. Use the proper compression software instead.</li>
+
+        <li>The chromosome has to be numbers between 1 and 23 or X.</li>
+
+        <li>Position values have to be integer (not in scientific notation) (see previous thread: <a
+                href="https://groups.google.com/g/fuma-gwas-users/c/dmw_G0mvAM8/m/YmmZwHIxAgAJ">Error:003 inconsistency</a>)</li>
+
+        <li>If your file contains chromosome and position, these have to be in <strong>hg19</strong> coordinates.</li>
+
+        <li>Make sure that there is no missing data for the columns that are mandatory such as p-values (see previous
+            thread: <a href="https://groups.google.com/g/fuma-gwas-users/c/_1wrXRoKD3w/m/8TZteeg0AwAJ">ERROR:magma</a> or <a
+                href="https://groups.google.com/g/fuma-gwas-users/c/A7-5pJ8SGG0/m/3NMQTTkuDwAJ">ERROR:001</a> or <a
+                href="https://groups.google.com/g/fuma-gwas-users/c/Eto1RbEYoc8/m/OXMPkbyTAgAJ">ERROR:magma</a>)</li>
+
+        <li>If you specify the name of chromosome, position, etc... during submission, make sure that these names exist
+            in your input file (see previous thread: <a href="https://groups.google.com/g/fuma-gwas-users/c/YqS31DKVwkQ/m/JcrOXmmSEwAJ">ERROR:001</a>)</li>
+
+        <li>Make sure that the delimiter is consistent. In addition, Delimiter can be any of white space including
+            single space, multiple space and tab. Because of this, each element including column names must not include
+            any space (see previous thread: <a href="https://groups.google.com/g/fuma-gwas-users/c/F-zHFX5pW74/m/kaEFcFmjAAAJ">Help with ERROR:001</a>)
+        </li>
+
+        <li>Check your file to make sure that there is no quotation around each value. It should be for example 1
+            instead of "1". This is usually caused when you save a file in R. To avoid this, one needs to set quote=F
+            when saving a file in R (see previous thread: <a href="https://groups.google.com/g/fuma-gwas-users/c/E1Qtk1-4apc/m/6sDD5_g2AwAJ">ERROR:001</a>)
+        </li>
+    </ol>
+
+    <p>
+        To solve this issue, please follow the troubleshooting list: 
+		<a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw">GUIDELINES ON TROUBLESHOOTING FUMA ERRORS</a>
+		and <a href="https://groups.google.com/g/fuma-gwas-users/c/oVvZFhMpCY4">GUIDELINES ON FUMA ISSUES SUBMISSION</a>. 
+        You can post questions, suggestions and bug reports on Google Forum:
+        <a href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a><br /><br />
+        FUMA development team<br />
+        VU University Amsterdam<br />
+        Dept. Complex Trait Genetics<br />
+    </p>
 </body>
+
 </html>

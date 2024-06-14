@@ -9,6 +9,8 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+use Helper;
+
 use App\Models\SubmitJob;
 
 class JobFailedWithErrorCode extends Mailable
@@ -38,6 +40,7 @@ class JobFailedWithErrorCode extends Mailable
      */
     public function content(): Content
     {
+        $err_specific_msg = Helper::searchArrayByKeyValue(config('snp2gene_status_codes'), 'short_name', $this->job->status)['email_message'];
         return new Content(
             view: 'emails.jobError',
             with: [
@@ -45,6 +48,7 @@ class JobFailedWithErrorCode extends Mailable
                 'jobtitle' => $this->job->title,
                 'status' => $this->job->status,
                 'msg' => $this->msg,
+                'err_specific_msg' => $err_specific_msg,
             ],
         );
     }
