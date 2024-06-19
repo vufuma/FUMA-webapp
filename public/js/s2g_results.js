@@ -117,6 +117,7 @@ function GWplot(data) {
 				var chromSize = [];
 				for (var i = 0; i < 23; i++) { chromSize.push(0) }
 				value.forEach(function (d) {
+					if (d['CHR'] == 'X') { d['CHR'] = 23; }
 					d['CHR'] = +d['CHR']; //chr
 					d['START'] = +d['START']; //start
 					d['STOP'] = +d['STOP']; //stop
