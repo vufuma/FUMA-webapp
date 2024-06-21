@@ -489,6 +489,68 @@ class FumaController extends Controller
             case "GRCh382rsID":
                 $name = "GRCh38_to_rsID_dbSNPv152.txt.gz";
                 break;
+            
+            // MAGMA gene sets 
+            case "MAGMA_EUR_bim":
+                $name = "EUR.bim";
+                break;
+            case "MAGMA_EUR_bed":
+                $name = "EUR.bed";
+                break;
+            case "MAGMA_EUR_fam":
+                $name = "EUR.fam";
+                break;
+
+            case "MAGMA_AFR_bim":
+                $name = "AFR.bim";
+                break;
+            case "MAGMA_AFR_bed":
+                $name = "AFR.bed";
+                break;
+            case "MAGMA_AFR_fam":
+                $name = "AFR.fam";
+                break;
+
+            case "MAGMA_AMR_bim":
+                $name = "AMR.bim";
+                break;
+            case "MAGMA_AMR_bed":
+                $name = "AMR.bed";
+                break;
+            case "MAGMA_AMR_fam":
+                $name = "AMR.fam";
+                break;
+
+            case "MAGMA_EAS_bim":
+                $name = "EAS.bim";
+                break;
+            case "MAGMA_EAS_bed":
+                $name = "EAS.bed";
+                break;
+            case "MAGMA_EAS_fam":
+                $name = "EAS.fam";
+                break;
+
+            case "MAGMA_SAS_bim":
+                $name = "SAS.bim";
+                break;
+            case "MAGMA_SAS_bed":
+                $name = "SAS.bed";
+                break;
+            case "MAGMA_SAS_fam":
+                $name = "SAS.fam";
+                break;
+
+            case "MAGMA_ALL_bim":
+                $name = "ALL.bim";
+                break;
+            case "MAGMA_ALL_bed":
+                $name = "ALL.bed";
+                break;
+            case "MAGMA_ALL_fam":
+                $name = "ALL.fam";
+                break;
+
             default:
                 return redirect()->back();
         }
