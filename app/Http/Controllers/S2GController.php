@@ -659,7 +659,7 @@ class S2GController extends Controller
                     $id = (string) $n;
                     if ($request->hasFile("ciMapFile" . $id)) {
                         $tmp_filename = $_FILES["ciMapFile" . $id]["name"];
-                        $request->file("ciMapFile" . $id)->move($filedir, $tmp_filename);
+                        Storage::put($filedir . '/' . $tmp_filename, file_get_contents($request->file("ciMapFile" . $id)));
                         $tmp_datatype = "undefined";
                         if ($request->filled("ciMapType" . $id)) {
                             $tmp_datatype = $request->input("ciMapType" . $id);
@@ -1067,7 +1067,7 @@ class S2GController extends Controller
                     $id = (string) $n;
                     if ($request->hasFile("ciMapFile" . $id)) {
                         $tmp_filename = $_FILES["ciMapFile" . $id]["name"];
-                        $request->file("ciMapFile" . $id)->move($filedir, $tmp_filename);
+                        Storage::put($filedir . '/' . $tmp_filename, file_get_contents($request->file("ciMapFile" . $id)));
                         $tmp_datatype = "undefined";
                         if ($request->filled("ciMapType" . $id)) {
                             $tmp_datatype = $request->input("ciMapType" . $id);
