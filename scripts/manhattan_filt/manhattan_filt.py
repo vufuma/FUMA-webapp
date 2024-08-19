@@ -34,9 +34,9 @@ h = yMax/(height/2)
 outfile = open(filedir+"manhattan.txt", 'w')
 plotSNPs = [['chr', 'bp', 'p']]
 for chrom in range(1,24):
-	plotSNPs = []
-	if chrom==1:
-		plotSNPs.append(['chr', 'bp', 'p'])
+	plotSNPs = [['chr', 'bp', 'p']]
+	# if chrom==1: #comment out by Tanya Phung (2024-08-19) to address https://vu-ctg.atlassian.net/browse/FUMA-94 since issues arise when the input data does not start with chr1. Not sure why there is a requirement for starting at chr1
+		# plotSNPs.append(['chr', 'bp', 'p'])
 	temp = GWAS[GWAS[:,chrcol].astype(int)==chrom]
 	if len(temp)==0:
 		continue
