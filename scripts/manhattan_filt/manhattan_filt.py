@@ -32,9 +32,10 @@ l = sum(chrSize)/(width/2)
 h = yMax/(height/2)
 #print yMax
 outfile = open(filedir+"manhattan.txt", 'w')
-plotSNPs = [['chr', 'bp', 'p']]
+outfile.write("\t".join(['chr', 'bp', 'p']+"\n")
+# plotSNPs = [['chr', 'bp', 'p']]
 for chrom in range(1,24):
-	plotSNPs = [['chr', 'bp', 'p']]
+	plotSNPs = []
 	# if chrom==1: #comment out by Tanya Phung (2024-08-19) to address https://vu-ctg.atlassian.net/browse/FUMA-94 since issues arise when the input data does not start with chr1. Not sure why there is a requirement for starting at chr1
 		# plotSNPs.append(['chr', 'bp', 'p'])
 	temp = GWAS[GWAS[:,chrcol].astype(int)==chrom]
@@ -74,9 +75,9 @@ for chrom in range(1,24):
 	for i in temp[-np.log10(temp[:,pcol].astype(float))>=cur_h]:
 		plotSNPs.append(i)
 	#print len(plotSNPs)
-	if chrom==1:
-		outfile.write("\t".join(plotSNPs[0])+"\n")
-		plotSNPs = plotSNPs[1:]
+	# if chrom==1:
+	# 	outfile.write("\t".join(plotSNPs[0])+"\n")
+	# 	plotSNPs = plotSNPs[1:]
 	plotSNPs = np.array(plotSNPs, dtype="object")
 	plotSNPs = plotSNPs[plotSNPs[:,1].astype(int).argsort()]
 	for i in plotSNPs:
