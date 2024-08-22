@@ -31,12 +31,16 @@ yMax = -math.log10(minP)
 l = sum(chrSize)/(width/2)
 h = yMax/(height/2)
 #print yMax
+
+# open file for writing and write header
 outfile = open(filedir+"manhattan.txt", 'w')
-plotSNPs = [['chr', 'bp', 'p']]
+outfile.write("\t".join(['chr', 'bp', 'p']) + "\n")
+
+# iterate over chromosomes
 for chrom in range(1,24):
 	plotSNPs = []
-	if chrom==1:
-		plotSNPs.append(['chr', 'bp', 'p'])
+	# if chrom==1: #comment out by Tanya Phung (2024-08-19) to address https://vu-ctg.atlassian.net/browse/FUMA-94 since issues arise when the input data does not start with chr1. Not sure why there is a requirement for starting at chr1
+		# plotSNPs.append(['chr', 'bp', 'p'])
 	temp = GWAS[GWAS[:,chrcol].astype(int)==chrom]
 	if len(temp)==0:
 		continue
@@ -73,13 +77,11 @@ for chrom in range(1,24):
 		cur_h += h
 	for i in temp[-np.log10(temp[:,pcol].astype(float))>=cur_h]:
 		plotSNPs.append(i)
-	#print len(plotSNPs)
-	if chrom==1:
-		outfile.write("\t".join(plotSNPs[0])+"\n")
-		plotSNPs = plotSNPs[1:]
+
 	plotSNPs = np.array(plotSNPs, dtype="object")
 	plotSNPs = plotSNPs[plotSNPs[:,1].astype(int).argsort()]
+
+	# write SNPs to file
 	for i in plotSNPs:
 		outfile.write("\t".join(i)+"\n")
-		#outfile.write("\t".join(i.astype(str))+"\n")
 	print "Chromosome ",chrom," done!!"
