@@ -1,31 +1,30 @@
 <!-- Nav bar -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container-fluid">
-		<div class="navbar-header" style="padding-left: 30px;">
-			<!-- <a class="navbar-brand" href="{{ Config::get('app.subdir') }}/"><span style="color: #1E90FF; font-size: 130%;">IPGAP</span></a> -->
-			<a class="navbar-brand" href="{{ Config::get('app.subdir') }}/" style="padding-top: 5px;">
-			<img src="{!! URL::asset('image/fuma.png') !!}" height="50px;">
-			<!-- <span style="color:#fff; font-size:30px;">FUMA</span> -->
-			</a>
-		</div>
+<nav class="navbar navbar-expand-lg fixed-top bg-light navbar-light">
+	<!--div class="container-fluid"-->
+        <a class="navbar-brand" href="{{ Config::get('app.subdir') }}/" style="padding-top: 5px; padding-left: 30px;">
+            <img src="{!! URL::asset('image/fuma.png') !!}" height="50px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topOfPageNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-		<div class="collapse navbar-collapse" id="headNav" style="padding-right: 50px;">
-			<ul class="nav navbar-nav navbar-right">
+		<div class="collapse navbar-collapse justify-content-end" id="topOfPageNav">
+			<ul class="navbar-nav">
 				<!-- local_start -->
-				<li class="{{ Request::is('/') ? 'active' : ''}}"><a href="/">Home</a></li>
+				<li class="nav-item {{ Request::is('/') ? 'active' : ''}}"><a href="/">Home</a></li>
 				@can('Access Admin Page')
-				<li class="{{ Request::is('admin') ? 'active' : ''}}"><a href="/admin">Admin Dashboard</a></li>
+				<li class="nav-item {{ Request::is('admin') ? 'active' : ''}}"><a href="/admin">Admin Dashboard</a></li>
 				@endcan
-				<li class="{{ Request::is('tutorial') ? 'active' : ''}}"><a href="/tutorial">Tutorial</a></li>
-				<li class="{{ Request::is('browse*') ? 'active' : ''}}"><a href="/browse">Browse Public Results</a></li>
-				<li class="{{ Request::is('snp2gene*') ? 'active' : ''}}"><a href="/snp2gene">SNP2GENE</a></li>
-				<li class="{{ Request::is('gene2func*') ? 'active' : ''}}"><a href="/gene2func">GENE2FUNC</a></li>
-				<li class="{{ Request::is('celltype*') ? 'active' : ''}}"><a href="/celltype">Cell Type</a></li>
-				<li class="{{ Request::is('links') ? 'active' : ''}}"><a href="/links">Links</a></li>
-				<li class="{{ Request::is('downloadPage') ? 'active' : ''}}"><a href="/downloadPage">Downloads</a></li>
-				<li class="{{ Request::is('faq') ? 'active' : ''}}"><a href="/faq">FAQs</a></li>
-				<li class="{{ Request::is('updates') ? 'active' : ''}}"><a href="/updates">Updates</a></li>
-				<li>
+				<li class="nav-item {{ Request::is('tutorial') ? 'active' : ''}}"><a href="/tutorial">Tutorial</a></li>
+				<li class="nav-item {{ Request::is('browse*') ? 'active' : ''}}"><a href="/browse">Browse Public Results</a></li>
+				<li class="nav-item {{ Request::is('snp2gene*') ? 'active' : ''}}"><a href="/snp2gene">SNP2GENE</a></li>
+				<li class="nav-item {{ Request::is('gene2func*') ? 'active' : ''}}"><a href="/gene2func">GENE2FUNC</a></li>
+				<li class="nav-item {{ Request::is('celltype*') ? 'active' : ''}}"><a href="/celltype">Cell Type</a></li>
+				<li class="nav-item {{ Request::is('links') ? 'active' : ''}}"><a href="/links">Links</a></li>
+				<li class="nav-item {{ Request::is('downloadPage') ? 'active' : ''}}"><a href="/downloadPage">Downloads</a></li>
+				<li class="nav-item {{ Request::is('faq') ? 'active' : ''}}"><a href="/faq">FAQs</a></li>
+				<li class="nav-item {{ Request::is('updates') ? 'active' : ''}}"><a href="/updates">Updates</a></li>
+				<li class="nav-item">
 					<a id="appInfo" class="infoPop" data-placement="bottom" data-toggle="popover" data-html="true"
 						title="FUMA information"
 						data-content='<div style="width:200px;">
@@ -42,10 +41,10 @@
 				<!-- local_end -->
 				<!-- Authentication Links -->
 				@if (! Auth::check())
-					<li><a href="{{ url('/login') }}">Login</a></li>
-					<li><a href="{{ url('/register') }}">Register</a></li>
+					<li class="nav-item"><a href="{{ url('/login') }}">Login</a></li>
+					<li class="nav-item"><a href="{{ url('/register') }}">Register</a></li>
 				@else
-					<li class="dropdown">
+					<li class="nav-item dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 							{{ Auth::user()-> name }} <span class="caret"></span>
 						</a>
@@ -72,6 +71,6 @@
 					</li>
 				@endif
 			</ul>
-		</div>
-	</div>
+        </div>
+	<!--/div-->
 </nav>

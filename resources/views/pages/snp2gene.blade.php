@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('stylesheets')	
+@section('stylesheets')
 	<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.css" rel="stylesheet"/>
 @endsection
 
@@ -48,14 +48,14 @@
 
 @section('scripts')
 	{{-- Imports from the web --}}
-	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script>
+	<!--script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script-->
 	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-	<script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-	<script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-	<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
-	<script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-	<script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script>
+	<!--script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script-->
+	<!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script-->
+	<!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script-->
+	<!--script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script-->
+	<!--script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script-->
+	<!--script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script-->
 
 	{{-- Hand written ones --}}
 	<script type="text/javascript">
@@ -75,5 +75,5 @@
 		<script type="text/javascript" src="{!! URL::asset('js/geneMapParameters.js') !!}?135"></script>
 		<script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script>
 		<script type="text/javascript" src="{!! URL::asset('js/snp2gene.js') !!}?135a"></script>
-	
+
 @endsection

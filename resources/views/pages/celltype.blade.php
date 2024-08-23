@@ -547,7 +547,7 @@
     <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
     <script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tree-multiselect@2.6.3/dist/jquery.tree-multiselect.min.js"></script>
+    <!--script src="https://cdn.jsdelivr.net/npm/tree-multiselect@2.6.3/dist/jquery.tree-multiselect.min.js"></script-->
 
     {{-- Hand written ones --}}
     <script type="text/javascript">
