@@ -22,7 +22,7 @@
 			Average value of the <u>relative</u> expression value (zero mean normalization of log2 transformed expression).
 			Darker red means higher relative expression of that gene in label X, compared to a darker blue color in the same label.<br/>
 			">
-			<i class="fa fa-question-circle-o fa-lg"></i>
+			<i class="fa-regular fa-circle-question fa-lg"></i>
 		</a>
 	</span>
 	<br/>

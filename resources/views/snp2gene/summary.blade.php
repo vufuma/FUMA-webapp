@@ -11,7 +11,7 @@
 				which have corresponding functional annotation assigned by ANNOVAR.
 				Bars are colored by log2(enrichment) relative to all SNPs in the selected reference panel.
 				See tutorial for more details.">
-				<i class="fa fa-question-circle-o fa-lg"></i>
+				<i class="fa-regular fa-circle-question fa-lg"></i>
 			</a>
 			</h4>
 			<span class="into"><i class="fa fa-info"></i>
@@ -42,7 +42,7 @@
 	<div style="text-align:center;">
 		<h4><span style="color: #00004d">Summary per genomic risk locus</span>
 		<a class="infoPop" data-toggle="popover" data-content="The histograms display summary results per genomic locus. Note that genomic loci could contain more than one independent lead SNPs.">
-			<i class="fa fa-question-circle-o fa-lg"></i>
+			<i class="fa-regular fa-circle-question fa-lg"></i>
 		</a>
 		</h4>
 		Download the plot as

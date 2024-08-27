@@ -4,7 +4,7 @@
 		@include('partials._head')
 	</head>
 	<body>
-		<div id="header" class="row">
+		<div id="header" class="row" style="padding-top: 16px">
 			@include('partials._nav')
 		</div>
 
@@ -31,6 +31,6 @@
 		</div>
 
 		@include('partials._javascript')
-
+        @yield('scripts')
 	</body>
 </html>

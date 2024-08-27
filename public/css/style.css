@@ -68,13 +68,12 @@ tab {
 }
 
 .table{
-  font-size: 14px;
+  font-size: 1rem;
 }
 
 table.display{
-  font-size: 16px;
+  font-size: 1rem;
 }
-
 
 .table.inputTable td{
   padding: 2px;
@@ -86,22 +85,40 @@ table.display{
   vertical-align: middle;
 }
 
+.table.inputTable td select{
+    font-size: calc(14rem/15);
+}
+
 .info{
   font-size: 14px;
   color: #000099;
 }
 
-input[type=number]{
+/*input[type=number]{
   width: 200px;
   height: 30px;
 }
 input[type=text]{
   width: 200px;
   height: 30px;
-}
+}*/
 
 table.smallTable{
   width: 300px;
+}
+
+/* spans with input controls*/
+.inputSpan {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%; /* Adjust as needed */
+    white-space: nowrap;
+}
+.inputSpan input {
+    width: 200px;
+    height: 30px;
+    margin-left: auto;
 }
 
 /* accordion button*/

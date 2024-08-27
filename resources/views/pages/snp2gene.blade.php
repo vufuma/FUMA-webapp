@@ -1,8 +1,5 @@
 @extends('layouts.master')
 
-@section('stylesheets')
-	<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.css" rel="stylesheet"/>
-@endsection
 
 @section('content')
 	<div id="wrapper" class="active">
@@ -47,33 +44,39 @@
 @endsection
 
 @section('scripts')
-	{{-- Imports from the web --}}
-	<!--script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script-->
-	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.js"></script>
-	<!--script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script-->
-	<!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script-->
-	<!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script-->
-	<!--script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script-->
-	<!--script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script-->
-	<!--script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script-->
 
-	{{-- Hand written ones --}}
+    {{-- Web (via npm) resources --}}
+    @vite(['resources/js/app.js']);
 	<script type="text/javascript">
-		$.ajaxSetup({
+ 		$.ajaxSetup({
 			headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
 		});
-		var status = "{{$status}}";
-		var id = "{{$id}}";
-		var page = "{{$page}}";
+		var status = "{{ $status }}";
+		var id = "{{ $id }}";
+		var page = "{{ $page }}";
 		var subdir = "{{ Config::get('app.subdir') }}";
 		var loggedin = "{{ Auth::check() }}";
 	</script>
+    {{-- This projectsown javascript resources --}}
+    @vite([
+        'resources/js/NewJobParameters.js',
+        'resources/js/snp2gene.js',
+        'resources/js/fuma.js',
+        'resources/js/celltype.js',
+        'resources/js/sidebar.js',
+        'resources/js/geneMapParameters.js'])
+    <script type="module">
+        import CheckAll from "{{ Vite::asset('resources/js/NewJobParameters.js') }}";
+        window.CheckAll = CheckAll
+    </script>
 
 	{{-- Imports from the project --}}
-		<script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
-		<script type="text/javascript" src="{!! URL::asset('js/NewJobParameters.js') !!}?136"></script>
-		<script type="text/javascript" src="{!! URL::asset('js/geneMapParameters.js') !!}?135"></script>
+		<!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script-->
+
+
+		<!--script type="text/javascript" src="{!! URL::asset('js/NewJobParameters.js') !!}?136"></script-->
+		<!--script type="text/javascript" src="{!! URL::asset('js/geneMapParameters.js') !!}?135"></script-->
 		<script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script>
-		<script type="text/javascript" src="{!! URL::asset('js/snp2gene.js') !!}?135a"></script>
+		<!--script type="text/javascript" src="{!! URL::asset('js/snp2gene.js') !!}?135a"></script-->
 
 @endsection

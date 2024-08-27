@@ -8,7 +8,7 @@
 #sidebar-wrapper {
     margin-left: -150px;
     left: 0px;
-    width: 200px;
+    width: 220px;
     background: #f2f2f2;
     position: fixed;
     height: 100%;
@@ -19,7 +19,7 @@
 .sidebar-nav {
     display: block;
     float: left;
-    width: 200px;
+    width: 220px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -28,7 +28,7 @@
 .subside {
   display: block;
   float: left;
-  width: 200px;
+  width: 220px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -42,7 +42,7 @@
     height: auto;
 }
 #wrapper.active {
-    padding-left: 200px;
+    padding-left: 220px;
 }
 #wrapper.active #sidebar-wrapper {
     left: 150px;
@@ -53,7 +53,7 @@
     display: block;
     float: left;
     text-decoration: none;
-    width: 200px;
+    width: 220px;
     background: #f2f2f2;
     /*border-top: 1px solid #999999;*/
     /*border-bottom: 1px solid #999999;*/

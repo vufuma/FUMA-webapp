@@ -50,7 +50,7 @@ header('X-Frame-Options: GOFORIT');
                                     1. Paste genes
                                     <a class="infoPop" data-toggle="popover"
                                         data-content="Please paste one gene per line. ENSG ID, entrez ID or gene symbols are accepted.">
-                                        <i class="fa fa-question-circle-o fa-lg"></i>
+                                        <i class="fa-regular fa-circle-question fa-lg"></i>
                                     </a>
                                     <br />
                                     <textarea id="genes" name="genes" rows="12" cols="50"
@@ -59,7 +59,7 @@ header('X-Frame-Options: GOFORIT');
                                     2. Upload file
                                     <a class="infoPop" data-toggle="popover"
                                         data-content="The first column should be the genes without header. Extra columns will be ignored. ENSG ID, entrez ID or gene symbols are accepted.">
-                                        <i class="fa fa-question-circle-o fa-lg"></i>
+                                        <i class="fa-regular fa-circle-question fa-lg"></i>
                                     </a>
                                     <tab><input class="form-control-file" type="file" name="genesfile" id="genesfile"
                                             onchange="checkInput()" />
@@ -101,7 +101,7 @@ header('X-Frame-Options: GOFORIT');
                                         2. Paste custom list of backbround genes
                                         <a class="infoPop" data-toggle="popover"
                                             data-content="Please paste gene per line. ENSG ID, entrez ID and gene symbol are acceptable.">
-                                            <i class="fa fa-question-circle-o fa-lg"></i>
+                                            <i class="fa-regular fa-circle-question fa-lg"></i>
                                         </a><br />
                                         <textarea id="bkgenes" name="bkgenes" rows="5" cols="50"
                                             placeholder="Please enter each gene per line here." onkeyup="checkInput();" oninput="checkInput()"></textarea><br />
@@ -109,7 +109,7 @@ header('X-Frame-Options: GOFORIT');
                                         3. Upload a file with a custom list of background genes
                                         <a class="infoPop" data-toggle="popover"
                                             data-content="The first column should be the genes without header. Extra columns will be ignored. ENSG ID, entrez ID and gene symbol are acceptable.">
-                                            <i class="fa fa-question-circle-o fa-lg"></i>
+                                            <i class="fa-regular fa-circle-question fa-lg"></i>
                                         </a>
                                         <tab><input class="form-control-file" type="file" name="bkgenesfile"
                                                 id="bkgenesfile" onchange="checkInput()" />
@@ -191,7 +191,7 @@ header('X-Frame-Options: GOFORIT');
                                                     <a class="infoPop" data-toggle="popover"
                                                         title="Adjusted P-value cutoff"
                                                         data-content="Only gene sets significantly enriched at given adjusted P-value threshold will be reported.">
-                                                        <i class="fa fa-question-circle-o fa-lg"></i>
+                                                        <i class="fa-regular fa-circle-question fa-lg"></i>
                                                     </a>
                                                     <br />
                                             </span>
@@ -202,7 +202,7 @@ header('X-Frame-Options: GOFORIT');
                                                     <a class="infoPop" data-toggle="popover"
                                                         title="Minimum overlapping genes with gene sets"
                                                         data-content="Only gene sets which overlapping with more than or equal to the given number of genes in the input genes will be reported.">
-                                                        <i class="fa fa-question-circle-o fa-lg"></i>
+                                                        <i class="fa-regular fa-circle-question fa-lg"></i>
                                                     </a>
                                                     </br>
                                             </span>

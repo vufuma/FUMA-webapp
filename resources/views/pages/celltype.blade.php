@@ -55,7 +55,7 @@
                                 <a class="infoPop" data-toggle="popover"
                                     data-content="Please UNCHECK this option if you used different gene ID than Ensembl gene ID
 								in your uploaded MAGMA output. In that case, provided genes will be mapped to Ensembl gene ID.">
-                                    <i class="fa fa-question-circle-o fa-lg"></i>
+                                    <i class="fa-regular fa-circle-question fa-lg"></i>
                                 </a>
                             </span>
                             <br />
@@ -496,7 +496,7 @@
 							When there are more than one significant cell types from the same dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
 							significant cell types within the dataset. Based on this, forward selection will be performed to identify independent signals.
 							See tutorial for details.">
-                                <i class="fa fa-question-circle-o fa-lg"></i>
+                                <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                             <br />
                             <input type="checkbox" id="step3" name="step3"> Perform step 3 (cross-datasets
@@ -506,7 +506,7 @@
                                 data-content="Step 3 in the workflow is cross-datasets conditional analysis.
 							When there are significant cell types from more than one dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
 							significant cell types across datasets. See tutorial for details.">
-                                <i class="fa fa-question-circle-o fa-lg"></i>
+                                <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                             <br />
                             <span class="info"><i class="fa fa-info"></i>

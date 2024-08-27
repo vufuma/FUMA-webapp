@@ -7,7 +7,7 @@
 			<div style="padding-left: 40px">
 				<span class="info"><i class="fa fa-info"></i> This is information of inputs or results.</span><br/><br/>
 				<a class="infoPop" data-toggle="popover" data-content="This popover will show brief description. Click anywhere outside of this popover to close.">
-					<i class="fa fa-question-circle-o fa-lg"></i>
+					<i class="fa-regular fa-circle-question fa-lg"></i>
 				</a> :click the question mark to display a brief description.<br/><br/>
 				<span class="alert alert-info" style="padding: 5px;">
 					This is for optional inputs/parameters.

@@ -27,7 +27,7 @@
                                         <b>QUEUED</b>: The job has been dispatched to queue.<br/><b>RUNNING</b>: The job is running.<br/>
                                         <b>Go to results</b>: The job has been completed. This is linked to result page.<br/>
                                         <b>ERROR</b>: An error occurred during the process.">
-                                        <i class="fa fa-question-circle-o fa-lg"></i>
+                                        <i class="fa-regular fa-circle-question fa-lg"></i>
                                     </a>
                                 </th>
                                 <th>Containers</th>

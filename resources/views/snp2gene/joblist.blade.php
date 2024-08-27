@@ -19,7 +19,7 @@
 								<b>QUEUED</b>: The job has been dispatched to queue.<br/><b>RUNNING</b>: The job is running.<br/>
 								<b>Go to results</b>: The job has been completed. This is linked to result page.<br/>
 								<b>ERROR</b>: An error occurred during the process. Please refer email for detail message.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</th>
 						<th>Jump to GENE2FUNC</th>
@@ -65,7 +65,7 @@
 								Corresponding GENE2FUNC jobID
 								<a class="infoPop" data-toggle="popover" data-content="
 								If you have performed GENE2FUNC for the selected SNP2GENE job, please specify GENE2FUNC jobID.">
-									<i class="fa fa-question-circle-o fa-lg"></i>
+									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 							</td>
 							<td>
@@ -77,7 +77,7 @@
 								<a class="infoPop" data-toggle="popover" data-content="
 								Please provide self-descriptive title for the job.
 								If the title is not clear enough, the developer might contact you to provide a sufficient information.">
-									<i class="fa fa-question-circle-o fa-lg"></i>
+									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 							</td>
 							<td>
@@ -98,7 +98,7 @@
 								Please provide an email address that is reachable to you.
 								Any future modification/deletion of the published job will be only processed
 								when it is requested by the matched email.">
-									<i class="fa fa-question-circle-o fa-lg"></i>
+									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 							</td>
 							<td>
@@ -120,7 +120,7 @@
 								If you don't have publication yet, please let the developer know once the publication becomes available.
 								You can also provide preprint DOI.
 								">
-									<i class="fa fa-question-circle-o fa-lg"></i>
+									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 							</td>
 							<td>
@@ -131,7 +131,7 @@
 							<td>Link to summary statistics
 								<a class="infoPop" data-toggle="popover" data-content="
 								If the summary statistics used in this job is publicly available, please provide the original link.">
-									<i class="fa fa-question-circle-o fa-lg"></i>
+									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 							</td>
 							<td>
@@ -143,7 +143,7 @@
 								<a class="infoPop" data-toggle="popover" data-content="
 								This should be the original publication of the summary statistics.
 								This can be same as the publication above when a new GWAS result is presented in the publication.">
-									<i class="fa fa-question-circle-o fa-lg"></i>
+									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 							</td>
 							<td>
@@ -157,7 +157,7 @@
 								Please add any additional information here.
 								For example, when there are multiple summary statistics available from the same study,
 								you should specify which result this is referring to.">
-									<i class="fa fa-question-circle-o fa-lg"></i>
+									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 								<br/>
 								<span class="info"><i class="fa fa-info"></i> Max 300 characters.</span>

@@ -21,7 +21,7 @@
 		you can re-perform gene mapping (only if there is any existing job in your account).
 		This load parameter settings that you used before, please change parameters before submission, otherwise results will be the same.
 		">
-			<i class="fa fa-question-circle-o fa-lg"></i>
+			<i class="fa-regular fa-circle-question fa-lg"></i>
 		</a>
 	</span>
 	<br/><br/>
@@ -38,7 +38,7 @@
 				<tr>
 					<td>Perform positional mapping
 						<a class="infoPop" data-toggle="popover" title="Positional maping" data-content="When checked, positional mapping will be carried out and includes functional consequences of SNPs on gene functions (such as exonic, intronic and splicing).">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td><input type="checkbox" class="form-check-input" name="geneMap_posMap" id="geneMap_posMap" checked onchange="geneMapCheckAll();"></td>
@@ -50,7 +50,7 @@
 							Positional mapping can be performed purly based on the physical distance between SNPs and genes by providing the maximum distance.
 							Optionally, functional consequences of SNPs on genes can be selected to map only specific SNPs such as SNPs locating on exonic regions.
 							Note that when functional consequences are selected, only SNPs location on the gene body (distance 0) are mapped to genes except upstream and downstream SNPs which are up to 1kb apart from TSS or TES.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td>
@@ -84,7 +84,7 @@
 						<td rowspan="2">CADD</td>
 						<td>Perform SNPs filtering based on CADD score.
 							<a class="infoPop" data-toggle="popover" title="CADD score filtering" data-content="Please check this option to filter SNPs based on CADD score and specify minimum score in the box below.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_posMapCADDcheck" id="geneMap_posMapCADDcheck" onchange="geneMapCheckAll();"></td>
@@ -93,7 +93,7 @@
 					<tr>
 						<td>Minimum CADD score (&ge;)
 							<a class="infoPop" data-toggle="popover" title="CADD score" data-content="CADD score is the score of deleteriousness of SNPs. The higher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="number" class="form-control" id="geneMap_posMapCADDth" name="geneMap_posMapCADDth" value="12.37" onkeyup="geneMapCheckAll();" onpaste="geneMapCheckAll();" oninput="geneMapCheckAll();"></td>
@@ -103,7 +103,7 @@
 						<td rowspan="2">RegulomeDB</td>
 						<td>Perform SNPs filtering based on RegulomeDB score
 							<a class="infoPop" data-toggle="popover" title="RegulomeDB Score filtering" data-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_posMapRDBcheck" id="geneMap_posMapRDBcheck" onchange="geneMapCheckAll();"></td>
@@ -112,7 +112,7 @@
 					<tr>
 						<td>Maximum RegulomeDB score (categorical)
 							<a class="infoPop" data-toggle="popover" title="RegulomeDB score" data-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least likely. Some SNPs have 'NA' which are not assigned any score.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -141,7 +141,7 @@
 						<td rowspan="4">15-core chromatin state</td>
 						<td>Perform SNPs filtering based on chromatin state
 							<a class="infoPop" data-toggle="popover" title="15-core chromatin state filtering" data-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_posMapChr15check" id="geneMap_posMapChr15check" onchange="geneMapCheckAll();"></td>
@@ -166,7 +166,7 @@
 					<tr>
 						<td>15-core chromatin state maximum state
 							<a class="infoPop" data-toggle="popover" title="The maximum chromatin state" data-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="number" class="form-control" id="geneMap_posMapChr15Max" name="geneMap_posMapChr15Max" value="7" onkeyup="geneMapCheckAll();" onpaste="geneMapCheckAll();" oninput="geneMapCheckAll();"/></td>
@@ -175,7 +175,7 @@
 					<tr>
 						<td>15-core chromatin state filtering method
 							<a class="infoPop" data-toggle="popover" title="Filtering method for chromatin state" data-content="When multiple tissue/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -214,7 +214,7 @@
 							<a class="infoPop" data-toggle="popover" title="Filtering method for annotations"
 							data-content="When multiple datasets are selected, SNPs will be kept if they are overlapped with any of, majority of or all of selected annotations
 							unless an option 'No filtering' is selected.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -247,7 +247,7 @@
 				<tr>
 					<td>Perform eQTL mapping
 						<a class="infoPop" data-toggle="popover" title="eQTL mapping" data-content="eQTL mapping maps SNPs to genes based on eQTL information. This maps SNPs to genes up to 1 Mb part (cis-eQTL). Please check this option to perform eQTL mapping.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td><input type="checkbox" calss="form-control" name="geneMap_eqtlMap", id="geneMap_eqtlMap" onchange="geneMapCheckAll();"></td>
@@ -256,7 +256,7 @@
 				<tr class="eqtlMapOptions">
 					<td>Tissue types
 						<a class="infoPop" data-toggle="popover" title="Tissue types of eQTLs" data-content="This is mandatory parameter for eQTL mapping. Currently 44 tissue types from GTEx and two large scale eQTL study of blood cell are available.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td>
@@ -279,7 +279,7 @@
 				<tr class="eqtlMapOptions">
 					<td>eQTL P-value threshold
 						<a class="infoPop" data-toggle="popover" title="eQTL P-value threshold" data-content="By default, only significant eQTLs are used (FDR &lt; 0.05). Please UNCHECK 'Use only significant snp-gene pair' to filter eQTLs based on raw P-value.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td>
@@ -301,7 +301,7 @@
 						<td rowspan="2">CADD</td>
 						<td>Perform SNPs filtering based on CADD score.
 							<a class="infoPop" data-toggle="popover" title="CADD score filtering" data-content="Please check this option to filter SNPs based on CADD score and specify minimum score in the box below.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_eqtlMapCADDcheck" id="geneMap_eqtlMapCADDcheck" onchange="geneMapCheckAll();"></td>
@@ -310,7 +310,7 @@
 					<tr>
 						<td>Minimum CADD score (&ge;)
 							<a class="infoPop" data-toggle="popover" title="CADD score" data-content="CADD score is the score of deleteriousness of SNPs. The higher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="number" class="form-control" id="geneMap_eqtlMapCADDth" name="geneMap_eqtlMapCADDth" value="12.37" onkeyup="geneMapCheckAll();" onpaste="geneMapCheckAll();" oninput="geneMapCheckAll();"></td>
@@ -320,7 +320,7 @@
 						<td rowspan="2">RegulomeDB</td>
 						<td>Perform SNPs filtering based on RegulomeDB score
 							<a class="infoPop" data-toggle="popover" title="RegulomeDB Score filtering" data-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_eqtlMapRDBcheck" id="geneMap_eqtlMapRDBcheck" onchange="geneMapCheckAll();"></td>
@@ -329,7 +329,7 @@
 					<tr>
 						<td>Maximum RegulomeDB score (categorical)
 							<a class="infoPop" data-toggle="popover" title="RegulomeDB score" data-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least likely. Some SNPs have 'NA' which are not assigned any score.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -358,7 +358,7 @@
 						<td rowspan="4">15-core chromatin state</td>
 						<td>Perform SNPs filtering based on chromatin state
 							<a class="infoPop" data-toggle="popover" title="15-core chromatin state filtering" data-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_eqtlMapChr15check" id="geneMap_eqtlMapChr15check" onchange="geneMapCheckAll();"></td>
@@ -381,7 +381,7 @@
 					<tr>
 						<td>15-core chromatin state maximum state
 							<a class="infoPop" data-toggle="popover" title="The maximum chromatin state" data-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="number" class="form-control" id="geneMap_eqtlMapChr15Max" name="geneMap_eqtlMapChr15Max" value="7" onkeyup="geneMapCheckAll();" onpaste="geneMapCheckAll();" oninput="geneMapCheckAll();"/></td>
@@ -390,7 +390,7 @@
 					<tr>
 						<td>15-core chromatin state filtering method
 							<a class="infoPop" data-toggle="popover" title="Filtering method for chromatin state" data-content="When multiple tissue/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -429,7 +429,7 @@
 							<a class="infoPop" data-toggle="popover" title="Filtering method for annotations"
 							data-content="When multiple datasets are selected, SNPs will be kept if they are overlapped with any of, majority of or all of selected annotations
 							unless an option 'No filtering' is selected.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -462,7 +462,7 @@
 				<tr>
 					<td>Perform chromatin interaction mapping
 						<a class="infoPop" data-toggle="popover" title="3D chromatin interaction mapping" data-content="3D chromatin interaction mapping maps SNPs to genes based on chromatin interactions such as Hi-C and ChIA-PET. Please check to perform this mapping.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td><input type="checkbox" calss="form-control" name="geneMap_ciMap", id="geneMap_ciMap" onchange="geneMapCheckAll();"></td>
@@ -471,7 +471,7 @@
 				<tr class="ciMapOptions">
 					<td>Builtin chromatin interaction data
 						<a class="infoPop" data-toggle="popover" title="Buildin Hi-C data" data-content="Hi-C datasets of 21 tissue and cell types from GSE87112 are selectable as build-in data. Multiple tissue and cell types can be selected.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td>
@@ -489,7 +489,7 @@
 					<td>Custom chromatin interaction matrices
 						<a class="infoPop" data-toggle="popover" title="Custom chromatin interaction matrices"
 							data-content="Please upload files of custom chromatin interaction matrices (significant loops). The input files have to follow the specific format. Please refer the tutorial for details. The file name should be '(Name_of_the_data).txt.gz' in which (Name_of_the_data) will be used in the results table.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td>
@@ -502,7 +502,7 @@
 				<tr class="ciMapOptions">
 					<td>FDR threshold
 						<a class="infoPop" data-toggle="popover" title="FDR threshold for significant interaction" data-content="Significance of interaction for build-in Hi-C datasets are computed by Fit-Hi-C (see tutorial for details). The default threshold is FDR &le; 1e-6 as suggested by Schmit et al. (2016).">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td>
@@ -514,7 +514,7 @@
 					<td>Promoter region window
 						<a class="infoPop" data-toggle="popover" title="Promoter region window" data-content="The window of promoter regions are used to overlap TSS of genes with significantly interacted regions with risk loci.
 							By default, promoter region is defined as 250bp upstream and 500bp downstream of TSS. Genes whose promoter regions are overlapped with the interacted region are used for gene mapping.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td><input type="text" class="form-control" name="geneMap_ciMapPromWindow" id="geneMap_ciMapPromWindow" value="250-500" onchange="geneMapCheckAll();">
@@ -528,7 +528,7 @@
 					<td>Annotate enhancer/promoter regions (Roadmap 111 epigenomes)
 						<a class="infoPop" data-toggle="popover" title="Enhancer/promoter regions" data-content="Enhancers are annotated to overlapped candidate SNPs which are also overlapped with significant chromatin interactions (region 1).
 							Promoters are annotated to regions which are significantly interacted with risk loci (region 2). Dyadic enhancer/promoter regions are annotated for both. Please refer the tutorial for details.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td>
@@ -546,7 +546,7 @@
 					<td>Filter SNPs by enhancers
 						<a class="infoPop" data-toggle="popover" title="Filter SNPs by enhancers" data-content="Only map SNPs which are overlapped with enhancers of selected epigenomes. Please select at least one epigenome to enable this option.
 							If this option is not checked, all SNPs overlapped with chromatin interaction are used for mapping.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td><input type="checkbox" calss="form-control" name="geneMap_ciMapEnhFilt", id="geneMap_ciMapEnhFilt" onchange="geneMapCheckAll();"></td>
@@ -556,7 +556,7 @@
 					<td>Filter genes by promoters
 						<a class="infoPop" data-toggle="popover" title="Filter genes by promoters" data-content="Only map to genes whose promoter regions are overlap with promoters of selected epigenomes. Please select at least one epigenome to enable this option.
 							If this option is not checked, all genes whose promoter regions are overlapped with the interacted regions are mapped.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
 					<td><input type="checkbox" calss="form-control" name="geneMap_ciMapPromFilt", id="geneMap_ciMapPromFilt" onchange="geneMapCheckAll();"></td>
@@ -575,7 +575,7 @@
 						<td rowspan="2">CADD</td>
 						<td>Perform SNPs filtering based on CADD score.
 							<a class="infoPop" data-toggle="popover" title="CADD score filtering" data-content="Please check this option to filter SNPs based on CADD score and specify minimum score in the box below.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_ciMapCADDcheck" id="geneMap_ciMapCADDcheck" onchange="geneMapCheckAll();"></td>
@@ -584,7 +584,7 @@
 					<tr>
 						<td>Minimum CADD score (&ge;)
 							<a class="infoPop" data-toggle="popover" title="CADD score" data-content="CADD score is the score of deleteriousness of SNPs. The higher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="number" class="form-control" id="geneMap_ciMapCADDth" name="geneMap_ciMapCADDth" value="12.37" onkeyup="geneMapCheckAll();" onpaste="geneMapCheckAll();" oninput="geneMapCheckAll();"></td>
@@ -594,7 +594,7 @@
 						<td rowspan="2">RegulomeDB</td>
 						<td>Perform SNPs filtering based on RegulomeDB score
 							<a class="infoPop" data-toggle="popover" title="RegulomeDB Score filtering" data-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_ciMapRDBcheck" id="geneMap_ciMapRDBcheck" onchange="geneMapCheckAll();"></td>
@@ -603,7 +603,7 @@
 					<tr>
 						<td>Maximum RegulomeDB score (categorical)
 							<a class="infoPop" data-toggle="popover" title="RegulomeDB score" data-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least likely. Some SNPs have 'NA' which are not assigned any score.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -631,7 +631,7 @@
 						<td rowspan="4">15-core chromatin state</td>
 						<td>Perform SNPs filtering based on chromatin state
 							<a class="infoPop" data-toggle="popover" title="15-core chromatin state filtering" data-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="checkbox" class="form-check-input" name="geneMap_ciMapChr15check" id="geneMap_ciMapChr15check" onchange="geneMapCheckAll();"></td>
@@ -655,7 +655,7 @@
 					<tr>
 						<td>15-core chromatin state maximum state
 							<a class="infoPop" data-toggle="popover" title="The maximum chromatin state" data-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td><input type="number" class="form-control" id="geneMap_ciMapChr15Max" name="geneMap_ciMapChr15Max" value="7" onkeyup="geneMapCheckAll();" onpaste="geneMapCheckAll();" oninput="geneMapCheckAll();"/></td>
@@ -664,7 +664,7 @@
 					<tr>
 						<td>15-core chromatin state filtering method
 							<a class="infoPop" data-toggle="popover" title="Filtering method for chromatin state" data-content="When multiple tissue/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>
@@ -703,7 +703,7 @@
 							<a class="infoPop" data-toggle="popover" title="Filtering method for annotations"
 							data-content="When multiple datasets are selected, SNPs will be kept if they are overlapped with any of, majority of or all of selected annotations
 							unless an option 'No filtering' is selected.">
-								<i class="fa fa-question-circle-o fa-lg"></i>
+								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
 						<td>

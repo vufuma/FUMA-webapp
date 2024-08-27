@@ -10,7 +10,14 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js'],
+                'resources/js/app.js',
+                'resources/js/NewJobParameters.js',
+                'resources/js/snp2gene.js',
+                'resources/js/fuma.js',
+                'resources/js/celltype.js',
+                'resources/js/sidebar.js',
+                'resources/js/geneMapParameters.js',
+                ],
             refresh: true,
         }),
     ],
@@ -30,7 +37,6 @@ export default defineConfig({
         sourcemap: true,
         write: true,
         rollupOptions: {
-            // external: [],
             output: {
                 manualChunks(id) {
                     if (id.includes('node_modules')) {
@@ -39,5 +45,9 @@ export default defineConfig({
                 },
             },
         },
+        manifest: true
+    },
+    css: {
+        devSourcemap: true,
     },
 });

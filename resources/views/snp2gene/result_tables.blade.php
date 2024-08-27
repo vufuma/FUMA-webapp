@@ -101,7 +101,7 @@
 					<span class="form-inline">
 						<input type="submit" class="btn btn-default" id="geneQuerySubmit" name="geneQuerySubmit" value="Use mapped genes for GENE2FUNC (open new tab)">
 						<a class="infoPop" data-toggle="popover" data-content="This is linked to GENE2FUNC process. All genes in the table below will be used. You can manually submit selected genes later on. This will open new tab.">
-							<i class="fa fa-question-circle-o fa-lg"></i>
+							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</span>
 				</form>
@@ -261,7 +261,7 @@
 			<div id="annotPlotPanel">
 				<h4><span style="color: #00004d">Regional plot with annotation</span>
 				<a class="infoPop" data-toggle="popover" data-content="To create regional plot with genes and annotations, select the following options and click 'Plot'.">
-					<i class="fa fa-question-circle-o fa-lg"></i>
+					<i class="fa-regular fa-circle-question fa-lg"></i>
 				</a>
 				</h4>
 				<div style="margin-left: 40px;">

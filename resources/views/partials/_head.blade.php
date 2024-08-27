@@ -1,6 +1,3 @@
-
-@vite(['resources/js/app.js'])
-
 <meta name="csrf-token" content="{{ csrf_token() }}"/>
 <title>Functional Mapping and Annotation of Genome-wide association studies</title>
 <!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"-->
@@ -16,8 +13,8 @@
 <link rel="stylesheet" href="{!! URL::asset('css/style.css') !!}"/>
 <link rel="stylesheet" href="{!! URL::asset('css/sidebar.css') !!}"/>
 <link rel="stylesheet" href="{!! URL::asset('css/sweetalert.css') !!}"/>
-<link rel="stylesheet" href="{!! URL::asset('css/HoldOn.min.css') !!}"/>
 {{-- <link rel="icon" href="{!! URL::asset('image/FUMAicon.png') !!}"/> --}}
 @yield('stylesheets')
-
+{{-- Imports from the web using npm --}}
+@vite(['resources/js/app.js'])
 

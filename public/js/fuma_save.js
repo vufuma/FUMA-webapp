@@ -1,6 +1,6 @@
 // Global functions and methods
 
-$(document).ready(function(){
+$(function(){
 	// popover
 	var cnt = 10;
 	$('.infoPop')
@@ -14,7 +14,7 @@ $(document).ready(function(){
 		});
 
 	if(loggedin==1){
-		var timer = new InactivityTimer("/logout", 7200000); // 2 hour timeout 
+		var timer = new InactivityTimer("/logout", 7200000); // 2 hour timeout
 		timer.stop();
 		timer.start();
 	}

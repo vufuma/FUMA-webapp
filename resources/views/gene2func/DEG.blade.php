@@ -8,7 +8,7 @@
 			For the signed DEG, the direction of expression was taken into account
 			(i.e. a up-regulated DEG set contains all genes that are significantly overexpressed in sample with that label compared to other samples).
 			The -log10(P values) in the graph refer to the probability of the hypergeometric test.">
-			<i class="fa fa-question-circle-o fa-lg"></i>
+			<i class="fa-regular fa-circle-question fa-lg"></i>
 		</a>
 	</h4>
 	<span class="info"><i class="fa fa-info"></i>

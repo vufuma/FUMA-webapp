@@ -70,7 +70,7 @@
                         <div class="col-md-2">
                             <input type="checkbox" id="status{{ $key }}" name="status[{{ $key }}]"
                                 value="{{ $status }}" @isset(old('status')[$key]) checked @endisset>
-                                    
+
                             <label for="status{{ $key }}">{{ $status }}</label>
                         </div>
                         @if (($key + 1) % 6 === 0)
@@ -106,7 +106,7 @@
         <br>
 
         {{-- -------------------------------- --}}
-        
+
         <div>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -140,7 +140,7 @@
                                                 <b>QUEUED</b>: The job has been dispatched to queue.<br/><b>RUNNING</b>: The job is running.<br/>
                                                 <b>Go to results</b>: The job has been completed. This is linked to result page.<br/>
                                                 <b>ERROR</b>: An error occurred during the process.">
-                                                <i class="fa fa-question-circle-o fa-lg"></i>
+                                                <i class="fa-regular fa-circle-question fa-lg"></i>
                                             </a>
                                         </th>
                                         <th>Removed at</th>
