@@ -20,7 +20,7 @@
 	<!-- Input files upload -->
 	<div class="card" style="padding-top: 0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>1. Upload input files <a href="#NewJobFilesPanel" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h5>
+			<h5>1. Upload input files <a href="#NewJobFilesPanel" data-toggle="collapse" aria-expanded="false" class="active" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse in" id="NewJobFilesPanel">
 			<div id="fileFormatError"></div>
@@ -112,7 +112,7 @@
 	<!-- Parameters for lead SNPs and candidate SNPs -->
 	<div class="card" style="padding-top: 0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>2. Parameters for lead SNPs and candidate SNPs identification<a href="#NewJobParamsPanel" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h5>
+			<h5>2. Parameters for lead SNPs and candidate SNPs identification<a href="#NewJobParamsPanel" aria-expanded="false" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse in" id="NewJobParamsPanel">
 			<table class="table table-bordered inputTable" id="NewJobParams" style="width: auto;">
@@ -228,7 +228,7 @@
 	<!-- positional mapping -->
 	<div class="card" style="padding:0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>3-1. Gene Mapping (positional mapping) <a href="#NewJobPosMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h5>
+			<h5>3-1. Gene Mapping (positional mapping) <a href="#NewJobPosMapPanel" aria-expanded="false" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse" id="NewJobPosMapPanel">
 			<h5>Positional mapping</h5>
@@ -437,7 +437,7 @@
 	<!-- eqtl mapping -->
 	<div class="card" style="padding: 0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>3-2. Gene Mapping (eQTL mapping)<a href="#NewJobEqtlMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h5>
+			<h5>3-2. Gene Mapping (eQTL mapping)<a href="#NewJobEqtlMapPanel" aria-expanded="false" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse" id="NewJobEqtlMapPanel">
 			<h5>eQTL mapping</h5>
@@ -652,7 +652,7 @@
 	<!-- chromatin interaction mapping -->
 	<div class="card" style="padding: 0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>3-3. Gene Mapping (3D Chromatin Interaction mapping)<a href="#NewJobCiMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h5>
+			<h5>3-3. Gene Mapping (3D Chromatin Interaction mapping)<a href="#NewJobCiMapPanel" aria-expanded="false" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse" id="NewJobCiMapPanel">
 			<h4>chromatin interaction mapping</h4>
@@ -926,7 +926,7 @@
 	<!-- Gene type multiple selection -->
 	<div class="card" style="padding:0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>4. Gene types<a href="#NewJobGenePanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h5>
+			<h5>4. Gene types<a href="#NewJobGenePanel" aria-expanded="false" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse" id="NewJobGenePanel">
 			<table class="table table-bordered inputTable" id="NewJobGene" style="width: auto;">
@@ -978,7 +978,7 @@
 	<!-- MHC regions -->
 	<div class="card" style="padding:0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>5. MHC region<a href="#NewJobMHCPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h5>
+			<h5>5. MHC region<a href="#NewJobMHCPanel" aria-expanded="false" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse" id="NewJobMHCPanel">
 			<table class="table table-bordered inputTable" id="NewJobMHC" style="width: auto;">
@@ -1017,7 +1017,7 @@
 	<!-- MAGMA -->
 	<div class="card" style="padding:0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h5>6. MAGMA analysis<a href="#NewJobMAGMAPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h5>
+			<h5>6. MAGMA analysis<a href="#NewJobMAGMAPanel" aria-expanded="false" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="rotfa fa fa-chevron-down"></i></a></h5>
 		</div>
 		<div class="card-body collapse" id="NewJobMAGMAPanel">
 			<table class="table table-bordered inputTable" id="NewJobMAGMA" style="width: auto;">
