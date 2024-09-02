@@ -1,4 +1,4 @@
-function GWplot(data) {
+export const GWplot = function (data) {
 	margin = { top: 30, right: 30, bottom: 50, left: 50 },
 		width = 800,
 		height = 300;
@@ -112,7 +112,7 @@ function GWplot(data) {
 
 			if (value == null || value.length == 0) {
 				$("#geneManhattan").html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' MAGMA was not able to perform.</span><br/></div>');
+					+ ' MAGMA was not able to perform.</span><br></div>');
 			} else {
 				var chromSize = [];
 				for (var i = 0; i < 23; i++) { chromSize.push(0) }
@@ -218,7 +218,7 @@ function GWplot(data) {
 	}
 }
 
-function QQplot(data) {
+export function QQplot(data) {
 	var margin = { top: 30, right: 30, bottom: 50, left: 50 },
 		width = 300,
 		height = 300;
@@ -307,7 +307,7 @@ function QQplot(data) {
 		} else if (key == 'magma.genes.out') {
 			if (value == null || value.length == 0) {
 				$("#geneQQplot").html('<div style="text-align:center; padding-top:24px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' MAGMA was not able to perform.</span><br/></div>');
+					+ ' MAGMA was not able to perform.</span><br></div>');
 			} else {
 
 				let obs = [];
@@ -374,7 +374,7 @@ function QQplot(data) {
 	}
 }
 
-function MAGMA_GStable(data) {
+export function MAGMA_GStable(data) {
 	$('#MAGMAtable').DataTable({
 		"data": data['magma.sets.top'],
 		columns: [
@@ -392,7 +392,7 @@ function MAGMA_GStable(data) {
 	});
 }
 
-function MAGMA_expPlot(data) {
+export function MAGMA_expPlot(data) {
 	var data_title = {
 		'gtex_v8_ts_avg_log2TPM': 'GTEx v8 53 tissue types',
 		'gtex_v8_ts_general_avg_log2TPM': 'GTEx v8 30 general tissue types',
@@ -406,7 +406,7 @@ function MAGMA_expPlot(data) {
 
 	if (data == null || data == undefined || data.lenght == 0) {
 		$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-			+ ' There was an error, MAGMA was not able to perform.</span><br/></div>');
+			+ ' There was an error, MAGMA was not able to perform.</span><br></div>');
 	} else {
 		data.forEach(function (d) {
 			d['p'] = +d['p']; //P-value
@@ -528,7 +528,7 @@ function MAGMA_expPlot(data) {
 	}
 }
 
-function expImgDown(gs, type) {
+export function expImgDown(gs, type) {
 	$('#expData').val($('#' + gs).html());
 	$('#expType').val(type);
 	$('#expJobID').val(id);
@@ -536,7 +536,7 @@ function expImgDown(gs, type) {
 	$('#expSubmit').trigger('click');
 }
 
-function ciMapCircosPlot(data) {
+export function ciMapCircosPlot(data) {
 	data = data[0];
 
 	// let sortedKeys = Object.keys(data).sort();
@@ -550,17 +550,17 @@ function ciMapCircosPlot(data) {
 
 	for (var key in data) {
 		images += '<div class="col-md-4 col-xs-4 col-sm-4">'
-			+ 'Chromosome ' + key + '<br/>'
+			+ 'Chromosome ' + key + '<br>'
 			// + '<a target="_blank" href="' + 'data:image/png;base64,' + data[key] + '">' // TODO: do something to click and open in new tab
 			+ '<img width="80%" src="' + 'data:image/png;base64,' + data[key] + '"></img>'
-			+ '</a><br/><br/>'
+			+ '</a><br><br>'
 			+ '</div>';
 	}
 	images += '</div>';
 	$('#ciMapCircosPlot').html(images);
 }
 
-function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
+export function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
 	$('#plotClear').hide();
 	$('#download').attr('disabled', false);
 	if (eqtlMap == 0) {
@@ -1019,7 +1019,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 	});
 }
 
-function locusPlot(data, type, chr) {
+export function locusPlot(data, type, chr) {
 	// create plot space
 	var colorScale = d3.scale.linear().domain([0.0, 0.5, 1.0]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 	var margin = { top: 50, right: 50, bottom: 60, left: 50 },
@@ -1099,11 +1099,11 @@ function locusPlot(data, type, chr) {
 	var tip = d3.tip().attr("class", "d3-tip")
 		.offset([-10, 0])
 		.html(function (d) {
-			var out = "rsID: " + d.rsID + "<br/>BP: " + d.pos + "<br/>P: " + d.gwasP + "<br/>MAF: " + d.MAF
-				+ "<br/>r2: " + d.r2 + "<br/>Ind. Sig. SNP: " + d.IndSigSNP;
-			if (orcol != "NA") { out += "<br/>OR: " + d.or; }
-			if (becol != "NA") { out += "<br/>Beta: " + d.beta; }
-			if (secol != "NA") { out += "<br/>SE: " + d.se; }
+			var out = "rsID: " + d.rsID + "<br>BP: " + d.pos + "<br>P: " + d.gwasP + "<br>MAF: " + d.MAF
+				+ "<br>r2: " + d.r2 + "<br>Ind. Sig. SNP: " + d.IndSigSNP;
+			if (orcol != "NA") { out += "<br>OR: " + d.or; }
+			if (becol != "NA") { out += "<br>Beta: " + d.beta; }
+			if (secol != "NA") { out += "<br>SE: " + d.se; }
 			return out;
 		});
 	svg.call(tip);
@@ -1213,7 +1213,7 @@ function locusPlot(data, type, chr) {
 	}
 }
 
-function PlotSNPAnnot(data) {
+export function PlotSNPAnnot(data) {
 	var margin = { top: 20, right: 80, bottom: 90, left: 40 },
 		width = 500 - margin.right - margin.left,
 		height = 250 - margin.top - margin.bottom;
@@ -1245,8 +1245,8 @@ function PlotSNPAnnot(data) {
 		.offset([-5, 0])
 		.html(function (d) {
 			return 'count: ' + d.count
-				+ '<br/>proportion: ' + Number(d.prop).toPrecision(3)
-				+ '<br/>enrichment: ' + Number(d.enrichment).toPrecision(3) + '<br/>P: ' + Number(Number(d['fisher.P']).toPrecision(3)).toExponential(2);
+				+ '<br>proportion: ' + Number(d.prop).toPrecision(3)
+				+ '<br>enrichment: ' + Number(d.enrichment).toPrecision(3) + '<br>P: ' + Number(Number(d['fisher.P']).toPrecision(3)).toExponential(2);
 		})
 	svg.call(tip);
 	y.domain([0, d3.max(data, function (d) { return d.prop }) * 1.05]);
@@ -1563,3 +1563,5 @@ function circosDown(type) {
 	$('#circosPlotType').val(type);
 	$('#circosPlotSubmit').trigger('click');
 }
+
+export default GWplot;

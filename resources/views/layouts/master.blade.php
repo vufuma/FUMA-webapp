@@ -2,6 +2,9 @@
 <html lang="en">
 	<head>
 		@include('partials._head')
+        @vite(['resources/js/app.js', 'resources/js/fuma.js'])
+        @stack('vite')
+
 	</head>
 	<body>
 		<div id="header" class="row" style="padding-top: 16px">
@@ -29,8 +32,9 @@
 				@include('partials._footer')
 			</footer>
 		</div>
-
-		@include('partials._javascript')
+        @include('partials._javascript')
         @yield('scripts')
+        @stack('page_scripts')
+
 	</body>
 </html>

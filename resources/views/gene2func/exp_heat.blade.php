@@ -6,7 +6,7 @@
 		Data set:
 		<select id="gene_exp_data" class="form-control" style="width: auto;">
 		</select>
-	</span><br/><br/>
+	</span><br><br>
 	<span class="form-inline">
 		Expression Value:
 		<select id="expval" class="form-control" style="width: auto;">
@@ -17,15 +17,15 @@
 			<b>Average expression per label</b>:
 			This is an average of log2 transformed expression value (e.g. RPKM and TPM) per label (e.g. tissue type or developmental stage).
 			RPKM and TPM were wisolized at 50.
-			Darker red means higher expression of that gene, compared to a darker blue color.<br/>
+			Darker red means higher expression of that gene, compared to a darker blue color.<br>
 			<b>Average of normalized expression per label</b>:
 			Average value of the <u>relative</u> expression value (zero mean normalization of log2 transformed expression).
-			Darker red means higher relative expression of that gene in label X, compared to a darker blue color in the same label.<br/>
+			Darker red means higher relative expression of that gene in label X, compared to a darker blue color in the same label.<br>
 			">
 			<i class="fa-regular fa-circle-question fa-lg"></i>
 		</a>
 	</span>
-	<br/>
+	<br>
 	<span class="form-inline">
 		Order genes by:
 		<select id="geneSort" class="form-control" style="width: auto;">
@@ -38,7 +38,7 @@
 			<option value="clst">Cluster</option>
 			<option value="alph" selected>Alphabetical order</option>
 		</select>
-	</span><br/><br/>
+	</span><br><br>
 	Download the plot as
 	<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("expHeat","png");'>PNG</button>
 	<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("expHeat","jpeg");'>JPG</button>
@@ -56,5 +56,5 @@
 	</form>
 	<div id="expHeat"></div>
 	<div id="expBox"></div>
-	<br/>
+	<br>
 </div>

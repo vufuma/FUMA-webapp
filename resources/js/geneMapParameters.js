@@ -1,5 +1,5 @@
 var prefix = "jobs";
-$(function(){
+export const GeneMapSetup = function(){
 	getGeneMapIDs();
 	geneMapCheckAll();
 
@@ -10,9 +10,9 @@ $(function(){
 		});
 		geneMapCheckAll();
 	});
-})
+}
 
-function getGeneMapIDs(){
+export function getGeneMapIDs(){
 	$.ajax({
 		url: subdir+"/snp2gene/getGeneMapIDs",
 		type: "POST",
@@ -764,3 +764,5 @@ function geneMapCheckAll(){
 	if(submit){$('#SubmitGeneMap').attr("disabled", false)}
 	else{$('#SubmitGeneMap').attr("disabled", true)}
 }
+
+export default GeneMapSetup;

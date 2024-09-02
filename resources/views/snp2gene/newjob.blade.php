@@ -15,7 +15,7 @@
 			<i class="fa-regular fa-circle-question fa-lg"></i>
 		</a>
 	</span>
-	<br/><br/>
+	<br><br>
 
 	<!-- Input files upload -->
 	<div class="card" style="padding-top: 0px;">
@@ -128,7 +128,7 @@
 					</td>
 					<td>
 						Total sample size (integer): <input type="number" class="form-control" id="N" name="N" onkeyup="window.CheckAll();" onpaste="window.CheckAll();" oninput="window.CheckAll();">
-						OR<br/>
+						OR<br>
 						Column name for N per SNP (text): <input type="text" class="form-control" id="Ncol" name="Ncol" onkeyup="window.CheckAll();" onpaste="window.CheckAll();" oninput="window.CheckAll();">
 					</td>
 					<td></td>
@@ -252,11 +252,11 @@
 						</a>
 					</td>
 					<td>
-						<span class="form-inline">Maximum distance: <input type="number" class="form-control" id="posMapWindow" name="posMapWindow" value="10" min="0" max="1000" onkeyup="window.CheckAll();" onpaste="window.CheckAll();" oninput="window.CheckAll();"> kb</span><br/>
-						OR<br/>
-						Functional consequences of SNPs on genes:<br/>
+						<span class="form-inline">Maximum distance: <input type="number" class="form-control" id="posMapWindow" name="posMapWindow" value="10" min="0" max="1000" onkeyup="window.CheckAll();" onpaste="window.CheckAll();" oninput="window.CheckAll();"> kb</span><br>
+						OR<br>
+						Functional consequences of SNPs on genes:<br>
 						<span class="multiSelect">
-							<a>clear</a><br/>
+							<a>clear</a><br>
 							<select multiple class="form-control" id="posMapAnnot" name="posMapAnnot[]" onchange="window.CheckAll();">
 								<option value="exonic">exonic</option>
 								<option value="splicing">splicing</option>
@@ -273,8 +273,8 @@
 			</table>
 
 			<div id="posMapOptFilt">
-				Optional SNP filtering by functional annotations for positional mapping<br/>
-				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by positional mapping criterion. When eQTL mapping is also performed, this filtering can be specified separately.<br/>
+				Optional SNP filtering by functional annotations for positional mapping<br>
+				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by positional mapping criterion. When eQTL mapping is also performed, this filtering can be specified separately.<br>
 					All these annotations will be available for all SNPs within LD of identified lead SNPs in the result tables, but this filtering affect gene prioritization.
 				</span>
 				<table class="table table-bordered inputTable" id="posMapOptFiltTable" style="width: auto;">
@@ -346,18 +346,18 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td>Tissue/cell types for 15-core chromatin state<br/>
+						<td>Tissue/cell types for 15-core chromatin state<br>
 							<span class="info"><i class="fa fa-info"></i> Multiple tissue/cell types can be selected.</span>
 						</td>
 						<td>
 							<span class="multiSelect">
 								<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-								<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+								<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 								<select multiple class="form-control" size="10" id="posMapChr15Ts" name="posMapChr15Ts[]" onchange="window.CheckAll();">
 									@include('snp2gene.epi_options')
 								</select>
 							</span>
-							<br/>
+							<br>
 						</td>
 						<td></td>
 					</tr>
@@ -387,19 +387,19 @@
 					</tr>
 					<tr>
 						<td rowspan="2">Additional annotations</td>
-						<td>Annotation datasets<br/>
-							<span class="info"><i class="fa fa-info"></i> Multiple datasets can be selected.</span><br/>
-							<span class="info"><i class="fa fa-info"></i> Filtering is performed when at least one annotation is selected.</span><br/>
+						<td>Annotation datasets<br>
+							<span class="info"><i class="fa fa-info"></i> Multiple datasets can be selected.</span><br>
+							<span class="info"><i class="fa fa-info"></i> Filtering is performed when at least one annotation is selected.</span><br>
 						</td>
 						<td>
 							<span class="multiSelect">
 								<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-								<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+								<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 								<select multiple class="form-control" size="10" id="posMapAnnoDs" name="posMapAnnoDs[]">
 									@include('snp2gene.bed_annot')
 								</select>
 							</span>
-							<br/>
+							<br>
 						</td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
@@ -460,14 +460,14 @@
 					<td>
 						<span class="multiSelect">
 							<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-							<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+							<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 							<select multiple class="form-control" id="eqtlMapTs" name="eqtlMapTs[]" size="10" onchange="window.CheckAll();">
 								@include('snp2gene.eqtl_options')
 							</select>
 						</span>
 						<span class="info"><i class="fa fa-info"></i>
-							From FUMA v1.3.0 GTEx v7, and from FUMA v1.3.5c GTEx v8 have been added.<br/>
-							When the "all" option is selected, both GTEx v6, v7 and v8 will be used.<br/>
+							From FUMA v1.3.0 GTEx v7, and from FUMA v1.3.5c GTEx v8 have been added.<br>
+							When the "all" option is selected, both GTEx v6, v7 and v8 will be used.<br>
 							To avoid this, please manually select the specific version to use.
 						</span>
 					</td>
@@ -480,8 +480,8 @@
 						</a>
 					</td>
 					<td>
-						<span class="form-inline">Use only significant snp-gene pairs: <input type="checkbox" class="form-control" name="sigeqtlCheck" id="sigeqtlCheck" checked onchange="window.CheckAll();"> (FDR&lt;0.05)</span><br/>
-						OR<br/>
+						<span class="form-inline">Use only significant snp-gene pairs: <input type="checkbox" class="form-control" name="sigeqtlCheck" id="sigeqtlCheck" checked onchange="window.CheckAll();"> (FDR&lt;0.05)</span><br>
+						OR<br>
 						<span class="form-inline">(nominal) P-value cutoff (&lt;): <input type="number" class="form-control" name="eqtlP" id="eqtlP" value="1e-3" onchange="window.CheckAll();"></span>
 					</td>
 					<td></td>
@@ -489,8 +489,8 @@
 			</table>
 
 			<div id="eqtlMapOptFilt">
-				Optional SNP filtering by functional annotation for eQTL mapping<br/>
-				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by eQTL mapping criterion.<br/>
+				Optional SNP filtering by functional annotation for eQTL mapping<br>
+				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by eQTL mapping criterion.<br>
 					All these annotations will be available for all SNPs within LD of identified lead SNPs in the result tables, but this filtering affect gene prioritization.
 				</span>
 				<table class="table table-bordered inputTable" id="eqtlMapOptFiltTable">
@@ -562,13 +562,13 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td>Tissue/cell types for 15-core chromatin state<br/>
+						<td>Tissue/cell types for 15-core chromatin state<br>
 							<span class="info"><i class="fa fa-info"></i> Multiple tissue/cell types can be selected.</span>
 						</td>
 						<td>
 							<span class="multiSelect">
 								<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-								<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+								<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 								<select multiple class="form-control" size="10" id="eqtlMapChr15Ts" name="eqtlMapChr15Ts[]" onchange="window.CheckAll();">
 									@include('snp2gene.epi_options')
 								</select>
@@ -602,19 +602,19 @@
 					</tr>
 					<tr>
 						<td rowspan="2">Additional annotations</td>
-						<td>Annotation datasets<br/>
-							<span class="info"><i class="fa fa-info"></i> Multiple datasets can be selected.</span><br/>
-							<span class="info"><i class="fa fa-info"></i> Filtering is performed when at least one annotation is selected.</span><br/>
+						<td>Annotation datasets<br>
+							<span class="info"><i class="fa fa-info"></i> Multiple datasets can be selected.</span><br>
+							<span class="info"><i class="fa fa-info"></i> Filtering is performed when at least one annotation is selected.</span><br>
 						</td>
 						<td>
 							<span class="multiSelect">
 								<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-								<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+								<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 								<select multiple class="form-control" size="10" id="eqtlMapAnnoDs" name="eqtlMapAnnoDs[]">
 									@include('snp2gene.bed_annot')
 								</select>
 							</span>
-							<br/>
+							<br>
 						</td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
@@ -675,7 +675,7 @@
 					<td>
 						<span class="multiSelect">
 							<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-							<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+							<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 							<select multiple class="form-control" id="ciMapBuiltin" name="ciMapBuiltin[]" size="10" onchange="window.CheckAll();">
 								@include('snp2gene.ci_options')
 							</select>
@@ -691,7 +691,7 @@
 						</a>
 					</td>
 					<td>
-						<span id="ciFiles"></span><br/>
+						<span id="ciFiles"></span><br>
 						<button type="button" class="btn btn-default btn-xs" id="ciFileAdd">add file</button>
 						<input type="hidden" value="0" id="ciFileN" name="ciFileN">
 					</td>
@@ -732,7 +732,7 @@
 					<td>
 						<span class="multiSelect">
 							<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-							<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+							<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 							<select multiple class="form-control" id="ciMapRoadmap" name="ciMapRoadmap[]" size="10" onchange="window.CheckAll();">
 								@include('snp2gene.PE_options')
 							</select>
@@ -764,8 +764,8 @@
 			</table>
 
 			<div id="ciMapOptFilt">
-				Optional SNP filtering by functional annotation for chromatin interaction mapping<br/>
-				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by chromatin interaction mapping criterion.<br/>
+				Optional SNP filtering by functional annotation for chromatin interaction mapping<br>
+				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by chromatin interaction mapping criterion.<br>
 					All these annotations will be available for all SNPs within LD of identified lead SNPs in the result tables, but this filtering affect gene prioritization.
 				</span>
 				<table class="table table-bordered inputTable" id="ciMapOptFiltTable">
@@ -836,13 +836,13 @@
 						<td></td>
 					</tr>
 					<tr>
-						<td>Tissue/cell types for 15-core chromatin state<br/>
+						<td>Tissue/cell types for 15-core chromatin state<br>
 							<span class="info"><i class="fa fa-info"></i> Multiple tissue/cell types can be selected.</span>
 						</td>
 						<td>
 							<span class="multiSelect">
 								<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-								<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+								<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 								<select multiple class="form-control" size="10" id="ciMapChr15Ts" name="ciMapChr15Ts[]" onchange="window.CheckAll();">
 									@include('snp2gene.epi_options')
 								</select>
@@ -876,19 +876,19 @@
 					</tr>
 					<tr>
 						<td rowspan="2">Additional annotations</td>
-						<td>Annotation datasets<br/>
-							<span class="info"><i class="fa fa-info"></i> Multiple datasets can be selected.</span><br/>
-							<span class="info"><i class="fa fa-info"></i> Filtering is performed when at least one annotation is selected.</span><br/>
+						<td>Annotation datasets<br>
+							<span class="info"><i class="fa fa-info"></i> Multiple datasets can be selected.</span><br>
+							<span class="info"><i class="fa fa-info"></i> Filtering is performed when at least one annotation is selected.</span><br>
 						</td>
 						<td>
 							<span class="multiSelect">
 								<a class="clear" style="float:right; padding-right:20px;">Clear</a>
-								<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+								<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
 								<select multiple class="form-control" size="10" id="ciMapAnnoDs" name="ciMapAnnoDs[]">
 									@include('snp2gene.bed_annot')
 								</select>
 							</span>
-							<br/>
+							<br>
 						</td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
@@ -950,7 +950,7 @@
 					<td>Gene type
 						<a class="infoPop" data-toggle="popover" title="Gene Type" data-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl). By default, only protein-coding genes are used for mapping.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
-						</a><br/>
+						</a><br>
 						<span class="info"><i class="fa fa-info"></i> Multiple gene type can be selected.</span>
 					</td>
 					<td>
@@ -1004,8 +1004,8 @@
 					<td>Extended MHC region
 						<a class="infoPop" data-toggle="popover" title="Extended MHC region" data-content="User defined MHC region. When this option is not given, the default MHC region will be used.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
-						</a><br/>
-						<span class="info"><i class="fa fa-info"></i>e.g. 25000000-33000000<br/>
+						</a><br>
+						<span class="info"><i class="fa fa-info"></i>e.g. 25000000-33000000<br>
 					</td>
 					<td><input type="text" class="form-control" name="extMHCregion" id="extMHCregion" onkeyup="window.CheckAll();" onpaste="window.CheckAll();" oninput="window.CheckAll();"/></td>
 					<td></td>
@@ -1046,12 +1046,12 @@
 					<td>
 						<span class="form-inline">
 							<input type="text" class="form-control" id="magma_window" name="magma_window" value="0" onkeyup="window.CheckAll();" onpaste="window.CheckAll();" oninput="window.CheckAll();">
-							kb<br/>
+							kb<br>
 							<span class="info"><i class="fa fa-info"></i>
 								One value will set same window size both sides, two values separated by comma will set different window sizes for up- and downstream.
 								e.g. 2,1 will set window sizes 2kb upstream and 1kb downstream of the genes.
 							</span>
-							<br/>
+							<br>
 							<span class="info"><i class="fa fa-info"></i>
 								Maximum window size is limited to 50.
 							</span>
@@ -1064,7 +1064,7 @@
 						<a class="infoPop" data-toggle="popover" title="MAGMA gene expression analysis" data-content="When magma is performed, at least one data set needs to be selected.
 						Multiple data sets can be also selected.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
-						</a><br/>
+						</a><br>
 					</td>
 					<td>
 						<select multiple class="form-control" name="magma_exp[]" id="magma_exp">
@@ -1086,12 +1086,12 @@
 
 	<span class="form-inline">
 		<span style="font-size:18px;">Title of job submission</span>:
-		<input type="text" class="form-control" name="NewJobTitle" id="NewJobTitle"/><br/>
+		<input type="text" class="form-control" name="NewJobTitle" id="NewJobTitle"/><br>
 	</span>
     <span class="info"><i class="fa fa-info"></i>
 			This is not mandatory, but job title might help you to track your jobs.
 	</span>
-    <br/><br/>
+    <br><br>
 
 	<input class="btn btn-default" type="submit" value="Submit Job" name="SubmitNewJob" id="SubmitNewJob"/>
 	<span style="color: red; font-size:18px;">

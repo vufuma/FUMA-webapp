@@ -1,4 +1,4 @@
-function loadResults(id){
+/* function loadResults(id){
 	// Check files
 	$.ajax({
 		url: subdir+'/'+page+'/checkFileList',
@@ -57,8 +57,9 @@ function loadResults(id){
 	});
 
 }
+ */
 
-function updatePerDatasetPlot(){
+export function updatePerDatasetPlot(){
 	ds = $('#dataset_select').val();
 	$('#perDatasetPlot').html('<center><i class="fa fa-spinner fa-spin fa-5x"></i></center>')
 	$.ajax({
@@ -87,7 +88,7 @@ function PlotPerDataset(data){
 
 	if(data.length==0){
 		$('#perDatasetPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' No data found for the selected dataset.</span><br/></div>');
+		+' No data found for the selected dataset.</span><br></div>');
 	}else{
 		$('#perDatasetPlot').html("")
 		var max_label = 0;
@@ -229,7 +230,7 @@ function PlotStep1(data){
 
 	if(data.length==0){
 		$('#step1Plot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' Either there was no significant cell type or no data was available.</span><br/></div>');
+		+' Either there was no significant cell type or no data was available.</span><br></div>');
 	}else{
 		$('#step1Plot').html("")
 		var max_label = 0;
@@ -355,7 +356,7 @@ function PlotStep2(data){
 
 	if(data.length==0){
 		$('#step2Plot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' Either there was no significant cell type or step 2 was not performed.</span><br/></div>');
+		+' Either there was no significant cell type or step 2 was not performed.</span><br></div>');
 	}else{
 		$('#step2Plot').html("")
 		var max_label = 0;
@@ -477,7 +478,7 @@ function PlotStep3(data, step2){
 
 	if(data.length==0){
 		$('#step3Plot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' Either there was no significant cell type or step 3 was not performed.</span><br/></div>');
+		+' Either there was no significant cell type or step 3 was not performed.</span><br></div>');
 	}else{
 		$('#step3Plot').html("")
 		var max_label = 0;
@@ -708,3 +709,5 @@ function ImgDownDS(plot, type){
 	$('#celltypeDir').val(prefix);
 	$('#celltypeSubmit').trigger('click');
 }
+
+export default updatePerDatasetPlot;

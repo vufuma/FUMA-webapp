@@ -1,4 +1,4 @@
-$(function(){
+export const SidebarSetup = function(){
 	function showPanel(hash){
 
 		// Hide all panels
@@ -41,4 +41,6 @@ $(function(){
 			$('#main_icon').attr("class", "fa fa-chevron-right");
 		}
 	});
-});
+};
+
+export default SidebarSetup;

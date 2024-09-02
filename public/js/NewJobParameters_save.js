@@ -16,7 +16,7 @@ $(function(){
 
 	getjobIDs();
 	CheckAll();
-	$('#fileCheck').html("<br/><div class='alert alert-danger'>GWAS summary statistics is a mandatory input.</div>");
+	$('#fileCheck').html("<br><div class='alert alert-danger'>GWAS summary statistics is a mandatory input.</div>");
 
 	// $('.multiSelect.clear').on('click',function(){
 	// 	var selection = $(this).siblings("select").attr("id");
@@ -66,7 +66,7 @@ $(function(){
 			}
 		})
 		n += 1;
-		$('#ciFiles').append('<span class="form-inline ciFile"><br/>File '+n+': data type <input type="text" class="form-control" placeholder="e.g. HiC or ChIA-PET" name="ciMapType'+n+'" id="ciMapType'+n
+		$('#ciFiles').append('<span class="form-inline ciFile"><br>File '+n+': data type <input type="text" class="form-control" placeholder="e.g. HiC or ChIA-PET" name="ciMapType'+n+'" id="ciMapType'+n
 			+'"><tab><button type="button" class="btn btn-default btn-xs ciFileDel" onclick="ciFileDel(this)">delete</button><tab><input type="file" class="form-control-file ciMapFile" name="ciMapFile'+n+'" id="ciMapFile'+n
 			+'" onchange="ciFileCheck()"><input type="hidden" class="ciFileID" id="ciFileID'+n+'" name="ciFileID'+n+'" value="'+n+'"></span>');
 	})
@@ -421,7 +421,7 @@ function CheckAll(){
 			submit=true;
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Mandatory<br/>The maximum file size is 600Mb. Please gzip if your file is bigger than 600Mb.</div></td>');
+				+'<i class="fa fa-ban"></i> Mandatory<br>The maximum file size is 600Mb. Please gzip if your file is bigger than 600Mb.</div></td>');
 			$('#chrcol').attr("disabled", true);
 			$('#poscol').attr("disabled", true);
 			$('#rsIDcol').attr("disabled", true);
@@ -458,23 +458,23 @@ function CheckAll(){
 	if ($('#GRCh38').is(":checked")==true) {
 		if($('#chrcol').val().length==0 || $('#poscol').val().length==0 || $('#eacol').val().length==0 || $('#neacol').val().length==0){
 			$(table.rows[2].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-exclamation-circle"></i> Optional. <br/>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br/> <br/> <strong> Please fill in the column names above and unclick then reclick this button. </strong> <br/></div></td>');
+				+'<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br> <br> <strong> Please fill in the column names above and unclick then reclick this button. </strong> <br></div></td>');
 				submit=false;
 				tablecheck=false;
 			}else{
 			$(table.rows[2].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-exclamation-circle"></i> OK. <br/>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br/> The chromosome and position must be on build GRCh38.<br/></div></td>');
+				+'<i class="fa fa-exclamation-circle"></i> OK. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br> The chromosome and position must be on build GRCh38.<br></div></td>');
 		}
 	}else{
 		$(table.rows[2].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-			+'<i class="fa fa-exclamation-circle"></i> Optional. <br/>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br/>The chromosome and position must be on build GRCh38.</div></td>');
+			+'<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br>The chromosome and position must be on build GRCh38.</div></td>');
 	}
 
 	if($('#leadSNPs').val().length==0){
 		$(table.rows[3].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		$(table.rows[4].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-			+'<i class="fa fa-exclamation-circle"></i> Optional. <br/>This is only valid when predefined lead SNPs are provided.</div></td>');
+			+'<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when predefined lead SNPs are provided.</div></td>');
 		$('#addleadSNPs').attr("disabled", true);
 	}else{
 		$('#addleadSNPs').attr("disabled", false);
@@ -510,7 +510,7 @@ function CheckAll(){
 		$('#N').attr("disabled", false);
 		$('#Ncol').attr("disabled", false);
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-			+'<i class="fa fa-ban"></i> Mandatory input. <br/>Please provide either total sample size of GWAS study or column name of N in input file.</div></td>');
+			+'<i class="fa fa-ban"></i> Mandatory input. <br>Please provide either total sample size of GWAS study or column name of N in input file.</div></td>');
 		submit=false;
 		tablecheck=false;
 	}else if($('#N').val().length>0){

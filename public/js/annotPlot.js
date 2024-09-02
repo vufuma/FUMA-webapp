@@ -27,7 +27,7 @@ $(document).ready(function () {
 			Chr15cells: Chr15cells
 		},
 		beforeSend: function () {
-			$("#load").append('<span style="color:grey;"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i><br/>Loading ...</span><br/>');
+			$("#load").append('<span style="color:grey;"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i><br>Loading ...</span><br>');
 		},
 		success: function (data) {
 			try {
@@ -41,9 +41,9 @@ $(document).ready(function () {
 			}
 			catch (e) {
 				if (e instanceof SyntaxError) {
-					display_dismissable_warning(`Could not parse result of annotPlot/getData data<br/> ${e}`, id);
+					display_dismissable_warning(`Could not parse result of annotPlot/getData data<br> ${e}`, id);
 				} else {
-					display_dismissable_warning(`Exception handling result of annotPlot/getData<br/> ${e}`, id);
+					display_dismissable_warning(`Exception handling result of annotPlot/getData<br> ${e}`, id);
 				}
 				$('#load').html("");
 			}
@@ -68,9 +68,9 @@ $(document).ready(function () {
 					}
 					catch (e) {
 						if (e instanceof SyntaxError) {
-							display_dismissable_warning(`Could not parse result of annotPlot/getGenes data<br/> ${e}`, id);
+							display_dismissable_warning(`Could not parse result of annotPlot/getGenes data<br> ${e}`, id);
 						} else {
-							display_dismissable_warning(`Exception handling result of annotPlot/getGenes<br/> ${e}`, id);
+							display_dismissable_warning(`Exception handling result of annotPlot/getGenes<br> ${e}`, id);
 						}
 					}
 					finally {

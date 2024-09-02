@@ -13,7 +13,7 @@
 	</h4>
 	<span class="info"><i class="fa fa-info"></i>
 		Significantly enriched DEG sets (P<sub>bon</sub> &lt; 0.05) are highlighted in red.
-	</span><br/><br/>
+	</span><br><br>
 	<div id="DEGPlot">
 		<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -24,7 +24,7 @@
 			<input type="hidden" name="fileName" id="DEGFileName" val=""/>
 			<input type="submit" id="DEGSubmit" class="ImgDownSubmit"/>
 		</form>
-		<br/>
+		<br>
 		<span class="form-inline">
 			Order tissue by :
 			<select id="DEGorder" class="form-control" style="width: auto;">

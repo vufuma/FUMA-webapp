@@ -1,7 +1,41 @@
 // Global functions and methods
 
-$(function(){
+function InactivityTimer(path, delay){
+	var timeout;
+	function logout(){
+		swal("Session timeout", "Please login again.", "error")
+		document.getElementById("fuma-logout-link").click();
+	}
+
+	function start(){
+		if(!timeout){
+			timeout = setTimeout(logout, delay || 86400000); // Default 24 hours
+		}
+	}
+
+	function stop(){
+		if (timeout){
+			clearTimeout(timeout);
+			timeout = null;
+		}
+	}
+
+	function reset(){
+		stop();
+		start();
+	}
+
+	this.start = start;
+	this.stop = stop;
+	this.reset = reset;
+
+	document.addEventListener("mousemove", reset);
+	document.addEventListener("keypress",  reset);
+}
+
+export const FumaSetup = function(loggedin){
 	// popover
+    console.log(`setup FUMA - logged in ${loggedin}`);
 	var cnt = 10;
 	$('.infoPop')
 		.each(function(){
@@ -39,37 +73,8 @@ $(function(){
 			}
 		})
 	})
-});
+};
 
-function InactivityTimer(path, delay){
-	var timeout;
-	function logout(){
-		swal("Session timeout", "Please login again.", "error")
-		document.getElementById("fuma-logout-link").click();
-	}
 
-	function start(){
-		if(!timeout){
-			timeout = setTimeout(logout, delay || 86400000); // Default 24 hours
-		}
-	}
 
-	function stop(){
-		if (timeout){
-			clearTimeout(timeout);
-			timeout = null;
-		}
-	}
-
-	function reset(){
-		stop();
-		start();
-	}
-
-	this.start = start;
-	this.stop = stop;
-	this.reset = reset;
-
-	document.addEventListener("mousemove", reset);
-	document.addEventListener("keypress",  reset);
-}
+export default FumaSetup;

@@ -2,10 +2,10 @@
 <nav class="navbar navbar-expand-lg fixed-top bg-dark navbar-dark align-items-center">
 	<!--div class="container-fluid"-->
         <a class="navbar-brand fuma_brand" href="{{ Config::get('app.subdir') }}/" style="padding-left: 30px;">
-            <img src="{!! URL::asset('image/fuma.png') !!}" height="50px;">
+            <img src="{!! URL::asset('image/fuma.png') !!}" height="50" alt="FUMAGwas">
         </a>
-        <button type = "button" class = "navbar-toggler" data-toggle = "collapse" data-target = "#topOfPageNav" aria-controls = "navbarNav" aria-expanded = "false" aria-label = "Toggle navigation ">
-            <span class = "navbar-toggler-icon"> </ span>
+        <button type = "button" class = "navbar-toggler" data-toggle = "collapse" data-target = "#topOfPageNav" aria-controls = "topOfPageNav" aria-expanded = "false" aria-label = "Toggle navigation ">
+            <span class = "navbar-toggler-icon"> </span>
         </button>
 		<div class="collapse navbar-collapse" id="topOfPageNav">
 			<ul class="navbar-nav ml-auto">
@@ -27,12 +27,12 @@
 					<a id="appInfo" class="infoPop nav-link" data-placement="bottom" data-toggle="popover" data-html="true"
 						title="FUMA information"
 						data-content='<div style="width:200px;">
-						Current FUMA verions: <span id="FUMAver"></span><br/>
-						Total users: <span id="FUMAuser"></span><br/>
-						Total SNP2GENE jobs: <span id="FUMAs2g"></span><br/>
-						Total GENE2FUNC jobs: <span id="FUMAg2f"></span><br/>
-						Total CellType jobs: <span id="FUMAcellType"></span><br/>
-						Currently running jobs: <span id="FUMArun"></span><br/>
+						Current FUMA verions: <span id="FUMAver"></span><br>
+						Total users: <span id="FUMAuser"></span><br>
+						Total SNP2GENE jobs: <span id="FUMAs2g"></span><br>
+						Total GENE2FUNC jobs: <span id="FUMAg2f"></span><br>
+						Total CellType jobs: <span id="FUMAcellType"></span><br>
+						Currently running jobs: <span id="FUMArun"></span><br>
 						Currently queued jobs: <span id="FUMAque"></span></div>'>
 						<i class="fa fa-info-circle fa-lg"></i>
 					</a>

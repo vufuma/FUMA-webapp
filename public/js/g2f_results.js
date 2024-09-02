@@ -84,8 +84,8 @@ function expHeatPlot(id, dataset){
 	d3.json(subdir+'/'+page+'/expPlot/'+prefix+'/'+id+'/'+dataset, function(data){
 		if(data==null || data==undefined || data.length==0){
 			$('#expHeat').html('<div style="text-align:center; padding-top:100px; padding-bottom:100px;"><span style="color: red; font-size: 24px;"><i class="fa fa-ban"></i> '
-				+'None of your input genes exists in the selected expression data.</span></br>'
-				+'This might also be because of the mismatch of input gene ID or symbol.<br/></div>');
+				+'None of your input genes exists in the selected expression data.</span><br>'
+				+'This might also be because of the mismatch of input gene ID or symbol.<br></div>');
 			$('#expHeat').parent().children('.ImgDown').each(function(){$(this).prop("disabled", true)});
 		}else{
 			// data = JSON.parse(data);
@@ -233,7 +233,7 @@ function tsEnrich(id){
 	d3.json(subdir+'/'+page+'/DEGPlot/'+prefix+"/"+id, function(data){
 		if(data==null || data==undefined || data.lenght==0){
 			$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-			+' MAGMA was not able to perform.</span><br/></div>');
+			+' MAGMA was not able to perform.</span><br></div>');
 		}else{
 			data.forEach(function(d){
 				d[3] = +d[3]; //P-value
@@ -464,7 +464,7 @@ function GeneSet(id){
 	d3.json(subdir+'/'+page+'/g2f_d3text/'+prefix+'/'+id+'/GS.txt', function(data){
 		data = data['GS.txt'];
 		if(data == undefined || data == null){
-			$('#GeneSet').html('<div style="text-align:center; padding-top:100px; padding-bottom:100px;"><span style="color: red; font-size: 24px;"><i class="fa fa-ban"></i> The number of input genes exist in selected background genes was 0 or 1.</span></br>'
+			$('#GeneSet').html('<div style="text-align:center; padding-top:100px; padding-bottom:100px;"><span style="color: red; font-size: 24px;"><i class="fa fa-ban"></i> The number of input genes exist in selected background genes was 0 or 1.</span><br>'
 			+'The hypergeometric test is only performed if more than 2 genes are available.</div>');
 			$('#GSdown').attr("disabled", true);
 		}else{
@@ -512,7 +512,7 @@ function GeneSet(id){
 						+category[i]+'Table"></div></div></div>');
 					$('#GeneSet').append(panel);
 				}else{
-					// $('#test').append("<p>"+category[i]+"<br/>gs_max: "+gs_max+'<br/>genes: '+genes.length+'</p>');
+					// $('#test').append("<p>"+category[i]+"<br>gs_max: "+gs_max+'<br>genes: '+genes.length+'</p>');
 					// add div
 					var panel = '<div class="panel panel-default" style="padding-top:0;"><div class="panel-heading" style="height: 35px;"><a href="#'
 						+category[i]+'Panel" data-toggle="collapse" style="color: black;">'

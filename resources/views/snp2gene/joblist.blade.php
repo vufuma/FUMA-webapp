@@ -15,9 +15,9 @@
 						<th>Started at</th>
 						<th>Completed at</th>
 						<th>Status
-							<a class="infoPop" data-toggle="popover" data-html="true" data-content="<b>NEW: </b>The job has been submitted.<br/>
-								<b>QUEUED</b>: The job has been dispatched to queue.<br/><b>RUNNING</b>: The job is running.<br/>
-								<b>Go to results</b>: The job has been completed. This is linked to result page.<br/>
+							<a class="infoPop" data-toggle="popover" data-html="true" data-content="<b>NEW: </b>The job has been submitted.<br>
+								<b>QUEUED</b>: The job has been dispatched to queue.<br><b>RUNNING</b>: The job is running.<br>
+								<b>Go to results</b>: The job has been completed. This is linked to result page.<br>
 								<b>ERROR</b>: An error occurred during the process. Please refer email for detail message.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
@@ -159,7 +159,7 @@
 								you should specify which result this is referring to.">
 									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
-								<br/>
+								<br>
 								<span class="info"><i class="fa fa-info"></i> Max 300 characters.</span>
 							</td>
 							<td>
@@ -168,7 +168,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<span style="color:red;"><sup>*</sup>Required input</span><br/><br/>
+				<span style="color:red;"><sup>*</sup>Required input</span><br><br>
 				<button class="btn btn-default btn-sm" id="publishSubmit">Submit</button>
 				<button class="btn btn-default btn-sm" id="publishUpdate">Update</button>
 				<button class="btn btn-default btn-sm" id="publishDelete">Delete</button>

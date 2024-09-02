@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @section('stylesheets')
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <!--link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css"-->
     <link href="{{ asset('/css/tree_multiselect.css') }}" rel="stylesheet">
 @endsection
 
@@ -27,6 +27,7 @@
         </div>
 
         <div id="page-content-wrapper">
+            <div id="pageData" data-page-data="{}"></div>
             <div class="page-content inset">
                 <div id="newJob" class="sidePanel container" style="padding-top:50px;">
                     {{ html()->form('POST', 'celltype/submit')->acceptsFiles()->novalidate()->open() }}
@@ -39,7 +40,7 @@
                                 When you select a job ID, FUMA will automatically check if MAGMA was performed in the
                                 selected job.
                             </span>
-                            <select class="form-control" id="s2gID" name="s2gID" onchange="CheckInput();">
+                            <select class="form-control" id="s2gID" name="s2gID" onchange="window.CheckInput();">
                             </select>
                             <br />
                             2. Upload your own genes.raw file<br />
@@ -48,7 +49,7 @@
                                 which is an output of MAGMA gene analysis.
                             </span>
                             <input type="file" class="form-control-file" name="genes_raw" id="genes_raw"
-                                onchange="CheckInput();" />
+                                onchange="window.CheckInput();" />
                             <span class="form-inline">
                                 <input type="checkbox" checked class="form-check-input" name="ensg_id" i="ensg_id" />
                                 : Ensembl gene ID is used in the provided file.
@@ -83,7 +84,7 @@
 
                             <div>
                                 <select multiple="multiple" class="form-control" style="display: none;" id="cellDataSets"
-                                    name="cellDataSets[]" onchange="CheckInput();">
+                                    name="cellDataSets[]" onchange="window.CheckInput();">
                                     <option value="TabulaMuris_FACS_Aorta" data-section="Aorta/Mouse" data-key="0">
                                         TabulaMuris_FACS_Aorta</option>
                                     <option value="MouseCellAtlas_Bladder" data-section="Bladder/Mouse" data-key="0">
@@ -538,46 +539,73 @@
     </div>
 @endsection
 
-@section('scripts')
+{{-- @section('scripts') --}}
     {{-- Imports from the web --}}
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <!--script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script-->
+    <!--script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
     <script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script>
+    <script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script-->
     <!--script src="https://cdn.jsdelivr.net/npm/tree-multiselect@2.6.3/dist/jquery.tree-multiselect.min.js"></script-->
+{{-- @endsection --}}
 
+@push('vite')
+    @vite([
+        'resources/js/cell_results.js',
+        'resources/js/celltype.js',
+        'resources/js/sidebar.js'])
+@endpush
+
+@push('page_scripts')
+    {{-- Web (via npm) resources --}}
     {{-- Hand written ones --}}
     <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        var id = "{{ $id }}";
-        var status = "{{ $status }}";
-        var page = "{{ $page }}";
-        var prefix = "{{ $prefix }}";
-        var subdir = "{{ Config::get('app.subdir') }}";
-        var loggedin = "{{ Auth::check() }}";
+		window.loggedin = "{{ Auth::check() }}";
+        console.log(`Page {{ $page }} LoggedIn ${window.loggedin}`)
+        const pageData = document.querySelector('#pageData');
+        pageData.setAttribute('data-page-data', `{
+            "status": "{{ $status }}",
+            "id": "{{ $id }}",
+            "prefix": "{{ $prefix }}",
+            "page": "{{ $page }}",
+            "subdir": "",
+            "loggedin": "{{ Auth::check() }}"
+        }`);
+
     </script>
 
     {{-- Imports from the project --}}
-    <script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
+    <!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
     <script type="text/javascript" src="{!! URL::asset('js/cell_results.js') !!}?135"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/celltype.js') !!}?134"></script>
+    <script type="text/javascript" src="{!! URL::asset('js/celltype.js') !!}?134"></script-->
 
-    <script>
-        var params = {
-            sortable: true
-        };
-        $("select#cellDataSets").treeMultiselect({
-            searchable: true,
-            searchParams: ['section', 'text'],
-            hideSidePanel: true,
-            startCollapsed: true
+    {{-- Imports from the project using Vite alias macro --}}
+    <script type="module">
+        console.log("Loading modules");
+        debugger;
+        import CheckAll from "{{ Vite::appjs('NewJobParameters.js') }}";
+        window.CheckAll = CheckAll;
+        import CellTypeSetup from "{{ Vite::appjs('celltype.js') }}";
+        import CheckInput from "{{ Vite::appjs('celltype.js') }}";
+        window.CheckInput = CheckInput;
+        import GeneMapSetup from "{{ Vite::appjs('cell_results.js') }}";
+        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
+        $(function(){
+            SidebarSetup();
+            CellTypeSetup();
+            var jQuery  = window.jQuery;
+            var params = {
+                sortable: true
+            };
+            window.$("select#cellDataSets").treeMultiselect({
+                searchable: true,
+                searchParams: ['section', 'text'],
+                hideSidePanel: true,
+                startCollapsed: true
+            });
         });
     </script>
-@endsection
+
+@endpush

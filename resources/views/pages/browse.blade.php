@@ -56,7 +56,17 @@
 	</div>
 @endsection
 
-@section('scripts')
+{{-- This projectsown javascript resources - in the header stylesheets section --}}
+@push('page_scripts')
+    @vite([
+        'resources/js/sidebar.js',
+        'resources/js/s2g_results',
+        'resources/js/g2f_results.js',
+        'resources/js/helpers.js',
+        'resources/js/browse.js'])
+@endpush
+
+@push('page_scripts')
 	{{-- Imports from the web --}}
 	<!--script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script-->
 	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.js"></script>
@@ -69,14 +79,20 @@
 
 	{{-- Hand written ones --}}
 	<script type="text/javascript">
-		$.ajaxSetup({
-			headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
-		});
 		var id = "{{$id}}";
 		var page = "{{$page}}"
 		var subdir = "{{ Config::get('app.subdir') }}";
-		var loggedin = "{{ Auth::check() }}";
+		var window.loggedin = "{{ Auth::check() }}";
 	</script>
+
+    <script type="module">
+        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
+        import BrowseSetup from "{{ Vite::appjs('browse.js') }}";
+        $(function(){
+            SidebarSetup();
+            BrowseSetup();
+        })
+    </script>
 
 	{{-- Imports from the project --}}
 	<script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>

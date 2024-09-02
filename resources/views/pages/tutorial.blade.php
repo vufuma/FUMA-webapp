@@ -59,7 +59,7 @@
 						<p>You can then use the prioritized genes as input to <a href="{{ Config::get('app.subdir') }}/gene2func"><strong>GENE2FUNC</strong></a> to check expression patterns and shared molecular functions between genes.
 							<strong>GENE2FUNC</strong> can also be used for any list of pre-selected genes (i.e. created outside of SNP2GENE).
 						<p/>
-						<br/>
+						<br>
 						<img src="{{ URL::asset('/image/pipeline.png') }}" style="width: 80%;">
 					</div>
 				</div>
@@ -70,25 +70,25 @@
 					<h2>SNP2GENE</h2>
 					<div style="margin-left: 40px;">
 						@include('tutorial.snp2gene.inputfiles')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.parameters')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.outputs')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.tables')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.geneMap')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.refpanel')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.annov')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.magma')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.riskloci')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.eqtl')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.ci')
 					</div>
 				</div>
@@ -100,7 +100,7 @@
 					</p>
 					<div style="padding-left: 40px;">
 						@include('tutorial.gene2func.submit-genes')
-						<br/>
+						<br>
 						@include('tutorial.gene2func.outputs')
 					</div>
 				</div>
@@ -108,13 +108,13 @@
 					<h2>Cell type specificity analyses with scRNA-seq</h2>
 					<div style="margin-left: 40px;">
 						@include('tutorial.celltype.submit')
-						<br/>
+						<br>
 						@include('tutorial.celltype.basemodel')
-						<br/>
+						<br>
 						@include('tutorial.celltype.workflow')
-						<br/>
+						<br>
 						<!-- @include('tutorial.celltype.output') -->
-						<br/>
+						<br>
 						@include('tutorial.celltype.datasets')
 					</div>
 				</div>
@@ -129,7 +129,7 @@
 @section('scripts')
 	{{-- Imports from the web --}}
 	<script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
-	
+
 	{{-- Imports from the project --}}
 	<script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}"></script>
 	<script type="text/javascript" src="{!! URL::asset('js/tutorial_utils.js') !!}"></script>
@@ -161,7 +161,7 @@
 					});
 				}
 			}
-		
+
 			$('.inpage').on('click', function(){
 				var hashid = $(this).attr('href');
 				hashid = hashid.replace(/\/\w+#/, "#");
@@ -189,5 +189,5 @@
 			})
 		});
 	</script>
-	
+
 @endsection

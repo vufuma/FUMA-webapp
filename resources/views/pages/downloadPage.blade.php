@@ -163,11 +163,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EUR_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 808M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EUR_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 2.94G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EUR_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 12K
                         </div>
@@ -180,11 +180,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AFR_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 1.37G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AFR_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 6.75G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AFR_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 16K
                         </div>
@@ -197,11 +197,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EAS_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 789M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EAS_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 2.87G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EAS_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 12K
                         </div>
@@ -214,11 +214,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_SAS_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 891M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_SAS_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 3.17G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_SAS_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 12K
                         </div>
@@ -231,11 +231,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AMR_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 951M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AMR_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 2.38G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AMR_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 8K
                         </div>
@@ -248,11 +248,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_ALL_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 2.65G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_ALL_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 49.4G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_ALL_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 61K
                         </div>

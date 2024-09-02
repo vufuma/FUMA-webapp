@@ -1,9 +1,137 @@
 var prefix = "jobs";
-$(function(){
+import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot } from "./s2g_results.js";
+import { getjobIDs } from "./NewJobParameters.js";
+import { getGeneMapIDs } from "./geneMapParameters.js";
+
+function getJobList(page) {
+	$('#joblist-panel table tbody')
+		.empty()
+		.append('<tr><td colspan="6" style="text-align:center;">Retrieving data</td></tr>');
+	$.getJSON(subdir + '/' + page + '/getJobList', function (data) {
+		var items = '<tr><td colspan="6" style="text-align: center;">No Jobs Found</td></tr>';
+		if (data.length) {
+			items = '';
+			$.each(data, function (key, val) {
+				var g2fbutton = 'Not available';
+				var publish = 'Not available';
+				if (val.is_public) {
+					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">Go to results</a>';
+					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
+					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Edit</button>';
+				} else if (val.status == 'OK') {
+					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">Go to results</a>';
+					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
+					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Publish</button>';
+				} else if (val.status == 'ERROR:005') {
+					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">ERROR:005</a>';
+				}
+
+				items = items + "<tr><td>" + val.jobID + "</td><td>" + val.title
+					+ "</td><td>" + val.created_at + "</td><td>" + (val.started_at != null ? val.started_at : '-') + "</td><td>" + (val.completed_at != null ? val.completed_at : '-') + "</td><td>" + val.status + "</td><td>" + g2fbutton
+					+ '</td><td>' + publish + '</td><td style="text-align: center;"><input type="checkbox" class="deleteJobCheck" value="'
+					+ val.jobID + '"/></td></tr>';
+			});
+		}
+
+		// Put list in table
+		$('#joblist-panel table tbody')
+			.empty()
+			.append(items);
+	});
+}
+
+
+
+function g2fbtn(id) {
+	$('#g2fSubmitJobID').val(id);
+	$('#g2fSubmitBtn').trigger('click');
+}
+
+function checkPublish(id) {
+	$.ajax({
+		url: subdir + "/" + page + "/checkPublish",
+		type: "POST",
+		data: {
+			jobID: id
+		},
+		error: function () {
+			alert("JQuery chechPublish error")
+		},
+		success: function (data) {
+			data = JSON.parse(data);
+			if (data.publish == 0) {
+				publish(id, data);
+			} else {
+				edit(id, data);
+			}
+		}
+	});
+}
+
+function publish(id, data) {
+	$('#publish_s2g_jobID').val(id);
+	$('#publish_s2g_jobID_text').html(id);
+	if (data.g2f != undefined) {
+		$('#publish_g2f_jobID').val(data.g2f);
+	} else {
+		$('#publish_g2f_jobID').val('');
+	}
+	$('#publish_title').val(data.title);
+	$('#publish_author').val(data.author);
+	$('#publish_email').val(data.email);
+	checkPublishInput()
+	$('#publishSubmit').show();
+	$('#publishUpdate').hide();
+	$('#publishDelete').hide();
+	$('#modalTitle').html("Publish your results");
+	$('#modalPublish').modal('show');
+}
+
+function edit(id, data) {
+	$('#publish_s2g_jobID').val(id);
+	$('#publish_s2g_jobID_text').html(id);
+	if (data.g2f_jobID != undefined) {
+		$('#publish_g2f_jobID').val(data.g2f);
+	} else {
+		$('#publish_g2f_jobID').val('');
+	}
+	$('#publish_title').val(data.title);
+	$('#publish_author').val(data.author);
+	$('#publish_email').val(data.email);
+	$('#publish_phenotype').val(data.phenotype);
+	$('#publish_publication').val(data.publication);
+	$('#publish_sumstats_link').val(data.sumstats_link);
+	$('#publish_sumstats_ref').val(data.sumstats_ref);
+	$('#publish_notes').val(data.notes);
+	checkPublishInput()
+	$('#publishSubmit').hide();
+	$('#publishUpdate').show();
+	$('#publishDelete').show();
+	$('#modalTitle').html("Edit your public results");
+	$('#modalPublish').modal('show');
+}
+
+function checkPublishInput() {
+	var submit = false;
+	if ($('#publish_title').val().length > 0 && $('#publish_author').val().length > 0 && $('#publish_email').val().length > 0) { submit = true }
+	if (submit) {
+		$('#publishSubmit').prop('disabled', false)
+		$('#publishUpdate').prop('disabled', false)
+	} else {
+		$('#publishSubmit').prop('disabled', true)
+		$('#publishUpdate').prop('disabled', true)
+	}
+}
+
+export const Snp2GeneSetup = function(){
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
 	$('#annotPlotPanel').hide();
 	$('#g2fSubmitBtn').hide();
+
+    const pageDataElement = document.getElementById('pageData');
+    console.log(`${pageDataElement.getAttribute('data-page-data')}`)
+    const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
 
 	var hashid = window.location.hash;
 	if (hashid == "" && status.length == 0) {
@@ -21,17 +149,17 @@ $(function(){
 		$('#regionalPlot').hide();
 	});
 
-	getJobList();
+	getJobList(pageData.page);
 
 	$('#refreshTable').on('click', function () {
-		getJobList();
+		getJobList(pageData.page);
 	});
 
 	$('#deleteJob').on('click', function () {
 		swal({
 			title: "Are you sure?",
 			html: true,
-			text: "Do you really want to remove selected jobs?<br/><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>",
+			text: "Do you really want to remove selected jobs?<br><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>",
 			type: "warning",
 			showCancelButton: true,
 			closeOnConfirm: true,
@@ -55,7 +183,7 @@ $(function(){
 								}
 							},
 							complete: function () {
-								getJobList();
+								getJobList(pageData.page);
 								getjobIDs();
 								getGeneMapIDs();
 							}
@@ -237,7 +365,7 @@ $(function(){
 					});
 				} else {
 					$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-						+ ' MAGMA was not performed.</span><br/></div>');
+						+ ' MAGMA was not performed.</span><br></div>');
 				}
 				if (ciMap == 1) {
 					$.ajax({
@@ -442,122 +570,6 @@ $(function(){
 		});
 
 	});
-});
+};
 
-function getJobList() {
-	$('#joblist-panel table tbody')
-		.empty()
-		.append('<tr><td colspan="6" style="text-align:center;">Retrieving data</td></tr>');
-	$.getJSON(subdir + '/' + page + '/getJobList', function (data) {
-		var items = '<tr><td colspan="6" style="text-align: center;">No Jobs Found</td></tr>';
-		if (data.length) {
-			items = '';
-			$.each(data, function (key, val) {
-				var g2fbutton = 'Not available';
-				var publish = 'Not available';
-				if (val.is_public) {
-					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">Go to results</a>';
-					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
-					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Edit</button>';
-				} else if (val.status == 'OK') {
-					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">Go to results</a>';
-					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
-					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Publish</button>';
-				} else if (val.status == 'ERROR:005') {
-					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">ERROR:005</a>';
-				}
-
-				items = items + "<tr><td>" + val.jobID + "</td><td>" + val.title
-					+ "</td><td>" + val.created_at + "</td><td>" + (val.started_at != null ? val.started_at : '-') + "</td><td>" + (val.completed_at != null ? val.completed_at : '-') + "</td><td>" + val.status + "</td><td>" + g2fbutton
-					+ '</td><td>' + publish + '</td><td style="text-align: center;"><input type="checkbox" class="deleteJobCheck" value="'
-					+ val.jobID + '"/></td></tr>';
-			});
-		}
-
-		// Put list in table
-		$('#joblist-panel table tbody')
-			.empty()
-			.append(items);
-	});
-}
-
-function g2fbtn(id) {
-	$('#g2fSubmitJobID').val(id);
-	$('#g2fSubmitBtn').trigger('click');
-}
-
-function checkPublish(id) {
-	$.ajax({
-		url: subdir + "/" + page + "/checkPublish",
-		type: "POST",
-		data: {
-			jobID: id
-		},
-		error: function () {
-			alert("JQuery chechPublish error")
-		},
-		success: function (data) {
-			data = JSON.parse(data);
-			if (data.publish == 0) {
-				publish(id, data);
-			} else {
-				edit(id, data);
-			}
-		}
-	});
-}
-
-function publish(id, data) {
-	$('#publish_s2g_jobID').val(id);
-	$('#publish_s2g_jobID_text').html(id);
-	if (data.g2f != undefined) {
-		$('#publish_g2f_jobID').val(data.g2f);
-	} else {
-		$('#publish_g2f_jobID').val('');
-	}
-	$('#publish_title').val(data.title);
-	$('#publish_author').val(data.author);
-	$('#publish_email').val(data.email);
-	checkPublishInput()
-	$('#publishSubmit').show();
-	$('#publishUpdate').hide();
-	$('#publishDelete').hide();
-	$('#modalTitle').html("Publish your results");
-	$('#modalPublish').modal('show');
-}
-
-function edit(id, data) {
-	$('#publish_s2g_jobID').val(id);
-	$('#publish_s2g_jobID_text').html(id);
-	if (data.g2f_jobID != undefined) {
-		$('#publish_g2f_jobID').val(data.g2f);
-	} else {
-		$('#publish_g2f_jobID').val('');
-	}
-	$('#publish_title').val(data.title);
-	$('#publish_author').val(data.author);
-	$('#publish_email').val(data.email);
-	$('#publish_phenotype').val(data.phenotype);
-	$('#publish_publication').val(data.publication);
-	$('#publish_sumstats_link').val(data.sumstats_link);
-	$('#publish_sumstats_ref').val(data.sumstats_ref);
-	$('#publish_notes').val(data.notes);
-	checkPublishInput()
-	$('#publishSubmit').hide();
-	$('#publishUpdate').show();
-	$('#publishDelete').show();
-	$('#modalTitle').html("Edit your public results");
-	$('#modalPublish').modal('show');
-}
-
-function checkPublishInput() {
-	var submit = false;
-	if ($('#publish_title').val().length > 0 && $('#publish_author').val().length > 0 && $('#publish_email').val().length > 0) { submit = true }
-	if (submit) {
-		$('#publishSubmit').prop('disabled', false)
-		$('#publishUpdate').prop('disabled', false)
-	} else {
-		$('#publishSubmit').prop('disabled', true)
-		$('#publishUpdate').prop('disabled', true)
-	}
-}
+export default Snp2GeneSetup;

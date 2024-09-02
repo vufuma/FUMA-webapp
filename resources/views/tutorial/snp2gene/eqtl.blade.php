@@ -3,24 +3,24 @@ FUMA contains several data sources of eQTLs and each data source is described in
 <h4><strong>eQTL data sources</strong></h4>
 <div style="padding-left: 40px;">
 	<h4><strong>1. GTEx v6</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://www.gtexportal.org/home/datasets">http://www.gtexportal.org/home/datasets</a>.
 		Under the section of GTEx V6, from single tissue eQTL data both <span style="color: blue;">GTEx_analysis_V6_eQTLs.tar.gz</span>
 		for significant SNP-gene association based on permutation, and
 		<span style="color: blue;">GTEx_Analysis_V6_all-snp-gene-associations.tar</span> for every SNP-gene association test (including non-significant paris)
-		were downloaded.<br/>
+		were downloaded.<br>
 		GTEx eQTL v6 contains 44 different tissue types across 30 general tissue types.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		FUMA contains all SNP-gene pairs of cis-eQTL with nominal P-value &lt; 0.05 (including non-significant associations).
 		Significant eQTLs are defined as FDR (gene q-value) &le; 0.05.
-		The gene FDR is pre-calculated by GTEx and every gene-tissue pair has a defined P-value threshold for eQTLs based on permutation.<br/>
+		The gene FDR is pre-calculated by GTEx and every gene-tissue pair has a defined P-value threshold for eQTLs based on permutation.<br>
 		Signed statistics are t-statistics.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#gtexTable" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br/>
+				<a href="#gtexTable" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
 			<div id="gtexTable" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
@@ -81,43 +81,43 @@ FUMA contains several data sources of eQTLs and each data source is described in
 				</table>
 			</div>
 		</div>
-	</p><br/>
+	</p><br>
 
 	<h4><strong>2. Blood eQTL browser (Westra et al. 2013)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://genenetwork.nl/bloodeqtlbrowser/">http://genenetwork.nl/bloodeqtlbrowser/</a>.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		The data only include eQTLs with FDR &le; 0.5.
-		Genes in the original files were mapped to Ensembl ID in which genes are removed if they are not mapped to Ensembl ID.<br/>
+		Genes in the original files were mapped to Ensembl ID in which genes are removed if they are not mapped to Ensembl ID.<br>
 		Signed statistics are Z-scores.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		5,311 peripheral blood samples from 7 studies (<a href="https://www.ncbi.nlm.nih.gov/pubmed/3991562">Westra et al. 2013</a>).
-	</p><br/>
+	</p><br>
 
 	<h4><strong>3. BIOS QTL browser (Zhernakova et al. 2017)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://genenetwork.nl/biosqtlbrowser/">http://genenetwork.nl/biosqtlbrowser/</a>.
 		<span style="color:blue;">Cis-eQTLs Gene-level all primary effects</span> was downloaded which includes all SNP-gene pairs with FDR &le; 0.05.
 	</p>
-	<p><strong>Description</strong><br/>
-		The data only include eQTLs with FDR &le; 0.05.<br/>
+	<p><strong>Description</strong><br>
+		The data only include eQTLs with FDR &le; 0.05.<br>
 		Signed statistics are betas.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		2,116 whole peripheral blood samples of healthy adults from 4 Dutch cohorts (<a href="https://www.ncbi.nlm.nih.gov/pubmed/27918533">Zhernakova et al. 2017</a>).
-	</p><br/>
+	</p><br>
 
 	<h4><strong>4. BRAINEAC</strong></h4>
-	<p><strong>Data source</strong><br/>
-		eQTL was obtained from <a target="_blank" href="http://www.braineac.org/">http://www.braineac.org/</a>.<br/>
+	<p><strong>Data source</strong><br>
+		eQTL was obtained from <a target="_blank" href="http://www.braineac.org/">http://www.braineac.org/</a>.<br>
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		The data include all eQTLs with nominal P-value < 0.05.
-		Since tested allele was not provided in the original data source, minor alleles in 1000 genome phase 3 are assigned as tested alleles.<br/>
-		Signed statistics are t-statistics.<br/>
-		eQTLs were identified for each of the following 10 brain regions and based on averaged expression across all of them.<br/>
+		Since tested allele was not provided in the original data source, minor alleles in 1000 genome phase 3 are assigned as tested alleles.<br>
+		Signed statistics are t-statistics.<br>
+		eQTLs were identified for each of the following 10 brain regions and based on averaged expression across all of them.<br>
 		<span class="info"><i class="fa fa-info"></i>
 			Alignment of risk increasing allele and eQTL tested allele was not performed for this data source,
 			since tested allele is not available in the original data source
@@ -136,30 +136,30 @@ FUMA contains several data sources of eQTLs and each data source is described in
 			<li>Intralobular white matter</li>
 		</ul>
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		134 neuropathologically confirmed control individuals of European descent from <a target="_blank" href="https://ukbec.wordpress.com/">UK Brain Expression Consortium</a>
 		(<a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/25174004">Ramasamy et al. 2014</a>).
-	</p><br/>
+	</p><br>
 
 	<h4><strong>5. GTEx v7</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://www.gtexportal.org/home/datasets">http://www.gtexportal.org/home/datasets</a>.
 		Under the section of GTEx V7, from single tissue eQTL data both <span style="color: blue;">GTEx_analysis_v7_eQTLs.tar.gz</span>
 		for significant SNP-gene association based on permutation, and
 		<span style="color: blue;">GTEx_Analysis_v7_all_associations.tar.gz</span> for every SNP-gene association test (including non-significant pairs)
-		were downloaded.<br/>
+		were downloaded.<br>
 		GTEx eQTL v7 contains 53 different tissue types across 30 general tissue types.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		FUMA contains all SNP-gene pairs of cis-eQTL with nominal P-value &lt; 0.05 (including non-significant associations).
 		Significant eQTLs are defined as FDR (gene q-value) &le; 0.05.
-		The gene FDR is pre-calculated by GTEx and every gene-tissue pair has a defined P-value threshold for eQTLs based on permutation.<br/>
+		The gene FDR is pre-calculated by GTEx and every gene-tissue pair has a defined P-value threshold for eQTLs based on permutation.<br>
 		Signed statistics are betas.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#gtexTable_v7" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br/>
+				<a href="#gtexTable_v7" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
 			<div id="gtexTable_v7" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
@@ -224,26 +224,26 @@ FUMA contains several data sources of eQTLs and each data source is described in
 				</table>
 			</div>
 		</div>
-	</p><br/>
+	</p><br>
 
 	<h4><strong>6. MuTHER (Grundberg et al. 2012)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://www.muther.ac.uk/">http://www.muther.ac.uk/</a>.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Chromosome coordinate was lifted over to hg19 from hg18 using liftOver software.
 		Gene names are mapped to Ensembl ID (excluded genes which are not mapped to ENSG ID).
 		Since only tested allele was provided, other allele was extracted from 1000G EUR population.
 		FDR (or any corrected P-value) was not available in the original data (in the FUMA, FDR column was replaced with NA).
-		<br/>
+		<br>
 		Signed statistics are betas.
-		<br/>
+		<br>
 		<span class="info"><i class="fa fa-info"></i>
 			Since FDR is not available, MuTHER eQTLs can be only used when P-value threshold provided by user,
 			not "only significant snp-gene pairs" option.
 		</span>
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		856 female individuals of European descent recruited from
 		the TwinsUK Adult twin registry (<a href="https://www.ncbi.nlm.nih.gov/pubmed/22941192">Grundberg et al. 2012</a>).
 		<ul>
@@ -251,57 +251,57 @@ FUMA contains several data sources of eQTLs and each data source is described in
 			<li>Skin (N=847)</li>
 			<li>LCL (N=837)</li>
 		</ul>
-	</p><br/>
+	</p><br>
 
 	<h4><strong>7. xQTLServer (Ng et al. 2017)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://mostafavilab.stat.ubc.ca/xqtl/">http://mostafavilab.stat.ubc.ca/xqtl/</a>.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Gene names are mapped to Ensembl ID (excluded genes which are not mapped to ENSG ID).
 		Since alleles were not available in the original data, extracted from 1000G EUR population based on chromosome coordinate.
 		FDR was not provided in the original data source, but the FDR column was replaced with Bonferroni corrected p-value,
 		as it was used in the original study (corrected for all tested SNP-gene pairs 60,456,556).
-		<br/>
+		<br>
 		Signed statistics are not available.
-		<br/>
+		<br>
 		<span class="info"><i class="fa fa-info"></i>
 			Alignment of risk increasing allele and eQTL tested allele was not performed for this data source,
 			since tested allele and signed statistics are not available in the original data source
 			(replaced with "NA" in the result table).
 		</span>
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		494 dorsolateral prefrontal cortex samples (<a href="https://www.ncbi.nlm.nih.gov/pubmed/28869584">Ng et al. 2017</a>).
-	</p><br/>
+	</p><br>
 
 	<h4><strong>8. CommonMind Consortium (Fromer et al. 2016)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="https://www.synapse.org//#!Synapse:syn5585484">https://www.synapse.org//#!Synapse:syn5585484</a>.
 		Both eQTLs with and without SVA are included.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Publicly available eQTLs from CMC (without application) is binned by FDR.
 		Therefore, nominal P-value is not available (replaced with NA).
 		FDR was binned into the following four groups, &lt;0.2, &lt;0.1, &lt;0.05 and &lt;0.01.
 		As numeric value is required for filtering during SNP2GENE process, those categorical values are replaced with
 		0.199, 0.099, 0.049 and 0.009 respectively.
-		<br/>
+		<br>
 		Signed statistics are not available but since expressed increasing allele was provided, signed_stats column is replaced with 1.
-		<br/>
+		<br>
 		Trans eQTLs are also available for CMC data set (as a separated option from cis-eQTLs).
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		Post-mortem brain samples from 467 Caucasian individuals (209 with SCZ, 206 controls and 52 AFF cases; <a href="https://www.ncbi.nlm.nih.gov/pubmed/27668389">Fromer et al. 2016</a>).
-	</p><br/>
+	</p><br>
 
 	<h4><strong>9. eQTLGen (Vosa et al. 2018)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://www.eqtlgen.org/index.html">http://www.eqtlgen.org/index.html</a>.
 		For cis-eQTLs, <span style="color:blue">cis-eQTLs_full_20180905.txt.gz</span>,
 		for trans-eQTLs, <span style="color:blue">trans-eQTL_significant_20181017.txt.gz</span> was used.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Full summary statistics were downloaded.
 		For cis-eQTLs, full summary statistics was downloaded.
 		In the dataset, every SNP-gene pair with a distance &lt;1Mb from the center of the gene and tested in at least 2 cohorts was included.
@@ -310,36 +310,36 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		FDR was estimated based on permutations.
 		Please refer the original study for more details (<a href="https://www.biorxiv.org/content/early/2018/10/19/447367">Vosa et al. 2018</a>).
 		Ensembl gene ID is used as provided in the original file.
-		<br/>
+		<br>
 		Signed statistics are z-scores.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		Meta-analysis of cis-/trans-eQTLs from 37 datasets with a total of 31,684 individuals.
-	</p><br/>
+	</p><br>
 
 	<h4><strong>10. PsychENCODE (Wang et al. 2018)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://resource.psychencode.org">http://resource.psychencode.org</a>.
 		We used significant (<span style="color:blue">DER-08a_hg19_eQTL.significant</span>).
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		The available eQTLs were filtered based on an FDR &lt;0.05 and an expression &gt;0.1 FPKM in at least 10 samples.
 		Please refer the original study for more details (<a href="https://science.sciencemag.org/content/362/6420/eaat8464.full">Wang et al. 2018</a>).
 		Ensembl gene ID is used as provided in the original file.
-		<br/>
+		<br>
 		The signed statistics are betas.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		The eQTLs were identified from 1387 individuals.
-		<br/>
-	</p><br/>
+		<br>
+	</p><br>
 
 	<h4><strong>11. DICE (Schmiedel et al. 2018)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="https://dice-database.org/downloads#eqtl_download">https://dice-database.org/downloads#eqtl_download</a>.
 		The cis-eQTLs were obtained from the DICE eQTL section of the website.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Only significant eQTLs are present in the dataset.
 		The available eQTLs were filtered based on FDR&lt;0.05, nominal P-value&lt;0.0001, and TPM&gt;0.1.
 		FDR was estimated using permutation.
@@ -349,7 +349,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 			FDR was not provided in the original source, but since the eQTLs were already filtered on FDR&lt;0.05
 			all eQTLs were assigned to FDR 0.049 to be able to pass the filtering of the "only significant snp-gene pairs" option.
 		</span>
-		<br/>
+		<br>
 		Signed statistics are betas.
 		<strong>The cell types were:</strong>
 		<ul>
@@ -369,21 +369,21 @@ FUMA contains several data sources of eQTLs and each data source is described in
 			<li>Naive TREG CD4 T cells</li>
     	</ul>
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		The eQTLs were identified in 13 immune cell types isolated from 106 leukapheresis samples provided by 91 healthy subjects.
-	</p><br/>
+	</p><br>
 
 	<h4><strong>12. van der Wijst et al. scRNA eQTLs (van der Wijst et al. 2018)</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="https://molgenis26.target.rug.nl/downloads/scrna-seq/">https://molgenis26.target.rug.nl/downloads/scrna-seq/</a>.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		The tested allele was specified in the data, but the other allele was not.
 		FDR was estimated using permutation.
 		Please refer the original study for more details (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5905669/">van der Wijst et al. 2018</a>).
 		Ensembl gene ID is used as provided in the original file.
 		The summary statistics are Z scores.
-		<br/>
+		<br>
 		<strong>The cell types were:</strong>
 		<ul>
 			<li>B cells</li>
@@ -397,27 +397,27 @@ FUMA contains several data sources of eQTLs and each data source is described in
 			<li>Dendritic cells (DC)</li>
     	</ul>
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		The eQTLs were identified from 25,000 peripheral blood mononuclear cells (PBMCs) from 45 donors.
-	</p><br/>
+	</p><br>
 
 	<h4><strong>13. GTEx v8</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from <a href="http://www.gtexportal.org/home/datasets">http://www.gtexportal.org/home/datasets</a>.
 		Under the section of GTEx V8, from single tissue eQTL data both <span style="color: blue;">GTEx_Analysis_v8_eQTL.tar</span>
-		for significant SNP-gene associations, and all tested pairs of SNP-gene were obtained from GCP (including non-significant pairs).<br/>
+		for significant SNP-gene associations, and all tested pairs of SNP-gene were obtained from GCP (including non-significant pairs).<br>
 		GTEx eQTL v8 contains 54 different tissue types across 30 general tissue types.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		FUMA contains all SNP-gene pairs of cis-eQTL with nominal P-value &lt; 0.05 (including non-significant associations).
 		Significant eQTLs are defined as FDR (gene q-value) &le; 0.05.
-		The gene FDR is pre-calculated by GTEx and every gene-tissue pair has a defined P-value threshold for eQTLs based on permutation.<br/>
+		The gene FDR is pre-calculated by GTEx and every gene-tissue pair has a defined P-value threshold for eQTLs based on permutation.<br>
 		Signed statistics are betas.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#gtexTable_v8" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br/>
+				<a href="#gtexTable_v8" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
 			<div id="gtexTable_v8" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
@@ -483,10 +483,10 @@ FUMA contains several data sources of eQTLs and each data source is described in
 				</table>
 			</div>
 		</div>
-	</p><br/>
+	</p><br>
 
 	<h4><strong>14. eQTL Catalogue</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from the eQTLcatalogue (not from the original data source).
 		The paths to individual datasets can be found at <a href="https://github.com/eQTL-Catalogue/eQTL-Catalogue-resources/blob/master/tabix/tabix_ftp_paths.tsv">https://github.com/eQTL-Catalogue/eQTL-Catalogue-resources/blob/master/tabix/tabix_ftp_paths.tsv</a>.
 		Only the gene level (ge) files were included.
@@ -494,15 +494,15 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		Datasets which were already present on FUMA have not been included (DICE & xQTLServer).
 		As of FUMA v1.6.1, only nominally significant (P&lt;0.05) eQTLs identified in the data were included.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		The eQTLs were mapped to hg19 from hg38 using liftOver software.
 		Significant eQTLs are defined using a nominal p-value (0.00001).
-		More information on the methods used to generate the eQTL data can be found at <a href="https://www.ebi.ac.uk/eqtl/Methods/">https://www.ebi.ac.uk/eqtl/Methods/</a>.<br/>
+		More information on the methods used to generate the eQTL data can be found at <a href="https://www.ebi.ac.uk/eqtl/Methods/">https://www.ebi.ac.uk/eqtl/Methods/</a>.<br>
 	</p>
-	<p><strong>Datasets</strong><br/>
+	<p><strong>Datasets</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#eQTLcatalogueTable" data-toggle="collapse">eQTL Catalogue datasets, tissue types, and sample sizes</a><br/>
+				<a href="#eQTLcatalogueTable" data-toggle="collapse">eQTL Catalogue datasets, tissue types, and sample sizes</a><br>
 			</div>
 			<div id="eQTLcatalogueTable" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
@@ -538,68 +538,68 @@ FUMA contains several data sources of eQTLs and each data source is described in
 				</table>
 			</div>
 		</div>
-	</p><br/>
-	
+	</p><br>
+
 	<h4><strong>15. EyeGEx </strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from the GTEx website <a href="https://gtexportal.org/home/datasets">https://gtexportal.org/home/datasets</a>. The file containing the cis-eQTLs can be downloaded from  <a href="https://storage.googleapis.com/gtex_external_datasets/eyegex_data/single_tissue_eqtl_data/Retina.nominal.eQTLs.with_thresholds.tar">https://storage.googleapis.com/gtex_external_datasets/eyegex_data/single_tissue_eqtl_data/Retina.nominal.eQTLs.with_thresholds.tar</a>.
 		All eQTLs identified in the data were included.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Please refer to the original study for more details (<a href="https://www.nature.com/articles/s41588-019-0351-9">Ratnapriya et al. 2019</a>).
 		Ensembl gene ID is used as provided in the original file. FDR adjusted P-values were calculated based on gene-level FDR threshold.
-		<br/>
+		<br>
 		The signed statistics are betas.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		The eQTLs were identified from 406 individuals.
-		<br/>
-	</p><br/>
-	
+		<br>
+	</p><br>
+
 	<h4><strong>16. InsPIRE </strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from zenodo <a href="https://zenodo.org/record/3408356">https://zenodo.org/record/3408356</a>. The file containing the cis-eQTLs can be downloaded from  <a href="https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1">https://zenodo.org/record/3408356/files/InsPIRE_Islets_Gene_eQTLs_Nominal_Pvalues.txt.gz?download=1</a>.
 		All nominally significant (P&lt;0.05) eQTLs identified in the data were included except two variant-gene connections which were reported twice (5:150176501:C:A-ENSG00000197083.7 and 5:150176501:C:A-ENSG00000211445.7).
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Human pancreatic islets were the tested tissue.
 		Please refer to the original study for more details (<a href="https://doi.org/10.1038/s41467-020-18581-8">Viñuela et al. 2020</a>).
 		Ensembl gene ID is used as provided in the original file after the version number was removed (e.g. ENSG00000211445.7 became ENSG00000211445). The FDR reported in the paper could not be calculated using the downloaded data. Instead the FDR value was set to 1 for all variants except those found to be independently significant (included in <a href="https://zenodo.org/record/3408356/files/PacreaticIslets_independent_gene_eQTLs.txt?download=1">PacreaticIslets_independent_gene_eQTLs.txt</a>). The FDR value of the independently significant variants was set to 1e-5.
-		<br/>
+		<br>
 		The signed statistics are betas.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		The eQTLs were identified from 420 individuals.
-		<br/>
-	</p><br/>
+		<br>
+	</p><br>
 
 	<h4><strong>17. TIGER </strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		eQTL data was downloaded from the TIGER website <a href="http://tiger.bsc.es/downloads">http://tiger.bsc.es/downloads</a>. The file containing the cis-eQTLs can be downloaded from <a href="http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz">http://tiger.bsc.es/assets/tiger_eqtl_stats.tar.gz</a>.
-		All nominally significant (P&lt;0.05) eQTLs identified in the data were included. The eQTLs on the X chromosome were not included because the X chromosome was analysed separately for males and females, which would have led to duplicate measurements for the same variant-gene connection. 
+		All nominally significant (P&lt;0.05) eQTLs identified in the data were included. The eQTLs on the X chromosome were not included because the X chromosome was analysed separately for males and females, which would have led to duplicate measurements for the same variant-gene connection.
 	</p>
-	<p><strong>Description</strong><br/>
+	<p><strong>Description</strong><br>
 		Human pancreatic islets were the tested tissue.
 		Please refer to the original study for more details (<a href="https://doi.org/10.1016/j.celrep.2021.109807">Alonso et al. 2021</a>).
 		Ensembl gene ID is used as provided in the original file. FDR values were calculated by adjusting the P-values so that an FDR of 0.05 was equal to a P-value of 6.2e-4. This was the significance threshold described in the original paper.
-		<br/>
+		<br>
 		The signed statistics are Z-scores.
 	</p>
-	<p><strong>Samples</strong><br/>
+	<p><strong>Samples</strong><br>
 		The eQTLs were identified from 404 individuals.
-		<br/>
-	</p><br/>
+		<br>
+	</p><br>
 
 
 </div>
-<br/>
+<br>
 <h4><strong>Alignment of risk increasing allele in GWAS and tested allele of eQTLs</strong></h4>
 <div style="padding-left: 40px;">
 	<h4><strong>Risk increasing allele in GWAS</strong></h4>
 	<p>
 		When "beta" or "OR" column is provided in the input GWAS file, risk increasing alleles are defined as follows:
 		if beta > 0 or OR > 1, effect/risk allele is defined as the risk increasing allele,
-		if beta < 0 or OR < 1, non-effect/non-risk allele is defined as the risk increasing allele.<br/>
+		if beta < 0 or OR < 1, non-effect/non-risk allele is defined as the risk increasing allele.<br>
 		If signed effect is not provided in the input GWAS file, risk increasing allele is not defined ("NA").
 		SNPs which are not in the input GWAS file but obtained from reference panel due to high LD are also encoded as "NA".
 		<span class="info"><i class="fa fa-info"></i>
@@ -612,7 +612,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		The sign of the t-statistics or z-score of the original eQTL data sources represents the direction of effect of tested allele.
 		To obtain the direction of effect for risk increasing allele of GWAS, risk increasing allele and tested allele of eQTLs are aligned as follows:
 		if risk increasing allele is the same allele as tested allele of the eQTL, direction is the same as the sign of the original t-statistics/z-score,
-		if risk increasing allele is not same allele as tested allele of the eQTL, direction of t-statistics/z-score was flipped.<br/>
+		if risk increasing allele is not same allele as tested allele of the eQTL, direction of t-statistics/z-score was flipped.<br>
 		Direction is either "+" (risk increasing allele increases the expression of the gene) or "-" (risk increasing allele decreases the expression of the gene).
 	</p>
 	<h4><strong>Examples</strong></h4>

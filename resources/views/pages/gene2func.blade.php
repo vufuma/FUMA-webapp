@@ -5,8 +5,8 @@ header('X-Frame-Options: GOFORIT');
 ?>
 
 @section('stylesheets')
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
+    <!--link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css"-->
 @endsection
 
 @section('content')
@@ -162,10 +162,10 @@ header('X-Frame-Options: GOFORIT');
                                                     developmental stages of brain samples</option>
                                             </select>
                                         </span><br />
-                                        <!-- <tab><input type="checkbox" id="Xchr" name="Xchr">&nbsp;Execlude genes on X chromosome. <span style="color: #004d99">*Please check to EXCLUDE X chromosome.</span><br/> -->
+                                        <!-- <tab><input type="checkbox" id="Xchr" name="Xchr">&nbsp;Execlude genes on X chromosome. <span style="color: #004d99">*Please check to EXCLUDE X chromosome.</span><br> -->
                                         <tab><input type="checkbox" id="MHC" name="MHC">&nbsp;Exclude the MHC
                                             region.<br />
-                                            <!-- <span class="info"><i class="fa fa-info"></i> Please check to EXCLUDE genes in MHC region.</span><br/> -->
+                                            <!-- <span class="info"><i class="fa fa-info"></i> Please check to EXCLUDE genes in MHC region.</span><br> -->
                                             <span class="form-inline">
                                                 <tab>Desired multiple test correction method for gene-set enrichment
                                                     testing:
@@ -204,7 +204,7 @@ header('X-Frame-Options: GOFORIT');
                                                         data-content="Only gene sets which overlapping with more than or equal to the given number of genes in the input genes will be reported.">
                                                         <i class="fa-regular fa-circle-question fa-lg"></i>
                                                     </a>
-                                                    </br>
+                                                    <br>
                                             </span>
                                             <span class="form-inline">
                                                 <tab>Title: <input type="text" class="form-control" id="title"
@@ -267,12 +267,12 @@ header('X-Frame-Options: GOFORIT');
 
 @section('scripts')
     {{-- Imports from the web --}}
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <!--script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
     <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script-->
     <!--script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script-->
     <!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script-->
     <!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script-->

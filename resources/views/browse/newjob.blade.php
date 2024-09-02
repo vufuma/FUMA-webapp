@@ -3,7 +3,7 @@
 		All input options are disabled in this page.
 		Please register to submit your own job.
 	</h4>
-	<br/>
+	<br>
 	<!-- Input files upload -->
 	<div class="panel panel-danger" style="padding-top: 0px;">
 		<div class="panel-heading input" style="padding:5px;">
@@ -27,7 +27,7 @@
 					</td>
 					<td>
 						<div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">
-						<i class="fa fa-ban"></i> Mandatory<br/>The maximum file size is 600Mb. Please gzip if your file is bigger than 600Mb.</div>
+						<i class="fa fa-ban"></i> Mandatory<br>The maximum file size is 600Mb. Please gzip if your file is bigger than 600Mb.</div>
 					</td>
 				</tr>
 				<tr>
@@ -39,16 +39,16 @@
 						</a>
 					</td>
 					<td>
-						<span class="info"><i class="fa fa-info"></i> case insensitive</span><br/>
-						<span class="form-inline">Chromosome: <input type="text" class="form-control" id="chrcol" name="chrcol"></span><br/>
-						<span class="form-inline">Position: <input type="text" class="form-control" id="poscol" name="poscol"></span><br/>
-						<span class="form-inline">rsID: <input type="text" class="form-control" id="rsIDcol" name="rsIDcol"></span><br/>
-						<span class="form-inline">P-value: <input type="text" class="form-control" id="pcol" name="pcol"></span><br/>
-						<span class="form-inline">Risk allele: <input type="text" class="form-control" id="altcol" name="altcol"></span><br/>
-						<span class="form-inline">Other allele: <input type="text" class="form-control" id="refcol" name="refcol"></span><br/>
-						<span class="form-inline">OR: <input type="text" class="form-control" id="orcol" name="orcol"></span><br/>
-						<span class="form-inline">Beta: <input type="text" class="form-control" id="becol" name="becol"></span><br/>
-						<span class="form-inline">SE: <input type="text" class="form-control" id="secol" name="secol"></span><br/>
+						<span class="info"><i class="fa fa-info"></i> case insensitive</span><br>
+						<span class="form-inline">Chromosome: <input type="text" class="form-control" id="chrcol" name="chrcol"></span><br>
+						<span class="form-inline">Position: <input type="text" class="form-control" id="poscol" name="poscol"></span><br>
+						<span class="form-inline">rsID: <input type="text" class="form-control" id="rsIDcol" name="rsIDcol"></span><br>
+						<span class="form-inline">P-value: <input type="text" class="form-control" id="pcol" name="pcol"></span><br>
+						<span class="form-inline">Risk allele: <input type="text" class="form-control" id="altcol" name="altcol"></span><br>
+						<span class="form-inline">Other allele: <input type="text" class="form-control" id="refcol" name="refcol"></span><br>
+						<span class="form-inline">OR: <input type="text" class="form-control" id="orcol" name="orcol"></span><br>
+						<span class="form-inline">Beta: <input type="text" class="form-control" id="becol" name="becol"></span><br>
+						<span class="form-inline">SE: <input type="text" class="form-control" id="secol" name="secol"></span><br>
 					</td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
@@ -77,7 +77,7 @@
 					<td><input type="checkbox" class="form-check-input" name="addleadSNPs" id="addleadSNPs" value="1" checked></td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
-						<i class="fa fa-exclamation-circle"></i> Optional. <br/>This is only valid when predefined lead SNPs are provided.</div>
+						<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when predefined lead SNPs are provided.</div>
 					</td>
 				</tr>
 				<tr>
@@ -115,12 +115,12 @@
 					</td>
 					<td>
 						Total sample size (integer): <input type="number" class="form-control" id="N" name="N">
-						OR<br/>
+						OR<br>
 						Column name for N per SNP (text): <input type="text" class="form-control" id="Ncol" name="Ncol">
 					</td>
 					<td>
 						<div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">
-						<i class="fa fa-ban"></i> Mandatory input. <br/>Please provide either total sample size of GWAS study or column name of N in input file.</div>
+						<i class="fa fa-ban"></i> Mandatory input. <br>Please provide either total sample size of GWAS study or column name of N in input file.</div>
 					</td>
 				</tr>
 				<tr>
@@ -245,11 +245,11 @@
 						</a>
 					</td>
 					<td>
-						<span class="form-inline">Maximum distance: <input type="number" class="form-control" id="posMapWindow" name="posMapWindow" value="10" min="0" max="1000"> kb</span><br/>
-						OR<br/>
-						Functional consequences of SNPs on genes:<br/>
+						<span class="form-inline">Maximum distance: <input type="number" class="form-control" id="posMapWindow" name="posMapWindow" value="10" min="0" max="1000"> kb</span><br>
+						OR<br>
+						Functional consequences of SNPs on genes:<br>
 						<span class="multiSelect">
-							<a>clear</a><br/>
+							<a>clear</a><br>
 							<select multiple class="form-control" id="posMapAnnot" name="posMapAnnot[]">
 								<option value="exonic">exonic</option>
 								<option value="splicing">splicing</option>
@@ -269,8 +269,8 @@
 			</table>
 
 			<div id="posMapOptFilt">
-				Optional SNP filtering by functional annotations for positional mapping<br/>
-				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by positional mapping criterion. When eQTL mapping is also performed, this filtering can be specified separately.<br/>
+				Optional SNP filtering by functional annotations for positional mapping<br>
+				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by positional mapping criterion. When eQTL mapping is also performed, this filtering can be specified separately.<br>
 					All these annotations will be available for all SNPs within LD of identified lead SNPs in the result tables, but this filtering affect gene prioritization.
 				</span>
 				<table class="table table-bordered inputTable" id="posMapOptFiltTable" style="width: auto;">
@@ -353,12 +353,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Tissue/cell types for 15-core chromatin state<br/>
+						<td>Tissue/cell types for 15-core chromatin state<br>
 							<span class="info"><i class="fa fa-info"></i> Multiple tissue/cell types can be selected.</span>
 						</td>
 						<td>
 							<span class="multiSelect">
-								<a style="float:right; padding-right:20px;">clear</a><br/>
+								<a style="float:right; padding-right:20px;">clear</a><br>
 								<select multiple class="form-control" size="10" id="posMapChr15Ts" name="posMapChr15Ts[]">
 									<option value="all">All</option>
 									<option class="level1" value="null">Adrenal (1)</option>
@@ -520,7 +520,7 @@
 									<option class="level2" value="E022">E022 (iPSC) iPS DF 19.11 Cells</option>
 								</select>
 							</span>
-							<br/>
+							<br>
 						</td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
@@ -590,7 +590,7 @@
 					</td>
 					<td>
 						<span class="multiSelect">
-							<a style="float:right; padding-right:20px;">clear</a><br/>
+							<a style="float:right; padding-right:20px;">clear</a><br>
 							<select multiple class="form-control" id="eqtlMapTs" name="eqtlMapTs[]" size="10">
 								<option value="all">All</option>
 								<option class="level1" value="null">Blood eQTLs</option>
@@ -692,8 +692,8 @@
 						</a>
 					</td>
 					<td>
-						<span class="form-inline">Use only significant snp-gene pairs: <input type="checkbox" class="form-control" name="sigeqtlCheck" id="sigeqtlCheck" checked> (FDR&lt;0.05)</span><br/>
-						OR<br/>
+						<span class="form-inline">Use only significant snp-gene pairs: <input type="checkbox" class="form-control" name="sigeqtlCheck" id="sigeqtlCheck" checked> (FDR&lt;0.05)</span><br>
+						OR<br>
 						<span class="form-inline">(nominal) P-value cutoff (&lt;): <input type="number" class="form-control" name="eqtlP" id="eqtlP" value="1e-3"></span>
 					</td>
 					<td>
@@ -704,8 +704,8 @@
 			</table>
 
 			<div id="eqtlMapOptFilt">
-				Optional SNP filtering by functional annotation for eQTL mapping<br/>
-				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by eQTL mapping criterion.<br/>
+				Optional SNP filtering by functional annotation for eQTL mapping<br>
+				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by eQTL mapping criterion.<br>
 					All these annotations will be available for all SNPs within LD of identified lead SNPs in the result tables, but this filtering affect gene prioritization.
 				</span>
 				<table class="table table-bordered inputTable" id="eqtlMapOptFiltTable">
@@ -791,12 +791,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Tissue/cell types for 15-core chromatin state<br/>
+						<td>Tissue/cell types for 15-core chromatin state<br>
 							<span class="info"><i class="fa fa-info"></i> Multiple tissue/cell types can be selected.</span>
 						</td>
 						<td>
 							<span class="multiSelect">
-								<a style="float:right; padding-right:20px;">clear</a><br/>
+								<a style="float:right; padding-right:20px;">clear</a><br>
 								<select multiple class="form-control" size="10" id="eqtlMapChr15Ts" name="eqtlMapChr15Ts[]">
 							<option value="all">All</option>
 							<option class="level1" value="null">Adrenal (1)</option>
@@ -1027,7 +1027,7 @@
 					</td>
 					<td>
 						<span class="multiSelect">
-							<a style="float:right; padding-right:20px;">clear</a><br/>
+							<a style="float:right; padding-right:20px;">clear</a><br>
 							<select multiple class="form-control" id="ciMapBuildin" name="ciMapBuildin[]" size="10">
 								<option value="all">All</option>
 								<option value="HiC/GSE87112/Adrenal.txt.gz">HiC(GSE87112) Adrenal</option>
@@ -1067,7 +1067,7 @@
 						</a>
 					</td>
 					<td>
-						<span id="ciFiles"></span><br/>
+						<span id="ciFiles"></span><br>
 						<button type="button" class="btn btn-default btn-xs" id="ciFileAdd">add file</button>
 						<input type="hidden" value="0" id="ciFileN" name="ciFileN">
 					</td>
@@ -1116,7 +1116,7 @@
 					</td>
 					<td>
 						<span class="multiSelect">
-							<a style="float:right; padding-right:20px;">clear</a><br/>
+							<a style="float:right; padding-right:20px;">clear</a><br>
 							<select multiple class="form-control" id="ciMapRoadmap" name="ciMapRoadmap[]" size="10">
 								<option value="all">All</option>
 								<option class="level1" value="null">Adrenal (1)</option>
@@ -1298,8 +1298,8 @@
 			</table>
 
 			<div id="ciMapOptFilt">
-				Optional SNP filtering by functional annotation for chromatin interaction mapping<br/>
-				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by chromatin interaction mapping criterion.<br/>
+				Optional SNP filtering by functional annotation for chromatin interaction mapping<br>
+				<span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by chromatin interaction mapping criterion.<br>
 				All these annotations will be available for all SNPs within LD of identified lead SNPs in the result tables, but this filtering affect gene prioritization.
 				</span>
 				<table class="table table-bordered inputTable" id="ciMapOptFiltTable">
@@ -1382,12 +1382,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Tissue/cell types for 15-core chromatin state<br/>
+						<td>Tissue/cell types for 15-core chromatin state<br>
 							<span class="info"><i class="fa fa-info"></i> Multiple tissue/cell types can be selected.</span>
 						</td>
 						<td>
 							<span class="multiSelect">
-								<a style="float:right; padding-right:20px;">clear</a><br/>
+								<a style="float:right; padding-right:20px;">clear</a><br>
 								<select multiple class="form-control" size="10" id="ciMapChr15Ts" name="ciMapChr15Ts[]">
 									<option value="all">All</option>
 									<option class="level1" value="null">Adrenal (1)</option>
@@ -1584,7 +1584,7 @@
 					<td>Gene type
 						<a class="infoPop" data-toggle="popover" title="Gene Type" data-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl). By default, only protein-coding genes are used for mapping.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
-						</a><br/>
+						</a><br>
 						<span class="info"><i class="fa fa-info"></i> Multiple gene type can be selected.</span>
 					</td>
 					<td>
@@ -1641,8 +1641,8 @@
 					<td>Extended MHC region
 						<a class="infoPop" data-toggle="popover" title="Extended MHC region" data-content="User defined MHC region. When this option is not given, the default MHC region will be used.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
-						</a><br/>
-						<span class="info"><i class="fa fa-info"></i>e.g. 25000000-33000000<br/>
+						</a><br>
+						<span class="info"><i class="fa fa-info"></i>e.g. 25000000-33000000<br>
 					</td>
 					<td><input type="text" class="form-control" name="extMHCregion" id="extMHCregion"/></td>
 					<td>
@@ -1656,11 +1656,11 @@
 
 	<span class="form-inline">
 		<span style="font-size:18px;">Title of job submission</span>:
-		<input type="text" class="form-control" name="NewJobTitle" id="NewJobTitle"/><br/>
+		<input type="text" class="form-control" name="NewJobTitle" id="NewJobTitle"/><br>
 		<span class="info"><i class="fa fa-info"></i>
 			This is not mandatory, but job title might help you to track your jobs.
 		</span>
-	</span><br/><br/>
+	</span><br><br>
 
 	<input class="btn btn-primary" type="submit" value="Submit Job" name="SubmitNewJob" id="SubmitNewJob"/>
 	<span style="color: red; font-size:18px;">

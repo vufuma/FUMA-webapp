@@ -25,9 +25,8 @@
 			</ul>
 	</div>
 
-		<!-- <canvas id="canvas" style="display:none;"></canvas> -->
-
 		<div id="page-content-wrapper">
+            <div id="pageData" data-page-data="{}"></div>
 			<div class="page-content inset">
 				@include('snp2gene.newjob')
 				@include('snp2gene.geneMap')
@@ -43,40 +42,57 @@
 	</div>
 @endsection
 
-@section('scripts')
-
-    {{-- Web (via npm) resources --}}
-    @vite(['resources/js/app.js']);
-	<script type="text/javascript">
- 		$.ajaxSetup({
-			headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
-		});
-		var status = "{{ $status }}";
-		var id = "{{ $id }}";
-		var page = "{{ $page }}";
-		var subdir = "{{ Config::get('app.subdir') }}";
-		var loggedin = "{{ Auth::check() }}";
-	</script>
-    {{-- This projectsown javascript resources --}}
+{{-- This projectsown javascript resources - in the header stylesheets section --}}
+@push('vite')
     @vite([
         'resources/js/NewJobParameters.js',
         'resources/js/snp2gene.js',
-        'resources/js/fuma.js',
         'resources/js/celltype.js',
         'resources/js/sidebar.js',
-        'resources/js/geneMapParameters.js'])
+        'resources/js/geneMapParameters.js',
+        'resources/js/s2g_results'])
+@endpush
+
+@push('page_scripts')
+    {{-- Web (via npm) resources --}}
+	<script>
+		window.loggedin = "{{ Auth::check() }}";
+        console.log(`Page {{ $page }} LoggedIn ${window.loggedin}`)
+        const pageData = document.querySelector('#pageData');
+        pageData.setAttribute('data-page-data', `{
+            "status": "{{ $status }}",
+            "id": "{{ $id }}",
+            "page": "{{ $page }}",
+            "subdir": "",
+            "loggedin": "{{ Auth::check() }}"
+        }`);
+
+	</script>
+
+    {{-- Imports from the project using Vite alias macro --}}
     <script type="module">
-        import CheckAll from "{{ Vite::asset('resources/js/NewJobParameters.js') }}";
-        window.CheckAll = CheckAll
+        console.log("Loading modules");
+        debugger;
+        import CheckAll from "{{ Vite::appjs('NewJobParameters.js') }}";
+        window.CheckAll = CheckAll;
+        import NewJobSetup from "{{ Vite::appjs('NewJobParameters.js') }}";
+        import Snp2GeneSetup from "{{ Vite::appjs('snp2gene.js') }} ";
+        import CellTypeSetup from "{{ Vite::appjs('celltype.js') }}";
+        import GeneMapSetup from "{{ Vite::appjs('geneMapParameters.js') }}";
+        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
+        $(function(){
+            SidebarSetup();
+            NewJobSetup();
+            CellTypeSetup();
+            GeneMapSetup();
+        });
     </script>
 
 	{{-- Imports from the project --}}
-		<!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script-->
+    <!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script-->
+    <!--script type="text/javascript" src="{!! URL::asset('js/NewJobParameters.js') !!}?136"></script-->
+    <!--script type="text/javascript" src="{!! URL::asset('js/geneMapParameters.js') !!}?135"></script-->
+    <!--script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script-->
+    <!--script type="text/javascript" src="{!! URL::asset('js/snp2gene.js') !!}?135a"></script-->
 
-
-		<!--script type="text/javascript" src="{!! URL::asset('js/NewJobParameters.js') !!}?136"></script-->
-		<!--script type="text/javascript" src="{!! URL::asset('js/geneMapParameters.js') !!}?135"></script-->
-		<script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script>
-		<!--script type="text/javascript" src="{!! URL::asset('js/snp2gene.js') !!}?135a"></script-->
-
-@endsection
+@endpush

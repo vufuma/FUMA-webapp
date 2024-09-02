@@ -2,9 +2,18 @@ import { defineConfig } from 'vite';
 import Inspect from 'vite-plugin-inspect';
 import laravel from 'laravel-vite-plugin';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import inject from "@rollup/plugin-inject";
+import cleanup from 'rollup-plugin-cleanup';
 
 export default defineConfig({
     plugins: [
+        // adds imports in code were needed import $ from 'jquery'
+        inject({
+            $: 'jquery',
+            jQuery: 'jquery',
+        }),
+        cleanup({ comments: 'none' }),
+        // remove the source map comment for jquery - cause 404 in devtools
         nodePolyfills(),
         Inspect(),
         laravel({
@@ -17,10 +26,21 @@ export default defineConfig({
                 'resources/js/celltype.js',
                 'resources/js/sidebar.js',
                 'resources/js/geneMapParameters.js',
+                'resources/js/s2g_results.js',
+                'resources/js/cell_results.js',
                 ],
             refresh: true,
         }),
     ],
+    resolve: {
+        // Aliases that will be used in Laravel Blade templates
+        // must be defined as macros in app/Providers/AppServiceProvider.php
+        // see doc https://laravel.com/docs/11.x/vite#blade-aliases
+        // The standard aliases defined here ill only work in pure javascript or html
+        alias: {
+            'appjs': './resources/js',
+        }
+    },
     // For running the development server inside the workspace docker
     // The port needs to be exposed in the compose file
     server: {

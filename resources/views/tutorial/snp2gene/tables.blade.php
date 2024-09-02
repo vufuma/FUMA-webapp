@@ -97,7 +97,7 @@
 	</li>
 	<span class="info"><i class="fa fa-info"></i>
 		Complete annotations of 15-core chromatin state (for every 127 epigenomes) are available in the "annot.txt" from download.
-	</span><br/>
+	</span><br>
 </ul>
 <ul>
 	<li><p>ANNOVAR</p>
@@ -164,7 +164,7 @@
 			<li><strong>P-value</strong> : P-value of eQTLs</li>
 			<li><strong>FDR</strong> : FDR of eQTLs. Note that the method to compute FDR differs between data sources. Please refer to the <a href="{{ Config::get('app.subdir') }}/tutorial#eQTLs">eQTL</a> section for details.</li>
 			<li><strong>signed_stats</strong> : Signed statistics, the actual value depends on the data source. Please refer to the <a href="{{ Config::get('app.subdir') }}/tutorial#eQTLs">eQTL</a> sectuib fir details.</li>
-			<li><strong>RiskIncAllele</strong> : Risk increasing allele obtained from the input GWAS summary statistics. <br/>
+			<li><strong>RiskIncAllele</strong> : Risk increasing allele obtained from the input GWAS summary statistics. <br>
 				"NA" if signed effect is not provided in the input file.
 				SNPs which are not in the input GWAS but included from reference panel are also encoded as "NA".
 			</li>
@@ -225,7 +225,7 @@
 </ul>
 <ul>
 	<li><p>GWAScatalog</p>
-		<p>List of SNPs reported in GWAScatalog which are candidate SNPs of your GWAS summary statistics. <br/>
+		<p>List of SNPs reported in GWAScatalog which are candidate SNPs of your GWAS summary statistics. <br>
 			<span class="info"><i class="fa fa-info"></i>
 				The table does not show all columns available. The complete table is available by downloading.
 			</span>

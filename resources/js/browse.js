@@ -12,7 +12,7 @@ var exp_data_title = {
 	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
 	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
 }
-$(document).ready(function(){
+export const BrowseSetup = function(){
 	// side bar and hash id
 	var hashid = window.location.hash;
 	if(hashid=="" && id.length==0){
@@ -106,7 +106,7 @@ $(document).ready(function(){
 			},
 			complete: function(){
 				loadResults();
-								
+
 				if(g2f){
 					prefix = 'gene2func';
 					summaryTable(g2f);
@@ -220,7 +220,7 @@ $(document).ready(function(){
 				});
 			} else {
 				$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' MAGMA was not performed.</span><br/></div>');
+					+ ' MAGMA was not performed.</span><br></div>');
 			}
 			if (ciMap == 1) {
 				$.ajax({
@@ -272,7 +272,7 @@ $(document).ready(function(){
 			$(this).prop("checked", false);
 		});
 	});
-});
+};
 
 function getGwasList(){
   $('#GwasList table tbody')
@@ -309,3 +309,5 @@ function getGwasList(){
 		$('#GwasList table').DataTable({"stripeClasses": [], select: false, order: [[0, 'desc']],});
 	});
 }
+
+export default BrowseSetup;

@@ -22,7 +22,7 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="lociTablePane">
-				<br/>
+				<br>
 				<p class="info">
 					<i class="fa fa-info"></i> Click row to display a regional plot of GWAS summary statistics.
 				</p>
@@ -37,7 +37,7 @@
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="leadSNPtablePane">
-				<br/>
+				<br>
 				<p class="info">
 					<i class="fa fa-info"></i> Click row to display a regional plot of GWAS summary statistics.
 				</p>
@@ -52,7 +52,7 @@
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="sigSNPtablePane">
-				<br/>
+				<br>
 				<p class="info">
 					<i class="fa fa-info"></i> Click row to display a regional plot of GWAS summary statistics.
 				</p>
@@ -67,19 +67,19 @@
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="SNPtablePane">
-				<br/>
+				<br>
 				<span class="info"><i class="fa fa-info"></i> This table contain all SNPs in LD of identified lead SNPs (functional filtering for gene mapping is not applied in this table).</span>
-				<br/>
+				<br>
 				<span class="info"><i class="fa fa-info"></i> In this table "alt" is the risk allele if provided in the input GWAS file. See <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#table-columns">tutorial</a> for details.</span>
-				<br/>
+				<br>
 				<table id="SNPtable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 				</table>
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="annovTablePane">
-				<br/>
+				<br>
 				<span class="info"><i class="fa fa-info"></i> This is the result of annotation by ANNOVAR. SNPs can appear multiple times in this table if they are annotated to more than one genes.</span>
-				<br/>
+				<br>
 				<table id="annovTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
@@ -90,7 +90,7 @@
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="geneTablePane">
-				<br/>
+				<br>
 				<span class="info"><i class="fa fa-info"></i>
 					This table contains prioritized genes based on user defined mapping criteria. Note that these genes do no necessary contain all genes which are locating within genomic loci (depending on mapping paramters).
 				</span>
@@ -105,20 +105,20 @@
 						</a>
 					</span>
 				</form>
-				<br/>
+				<br>
 				<table id="geneTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 				</table>
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="eqtlTablePane">
-				<br/>
+				<br>
 				<span class="info"><i class="fa fa-info"></i>
 					When signed effect size (beta or OR) is provided in the input GWAS file, risk increasing alleles are aligned to the tested alleles of eQTLs.
 					See <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#eQTLs">tutorial</a> for details.
-					<br/>
+					<br>
 					When P-value or FDR are not available in the original data source, they are replaced with -9.
 				</span>
-				<br/>
+				<br>
 				<table id="eqtlTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
@@ -129,7 +129,7 @@
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="ciTablePane">
-				<br/>
+				<br>
 				<h4>Chromatin interaction</h4>
 				<table id="ciTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
@@ -138,7 +138,7 @@
 						</tr>
 					</thead>
 				</table>
-				<br/>
+				<br>
 				<h4>SNPs and overlapped regulatory elements in region 1</h4>
 				<table id="ciSNPsTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
@@ -147,7 +147,7 @@
 						</tr>
 					</thead>
 				</table>
-				<br/>
+				<br>
 				<h4>Regulatory elements and genes in regions 2</h4>
 				<table id="ciGenesTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
@@ -156,7 +156,7 @@
 						</tr>
 					</thead>
 				</table>
-				<br/>
+				<br>
 				<h4>Circos plots of chromatin interactions and eQTLs</h4>
 				Download circos plots (all displayed chromosomes) as
 				<button class="btn btn-default btn-xs circosDown" onclick='circosDown("png");'>PNG</button>
@@ -170,13 +170,13 @@
 					<input type="hidden" name="type" id="circosPlotType" val=""/>
 					<input type="submit" id="circosPlotSubmit" class="ImgDownSubmit"/>
 				</form>
-				<br/><br/>
+				<br><br>
 				<p>
 					The specific layers and color-coding of the circos plot is described below.
-					See <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#outputs">tutorial</a> for details.<br/>
+					See <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#outputs">tutorial</a> for details.<br>
 					<ul>
 						<li>Manhattan plot: The most outer layer. Only SNPs with P < 0.05 are displayed. SNPs in genomic risk loci are color-coded as a function of their maximum r<sup>2</sup> to the one of the independent significant SNPs in the locus, as follows:
-							red (r<sup>2</sup> > 0.8), orange (r<sup>2</sup> > 0.6), green (r<sup>2</sup> > 0.4) and blue (r<sup>2</sup> > 0.2). SNPs that are not in LD with any of the independent significat SNPs (with r<sup>2</sup> &le; 0.2) are grey.<br/>
+							red (r<sup>2</sup> > 0.8), orange (r<sup>2</sup> > 0.6), green (r<sup>2</sup> > 0.4) and blue (r<sup>2</sup> > 0.2). SNPs that are not in LD with any of the independent significat SNPs (with r<sup>2</sup> &le; 0.2) are grey.<br>
 							The rsID of the top SNPs in each risk locus are displayed in the most outer layer.
 							Y-axis are raned between 0 to the maximum -log10(P-value) of the SNPs.
 						</li>
@@ -195,14 +195,14 @@
 						Please refer github repository <a href="https://github.com/Kyoko-wtnb/FUAM-circos-plot" target="_blank">FUMA circos plot</a> for details.
 					</span>
 				</p>
-				<br/><br/>
+				<br><br>
 				<div id="ciMapCircosPlot" style="text-align:center;"></div>
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="gwascatTablePane">
-				<br/>
+				<br>
 				<p class="info"><i class="fa fa-info"></i>
-					This table only shows subset of information from GWAS catalog. <br/>
+					This table only shows subset of information from GWAS catalog. <br>
 					Please download a output file (gwascatalog.txt) from "Download" tab to get full information
 				</p>
 				<table id="gwascatTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
@@ -214,7 +214,7 @@
 				</table>
 			</div>
 			<!-- <div role="tabpanel" class="tab-pane" id="exacTablePane">
-				<br/>
+				<br>
 				<table id="exacTable" class="display dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
@@ -225,7 +225,7 @@
 				</table>
 			</div> -->
 			<div role="tabpanel" class="tab-pane" id="paramsPane">
-				<br/>
+				<br>
 				<div id="paramTable"></div>
 			</div>
 		</div>
@@ -239,8 +239,8 @@
 			<h4 style="color: #00004d">Regional Plot (GWAS association)</h4>
 			<!-- <div class="row collapse in" id="regionalPlotPanel"> -->
 			<span class="info"><i class="fa fa-info"></i>
-				Please click one of the row of 'Genomic risk loci', 'lead SNPs' or 'ind. sig. SNPs' tables to display a regional plot.<br/>
-				You can zoom in/out by mouse scroll. <br/>
+				Please click one of the row of 'Genomic risk loci', 'lead SNPs' or 'ind. sig. SNPs' tables to display a regional plot.<br>
+				You can zoom in/out by mouse scroll. <br>
 				Each SNP is color-coded based on the highest r<sup>2</sup> to one of the ind. sig. SNPs, if that is greater or equal to the user defined threshold.
 				Other SNPs (i.e. below the user-defined r<sup>2</sup>) are colored in grey.
 				The top lead SNPs in genomic risk loci, lead SNPs and ind. sig. SNPs are circled in black and colored in dark-purple, purple and red, respectively.
@@ -266,20 +266,20 @@
 				</h4>
 				<div style="margin-left: 40px;">
 					<form action="{{ Config::get('app.subdir') }}/{{$page}}/annotPlot" method="post" target="_blank">
-						<!-- Select region to plot: <span style="color:red">Mandatory</span><br/> -->
+						<!-- Select region to plot: <span style="color:red">Mandatory</span><br> -->
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="jobID" value="{{$id}}"/>
 						<input type="hidden" name="prefix" value="{{$prefix}}"/>
 						<input type="hidden" name="annotPlotSelect" id="annotPlotSelect" value="null"/>
 						<input type="hidden" name="annotPlotRow" id="annotPlotRow" value="null"/>
-						Select annotation(s) to plot:<br/>
-						<tab><input type="checkbox" name="annotPlot_GWASp" id="annotPlot_GWASp" checked/>GWAS association statistics<br/>
-						<tab><input type="checkbox" name="annotPlot_CADD" id="annotPlot_CADD" checked/>CADD score<br/>
-						<tab><input type="checkbox" name="annotPlot_RDB" id="annotPlot_RDB" checked/>RegulomeDB score<br/>
+						Select annotation(s) to plot:<br>
+						<tab><input type="checkbox" name="annotPlot_GWASp" id="annotPlot_GWASp" checked/>GWAS association statistics<br>
+						<tab><input type="checkbox" name="annotPlot_CADD" id="annotPlot_CADD" checked/>CADD score<br>
+						<tab><input type="checkbox" name="annotPlot_RDB" id="annotPlot_RDB" checked/>RegulomeDB score<br>
 						<tab><input type="checkbox" name="annotPlot_Chrom15" id="annotPlot_Chrom15" onchange="Chr15Select();"/>Chromatine 15 state
 						<div id="annotPlotChr15Opt">
-							<tab><tab><span style="color:red;">Please select at least one tissue type.</span><br/>
-							<tab><tab>Tissue/Cell types: <a id="annotPlotChr15TsClear">clear</a><br/>
+							<tab><tab><span style="color:red;">Please select at least one tissue type.</span><br>
+							<tab><tab>Tissue/Cell types: <a id="annotPlotChr15TsClear">clear</a><br>
 							<tab><tab><select multiple size="10" id="annotPlotChr15Ts" name="annotPlotChr15Ts[]" onchange="Chr15Select()">
 								<option value="all">All</option>
 								<option class="level1" value="null">Adrenal (1)</option>
@@ -439,12 +439,12 @@
 								<option class="level2" value="E020">E020 (iPSC) iPS-20b Cells</option>
 								<option class="level2" value="E021">E021 (iPSC) iPS DF 6.9 Cells</option>
 								<option class="level2" value="E022">E022 (iPSC) iPS DF 19.11 Cells</option>
-							</select><br/>
+							</select><br>
 						</div>
-						<br/>
-						<div id="check_eqtl_annotPlot"><tab><input type="checkbox" name="annotPlot_eqtl" id="annotPlot_eqtl" checked/>eQTL<br/></div>
-						<div id="check_ci_annotPlot"><tab><input type="checkbox" name="annotPlot_ci" id="annotPlot_ci" checked/>Chromatin interaction<br/></div>
-						<br/>
+						<br>
+						<div id="check_eqtl_annotPlot"><tab><input type="checkbox" name="annotPlot_eqtl" id="annotPlot_eqtl" checked/>eQTL<br></div>
+						<div id="check_ci_annotPlot"><tab><input type="checkbox" name="annotPlot_ci" id="annotPlot_ci" checked/>Chromatin interaction<br></div>
+						<br>
 						<span class="form-inline">
 							<input class="btn btn-default" type="submit" name="submit" id= "annotPlotSubmit" value="Plot">
 							<span id="CheckAnnotPlotOpt"></span>

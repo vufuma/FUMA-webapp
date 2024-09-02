@@ -9,17 +9,17 @@
 				<input type="hidden" name="jobID" value="{{$id}}"/>
 				<input type="hidden" name="prefix" value="{{$prefix}}"/>
 				<div id="downFileCheck">
-					<input checked class="form-check-input" type="checkbox" value="step1" name="files[]" id="step1_file" onchange="DownloadFiles()"> Per dataset MAGMA output (Step 1)<br/>
-					<input checked class="form-check-input" type="checkbox" value="step2" name="files[]" id="step2_file" onchange="DownloadFiles()"> Full results of per dataset conditional analyses (Step 2)<br/>
-					<input checked class="form-check-input" type="checkbox" value="step1_2" name="files[]" id="step1_2_file" onchange="DownloadFiles()"> Summary of step 1 and 2<br/>
-					<input checked class="form-check-input" type="checkbox" value="step3" name="files[]" id="step3_file" onchange="DownloadFiles()"> Full results of cross-datasets conditional analyses (Step 3)<br/>
+					<input checked class="form-check-input" type="checkbox" value="step1" name="files[]" id="step1_file" onchange="DownloadFiles()"> Per dataset MAGMA output (Step 1)<br>
+					<input checked class="form-check-input" type="checkbox" value="step2" name="files[]" id="step2_file" onchange="DownloadFiles()"> Full results of per dataset conditional analyses (Step 2)<br>
+					<input checked class="form-check-input" type="checkbox" value="step1_2" name="files[]" id="step1_2_file" onchange="DownloadFiles()"> Summary of step 1 and 2<br>
+					<input checked class="form-check-input" type="checkbox" value="step3" name="files[]" id="step3_file" onchange="DownloadFiles()"> Full results of cross-datasets conditional analyses (Step 3)<br>
 				</div>
-				<br/>
+				<br>
 				<span class="form-inline">
 					<input class="btn btn-default btn-xs" type="submit" name="download" id="download" value="Download files"/>
 					<tab><a class="allfiles"> Select All </a>
 					<tab><a class="clearfiles"> Clear</a>
-				</span><br/>
+				</span><br>
 			</form>
 		</div>
 	</div>
@@ -44,13 +44,13 @@
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","jpeg");'>JPG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","svg");'>SVG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","pdf");'>PDF</button>
-				<br/><br/>
+				<br><br>
 				<span class="form-inline">
 					Dataset :
 					<select id="dataset_select" class="form-control" style="width: auto;" onchange="updatePerDatasetPlot();">
 					</select>
 				</span>
-				<br/>
+				<br>
 				<span class="form-inline">
 					Multiple testing correction :
 					<select id="test_correct_panel1" class="form-control" style="width: auto;">
@@ -59,7 +59,7 @@
 						<option value="both">Both</option>
 					</select>
 				</span>
-				<br/>
+				<br>
 				<span class="form-inline">
 					Order cell type by :
 					<select id="celltype_order_panel1" class="form-control" style="width: auto;">
@@ -81,13 +81,13 @@
 					multiple testing correction across datasets.
 					Bars are colored by dataset.
 				</span>
-				<br/>
+				<br>
 				Download the plot as
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1", "png");'>PNG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1","jpeg");'>JPG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1","svg");'>SVG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1","pdf");'>PDF</button>
-				<br/><br/>
+				<br><br>
 				<span class="form-inline">
 					Order cell type by :
 					<select id="celltype_order_panel2" class="form-control" style="width: auto;">
@@ -109,13 +109,13 @@
 					multiple testing correction across datasets.
 					Bars are colored by dataset.
 				</span>
-				<br/>
+				<br>
 				Download the plot as
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","png");'>PNG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","jpeg");'>JPG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","svg");'>SVG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","pdf");'>PDF</button>
-				<br/><br/>
+				<br><br>
 				<span class="form-inline">
 					Order cell type by :
 					<select id="celltype_order_panel3" class="form-control" style="width: auto;">
@@ -141,13 +141,13 @@
 					Star represents pair of cell types which are collinear.
 					Top bar plot represent marginal P-value of the cell type on X-axis.
 				</span>
-				<br/>
+				<br>
 				Download the plot as
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","png");'>PNG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","jpeg");'>JPG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","svg");'>SVG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","pdf");'>PDF</button>
-				<br/><br/>
+				<br><br>
 				<span class="form-inline">
 					Order cell type by :
 					<select id="celltype_order_panel4" class="form-control" style="width: auto;">

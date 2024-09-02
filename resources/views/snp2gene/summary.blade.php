@@ -18,7 +18,7 @@
 				Statistics are available in "annov.stats.txt".
 				The file is downloadable from the "Download" tab.
 			</span>
-			<br/>
+			<br>
 			Download the plot as
 			<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("snpAnnotPlot","png");'>PNG</button>
 			<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("snpAnnotPlot","jpeg");'>JPG</button>
@@ -38,7 +38,7 @@
 			<!-- <canvas id="snpAnnotPlotCanvas" style="display: none;"></canvas> -->
 		</div>
 	</div>
-	<br/>
+	<br>
 	<div style="text-align:center;">
 		<h4><span style="color: #00004d">Summary per genomic risk locus</span>
 		<a class="infoPop" data-toggle="popover" data-content="The histograms display summary results per genomic locus. Note that genomic loci could contain more than one independent lead SNPs.">
@@ -62,5 +62,5 @@
 		</form>
 		<div id="lociPlot"></div>
 	</div>
-	<br/><br/>
+	<br><br>
 </div>

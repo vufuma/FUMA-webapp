@@ -51,7 +51,7 @@
         <br />
 
     </div>
-    </br>
+    <br>
 @endsection
 
 @section('scripts')

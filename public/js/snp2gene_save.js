@@ -31,7 +31,7 @@ $(document).ready(function () {
 		swal({
 			title: "Are you sure?",
 			html: true,
-			text: "Do you really want to remove selected jobs?<br/><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>",
+			text: "Do you really want to remove selected jobs?<br><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>",
 			type: "warning",
 			showCancelButton: true,
 			closeOnConfirm: true,
@@ -237,7 +237,7 @@ $(document).ready(function () {
 					});
 				} else {
 					$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-						+ ' MAGMA was not performed.</span><br/></div>');
+						+ ' MAGMA was not performed.</span><br></div>');
 				}
 				if (ciMap == 1) {
 					$.ajax({

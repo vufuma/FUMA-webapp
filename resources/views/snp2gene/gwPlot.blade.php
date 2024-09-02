@@ -5,9 +5,9 @@
 	<div class="container">
 		<h4 style="color: #00004d">Manhattan Plot (GWAS summary statistics)</h4>
 		<span class="info"><i class="fa fa-info"></i>
-			Manhattan plot of the input GWAS summary statistics.<br/>
+			Manhattan plot of the input GWAS summary statistics.<br>
 			For plotting, overlapping data points are not drawn (only SNPs with P-value &le; 1e-5 are kept, see tutorial for details).
-		</span><br/><br/>
+		</span><br><br>
 		Download the plot as
 		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("manhattan","png");'>PNG</button>
 		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("manhattan","jpeg");'>JPG</button>
@@ -26,13 +26,13 @@
 		<div id="manhattanPane">
 			<div id="manhattan"></div>
 		</div>
-		<br/><br/>
+		<br><br>
 		<h4 style="color: #00004d">Mahattan Plot (gene-based test)</h4>
 		<span class="info"><i class="fa fa-info"></i>
-			This is a manhattan plot of the gene-based test as computed by MAGMA based on your input GWAS summary statistics.<br/>
+			This is a manhattan plot of the gene-based test as computed by MAGMA based on your input GWAS summary statistics.<br>
 			The gene-based P-value is downloadable from 'Download' tab from the left side bar.
-		</span><br/><br/>
-		<span id="geneManhattanDesc"></span><br/><br/>
+		</span><br><br>
+		<span id="geneManhattanDesc"></span><br><br>
 		Download the plot as
 		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("geneManhattan","png");'>PNG</button>
 		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("geneManhattan","jpeg");'>JPG</button>
@@ -48,22 +48,22 @@
 			<input type="hidden" name="fileName" id="geneManhattanFileName" val=""/>
 			<input type="submit" id="geneManhattanSubmit" class="ImgDownSubmit"/>
 		</form>
-		<br/>
+		<br>
 		<span class="form-inline">
-			Label top <input class="form-control" type="number" id="topGenes" style="width: 80px;"> genes.<br/>
+			Label top <input class="form-control" type="number" id="topGenes" style="width: 80px;"> genes.<br>
 		</span>
 		<div id="geneManhattanPane">
 			<div id="geneManhattan"></div>
 		</div>
-		<br/><br/>
+		<br><br>
 		<div id="QQplotPane" class="row">
 			<!-- <div class="row"> -->
 			<div class="col-md-6 col-xs-6 col-sm-6">
 				<h4 style="color: #00004d">QQ plot (GWAS summary statisics)</h4>
 				<span class="info"><i class="fa fa-info"></i>
-					This is a Q-Q plot of GWAS summary statistics. <br/>
+					This is a Q-Q plot of GWAS summary statistics. <br>
 					For plotting purposes, overlapping data points are not drawn (Only SNPs with P-value &le; 1e-5 are kept, see tutorial for details).
-				</span><br/><br/>
+				</span><br><br>
 				Download the plot as
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("QQplot","png");'>PNG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("QQplot","jpeg");'>JPG</button>
@@ -86,9 +86,9 @@
 			<div class="col-md-6 col-xs-6 col-sm-6">
 				<h4 style="color: #00004d">QQ plot (gene-based test)</h4>
 				<span class="info"><i class="fa fa-info"></i>
-					This is a Q-Q plot of the gene-based test computed by MAGMA.<br/>
-					<br/>
-				</span><br/><br/>
+					This is a Q-Q plot of the gene-based test computed by MAGMA.<br>
+					<br>
+				</span><br><br>
 				Download the plot as
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("geneQQplot","png");'>PNG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("geneQQplot","jpeg");'>JPG</button>
@@ -109,30 +109,30 @@
 				</div>
 			</div>
 		</div>
-		<br/><br/>
+		<br><br>
 		<h4 style="color: #00004d">MAGMA Gene-Set Analysis</h4>
 		<span class="info"><i class="fa fa-info"></i>
-			MAGMA gene-set analysis is performed for curated gene sets and GO terms obtained from MsigDB (see <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#magma">here</a> for details).<br/>
+			MAGMA gene-set analysis is performed for curated gene sets and GO terms obtained from MsigDB (see <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#magma">here</a> for details).<br>
 			The table displays either significant gene sets with P<sub>bon</sub> < 0.05 or top 10 gene sets when there are less than 10 significant gene sets.
-			Full results are downloadable from "Download" tab. <br/>
+			Full results are downloadable from "Download" tab. <br>
 			Note that MAGMA gene-set analyses uses the full distribution of SNP p-values and is different from a pathway enrichment test as implemented in GENE2FUNC that only tests for enrichment of prioritized genes.
-		</span><br/><br/>
+		</span><br><br>
 		<table id="MAGMAtable" class="display compact" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 			<thead>
 				<th>Gene Set</th><th>N genes</th><th>Beta</th><th>Beta STD</th><th>SE</th><th>P</th><th>P<sub>bon</sub></th>
 			</thead>
 		</table>
-		<br/><br/>
+		<br><br>
 		<h4 style="color: #00004d">MAGMA Tissue Expression Analysis</h4>
 		<span class="info"><i class="fa fa-info"></i>
-			MAGMA gene-property analysis is performed for gene expression of user selected data sets.<br/>
+			MAGMA gene-property analysis is performed for gene expression of user selected data sets.<br>
 			Details of gene expression data sets are available at
 			<a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#magma">Tutorial</a>.
-			Full results are downloadable from "Download" tab. <br/>
+			Full results are downloadable from "Download" tab. <br>
 			Note that MAGMA gene-property analyses uses the full distribution of SNP p-values
 			and is different from a enrichment test of DEG (differentially expressed genes)
 			as implemented in GENE2FUNC that only tests for enrichment of prioritised genes.
-		</span><br/><br/>
+		</span><br><br>
 		<div id="magmaPlot">
 			<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">

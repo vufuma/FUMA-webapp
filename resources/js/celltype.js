@@ -1,11 +1,15 @@
 var prefix = "celltype";
-$(function(){
+export const CellTypeSetup = function(){
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
 	$('#cellSubmit').attr("disabled", true);
 	$('#resultSide').hide();
 
-	// hash activate
+    const pageDataElement = document.getElementById('pageData');
+    console.log(`${pageDataElement.getAttribute('data-page-data')}`)
+    const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
+
+    // hash activate
 	var hashid = window.location.hash;
 	if(hashid=="" && status.length==0){
 		$('a[href="#newJob"]').trigger('click');
@@ -31,9 +35,9 @@ $(function(){
 		DownloadFiles();
 	});
 
-	getJobList();
+	getJobList(pageData.page);
 	$('#refreshTable').on('click', function(){
-		getJobList();
+		getJobList(pageData.page);
 	});
 
 	// Get SNP2GENE job IDs
@@ -82,7 +86,7 @@ $(function(){
 								}
 							},
 							complete: function(){
-								getJobList();
+								getJobList(pageData.page);
 							}
 						});
 					}
@@ -110,9 +114,9 @@ $(function(){
 			}
 		});
 	}
-});
+};
 
-function CheckInput(){
+export function CheckInput(){
 	var check = true;
 	var s2gID = $('#s2gID').val();
 	var fileName = $('#genes_raw').val();
@@ -170,7 +174,7 @@ function CheckInput(){
 	else{$('#cellSubmit').attr("disabled", true);}
 }
 
-function getJobList(){
+function getJobList(page){
 	$('#joblist table tbody')
 		.empty()
 		.append('<tr><td colspan="7" style="text-align:center;">Retrieving data</td></tr>');
@@ -199,5 +203,10 @@ function getJobList(){
 		$('#joblist table tbody')
 			.empty()
 			.append(items);
-	});
+	})
+    .fail(function() {
+        console.log("Celltype getJobList error");
+    });
 }
+
+export default CellTypeSetup;

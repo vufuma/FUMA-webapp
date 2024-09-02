@@ -54,7 +54,7 @@ $(document).ready(function(){
 			}
 		})
 		n += 1;
-		$('#gsFiles').append('<br/><span class="form-inline gsFile" style="padding-left: 40px;">'
+		$('#gsFiles').append('<br><span class="form-inline gsFile" style="padding-left: 40px;">'
 		+'File '+n
 		+': '+'<button type="button" class="btn btn-default btn-xs gsFileDel" onclick="gsFileDel(this)">delete</button>'
 		+'<input type="file" class="form-control-file gsMapFile" style="padding-left: 40px;" name="gsFile'+n+'" id="gsFile'+n
