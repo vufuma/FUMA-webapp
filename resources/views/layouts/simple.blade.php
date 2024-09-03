@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		@include('partials._head')
-        @vite(['resources/js/app.js', 'resources/js/fuma.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/fuma.js'])
         @stack('vite')
 	</head>
 	<body>

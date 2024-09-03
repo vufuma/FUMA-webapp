@@ -35,7 +35,7 @@ function InactivityTimer(path, delay){
 
 export const FumaSetup = function(loggedin){
 	// popover
-    console.log(`setup FUMA - logged in ${loggedin}`);
+    //console.log(`setup FUMA - logged in ${loggedin}`);
 	var cnt = 10;
 	$('.infoPop')
 		.each(function(){

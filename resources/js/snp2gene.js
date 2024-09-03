@@ -130,7 +130,7 @@ export const Snp2GeneSetup = function(){
 	$('#g2fSubmitBtn').hide();
 
     const pageDataElement = document.getElementById('pageData');
-    console.log(`${pageDataElement.getAttribute('data-page-data')}`)
+    //console.log(`${pageDataElement.getAttribute('data-page-data')}`)
     const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
 
 	var hashid = window.location.hash;

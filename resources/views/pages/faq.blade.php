@@ -61,14 +61,14 @@
 	</div>
 @endsection
 
-@section('scripts')
+@push('page_scripts')
 	{{-- Imports from the web --}}
 
 	{{-- Imports from the project --}}
 
 	{{-- Hand written ones --}}
-	<script type="text/javascript">
-		$(document).ready(function(){
+	<script type="module">
+		$(function(){
 			$('.panel-heading.faq a').on('click', function(){
 				if($(this).attr('class')=="active"){
 					$(this).removeClass('active');
@@ -78,6 +78,6 @@
 					$(this).children('i').attr('class', 'fa fa-chevron-up');
 				}
 			});
-		})
+		});
 	</script>
-@endsection
+@endpush

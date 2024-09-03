@@ -35,6 +35,7 @@
 		<canvas id="canvas" style="display:none;"></canvas>
 
 		<div id="page-content-wrapper">
+            <div id="pageData" data-page-data="{}"></div>
 			<div class="page-content inset">
 				@include('browse.gwaslist')
 				@include('browse.newjob')
@@ -57,7 +58,7 @@
 @endsection
 
 {{-- This projectsown javascript resources - in the header stylesheets section --}}
-@push('page_scripts')
+@push('vite')
     @vite([
         'resources/js/sidebar.js',
         'resources/js/s2g_results',
@@ -69,35 +70,40 @@
 @push('page_scripts')
 	{{-- Imports from the web --}}
 	<!--script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script-->
-	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.js"></script>
+	<!--script src="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.js"></script-->
 	<!--script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script-->
 	<!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script-->
 	<!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script-->
 	<!--script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script-->
 	<!--script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script-->
-	<script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script>
+	<!--script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script-->
 
 	{{-- Hand written ones --}}
-	<script type="text/javascript">
-		var id = "{{$id}}";
-		var page = "{{$page}}"
-		var subdir = "{{ Config::get('app.subdir') }}";
-		var window.loggedin = "{{ Auth::check() }}";
+	<script>
+		window.loggedin = "{{ Auth::check() }}";
+        const pageData = document.querySelector('#pageData');
+        pageData.setAttribute('data-page-data', `{
+            "id": "{{ $id }}",
+            "page": "{{ $page }}",
+            "subdir": "",
+            "loggedin": "{{ Auth::check() }}"
+        }`);
 	</script>
 
     <script type="module">
         import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
         import BrowseSetup from "{{ Vite::appjs('browse.js') }}";
         $(function(){
+            var id = "{{ $id }}";
             SidebarSetup();
             BrowseSetup();
         })
     </script>
 
 	{{-- Imports from the project --}}
-	<script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
+	<!-- script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
 	<script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script>
 	<script type="text/javascript" src="{!! URL::asset('js/g2f_results.js') !!}?135"></script>
 	<script type="text/javascript" src="{!! URL::asset('js/helpers.js') !!}?135"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/browse.js') !!}?135"></script>
-@endsection
+	<script type="text/javascript" src="{!! URL::asset('js/browse.js') !!}?135"></script-->
+@endpush

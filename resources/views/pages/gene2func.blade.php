@@ -33,6 +33,7 @@ header('X-Frame-Options: GOFORIT');
         <canvas id="canvas" style="display:none;"></canvas>
 
         <div id="page-content-wrapper">
+            <div id="pageData" data-page-data="{}"></div>
             <div class="page-content inset">
                 <!-- Submit genes -->
                 <div id="newquery" class="sidePanel container" style="padding-top:50px;">
@@ -265,7 +266,14 @@ header('X-Frame-Options: GOFORIT');
     </div>
 @endsection
 
-@section('scripts')
+@push('vite')
+    @vite([
+        'resources/js/sidebar.js',
+        'resources/js/gene2func.js',
+        'resources/js/g2f_results'])
+@endpush
+
+@push('page_scripts')
     {{-- Imports from the web --}}
     <!--script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
@@ -276,32 +284,31 @@ header('X-Frame-Options: GOFORIT');
     <!--script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script-->
     <!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script-->
     <!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script-->
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <!--script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script-->
     <!--script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script-->
     <!--script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script-->
     <!--script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script-->
 
     {{-- Hand written ones --}}
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        var public_path = "{{ URL::asset('/image/ajax-loader2.gif') }}";
-        var storage_path = "<?php echo storage_path(); ?>";
-        var subdir = "{{ Config::get('app.subdir') }}";
-        var jobdir = "{{ Config::get('app.jobdir') }}";
-        var status = "{{ $status }}";
-        var id = "{{ $id }}";
-        var page = "{{ $page }}";
-        var loggedin = "{{ Auth::check() }}";
+    <script>
+        window.loggedin = "{{ Auth::check() }}";
+        const pageData = document.querySelector('#pageData');
+        pageData.setAttribute('data-page-data', `{
+            "public_path": "{{ URL::asset('/image/ajax-loader2.gif') }}",
+            "storage_path": "<?php echo storage_path(); ?>",
+            "subdir": "",
+            "jobdir": "{{ Config::get('app.jobdir') }}",
+            "status": "{{ $status }}",
+            "id": "{{ $id }}",
+            "page": "{{ $page }}",
+            "loggedin": "{{ Auth::check() }}"
+        }`);
     </script>
     <script>const fumaJS = {{ Js::from(isset($data) ? $data : null)}};</script>
 
     {{-- Imports from the project --}}
-    <script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
+    <!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
     <script type="text/javascript" src="{!! URL::asset('js/g2f_results.js') !!}?135e"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/gene2func.js') !!}?135"></script>
-@endsection
+    <script type="text/javascript" src="{!! URL::asset('js/gene2func.js') !!}?135"></script-->
+@endpush

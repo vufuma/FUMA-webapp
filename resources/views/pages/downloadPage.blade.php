@@ -322,15 +322,15 @@
         </form>
     </div>
 @endsection
+@push('vite')
+    @vite(['resources/js/tutorial_utils.js'])
+@endpush
 
-@section('scripts')
-    {{-- Imports from the web --}}
-    <!--script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script-->
-    <!--script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
-    {{-- Imports from the project --}}
-    <script type="text/javascript" src="{!! URL::asset('js/tutorial_utils.js') !!}"></script>
-    {{-- Hand written ones --}}
-    <script type="text/javascript">
-        var loggedin = "{{ Auth::check() }}";
+@push('page_scripts')
+    {{-- Imports from the project and local script --}}
+    <script type="module">
+        import tutorialDownloadVariant from "{{ Vite::appjs('tutorial_utils.js') }}";
+        window.tutorialDownloadVariant = tutorialDownloadVariant;
+        window.loggedin = "{{ Auth::check() }}";
     </script>
-@endsection
+@endpush

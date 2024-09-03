@@ -126,19 +126,26 @@
 	</div>
 @endsection
 
-@section('scripts')
-	{{-- Imports from the web --}}
-	<script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+@push('vite')
+    @vite([
+        'resources/js/sidebar.js',
+        'resources/js/tutorial_utils.js'])
+@endpush
 
-	{{-- Imports from the project --}}
-	<script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/tutorial_utils.js') !!}"></script>
+@push('page_scripts')
+	{{-- Imports from the web mathjax will be available as es6 at v4 --}}
 
-	{{-- Hand written ones --}}
-	<script type="text/javascript">
-		var page = "tutorial";
-		var loggedin = "{{ Auth::check() }}";
-		$(document).ready(function(){
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    {{-- Hand written ones --}}
+	<script type="module">
+		window.page = "tutorial";
+		window.loggedin = "{{ Auth::check() }}";
+        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
+        import tutorialDownloadVariant from "{{ Vite::appjs('tutorial_utils.js') }}";
+
+        window.tutorialDownloadVariant = tutorialDownloadVariant;
+		$(function(){
+            SidebarSetup();
 			var hashid = window.location.hash;
 			var side = [];
 			$('.sidebar-nav li a').each(function(){
@@ -190,4 +197,4 @@
 		});
 	</script>
 
-@endsection
+@endpush

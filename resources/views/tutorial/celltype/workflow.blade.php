@@ -60,7 +60,7 @@ systematically compare cell type associations across datasets using conditional 
 			</p>
 		</div>
 		<div class="col-md-6 col-sm-6 col-xs-6">
-			<img src="{!! URL::asset('/image/cellWorkflow.png') !!}" style="width:80%"/>
+			<img src="{{ asset('image/cellWorkflow.png') }}" style="width:80%"/>
 		</div>
 	</div>
 

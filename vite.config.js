@@ -4,6 +4,7 @@ import laravel from 'laravel-vite-plugin';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import inject from "@rollup/plugin-inject";
 import cleanup from 'rollup-plugin-cleanup';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default defineConfig({
     plugins: [
@@ -11,7 +12,10 @@ export default defineConfig({
         inject({
             $: 'jquery',
             jQuery: 'jquery',
+            exclude: ['**/*.css'],
         }),
+        // Allows import on commonjs modules (e.g. mathjax)
+        commonjs(),
         cleanup({ comments: 'none' }),
         // remove the source map comment for jquery - cause 404 in devtools
         nodePolyfills(),
@@ -22,13 +26,17 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/NewJobParameters.js',
                 'resources/js/snp2gene.js',
+                'resources/js/browse.js',
                 'resources/js/fuma.js',
                 'resources/js/celltype.js',
                 'resources/js/sidebar.js',
                 'resources/js/geneMapParameters.js',
                 'resources/js/s2g_results.js',
+                'resources/js/g2f_results.js',
                 'resources/js/cell_results.js',
-                ],
+                'resources/js/gene2func.js',
+                'resources/js/tutorial_utils.js',
+            ],
             refresh: true,
         }),
     ],
@@ -39,6 +47,7 @@ export default defineConfig({
         // The standard aliases defined here ill only work in pure javascript or html
         alias: {
             'appjs': './resources/js',
+            'nodejs': './node_modules',
         }
     },
     // For running the development server inside the workspace docker
@@ -60,7 +69,7 @@ export default defineConfig({
             output: {
                 manualChunks(id) {
                     if (id.includes('node_modules')) {
-                        return id.toString().split('node_modules/')[1].split('/')[0].toString()
+                        return id.toString().split('node_modules/')[1].split('/')[0].toString();
                     }
                 },
             },

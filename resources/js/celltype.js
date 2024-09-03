@@ -1,4 +1,9 @@
 var prefix = "celltype";
+var jQuery  = window.jQuery;
+var params = {
+    sortable: true
+};
+
 export const CellTypeSetup = function(){
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
@@ -6,12 +11,12 @@ export const CellTypeSetup = function(){
 	$('#resultSide').hide();
 
     const pageDataElement = document.getElementById('pageData');
-    console.log(`${pageDataElement.getAttribute('data-page-data')}`)
+    //console.log(`${pageDataElement.getAttribute('data-page-data')}`)
     const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
 
     // hash activate
 	var hashid = window.location.hash;
-	if(hashid=="" && status.length==0){
+	if(hashid=="" && pageData.status.length==0){
 		$('a[href="#newJob"]').trigger('click');
 	}else if(hashid==""){
 		$('a[href="#result"]').trigger('click');

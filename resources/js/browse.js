@@ -12,10 +12,23 @@ var exp_data_title = {
 	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
 	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
 }
+
+import {
+    summaryTable,
+    parametersTable,
+    expHeatMap,
+    tsEnrich,
+    GeneSet,
+    GeneTable} from "./g2f_results.js";
+
 export const BrowseSetup = function(){
 	// side bar and hash id
+    const pageDataElement = document.getElementById('pageData');
+    const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
+    var id = pageData.id
+
 	var hashid = window.location.hash;
-	if(hashid=="" && id.length==0){
+	if(hashid =="" && id.length==0){
 		$('a[href="#GwasList"]').trigger('click');
 	}else if(hashid==""){
 		$('a[href="#genomePlots"]').trigger('click');

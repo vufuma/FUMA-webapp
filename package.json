@@ -5,6 +5,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@rollup/plugin-commonjs": "^26.0.1",
         "@rollup/plugin-inject": "^5.0.5",
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.7.2",
@@ -23,6 +24,7 @@
         "d3-tip": "^0.6.8",
         "datatables.net-bs4": "^2.1.4",
         "datatables.net-buttons": "^3.1.1",
+        "datatables.net-buttons-bs4": "^3.1.2",
         "datatables.net-select": "^2.0.5",
         "gasparesganga-jquery-loading-overlay": "^2.1.7",
         "holdon.js": "^1.0.1",
@@ -30,6 +32,7 @@
         "jquery-migrate": "^3.5.2",
         "jquery-ui": "^1.14.0",
         "jszip": "^2.5.0",
+        "mathjax": "^3.2.2",
         "pdfmake": "^0.1.18",
         "sweetalert": "^1.1.3",
         "tree-multiselect": "^2.6.3"

@@ -897,7 +897,7 @@ export function getjobIDs(){
 }
 
 export const NewJobSetup = function(){
-    console.log("Setting visibility");
+    //console.log("Setting visibility");
 	$("#newJob").show();
 	$("#GWplotSide").hide();
 	$("#Error5Side").hide();

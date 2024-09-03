@@ -1,4 +1,4 @@
-function summaryTable(id){
+export function summaryTable(id){
 	$.ajax({
 		url: subdir+'/'+page+'/g2f_sumTable',
 		type: "POST",
@@ -22,7 +22,7 @@ function summaryTable(id){
 	});
 }
 
-function parametersTable(id){
+export function parametersTable(id){
 	$.ajax({
 		url: subdir+"/"+page+"/g2f_paramTable",
 		type: "POST",
@@ -49,7 +49,7 @@ function parametersTable(id){
 	});
 }
 
-function expHeatMap(id){
+export function expHeatMap(id){
 	$.ajax({
 		url: subdir+'/'+page+'/expDataOption',
 		type: "POST",
@@ -74,7 +74,7 @@ function expHeatMap(id){
 	})
 }
 
-function expHeatPlot(id, dataset){
+export function expHeatPlot(id, dataset){
 	d3.select('#expHeat').select("svg").remove();
 	var itemSizeRow = 15, cellSize=itemSizeRow-1, itemSizeCol=10;
 	var val = $('#expval').val("log2");
@@ -219,7 +219,7 @@ function expHeatPlot(id, dataset){
 	})
 }
 
-function tsEnrich(id){
+export function tsEnrich(id){
 	var data_title = {
 		'gtex_v8_ts': 'GTEx v8 54 tissue types',
 		'gtex_v8_ts_general': 'GTEx v8 30 general tissue types',
@@ -420,17 +420,17 @@ function tsEnrich(id){
 	})
 }
 
-function GeneSetPlot(category){
+export function GeneSetPlot(category){
 	$('#'+category+'Plot').show();
 	$('#'+category+'Table').hide();
 }
 
-function GeneSetTable(category){
+export function GeneSetTable(category){
 	$('#'+category+'Plot').hide();
 	$('#'+category+'Table').show();
 }
 
-function GeneSet(id){
+export function GeneSet(id){
 	$('#GeneSet').html("");
 	var category = ['Hallmark_gene_sets', 'Positional_gene_sets', 'Curated_gene_sets',
 			'Chemical_and_Genetic_pertubation', 'Canonical_Pathways', 'BioCarta', 'KEGG', 'Reactome',
@@ -726,7 +726,7 @@ function GeneSet(id){
 	});
 }
 
-function GeneTable(id){
+export function GeneTable(id){
 	geneTable = $('#GeneTable').DataTable({
 		"processing": true,
 		serverSide: false,
@@ -756,7 +756,7 @@ function GeneTable(id){
 	});
 }
 
-function DEGImgDown(name, type){
+export function DEGImgDown(name, type){
 	$('#DEGData').val($('#'+name).html());
 	$('#DEGType').val(type);
 	$('#DEGJobID').val(id);
@@ -765,7 +765,7 @@ function DEGImgDown(name, type){
 	$('#DEGSubmit').trigger('click');
 }
 
-function GSImgDown(name, type){
+export function GSImgDown(name, type){
 	$('#GSData').val($('#'+name).html());
 	$('#GSType').val(type);
 	$('#GSJobID').val(id);
@@ -773,3 +773,5 @@ function GSImgDown(name, type){
 	$('#GSDir').val(prefix);
 	$('#GSSubmit').trigger('click');
 }
+
+export default summaryTable;

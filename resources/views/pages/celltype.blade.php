@@ -539,18 +539,7 @@
     </div>
 @endsection
 
-{{-- @section('scripts') --}}
-    {{-- Imports from the web --}}
-    <!--script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script-->
-    <!--script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
-    <script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script-->
-    <!--script src="https://cdn.jsdelivr.net/npm/tree-multiselect@2.6.3/dist/jquery.tree-multiselect.min.js"></script-->
-{{-- @endsection --}}
-
+    {{-- Vite imports from the project --}}
 @push('vite')
     @vite([
         'resources/js/cell_results.js',
@@ -575,16 +564,8 @@
         }`);
 
     </script>
-
-    {{-- Imports from the project --}}
-    <!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/cell_results.js') !!}?135"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/celltype.js') !!}?134"></script-->
-
     {{-- Imports from the project using Vite alias macro --}}
     <script type="module">
-        console.log("Loading modules");
-        debugger;
         import CheckAll from "{{ Vite::appjs('NewJobParameters.js') }}";
         window.CheckAll = CheckAll;
         import CellTypeSetup from "{{ Vite::appjs('celltype.js') }}";
@@ -595,16 +576,15 @@
         $(function(){
             SidebarSetup();
             CellTypeSetup();
-            var jQuery  = window.jQuery;
-            var params = {
-                sortable: true
-            };
-            window.$("select#cellDataSets").treeMultiselect({
-                searchable: true,
-                searchParams: ['section', 'text'],
-                hideSidePanel: true,
-                startCollapsed: true
-            });
+        });
+    </script>
+
+    <script type="module">
+        $("select#cellDataSets").treeMultiselect({
+            searchable: true,
+            searchParams: ['section', 'text'],
+            hideSidePanel: true,
+            startCollapsed: true
         });
     </script>
 
