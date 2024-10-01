@@ -77,22 +77,13 @@
         window.CheckAll = CheckAll;
         import { NewJobSetup } from "{{ Vite::appjs('NewJobParameters.js') }}";
         import { Snp2GeneSetup } from "{{ Vite::appjs('snp2gene.js') }} ";
-        import { CellTypeSetup } from "{{ Vite::appjs('celltype.js') }}";
         import { GeneMapSetup } from "{{ Vite::appjs('geneMapParameters.js') }}";
         import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
         $(function(){
             SidebarSetup();
             NewJobSetup();
-            CellTypeSetup();
+            Snp2GeneSetup();
             GeneMapSetup();
         });
     </script>
-
-	{{-- Imports from the project --}}
-    <!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script-->
-    <!--script type="text/javascript" src="{!! URL::asset('js/NewJobParameters.js') !!}?136"></script-->
-    <!--script type="text/javascript" src="{!! URL::asset('js/geneMapParameters.js') !!}?135"></script-->
-    <!--script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script-->
-    <!--script type="text/javascript" src="{!! URL::asset('js/snp2gene.js') !!}?135a"></script-->
-
 @endpush

@@ -28,11 +28,11 @@
 
 	<!-- Parameters for gene mapping -->
 	<!-- positional mapping -->
-	<div class="panel panel-default" style="padding:0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding:0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>3-1. Gene Mapping (positional mapping) <a href="#geneMapPosMapPanel" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse in" id="geneMapPosMapPanel">
+		<div class="card-body collapse in" id="geneMapPosMapPanel">
 			<h4>Positional mapping</h4>
 			<table class="table table-bordered inputTable" id="geneMapPosMap" style="width: auto;">
 				<tr>
@@ -237,11 +237,11 @@
 	</div>
 
 	<!-- eqtl mapping -->
-	<div class="panel panel-default" style="padding: 0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding: 0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>3-2. Gene Mapping (eQTL mapping)<a href="#geneMapEqtlMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse" id="geneMapEqtlMapPanel">
+		<div class="card-body collapse" id="geneMapEqtlMapPanel">
 			<h4>eQTL mapping</h4>
 			<table class="table table-bordered inputTable" id="geneMapEqtlMap" style="width: auto;">
 				<tr>
@@ -452,11 +452,11 @@
 	</div>
 
 	<!-- chromatin interaction mapping -->
-	<div class="panel panel-default" style="padding: 0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding: 0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>3-3. Gene Mapping (3D Chromatin Interaction mapping)<a href="#geneMapCiMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse" id="geneMapCiMapPanel">
+		<div class="card-body collapse" id="geneMapCiMapPanel">
 			<h4>chromatin interaction mapping</h4>
 			<table class="table table-bordered inputTable" id="geneMapCiMap" style="width: auto;">
 				<tr>
