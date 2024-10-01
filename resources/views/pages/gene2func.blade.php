@@ -4,11 +4,6 @@
 header('X-Frame-Options: GOFORIT');
 ?>
 
-@section('stylesheets')
-    <!--link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css"-->
-@endsection
-
 @section('content')
     <div id="wrapper" class="active">
         <div id="sidebar-wrapper">
@@ -270,27 +265,12 @@ header('X-Frame-Options: GOFORIT');
     @vite([
         'resources/js/sidebar.js',
         'resources/js/gene2func.js',
-        'resources/js/g2f_results'])
+        'resources/js/g2f_results.js'])
 @endpush
 
 @push('page_scripts')
-    {{-- Imports from the web --}}
-    <!--script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script-->
-    <!--script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script-->
-    <!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script-->
-    <!--script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script-->
-    <!--script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script-->
-    <!--script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script-->
-    <!--script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script-->
-    <!--script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script-->
 
-    {{-- Hand written ones --}}
+    {{-- Web (via npm) resources --}}
     <script>
         window.loggedin = "{{ Auth::check() }}";
         const pageData = document.querySelector('#pageData');
@@ -310,13 +290,14 @@ header('X-Frame-Options: GOFORIT');
     <script type="module">
         console.log("Loading modules");
         import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
-        import { Gene2FuncSetup } from "{{ Vite::appjs('gene2funs.js') }}"
+        import { Gene2FuncSetup } from "{{ Vite::appjs('gene2func.js') }}"
         // document initialization
         $(function(){
             SidebarSetup();
             Gene2FuncSetup();
         });
     </script>
+    
     <script>const fumaJS = {{ Js::from(isset($data) ? $data : null)}};</script>
 
 @endpush

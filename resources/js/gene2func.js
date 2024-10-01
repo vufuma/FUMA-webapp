@@ -11,7 +11,7 @@ var exp_data_title = {
 	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
 }
 
-// Importallthe helper functions from g2f_results 
+// Import all the helper functions from g2f_results 
 import { 
 	summaryTable, 
 	parametersTable, 
