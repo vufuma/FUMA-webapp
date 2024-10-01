@@ -41,8 +41,8 @@ header('X-Frame-Options: GOFORIT');
                     <!-- <h3>Input list of genes</h3> -->
                     <div class="row">
                         <div class="col-md-6 col-xs-6 col-sm-6">
-                            <div class="panel panel-default">
-                                <div class="panel-body" style="padding-bottom: 0;">
+                            <div class="card">
+                                <div class="card-body" style="padding-bottom: 0;">
                                     <h4>Genes of interest</h4>
                                     <p class="info"><i class="fa fa-info"></i> Paste or upload a file that contains
                                         gene-symbols.
@@ -71,8 +71,8 @@ header('X-Frame-Options: GOFORIT');
                         </div>
                         <div class="col-md-6 col-xs-6 col-sm-6">
                             <div id="backgroundGenes"></div>
-                            <div class="panel panel-default">
-                                <div class="panel-body" style="padding-bottom: 0;">
+                            <div class="card">
+                                <div class="card-body" style="padding-bottom: 0;">
                                     <h4>Background genes</h4>
                                     <p class="info"><i class="fa fa-info"></i>
                                         Specify background gene-set. This will be used in the hypergeometric test.
@@ -120,8 +120,8 @@ header('X-Frame-Options: GOFORIT');
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-body" style="padding:10;">
+                    <div class="card">
+                        <div class="card-body" style="padding:10;">
                             <h4>Other optional parameters</h4>
                             <tab>
                                 <span class="form-inline">
@@ -224,11 +224,11 @@ header('X-Frame-Options: GOFORIT');
 
                 <!-- job list -->
                 <div id="queryhistory" class="sidePanel container" style="padding-top:50px;">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
+                    <div class="card">
+                        <div class="card-header">
                             Gene query history
                         </div>
-                        <div class="panel-body">
+                        <div class="card-body">
                             <button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob"
                                 style="float:right; margin-right:20px;">Delete selected jobs</button>
                             <table class="table">
@@ -305,10 +305,18 @@ header('X-Frame-Options: GOFORIT');
             "loggedin": "{{ Auth::check() }}"
         }`);
     </script>
+
+    {{-- Imports from the project using Vite alias macro --}}
+    <script type="module">
+        console.log("Loading modules");
+        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
+        import { Gene2FuncSetup } from "{{ Vite::appjs('gene2funs.js') }}"
+        // document initialization
+        $(function(){
+            SidebarSetup();
+            Gene2FuncSetup();
+        });
+    </script>
     <script>const fumaJS = {{ Js::from(isset($data) ? $data : null)}};</script>
 
-    {{-- Imports from the project --}}
-    <!--script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/g2f_results.js') !!}?135e"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/gene2func.js') !!}?135"></script-->
 @endpush
