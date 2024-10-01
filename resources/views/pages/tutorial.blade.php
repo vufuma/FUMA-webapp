@@ -140,8 +140,8 @@
 	<script type="module">
 		window.page = "tutorial";
 		window.loggedin = "{{ Auth::check() }}";
-        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
-        import tutorialDownloadVariant from "{{ Vite::appjs('tutorial_utils.js') }}";
+        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
+        import { tutorialDownloadVariant } from "{{ Vite::appjs('tutorial_utils.js') }}";
 
         window.tutorialDownloadVariant = tutorialDownloadVariant;
 		$(function(){

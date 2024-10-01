@@ -329,7 +329,7 @@
 @push('page_scripts')
     {{-- Imports from the project and local script --}}
     <script type="module">
-        import tutorialDownloadVariant from "{{ Vite::appjs('tutorial_utils.js') }}";
+        import { tutorialDownloadVariant } from "{{ Vite::appjs('tutorial_utils.js') }}";
         window.tutorialDownloadVariant = tutorialDownloadVariant;
         window.loggedin = "{{ Auth::check() }}";
     </script>

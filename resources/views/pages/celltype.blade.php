@@ -566,13 +566,13 @@
     </script>
     {{-- Imports from the project using Vite alias macro --}}
     <script type="module">
-        import CheckAll from "{{ Vite::appjs('NewJobParameters.js') }}";
+        import { CheckAll } from "{{ Vite::appjs('NewJobParameters.js') }}";
         window.CheckAll = CheckAll;
-        import CellTypeSetup from "{{ Vite::appjs('celltype.js') }}";
-        import CheckInput from "{{ Vite::appjs('celltype.js') }}";
+        import { CellTypeSetup } from "{{ Vite::appjs('celltype.js') }}";
+        import { CheckInput } from "{{ Vite::appjs('celltype.js') }}";
         window.CheckInput = CheckInput;
-        import GeneMapSetup from "{{ Vite::appjs('cell_results.js') }}";
-        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
+        import { GeneMapSetup } from "{{ Vite::appjs('cell_results.js') }}";
+        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
         $(function(){
             SidebarSetup();
             CellTypeSetup();

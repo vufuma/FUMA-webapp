@@ -4,7 +4,7 @@
     </script>
 
     <script type="module">
-        import FumaSetup from "{{ Vite::appjs('fuma.js') }}";
+        import { FumaSetup } from "{{ Vite::appjs('fuma.js') }}";
         $(function(){
             console.log("Setting up fuma timeout");
             FumaSetup(loggedin);

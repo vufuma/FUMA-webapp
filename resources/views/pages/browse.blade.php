@@ -91,8 +91,8 @@
 	</script>
 
     <script type="module">
-        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
-        import BrowseSetup from "{{ Vite::appjs('browse.js') }}";
+        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
+        import { BrowseSetup } from "{{ Vite::appjs('browse.js') }}";
         $(function(){
             var id = "{{ $id }}";
             SidebarSetup();

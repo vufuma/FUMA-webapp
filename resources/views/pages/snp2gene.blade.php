@@ -73,13 +73,13 @@
     <script type="module">
         console.log("Loading modules");
         debugger;
-        import CheckAll from "{{ Vite::appjs('NewJobParameters.js') }}";
+        import { CheckAll } from "{{ Vite::appjs('NewJobParameters.js') }}";
         window.CheckAll = CheckAll;
-        import NewJobSetup from "{{ Vite::appjs('NewJobParameters.js') }}";
-        import Snp2GeneSetup from "{{ Vite::appjs('snp2gene.js') }} ";
-        import CellTypeSetup from "{{ Vite::appjs('celltype.js') }}";
-        import GeneMapSetup from "{{ Vite::appjs('geneMapParameters.js') }}";
-        import SidebarSetup from "{{ Vite::appjs('sidebar.js') }}"
+        import { NewJobSetup } from "{{ Vite::appjs('NewJobParameters.js') }}";
+        import { Snp2GeneSetup } from "{{ Vite::appjs('snp2gene.js') }} ";
+        import { CellTypeSetup } from "{{ Vite::appjs('celltype.js') }}";
+        import { GeneMapSetup } from "{{ Vite::appjs('geneMapParameters.js') }}";
+        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
         $(function(){
             SidebarSetup();
             NewJobSetup();
