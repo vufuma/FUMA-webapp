@@ -1,7 +1,20 @@
 var prefix = "jobs";
-import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot } from "./s2g_results.js";
+import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables } from "./s2g_results.js";
 import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
+
+// retrieve the status info from the pageData element
+var status = "";
+var page = "";
+var id = "";
+var subdir = "";
+
+if ($('#pageData').attr("data-page-data")) {
+	status = JSON.parse($('#pageData').attr("data-page-data"))["status"];
+	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
+	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
+	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
+}
 
 function getJobList(page) {
 	$('#joblist-panel table tbody')
@@ -128,6 +141,8 @@ export const Snp2GeneSetup = function(){
 	$('.ImgDownSubmit').hide();
 	$('#annotPlotPanel').hide();
 	$('#g2fSubmitBtn').hide();
+
+
 
     const pageDataElement = document.getElementById('pageData');
     //console.log(`${pageDataElement.getAttribute('data-page-data')}`)

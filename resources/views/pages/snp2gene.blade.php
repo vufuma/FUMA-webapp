@@ -50,7 +50,7 @@
         'resources/js/celltype.js',
         'resources/js/sidebar.js',
         'resources/js/geneMapParameters.js',
-        'resources/js/s2g_results'])
+        'resources/js/s2g_results.js'])
 @endpush
 
 @push('page_scripts')

@@ -1,5 +1,5 @@
 export const GWplot = function (data) {
-	margin = { top: 30, right: 30, bottom: 50, left: 50 },
+	var margin = { top: 30, right: 30, bottom: 50, left: 50 },
 		width = 800,
 		height = 300;
 
@@ -40,10 +40,10 @@ export const GWplot = function (data) {
 					chromStart.push(chromStart[i - 1])
 				}
 			}
-			var x = d3.scale.linear().range([0, width]);
+			var x = d3.scaleLinear().range([0, width]);
 			x.domain([0, chromSize.reduce(function (a, b) { return a + b; }, 0)]);
-			var xAxis = d3.svg.axis().scale(x).orient("bottom");
-			var y = d3.scale.linear().range([height, 0]);
+			var xAxis = d3.axisBottom(x);
+			var y = d3.scaleLinear().range([height, 0]);
 			var minP = d3.min(value, function (d) { if (d['p'] > 1e-300) { return d['p'] } })
 			var lowP = d3.min(value, function (d) { return d['p'] });
 			var yMax = -Math.log10(minP);
@@ -54,7 +54,7 @@ export const GWplot = function (data) {
 			}
 			y.domain([0, yMax]);
 
-			var yAxis = d3.svg.axis().scale(y).orient("left");
+			var yAxis = d3.axisLeft();
 
 			svg.selectAll("dot.manhattan").data(value).enter()
 				.append("circle")
