@@ -23,7 +23,6 @@ import 'datatables.net-select';
 import 'gasparesganga-jquery-loading-overlay';
 import * as d3 from 'd3';
 window.d3 = d3;
-import 'd3-tip';
 import 'd3-queue';
 
 $.ajaxSetup({

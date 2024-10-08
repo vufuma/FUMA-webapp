@@ -395,7 +395,7 @@ export const Snp2GeneSetup = function(){
 					});
 				}
 
-				showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol);
+				showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol);
 				$('#GWplotSide').show();
 				$('#resultsSide').show();
 			}

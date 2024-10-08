@@ -1,3 +1,6 @@
+import { tip as d3Tip } from "d3-v6-tip";
+
+
 export const GWplot = function (data) {
 	var margin = { top: 30, right: 30, bottom: 50, left: 50 },
 		width = 800,
@@ -54,7 +57,7 @@ export const GWplot = function (data) {
 			}
 			y.domain([0, yMax]);
 
-			var yAxis = d3.axisLeft();
+			var yAxis = d3.axisLeft().scale(y);
 
 			svg.selectAll("dot.manhattan").data(value).enter()
 				.append("circle")
@@ -150,13 +153,13 @@ export const GWplot = function (data) {
 						chromStart.push(chromStart[i - 1])
 					}
 				}
-				var x = d3.scale.linear().range([0, width]);
+				var x = d3.scaleLinear().range([0, width]);
 				x.domain([0, chromSize.reduce(function (a, b) { return a + b; }, 0)]);
-				var xAxis = d3.svg.axis().scale(x).orient("bottom");
-				var y = d3.scale.linear().range([height, 0]);
+				var xAxis = d3.axisBottom(x);
+				var y = d3.scaleLinear().range([height, 0]);
 				// y.domain([0, d3.max(value, function(d){return -Math.log10(d.P);})+1]);
 				y.domain([0, d3.max(value, function (d) { return -Math.log10(d['P']); }) + 1]);
-				var yAxis = d3.svg.axis().scale(y).orient("left");
+				var yAxis = d3.axisLeft(y);
 
 				svg2.selectAll("dot.geneManhattan").data(value).enter()
 					.append("circle")
@@ -244,8 +247,8 @@ export function QQplot(data) {
 				d.exp = +d['exp'];
 			});
 
-			var x = d3.scale.linear().range([0, width]);
-			var y = d3.scale.linear().range([height, 0]);
+			var x = d3.scaleLinear().range([0, width]);
+			var y = d3.scaleLinear().range([height, 0]);
 			var xMax = d3.max(value, function (d) { return d.exp; });
 			var minP = d3.max(value, function (d) { if (d.obs < 300) { return d.obs } })
 			var lowP = d3.max(value, function (d) { return d.obs });
@@ -256,8 +259,8 @@ export function QQplot(data) {
 			}
 			x.domain([0, (xMax + xMax * 0.01)]);
 			y.domain([0, (yMax + yMax * 0.01)]);
-			var yAxis = d3.svg.axis().scale(y).orient("left");
-			var xAxis = d3.svg.axis().scale(x).orient("bottom");
+			var yAxis = d3.axisLeft(y);
+			var xAxis = d3.axisBottom(x);
 
 			// var maxP = Math.min(d3.max(data, function(d){return d.exp;}), d3.max(data, function(d){return d.obs;}));
 			var maxP = Math.min(xMax, yMax);
@@ -332,14 +335,14 @@ export function QQplot(data) {
 					d.n = +d.n;
 				});
 
-				var x = d3.scale.linear().range([0, width]);
-				var y = d3.scale.linear().range([height, 0]);
+				var x = d3.scaleLinear().range([0, width]);
+				var y = d3.scaleLinear().range([height, 0]);
 				var xMax = d3.max(all_row, function (d) { return d.exp; });
 				var yMax = d3.max(all_row, function (d) { return d.obs; });
 				x.domain([0, (xMax + xMax * 0.01)]);
 				y.domain([0, (yMax + yMax * 0.01)]);
-				var yAxis = d3.svg.axis().scale(y).orient("left");
-				var xAxis = d3.svg.axis().scale(x).orient("bottom");
+				var yAxis = d3.axisLeft(y);
+				var xAxis = d3.axisBottom(x);
 
 				// var maxP = Math.min(d3.max(all_row, function(d){return d.exp;}), d3.max(all_row, function(d){return d.obs;}));
 				var maxP = Math.min(xMax, yMax);
@@ -449,11 +452,11 @@ export function MAGMA_expPlot(data) {
 				.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-			var x = d3.scale.ordinal().rangeBands([0, width]);
-			var xAxis = d3.svg.axis().scale(x).orient("bottom");
+			var x = d3.scaleBand().range([0, width]);
+			var xAxis = d3.axisBottom(x);
 			x.domain(tdata.map(function (d) { return d['var_name']; }));
-			var y = d3.scale.linear().range([height, 0]);
-			var yAxis = d3.svg.axis().scale(y).orient("left");
+			var y = d3.scaleLinear().range([height, 0]);
+			var yAxis = d3.axisLeft(y);
 			y.domain([0, d3.max(tdata, function (d) { return -Math.log10(d['p']); })]);
 
 			var Pbon = 0.05 / tdata.length;
@@ -560,7 +563,7 @@ export function ciMapCircosPlot(data) {
 	$('#ciMapCircosPlot').html(images);
 }
 
-export function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
+export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
 	$('#plotClear').hide();
 	$('#download').attr('disabled', false);
 	if (eqtlMap == 0) {
@@ -985,7 +988,7 @@ export function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, beco
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('GenomicLocus');
 		var rowI = lociTable.row(this).index();
-		lociTable_selected = rowI;
+		var lociTable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -1021,13 +1024,13 @@ export function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, beco
 
 export function locusPlot(data, type, chr) {
 	// create plot space
-	var colorScale = d3.scale.linear().domain([0.0, 0.5, 1.0]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+	var colorScale = d3.scaleLinear().domain([0.0, 0.5, 1.0]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 	var margin = { top: 50, right: 50, bottom: 60, left: 50 },
 		width = 700 - margin.right - margin.left,
 		height = 300 - margin.top - margin.bottom;
 	// set range
-	var x = d3.scale.linear().range([0, width]);
-	var y = d3.scale.linear().range([height, 0]);
+	var x = d3.scaleLinear().range([0, width]);
+	var y = d3.scaleLinear().range([height, 0]);
 
 	var svg = d3.select("#locusPlot").append("svg")
 		.attr("width", width + margin.left + margin.right)
@@ -1035,7 +1038,7 @@ export function locusPlot(data, type, chr) {
 		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	var legData = [];
-	for (i = 10; i > 0; i--) {
+	for (let i = 10; i > 0; i--) {
 		legData.push(i * 0.1);
 	}
 	// legend
@@ -1093,10 +1096,10 @@ export function locusPlot(data, type, chr) {
 	var side = (d3.max(data.allsnps, function (d) { return d[0] }) - d3.min(data.allsnps, function (d) { return d[0] })) * 0.05;
 	x.domain([d3.min(data.allsnps, function (d) { return d[0] }) - side, d3.max(data.allsnps, function (d) { return d[0] }) + side]);
 	y.domain([0, Math.max(d3.max(data.snps, function (d) { return -Math.log10(d.gwasP) }), d3.max(data.allsnps, function (d) { return -Math.log10(d[1]) }))]);
-	var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5);
-	var yAxis = d3.svg.axis().scale(y).orient("left");
+	var xAxis = d3.axisBottom(x).ticks(5);
+	var yAxis = d3.axisLeft(y);
 	// tip
-	var tip = d3.tip().attr("class", "d3-tip")
+	var tip = d3Tip().attr("class", "d3-tip")
 		.offset([-10, 0])
 		.html(function (d) {
 			var out = "rsID: " + d.rsID + "<br>BP: " + d.pos + "<br>P: " + d.gwasP + "<br>MAF: " + d.MAF
@@ -1108,7 +1111,11 @@ export function locusPlot(data, type, chr) {
 		});
 	svg.call(tip);
 	// zoom
-	var zoom = d3.behavior.zoom().x(x).scaleExtent([1, 10]).on("zoom", zoomed);
+	
+	// restrict zoom extent to 10x
+	var zoom = d3.zoom().scaleExtent([1,10]).on("zoom", zoomed);
+	//var xScale = d3.scaleLinear().range([1,10]);
+	//var zoom = d3.zoom().x(x).scaleExtent([1, 10]).on("zoom", zoomed);
 	svg.call(zoom);
 	// add rect
 	svg.append("rect").attr("width", width).attr("height", height)
@@ -1230,17 +1237,18 @@ export function PlotSNPAnnot(data) {
 	max_e = Math.ceil(max_e * 100) / 100
 	var min_e = d3.min(data, function (d) { if (d.enrichment > 0) { return Math.log2(d.enrichment) } });
 	min_e = Math.ceil(min_e * 100) / 100
-	var colorScale = d3.scale.linear().domain([min_e, 0, max_e]).range(["#0000ff", "#ffffe6", "#ff0000"]);
+	var colorScale = d3.scaleLinear().domain([min_e, 0, max_e]).range(["#0000ff", "#ffffe6", "#ff0000"]);
 	var x_element = data.map(function (d) { return d.annot; });
-	var x = d3.scale.ordinal().domain(x_element).rangeRoundBands([0, width], 0.1);
-	var y = d3.scale.linear().range([height, 0]);
-	var xAxis = d3.svg.axis().scale(x).orient("bottom");
-	var yAxis = d3.svg.axis().scale(y).orient("left").ticks(5);
+	//var x = d3.scaleOrdinal().domain(x_element).rangeRoundBands([0, width], 0.1);
+	var x = d3.scaleBand().domain(x_element).range([0,width]).round(true).padding(0.1);
+	var y = d3.scaleLinear().range([height, 0]);
+	var xAxis = d3.axisBottom(x);
+	var yAxis = d3.axisLeft(y).ticks(5);
 	var svg = d3.select('#snpAnnotPlot').append('svg')
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	var tip = d3.tip()
+	var tip = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([-5, 0])
 		.html(function (d) {
@@ -1288,7 +1296,7 @@ export function PlotSNPAnnot(data) {
 	// background bar for small proportion
 	svg.selectAll('.backbar').data(data).enter().append('rect').attr("class", "backbar")
 		.attr("x", function (d) { return x(d.annot); })
-		.attr("width", x.rangeBand())
+		.attr("width", x.bandwidth())
 		.attr("y", y(d3.max(data, function (d) { return d.prop }) / 2))
 		.attr("height", height - y(d3.max(data, function (d) { return d.prop }) / 2))
 		.attr("fill", "transparent")
@@ -1299,7 +1307,7 @@ export function PlotSNPAnnot(data) {
 	// plot main bar
 	svg.selectAll('.bar').data(data).enter().append('rect').attr("class", "bar")
 		.attr("x", function (d) { return x(d.annot); })
-		.attr("width", x.rangeBand())
+		.attr("width", x.bandwidth())
 		.attr("y", function (d) { return y(d.prop); })
 		.attr("height", function (d) { return height - y(d.prop); })
 		.attr("fill", function (d) { return colorScale(Math.log2(d.enrichment)) })
@@ -1350,29 +1358,29 @@ function PlotLocuSum(data) {
 	var margin = { top: 60, right: 30, bottom: 70, left: 180 },
 		width = 600,
 		height = 15 * y_element.length;
-	var y = d3.scale.ordinal().domain(y_element).rangeBands([0, height], 0.1);
-	var yAxis = d3.svg.axis().scale(y).orient("left");
+	var y = d3.scaleBand().domain(y_element).range([0, height]).padding(0.1);
+	var yAxis = d3.axisLeft(y);
 	var svg = d3.select('#lociPlot').append('svg')
 		.attr("class", 'plotSVG')
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	var tip_size = d3.tip()
+	var tip_size = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.size + " kb"; });
 	svg.call(tip_size);
-	var tip_nSNPs = d3.tip()
+	var tip_nSNPs = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.nSNPs; });
 	svg.call(tip_nSNPs);
-	var tip_nGenes = d3.tip()
+	var tip_nGenes = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.nGenes; });
 	svg.call(tip_nGenes);
-	var tip_nWithinGene = d3.tip()
+	var tip_nWithinGene = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.nWithinGene; });
@@ -1380,14 +1388,14 @@ function PlotLocuSum(data) {
 	var currentWidth = 0;
 	var eachWidth = 140;
 	// plot nSNPs
-	var x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	var xAxis = d3.svg.axis().scale(x).orient("bottom");
+	var x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	var xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.size })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.size) })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "lightgreen")
 		.on("mouseover", tip_size.show)
 		.on("mouseout", tip_size.hide);
@@ -1414,14 +1422,14 @@ function PlotLocuSum(data) {
 		.text("Size (kb)");
 	currentWidth += eachWidth + 10;
 	// plot size
-	x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	xAxis = d3.svg.axis().scale(x).orient("bottom");
+	x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.nSNPs; })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.nSNPs) - currentWidth })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "skyblue")
 		.on("mouseover", tip_nSNPs.show)
 		.on("mouseout", tip_nSNPs.hide);
@@ -1445,14 +1453,14 @@ function PlotLocuSum(data) {
 	currentWidth += eachWidth + 10;
 
 	// plot nGene
-	x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	xAxis = d3.svg.axis().scale(x).orient("bottom");
+	x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.nGenes; })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.nGenes) - currentWidth })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "orange")
 		.on("mouseover", tip_nGenes.show)
 		.on("mouseout", tip_nGenes.hide);
@@ -1475,14 +1483,14 @@ function PlotLocuSum(data) {
 	currentWidth += eachWidth + 10;
 
 	// plot nWithinGene
-	x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	xAxis = d3.svg.axis().scale(x).orient("bottom");
+	x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.nWithinGene; })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.nWithinGene) - currentWidth })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "pink")
 		.on("mouseover", tip_nWithinGene.show)
 		.on("mouseout", tip_nWithinGene.hide);
