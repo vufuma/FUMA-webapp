@@ -1,32 +1,52 @@
 <!-- result tables -->
 <div class="sidePanel container" style="padding-top:50px;" id="tables">
-	<div class="panel panel-default"><div class="panel-body">
+	<div class="card"><div class="card-body">
 		<!-- <a href="#tablesPanel" data-toggle="collapse" style="color: #00004d"><h3>Result tables</h3></a> -->
 		<h4 style="color: #00004d">Result tables</h4>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 			<!-- <li role="presentation" class="active"><a href="#summaryTable" aria-controls="summaryTable" rolw="tab" data-toggle="tab">Summary</a></li> -->
-			<li role="presentation" class="active"><a class="RegionalPlotOn" href="#lociTablePane" aria-controls="lociTablePane" rolw="tab" data-toggle="tab">Genomic risk loci</a></li>
-			<li role="presentation"><a class="RegionalPlotOn" href="#leadSNPtablePane" aria-controls="leadSNPtablePane" rolw="tab" data-toggle="tab">lead SNPs</a></li>
-			<li role="presentation"><a class="RegionalPlotOn" href="#sigSNPtablePane" aria-controls="sigSNPtablePane" rolw="tab" data-toggle="tab">Ind. Sig. SNPs</a></li>
-			<li role="presentation"><a class="RegionalPlotOff" href="#SNPtablePane" aria-controls="SNPtablePane" rolw="tab" data-toggle="tab">SNPs (annotations)</a></li>
-			<li role="presentation"><a class="RegionalPlotOff" href="#annovTablePane" aria-controls="annovTablePane" rolw="tab" data-toggle="tab">ANNOVAR</a></li>
-			<li role="presentation"><a class="RegionalPlotOff" href="#geneTablePane" aria-controls="geneTablePane" rolw="tab" data-toggle="tab">Mapped Genes</a></li>
-			<li role="presentation" id="eqtlTableTab"><a class="RegionalPlotOff" href="#eqtlTablePane" aria-controls="eqtlTablePane" rolw="tab" data-toggle="tab">eQTL</a></li>
-			<li role="presentation" id="ciTableTab"><a class="RegionalPlotOff" href="#ciTablePane" aria-controls="ciTablePane" rolw="tab" data-toggle="tab">Chromatin interactions</a></li>
-			<li role="presentation" id="gwascatTableTab"><a class="RegionalPlotOff" href="#gwascatTablePane" aria-controls="gwascatTablePane" rolw="tab" data-toggle="tab">GWAScatalog</a></li>
-			<!-- <li role="presentation"><a href="#exacTablePane" aria-controls="exacTablePane" rolw="tab" data-toggle="tab">ExAC</a></li> -->
-			<li role="presentation"><a class="RegionalPlotOff" href="#paramsPane" aria-controls="paramsPane" rolw="tab" data-toggle="tab">Parameters</a></li>
-			<!-- <li role="presentation"><a href="#downloads" aria-controls="downloads" rolw="tab" data-toggle="tab">Downloads</a></li> -->
+			<li class="nav-item" role="presentation">
+				<a class="nav-link RegionalPlotOn active" href="#lociTablePane" id="lociTablePane-tab" role="tab" data-toggle="tab">Genomic risk loci</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link RegionalPlotOn" href="#leadSNPtablePane" id="leadSNPtablePane-tab" role="tab" data-toggle="tab">lead SNPs</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link RegionalPlotOn" href="#sigSNPtablePane" id="sigSNPtablePane-tab" role="tab" data-toggle="tab">Ind. Sig. SNPs</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link RegionalPlotOff" href="#SNPtablePane" id="SNPtablePane-tab" role="tab" data-toggle="tab">SNPs (annotations)</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link RegionalPlotOff" href="#annovTablePane" id="annovTablePane-tab" role="tab" data-toggle="tab">ANNOVAR</a>
+			</li>
+			<li class="nav-item" role="presentation">
+				<a class="nav-link RegionalPlotOff" href="#geneTablePane" id="geneTablePane-tab" role="tab" data-toggle="tab">Mapped Genes</a>
+			</li>
+			<li class="nav-item" role="presentation" id="eqtlTableTab">
+				<a class="nav-link RegionalPlotOff" href="#eqtlTablePane" id="eqtlTablePane-tab" role="tab" data-toggle="tab">eQTL</a>
+			</li>
+			<li class="nav-item" role="presentation" id="ciTableTab">
+				<a class="nav-link RegionalPlotOff" href="#ciTablePane" id="ciTablePane-tab" role="tab" data-toggle="tab">Chromatin interactions</a>
+			</li>
+			<li class="nav-item" role="presentation" id="gwascatTableTab">
+				<a class="nav-link RegionalPlotOff" href="#gwascatTablePane" id="gwascatTablePane-tab" role="tab" data-toggle="tab">GWAScatalog</a>
+			</li>
+			<!-- <li role="presentation"><a href="#exacTablePane" id="exacTablePane-tab" role="tab" data-toggle="tab">ExAC</a></li> -->
+			<li class="nav-item" role="presentation">
+				<a class="nav-link RegionalPlotOff" href="#paramsPane" id="paramsPane-tab" role="tab" data-toggle="tab">Parameters</a>
+			</li>
+			<!-- <li role="presentation"><a href="#downloads" id="downloads-tab" role="tab" data-toggle="tab">Downloads</a></li> -->
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="lociTablePane">
+			<div role="tabpanel" class="tab-pane fade show active" id="lociTablePane" aria-labelledby="lociTablePane-tab">
 				<br>
 				<p class="info">
 					<i class="fa fa-info"></i> Click row to display a regional plot of GWAS summary statistics.
 				</p>
-				<table id="lociTable" class="display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="lociTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>Genomic Locus</th><th>uniqID</th><th>rsID</th><th>chr</th><th>pos</th><th>P-value</th><th>start</th><th>end</th><th>nSNPs</th><th>nGWASSNPs</th><th>nIndSigSNPs</th><th>IndSigSNPs</th><th>nLeadSNPs</th><th>LeadSNPs</th>
@@ -36,12 +56,12 @@
 				</table>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="leadSNPtablePane">
+			<div role="tabpanel" class="tab-pane fade" id="leadSNPtablePane" aria-labelledby="leadSNPtablePane-tab">
 				<br>
 				<p class="info">
 					<i class="fa fa-info"></i> Click row to display a regional plot of GWAS summary statistics.
 				</p>
-				<table id="leadSNPtable" class="display compact" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="leadSNPtable" class="table table-striped table-sm display compact" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>No</th><th>Genomic Locus</th><th>uniqID</th><th>rsID</th><th>chr</th><th>pos</th><th>P-value</th><th>nIndSigSNPs</th><th>IndSigSNPs</th>
@@ -51,12 +71,12 @@
 				</table>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="sigSNPtablePane">
+			<div role="tabpanel" class="tab-pane fade" id="sigSNPtablePane" aria-labelledby="sigSNPtablePane-tab">
 				<br>
 				<p class="info">
 					<i class="fa fa-info"></i> Click row to display a regional plot of GWAS summary statistics.
 				</p>
-				<table id="sigSNPtable" class="display compact" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="sigSNPtable" class="table table-striped table-sm display compact" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>No</th><th>Genomic Locus</th><th>uniqID</th><th>rsID</th><th>chr</th><th>pos</th><th>P-value</th><th>nSNPs</th><th>nGWASSNPs</th>
@@ -66,21 +86,21 @@
 				</table>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="SNPtablePane">
+			<div role="tabpanel" class="tab-pane fade" id="SNPtablePane" aria-labelledby="SNPtablePane-tab">
 				<br>
 				<span class="info"><i class="fa fa-info"></i> This table contain all SNPs in LD of identified lead SNPs (functional filtering for gene mapping is not applied in this table).</span>
 				<br>
 				<span class="info"><i class="fa fa-info"></i> In this table "alt" is the risk allele if provided in the input GWAS file. See <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#table-columns">tutorial</a> for details.</span>
 				<br>
-				<table id="SNPtable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="SNPtable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 				</table>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="annovTablePane">
+			<div role="tabpanel" class="tab-pane fade" id="annovTablePane" aria-labelledby="annovTablePane-tab">
 				<br>
 				<span class="info"><i class="fa fa-info"></i> This is the result of annotation by ANNOVAR. SNPs can appear multiple times in this table if they are annotated to more than one genes.</span>
 				<br>
-				<table id="annovTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="annovTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>uniqID</th><th>chr</th><th>bp</th><th>Gene</th><th>Symbol</th><th>Distance</th><th>Function</th><th>Exonic function</th><th>Exon</th>
@@ -89,7 +109,7 @@
 				</table>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="geneTablePane">
+			<div role="tabpanel" class="tab-pane fade" id="geneTablePane" aria-labelledby="geneTablePane-tab">
 				<br>
 				<span class="info"><i class="fa fa-info"></i>
 					This table contains prioritized genes based on user defined mapping criteria. Note that these genes do no necessary contain all genes which are locating within genomic loci (depending on mapping paramters).
@@ -106,11 +126,11 @@
 					</span>
 				</form>
 				<br>
-				<table id="geneTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="geneTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 				</table>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="eqtlTablePane">
+			<div role="tabpanel" class="tab-pane fade" id="eqtlTablePane" aria-labelledby="eqtlTablePane-tab">
 				<br>
 				<span class="info"><i class="fa fa-info"></i>
 					When signed effect size (beta or OR) is provided in the input GWAS file, risk increasing alleles are aligned to the tested alleles of eQTLs.
@@ -119,7 +139,7 @@
 					When P-value or FDR are not available in the original data source, they are replaced with -9.
 				</span>
 				<br>
-				<table id="eqtlTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="eqtlTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>uniqID</th><th>chr</th><th>pos</th><th>testedAllele</th><th>DB</th><th>tissue</th><th>Gene</th><th>Symbol</th><th>P-value</th><th>FDR</th><th>signed_stats</th><th>RiskincAllele</th><th>alignedDirection</th>
@@ -128,10 +148,10 @@
 				</table>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="ciTablePane">
+			<div role="tabpanel" class="tab-pane fade" id="ciTablePane" aria-labelledby="ciTablePane-tab">
 				<br>
 				<h4>Chromatin interaction</h4>
-				<table id="ciTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="ciTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>GenomicLocus</th><th>region1</th><th>region2</th><th>FDR</th><th>type</th><th>DB</th><th>tissue/cell</th><th>inter/intra</th><th>SNPs</th><th>Genes</th>
@@ -140,7 +160,7 @@
 				</table>
 				<br>
 				<h4>SNPs and overlapped regulatory elements in region 1</h4>
-				<table id="ciSNPsTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="ciSNPsTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>uniqID</th><th>rsID</th><th>chr</th><th>pos</th><th>regulatory region</th><th>type</th><th>tissue/cell</th>
@@ -149,7 +169,7 @@
 				</table>
 				<br>
 				<h4>Regulatory elements and genes in regions 2</h4>
-				<table id="ciGenesTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="ciGenesTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>region2</th><th>regulatory region</th><th>type</th><th>tissue/cell</th><th>genes</th>
@@ -199,13 +219,13 @@
 				<div id="ciMapCircosPlot" style="text-align:center;"></div>
 			</div>
 
-			<div role="tabpanel" class="tab-pane" id="gwascatTablePane">
+			<div role="tabpanel" class="tab-pane fade" id="gwascatTablePane" aria-labelledby="gwascatTablePane-tab">
 				<br>
 				<p class="info"><i class="fa fa-info"></i>
 					This table only shows subset of information from GWAS catalog. <br>
 					Please download a output file (gwascatalog.txt) from "Download" tab to get full information
 				</p>
-				<table id="gwascatTable" class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="gwascatTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
 							<th>Genomic Locus</th><th>IndSigSNP</th><th>chr</th><th>bp</th><th>rsID</th><th>PMID</th><th>Trait</th><th>FirstAuth</th><th>Date</th><th>P-value</th>
@@ -224,7 +244,7 @@
 					</thead>
 				</table>
 			</div> -->
-			<div role="tabpanel" class="tab-pane" id="paramsPane">
+			<div role="tabpanel" class="tab-pane" id="paramsPane" aria-labelledby="paramsPane-tab">
 				<br>
 				<div id="paramTable"></div>
 			</div>
@@ -234,7 +254,7 @@
 
 	<!-- region plot -->
 	<div id="regionalPlot">
-		<div class="panel panel-default"><div class="panel-body">
+		<div class="card"><div class="card-body">
 			<!-- <a href="#regionalPlotPanel" data-toggle="collapse" style="color: #00004d"><h3>Regional Plot (GWAS association)</h3></a> -->
 			<h4 style="color: #00004d">Regional Plot (GWAS association)</h4>
 			<!-- <div class="row collapse in" id="regionalPlotPanel"> -->
