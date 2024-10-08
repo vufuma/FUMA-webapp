@@ -594,7 +594,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		},
 		success: function (data) {
 			data = JSON.parse(data);
-			var table = '<table class="table table-condensed table-bordered" style="width: 90%; text-align: right;"><tbody>'
+			var table = '<table class="table table-condensed table-bordered table-sm" style="width: 90%; text-align: right;"><tbody>'
 			data.forEach(function (d) {
 				if (d[0] != "created_at") {
 					d[1] = d[1].replace(/:/g, ', ');
@@ -918,7 +918,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('IndSigSNP');
 		var rowI = IndSigTable.row(this).index();
-		sigSNPtable_selected = rowI;
+		var sigSNPtable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -941,7 +941,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		});
 
 		$('#selectedLeadSNP').html("");
-		var out = "<h5>Selected Ind. Sig. SNP</h5><table class='table table-striped'><tr><td>Ind. Sig. SNP</td><td>" + rowData[3]
+		var out = "<h5>Selected Ind. Sig. SNP</h5><table class='table table-striped table-sm'><tr><td>Ind. Sig. SNP</td><td>" + rowData[3]
 			+ "</td></tr><tr><td>Chrom</td><td>" + rowData[4] + "</td></tr><tr><td>BP</td><td>"
 			+ rowData[5] + "</td></tr><tr><td>P-value</td><td>" + rowData[6] + "</td></tr><tr><td>SNPs within LD</td><td>"
 			+ rowData[7] + "</td></tr><tr><td>GWAS SNPs within LD</td><td>" + rowData[8] + "</td></tr>";
@@ -953,7 +953,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('leadSNP');
 		var rowI = leadTable.row(this).index();
-		sigSNPtable_selected = rowI;
+		var sigSNPtable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -976,7 +976,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		});
 
 		$('#selectedLeadSNP').html("");
-		var out = "<h5>Selected lead SNP</h5><table class='table table-striped'><tr><td>Lead SNP</td><td>" + rowData[3]
+		var out = "<h5>Selected lead SNP</h5><table class='table table-striped table-sm'><tr><td>Lead SNP</td><td>" + rowData[3]
 			+ "</td></tr><tr><td>Chrom</td><td>" + rowData[4] + "</td></tr><tr><td>BP</td><td>"
 			+ rowData[5] + "</td></tr><tr><td>P-value</td><td>" + rowData[6] + "</td></tr>"
 			+ "<tr><td>#Ind. Sig. SNPs</td><td>" + rowData[7] + "</td></tr>";
@@ -1011,7 +1011,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		});
 
 		$('#selectedLeadSNP').html("");
-		var out = "<h5>Selected Locus</h5><table class='table table-striped'><tr><td>top lead SNP</td><td>" + rowData[2]
+		var out = "<h5>Selected Locus</h5><table class='table table-striped table-sm'><tr><td>top lead SNP</td><td>" + rowData[2]
 			+ "</td></tr><tr><td>Chrom</td><td>" + rowData[3] + "</td></tr><tr><td>BP</td><td>"
 			+ rowData[4] + "</td></tr><tr><td>P-value</td><td>" + rowData[5] + "</td></tr>"
 			+ "<tr><td>#Ind. Sig. SNPs</td><td>" + rowData[10] + "</td></tr><tr><td>#lead SNPs</td><td>" + rowData[12]
