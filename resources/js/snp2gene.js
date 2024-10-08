@@ -1,5 +1,5 @@
 var prefix = "jobs";
-import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables } from "./s2g_results.js";
+import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables, ciMapCircosPlot } from "./s2g_results.js";
 import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
 
@@ -357,7 +357,7 @@ export const Snp2GeneSetup = function(){
 							alert("JobQuery get magma file contents error");
 						},
 						success: function (data) {
-							selectedData = {
+							let selectedData = {
 								"magma.sets.top": data['magma.sets.top'],
 							};
 							MAGMA_GStable(selectedData);

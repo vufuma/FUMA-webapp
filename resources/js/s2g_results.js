@@ -532,11 +532,29 @@ export function MAGMA_expPlot(data) {
 }
 
 export function expImgDown(gs, type) {
+	let id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
 	$('#expData').val($('#' + gs).html());
 	$('#expType').val(type);
 	$('#expJobID').val(id);
 	$('#expFileName').val("magma_exp_" + gs);
 	$('#expSubmit').trigger('click');
+}
+
+export function ImgDown(name, type) {
+	let id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
+	$('#' + name + 'Data').val($('#' + name).html());
+	$('#' + name + 'Type').val(type);
+	$('#' + name + 'ID').val(id);
+	$('#' + name + 'FileName').val(name);
+	$('#' + name + 'Submit').trigger('click');
+}
+
+export function circosDown(type) {
+	let id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
+	$('#circosPlotID').val(id);
+	//$('#circosPlotDir').val(prefix);
+	$('#circosPlotType').val(type);
+	$('#circosPlotSubmit').trigger('click');
 }
 
 export function ciMapCircosPlot(data) {
@@ -1555,21 +1573,6 @@ function DownloadFiles() {
 	})
 	if (check) { $('#download').prop('disabled', false) }
 	else { $('#download').prop('disabled', true) }
-}
-
-function ImgDown(name, type) {
-	$('#' + name + 'Data').val($('#' + name).html());
-	$('#' + name + 'Type').val(type);
-	$('#' + name + 'ID').val(id);
-	$('#' + name + 'FileName').val(name);
-	$('#' + name + 'Submit').trigger('click');
-}
-
-function circosDown(type) {
-	$('#circosPlotID').val(id);
-	$('#circosPlotDir').val(prefix);
-	$('#circosPlotType').val(type);
-	$('#circosPlotSubmit').trigger('click');
 }
 
 export default GWplot;
