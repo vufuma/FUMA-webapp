@@ -1,7 +1,7 @@
 @extends('layouts.simple')
 
 @section('stylesheets')
-	<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.css" rel="stylesheet"/>
+	<!--link href="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.css" rel="stylesheet"/-->
 @endsection
 
 
@@ -95,21 +95,25 @@
 <br><br>
 @endsection
 
-@section('scripts')
+@push('vite')
+    @vite([
+        'resources/js/annotPlot.js',
+        'resources/js/snp2gene.js',
+        'resources/js/celltype.js',
+        'resources/js/sidebar.js',
+        'resources/js/geneMapParameters.js',
+        'resources/js/s2g_results.js'])
+@endpush
+
+@push('page_scripts')
+    {{-- Web (via npm) resources --}}
 	{{-- Imports from the web --}}
-	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script>
-
-	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.js"></script>
-
-	<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
-	<script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script>
-
 	{{-- Hand written ones --}}
 	<script type="text/javascript">
-		$.ajaxSetup({
-			headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
-		});
-		var loggedin = "{{ Auth::check() }}";
+		//$.ajaxSetup({
+		//	headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
+		//});
+		window.loggedin = "{{ Auth::check() }}";
 		var id = "{{$jobID}}";
 		var prefix = "{{$prefix}}";
 		var type = "{{$type}}";
@@ -124,7 +128,15 @@
 		var page = "{{$page}}";
 		var subdir = "{{ Config::get('app.subdir') }}";
 	</script>
+	
+    {{-- Imports from the project using Vite alias macro --}}
+    <script type="module">
+		import { AnnotPlotSetup, ImgDown } from "{{ Vite::appjs('annotPlot.js') }}";
+		window.ImgDown = ImgDown;
+		$(function(){
+			AnnotPlotSetup();
+		});
+	</script>
 
-	{{-- Imports from the project --}}
-	<script type="text/javascript" src="{!! URL::asset('js/annotPlot.js') !!}?131"></script>
-@endsection
+
+@endpush
