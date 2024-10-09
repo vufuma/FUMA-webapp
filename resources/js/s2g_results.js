@@ -1050,7 +1050,7 @@ export function locusPlot(data, type, chr) {
 	var x = d3.scaleLinear().domain([0,10]).range([0, width]);
 	var y = d3.scaleLinear().domain([0,10]).range([height, 0]);
 
-	// svg actually points to first element: <svg><g>
+	// Variable svg actually points to first (g) element: <svg><g>
 	var svg = d3.select("#locusPlot").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
@@ -1197,7 +1197,7 @@ export function locusPlot(data, type, chr) {
 		.on("mouseover", tip.show)
 		.on("mouseout", tip.hide);
 
-	var x_axis = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
+	svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
 	svg.append("g").attr("class", "y axis").call(yAxis);
 	svg.append("text").attr("text-anchor", "middle")
 		.attr("transform", "translate(" + (-margin.left / 2 - 5) + "," + (height / 2) + ")rotate(-90)")
@@ -1210,16 +1210,16 @@ export function locusPlot(data, type, chr) {
 		.style("font-size", "8px")
 		.text("1000G SNPs");
 
-	// x-only zoom handler
+	// x-direction only zoom handler
 	function zoomed() {
-		// get the transformation and apply to x axis
+		// get the current transform and apply to x axis
 		var new_x_scale = d3.event.transform.rescaleX(x);
-		x_axis.transition()
+		svg.select(".x.axis").transition()
         .duration(0)
         .call(xAxis.scale(new_x_scale));
 
-		// For the SNPs do the x-position scaling based on the transformed scale and 
-		// set appropriate coloring/hidden for all the SNP classes
+		// For the SNPs do the x-position scaling (cy) based on the transformed scale and 
+		// set appropriate coloring/hidden(transparent) for all the SNP classes
 		svg.selectAll(".nonLD").attr("cx", function (d) { return new_x_scale(d[0]); })
 			.attr("cy", function (d) { return y(-Math.log10(d[1])); })
 			.style("fill", function (d) { if (new_x_scale(d[0]) < 0 || new_x_scale(d[0]) > width) { return "transparent"; } else { return "grey"; } });
@@ -1244,6 +1244,8 @@ export function locusPlot(data, type, chr) {
 
 	d3.select('#plotClear').on('click', reset);
 	function reset() {
+		// simply restore the identity transform to the zoom setting 
+		// for the top level enclosing g element
 		svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
 	}
 }

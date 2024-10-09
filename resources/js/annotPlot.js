@@ -1,15 +1,25 @@
-var plotData;
-var genes;
-var chrom;
-var xMin;
-var xMax;
-var xMin_init;
-var xMax_init;
-var eqtlgenes;
-prefix = 'jobs';
+// retrieve the status info from the pageData element
+var page = "";
+var id = "";
+var subdir = "";
+
+if ($('#pageData').attr("data-page-data")) {
+	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
+	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
+	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
+}
 
 export const AnnotPlotSetup = function() {
 	$('.ImgDownSubmit').hide();
+	const prefix = 'jobs';
+	var plotData;
+	var genes;
+	var chrom;
+	var xMin;
+	var xMax;
+	var xMin_init;
+	var xMax_init;
+	var eqtlgenes;
 
 	$.ajax({
 		url: 'annotPlot/getData',
@@ -79,14 +89,14 @@ export const AnnotPlotSetup = function() {
 					}
 				},
 				complete: function () {
-					Plot();
+					Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes);
 				}
 			});
 		}
 	});
 };
 
-function Plot() {
+function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 	/*---------------------------------------------
 	| Set parameters
 	---------------------------------------------*/
@@ -99,12 +109,12 @@ function Plot() {
 	if (side == 0) { side = 500; }
 
 	// set x axis
-	var x = d3.scale.linear().range([0, width]);
-	var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5);
+	var x = d3.scaleLinear().range([0, width]);
+	var xAxis = d3.axisBottom(x).ticks(5);
 	x.domain([(xMin_init * 1 - side), (xMax_init * 1 + side)]);
 
 	// define colors
-	var colorScale = d3.scale.linear().domain([0.0, 0.5, 1.0]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+	var colorScale = d3.scaleLinear().domain([0.0, 0.5, 1.0]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 	var Chr15colors = ["#FF0000", "#FF4500", "#32CD32", "#008000", "#006400", "#C2E105", "#FFFF00", "#66CDAA", "#8A91D0", "#CD5C5C", "#E9967A", "#BDB76B", "#808080", "#C0C0C0", "white"];
 	var Chr15eid = ["E017", "E002", "E008", "E001", "E015", "E014", "E016", "E003", "E024", "E020", "E019", "E018", "E021",
 		"E022", "E007", "E009", "E010", "E013", "E012", "E011", "E004", "E005", "E006", "E062", "E034", "E045",
@@ -257,14 +267,18 @@ function Plot() {
 	}
 
 	// Prepare svg
+	// The variable svg points to the top level container (g) element: <svg><g>
 	svg = d3.select('#annotPlot').append('svg')
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	// zoom
-	zoom = d3.behavior.zoom().x(x).scaleExtent([0, 1000]).on("zoom", zoomed);
-	svg.call(zoom);
+	// restrict zoom extent to 1000x
+	zoom = d3.zoom()
+		.scaleExtent([0, 1000])
+		.on("zoom", zoomed);
+
+	zoom(svg);
 
 	// vertical line
 	var vertical = svg.append("rect")
@@ -296,7 +310,7 @@ function Plot() {
 	/*---------------------------------------------
 	| Plot genes
 	---------------------------------------------*/
-	var y = d3.scale.linear().range([genesTop + genesHeight, genesTop]);
+	var y = d3.scaleLinear().range([genesTop + genesHeight, genesTop]);
 	y.domain([d3.max(genes.genes, function (d) { return d[6]; }) + 1, 0]);
 
 	// genes legend
@@ -414,8 +428,8 @@ function Plot() {
 			d[1] = +d[1]; //pos
 			d[2] = +d[2]; //gwasP
 		});
-		var y = d3.scale.linear().range([gwasTop + gwasHeight, gwasTop]);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var y = d3.scaleLinear().range([gwasTop + gwasHeight, gwasTop]);
+		var yAxis = d3.axisLeft(y);
 
 		// legend
 		var legData = [];
@@ -612,8 +626,8 @@ function Plot() {
 		| Plot CADD
 		---------------------------------------------*/
 	if (CADDplot == 1) {
-		var y = d3.scale.linear().range([caddTop + caddHeight, caddTop]);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var y = d3.scaleLinear().range([caddTop + caddHeight, caddTop]);
+		var yAxis = d3.axisLeft(y);
 
 		// legend
 		y.domain([0, d3.max(plotData.snps, function (d) { return d[9] }) + 1]);
@@ -698,8 +712,8 @@ function Plot() {
 		---------------------------------------------*/
 	if (RDBplot == 1) {
 		var y_element = ["1a", "1b", "1c", "1d", "1e", "1f", "2a", "2b", "2c", "3a", "3b", "4", "5", "6", "7"];
-		var y = d3.scale.ordinal().domain(y_element).rangePoints([rdbTop, rdbTop + rdbHeight]);
-		var yAxis = d3.svg.axis().scale(y).tickFormat(function (d) { return d; }).orient("left");
+		var y = d3.scalePoint().domain(y_element).range([rdbTop, rdbTop + rdbHeight]);
+		var yAxis = d3.axisLeft(y).tickFormat(function (d) { return d; });
 
 		// plot SNPs
 		svg.selectAll("dot").data(plotData.snps.filter(function (d) { if (d[10] != "NA" && d[10] != "" && d[5] != 0) { return d; } })).enter()
@@ -790,8 +804,8 @@ function Plot() {
 		if (y_element.length > 20) {
 			tileHeight = chrHeight / y_element.length;
 		}
-		var yChr15 = d3.scale.ordinal().domain(y_element).rangeBands([chrTop, chrTop + chrHeight]);
-		var yAxisChr15 = d3.svg.axis().scale(yChr15).tickFormat(function (d) { return d; }).orient("left");
+		var yChr15 = d3.scaleBand().domain(y_element).range([chrTop, chrTop + chrHeight]);
+		var yAxisChr15 = d3.axisLeft(yChr15).tickFormat(function (d) { return d; });
 
 		// legend
 		var states = ["TssA", "TssAFlnk", "TxFlnk", "Tx", "Tx/Wk", "EnhG", "Enh", "ZNF/Rpts", "Het", "TssBiv", "BivFlnk", "EnhBiv", "ReprPC", "ReprPCWk", "Quies"];
@@ -950,8 +964,8 @@ function Plot() {
 
 			// plot eQTLs per gene
 			for (i = 0; i < eqtlgenes.length; i++) {
-				var y = d3.scale.linear().range([eqtlTop + 55 * i + 50, eqtlTop + 55 * i]);
-				var yAxis = d3.svg.axis().scale(y).orient("left").ticks(4);
+				var y = d3.scaleLinear().range([eqtlTop + 55 * i + 50, eqtlTop + 55 * i]);
+				var yAxis = d3.axisLeft(y).ticks(4);
 				var yMax = d3.max(plotData.eqtl, function (d) { return -Math.log10(d[5]) })
 				if (yMax == undefined) { yMax = d3.max(plotData.eqtl, function (d) { return -Math.log10(d[7]) }) }
 				y.domain([0, yMax + 0.5]);
@@ -1030,7 +1044,7 @@ function Plot() {
 					d[4] = minFDR;
 				}
 			});
-			var cicolor = d3.scale.linear().domain([0, d3.max(plotData.ci, function (d) { return -Math.log10(d[4]) })]).range(["pink", "red"]);
+			var cicolor = d3.scaleLinear().domain([0, d3.max(plotData.ci, function (d) { return -Math.log10(d[4]) })]).range(["pink", "red"]);
 			var cur_height = 0;
 
 			// plot chromatin interaction per data set
@@ -1045,8 +1059,8 @@ function Plot() {
 					tmp_height = max_y * ci_cellsize + 10;
 				}
 
-				var y = d3.scale.linear().range([ciTop + 5 * i + cur_height + tmp_height, ciTop + 5 * i + cur_height]);
-				var yAxis = d3.svg.axis().scale(y).orient("left").ticks(0);
+				var y = d3.scaleLinear().range([ciTop + 5 * i + cur_height + tmp_height, ciTop + 5 * i + cur_height]);
+				var yAxis = d3.axisLeft(y).ticks(0);
 				y.domain([max_y + 1, 0]);
 
 				svg.selectAll("rect.ci1").data(plotData.ci.filter(function (d) { if (d[5] == types[0] && d[6] == types[1] && d[7] == types[2]) { return d; } })).enter()
@@ -1177,8 +1191,8 @@ function Plot() {
 				svg.append("text").attr("x", width + 45).attr("y", ciregTop + 30)
 					.text("Dyadic").style("font-size", "10px");
 
-				var yCireg = d3.scale.ordinal().domain(cieid).rangeBands([ciregTop, ciregTop + ciregHeight]);
-				var yAxisCireg = d3.svg.axis().scale(yCireg).tickFormat(function (d) { return d; }).orient("left");
+				var yCireg = d3.scaleBand().domain(cieid).range([ciregTop, ciregTop + ciregHeight]);
+				var yAxisCireg = d3.axisLeft(yCireg).tickFormat(function (d) { return d; });
 				svg.selectAll("rect.cireg").data(plotData.cireg).enter().append("g")
 					.insert('rect').attr("class", "ciregrect")
 					.attr('x', function (d) {
@@ -1231,33 +1245,36 @@ function Plot() {
 	svg.selectAll('.axis').selectAll('line').style('fill', 'none').style('stroke', 'grey');
 	svg.selectAll('text').style('font-family', 'sans-serif');
 
-	// zoom function
+	// x-direction only zoom handler
 	function zoomed() {
+		// get the current transform and apply to x axis
+		var new_x_scale = d3.event.transform.rescaleX(x);
+		// Dedpending on the x axis type remove various test and then scale the axis
 		if (xAxisLabel == "genes") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
-			svg.select(".x.axis.genes").call(xAxis);
+			svg.select(".x.axis.genes").transition().duration(0).call(xAxis.scale(new_x_scale));
 		} else if (xAxisLabel == "CADD") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.genes").call(xAxis).selectAll("text").remove();
-			svg.select(".x.axis.CADD").call(xAxis);
+			svg.select(".x.axis.CADD").transition().duration(0).call(xAxis.scale(new_x_scale));
 		} else if (xAxisLabel == "RDB") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.genes").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.CADD").call(xAxis).selectAll("text").remove();
-			svg.select(".x.axis.RDB").call(xAxis);
+			svg.select(".x.axis.RDB").transition().duration(0).call(xAxis.scale(new_x_scale));
 		} else if (xAxisLabel == "chr15") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.genes").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.CADD").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.RDB").call(xAxis).selectAll("text").remove();
-			svg.select(".x.axis.Chr15").call(xAxis);
+			svg.select(".x.axis.Chr15").transition().duration(0).call(xAxis.scale(new_x_scale));
 		} else if (xAxisLabel == "eqtl") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.genes").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.CADD").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.RDB").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.Chr15").call(xAxis).selectAll("text").remove();
-			svg.select(".x.axis.eqtlend").call(xAxis);
+			svg.select(".x.axis.eqtlend").transition().duration(0).call(xAxis.scale(new_x_scale));
 		} else if (xAxisLabel == "ci") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.genes").call(xAxis).selectAll("text").remove();
@@ -1265,7 +1282,7 @@ function Plot() {
 			svg.select(".x.axis.RDB").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.Chr15").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.eqtlend").call(xAxis).selectAll("text").remove();
-			svg.select(".x.axis.ci").call(xAxis);
+			svg.select(".x.axis.ci").transition().duration(0).call(xAxis.scale(new_x_scale));
 		} else if (xAxisLabel == "cireg") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.genes").call(xAxis).selectAll("text").remove();
@@ -1274,176 +1291,176 @@ function Plot() {
 			svg.select(".x.axis.Chr15").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.eqtlend").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.ci").call(xAxis).selectAll("text").remove();
-			svg.select(".x.axis.cireg").call(xAxis);
+			svg.select(".x.axis.cireg").transition().duration(0).call(xAxis.scale(new_x_scale));
 		}
 
-		svg.selectAll(".GWASdot").attr("cx", function (d) { return x(d[2]); })
-			.style("fill", function (d) { if (x(d[2]) < 0 || x(d[2]) > width) { return "none"; } else if (d[5] == 0) { return "grey"; } else { return colorScale(d[6]) } });
-		svg.selectAll(".GWASnonLD").attr("cx", function (d) { return x(d[1]); })
-			.style("fill", function (d) { if (x(d[1]) < 0 || x(d[1]) > width) { return "none"; } else { return "grey"; } });
-		svg.selectAll(".KGSNPs").attr("x", function (d) { return x(d[2]); })
-			.style("fill", function (d) { if (x(d[2]) < 0 || x(d[2]) > width) { return "none"; } else if (d[5] == 0) { return "grey" } else { return colorScale(d[6]) } });
-		svg.selectAll(".leadSNPs").attr("cx", function (d) { return x(d[2]); })
+		svg.selectAll(".GWASdot").attr("cx", function (d) { return new_x_scale(d[2]); })
+			.style("fill", function (d) { if (new_x_scale(d[2]) < 0 || new_x_scale(d[2]) > width) { return "none"; } else if (d[5] == 0) { return "grey"; } else { return colorScale(d[6]) } });
+		svg.selectAll(".GWASnonLD").attr("cx", function (d) { return new_x_scale(d[1]); })
+			.style("fill", function (d) { if (new_x_scale(d[1]) < 0 || new_x_scale(d[1]) > width) { return "none"; } else { return "grey"; } });
+		svg.selectAll(".KGSNPs").attr("x", function (d) { return new_x_scale(d[2]); })
+			.style("fill", function (d) { if (new_x_scale(d[2]) < 0 || new_x_scale(d[2]) > width) { return "none"; } else if (d[5] == 0) { return "grey" } else { return colorScale(d[6]) } });
+		svg.selectAll(".leadSNPs").attr("cx", function (d) { return new_x_scale(d[2]); })
 			.style("fill", function (d) {
-				if (x(d[2]) < 0 || x(d[2]) > width) { return "none"; }
+				if (new_x_scale(d[2]) < 0 || new_x_scale(d[2]) > width) { return "none"; }
 				else if (d[5] == 2) { return colorScale(d[6]); }
 				else if (d[5] == 3) { return "#9933ff" }
 				else if (d[5] == 4) { return "#4d0099" }
 			})
-			.style("stroke", function (d) { if (x(d[2]) < 0 || x(d[2]) > width) { return "none"; } else { return "black" } });
-		svg.selectAll(".CADDdot").attr("cx", function (d) { return x(d[2]); })
+			.style("stroke", function (d) { if (new_x_scale(d[2]) < 0 || new_x_scale(d[2]) > width) { return "none"; } else { return "black" } });
+		svg.selectAll(".CADDdot").attr("cx", function (d) { return new_x_scale(d[2]); })
 			.style("fill", function (d) {
-				if (x(d[2]) < 0 || x(d[2]) > width) { return "none"; }
+				if (new_x_scale(d[2]) < 0 || new_x_scale(d[2]) > width) { return "none"; }
 				else if (d[5] == 0) { return "grey" }
 				else if (d[13] == 0) { return "grey" }
 				else if (d[12] == "exonic") { return "blue" }
 				else { return "skyblue" }
 			});
-		svg.selectAll(".RDBdot").attr("cx", function (d) { return x(d[2]); })
+		svg.selectAll(".RDBdot").attr("cx", function (d) { return new_x_scale(d[2]); })
 			.style("fill", function (d) {
-				if (x(d[2]) < 0 || x(d[2]) > width) { return "none"; }
+				if (new_x_scale(d[2]) < 0 || new_x_scale(d[2]) > width) { return "none"; }
 				else if (d[5] == 0) { return "grey" }
 				else if (d[13] == 0) { return "grey" }
 				else { return "MediumAquaMarine" }
 			});
 		svg.selectAll(".genesrect").attr("x", function (d) {
-			if (x(d[2]) < 0 || x(d[3]) < 0) { return 0; }
-			else { return x(d[2]); }
+			if (new_x_scale(d[2]) < 0 || new_x_scale(d[3]) < 0) { return 0; }
+			else { return new_x_scale(d[2]); }
 		})
 			.attr("width", function (d) {
-				if (x(d[3]) < 0 || x(d[2]) > width) { return 0; }
-				else if (x(d[3]) > width && x(d[2]) < 0) { return width; }
-				else if (x(d[3]) > width) { return width - x(d[2]); }
-				else if (x(d[2]) < 0) { return x(d[3]); }
-				else { return x(d[3]) - x(d[2]); }
+				if (new_x_scale(d[3]) < 0 || new_x_scale(d[2]) > width) { return 0; }
+				else if (new_x_scale(d[3]) > width && new_x_scale(d[2]) < 0) { return width; }
+				else if (new_x_scale(d[3]) > width) { return width - new_x_scale(d[2]); }
+				else if (new_x_scale(d[2]) < 0) { return new_x_scale(d[3]); }
+				else { return new_x_scale(d[3]) - new_x_scale(d[2]); }
 			})
 			.style("fill", function (d) {
-				if (x(d[3]) < 0 || x(d[2]) > width) { return "none"; }
+				if (new_x_scale(d[3]) < 0 || new_x_scale(d[2]) > width) { return "none"; }
 				else if (genes["mappedGenes"].indexOf(d[1]) >= 0) { return "red"; }
 				else if (d[5] == "protein_coding") { return "blue"; }
 				else { return "#383838" }
 			});
 		svg.selectAll(".geneName")
 			.attr("x", function (d) {
-				if (x(d[2]) < 0 && x(d[3]) > width) { return width / 2; }
-				else if (x(d[2]) < 0) { return x(d[3]) / 2; }
-				else if (x(d[3]) > width) { return x(d[2]) + (width - x(d[2])) / 2; }
-				else { return x(((d[3] - d[2]) / 2) + d[2]); }
+				if (new_x_scale(d[2]) < 0 && new_x_scale(d[3]) > width) { return width / 2; }
+				else if (new_x_scale(d[2]) < 0) { return new_x_scale(d[3]) / 2; }
+				else if (new_x_scale(d[3]) > width) { return new_x_scale(d[2]) + (width - new_x_scale(d[2])) / 2; }
+				else { return new_x_scale(((d[3] - d[2]) / 2) + d[2]); }
 			})
 			.style("fill", function (d) {
-				if (x(d[3]) < 0 || x(d[2]) > width) { return "none"; }
+				if (new_x_scale(d[3]) < 0 || new_x_scale(d[2]) > width) { return "none"; }
 				else { return "black"; }
 			});
 		svg.selectAll(".exons").attr("x", function (d) {
-			if (x(d[6]) < 0 || x(d[7]) < 0) { return 0; }
-			else { return x(d[6]); }
+			if (new_x_scale(d[6]) < 0 || new_x_scale(d[7]) < 0) { return 0; }
+			else { return new_x_scale(d[6]); }
 		})
 			.attr("width", function (d) {
-				if (x(d[7]) < 0 || x(d[6]) > width) { return 0; }
-				else if (x(d[6]) < 0 && x(d[7]) > width) { return width; }
-				else if (x(d[7]) > width) { return width - x(d[6]); }
-				else if (x(d[6]) < 0) { return x(d[7]); }
-				else { return x(d[7]) - x(d[6]); }
+				if (new_x_scale(d[7]) < 0 || new_x_scale(d[6]) > width) { return 0; }
+				else if (new_x_scale(d[6]) < 0 && new_x_scale(d[7]) > width) { return width; }
+				else if (new_x_scale(d[7]) > width) { return width - new_x_scale(d[6]); }
+				else if (new_x_scale(d[6]) < 0) { return new_x_scale(d[7]); }
+				else { return new_x_scale(d[7]) - new_x_scale(d[6]); }
 			})
 			.style("fill", function (d) {
-				if (x(d[7]) < 0 || x(d[6]) > width) { return "none"; }
+				if (new_x_scale(d[7]) < 0 || new_x_scale(d[6]) > width) { return "none"; }
 				else if (genes["mappedGenes"].indexOf(d[1]) >= 0) { return "red"; }
 				else if (d[5] == "protein_coding") { return "blue"; }
 				else { return "#383838" }
 			})
 		svg.selectAll(".Chr15rect")
 			.attr("x", function (d) {
-				if (x(d[1]) < 0 || x(d[2]) < 0) { return 0; }
-				else { return x(d[1]); }
+				if (new_x_scale(d[1]) < 0 || new_x_scale(d[2]) < 0) { return 0; }
+				else { return new_x_scale(d[1]); }
 			})
 			.attr("width", function (d) {
-				if (x(d[2]) < 0 || x(d[1]) > width) { return 0; }
-				else if (x(d[1]) < 0 && x(d[2]) > width) { return width; }
-				else if (x(d[1]) < 0) { return x(d[2]); }
-				else if (x(d[2]) > width) { return width - x(d[1]); }
-				else { return x(d[2]) - x(d[1]); }
+				if (new_x_scale(d[2]) < 0 || new_x_scale(d[1]) > width) { return 0; }
+				else if (new_x_scale(d[1]) < 0 && new_x_scale(d[2]) > width) { return width; }
+				else if (new_x_scale(d[1]) < 0) { return new_x_scale(d[2]); }
+				else if (new_x_scale(d[2]) > width) { return width - new_x_scale(d[1]); }
+				else { return new_x_scale(d[2]) - new_x_scale(d[1]); }
 			})
 			.style("fill", function (d) {
-				if (x(d[2]) < 0 || x(d[1]) > width) { return "none"; }
+				if (new_x_scale(d[2]) < 0 || new_x_scale(d[1]) > width) { return "none"; }
 				else { return Chr15colors[d[3] * 1 - 1]; }
 			});
-		svg.selectAll(".eqtldot").attr("cx", function (d) { return x(d[11]) })
+		svg.selectAll(".eqtldot").attr("cx", function (d) { return new_x_scale(d[11]) })
 			.style("fill", function (d) {
-				if (x(d[11]) < 0 || x(d[11]) > width) { return "none"; }
+				if (new_x_scale(d[11]) < 0 || new_x_scale(d[11]) > width) { return "none"; }
 				else if (d[13] == 0) { return "grey" }
 				else { return eQTLcolors[d[2]] }
 			});
 		svg.selectAll(".cirect1")
 			.attr("x", function (d) {
-				if (x(d[0]) < 0) { return 0 }
-				else if (x(d[0]) > width) { return width }
-				else { return x(d[0]) }
+				if (new_x_scale(d[0]) < 0) { return 0 }
+				else if (new_x_scale(d[0]) > width) { return width }
+				else { return new_x_scale(d[0]) }
 			})
 			.attr("width", function (d) {
-				if (x(d[1]) < 0 || x(d[0]) > width) { return 0 }
-				else if (x(d[0]) < 0 && x(d[1]) > width) { return width }
-				else if (x(d[1]) > width) { return width - x(d[0]) }
-				else if (x(d[0]) < 0) { return x(d[1]) }
-				else { return x(d[1]) - x(d[0]) }
+				if (new_x_scale(d[1]) < 0 || new_x_scale(d[0]) > width) { return 0 }
+				else if (new_x_scale(d[0]) < 0 && new_x_scale(d[1]) > width) { return width }
+				else if (new_x_scale(d[1]) > width) { return width - new_x_scale(d[0]) }
+				else if (new_x_scale(d[0]) < 0) { return new_x_scale(d[1]) }
+				else { return new_x_scale(d[1]) - new_x_scale(d[0]) }
 			})
 			.attr("fill", function (d) {
-				if (x(d[0]) > width || x(d[1]) < 0) { return "none" }
+				if (new_x_scale(d[0]) > width || new_x_scale(d[1]) < 0) { return "none" }
 				else { return cicolor(-Math.log10(d[4])) }
 			})
 			.attr("stroke", function (d) {
-				if (x(d[0]) > width) { return "none" }
+				if (new_x_scale(d[0]) > width) { return "none" }
 				else { return "grey" }
 			});
 		svg.selectAll(".cirect2")
 			.attr("x", function (d) {
-				if (x(d[2]) < 0) { return 0 }
-				else if (x(d[2]) > width) { return width }
-				else { return x(d[2]) }
+				if (new_x_scale(d[2]) < 0) { return 0 }
+				else if (new_x_scale(d[2]) > width) { return width }
+				else { return new_x_scale(d[2]) }
 			})
 			.attr("width", function (d) {
-				if (x(d[3]) < 0 || x(d[2]) > width) { return 0 }
-				else if (x(d[2]) < 0 && x(d[3]) > width) { return width }
-				else if (x(d[3]) > width) { return width - x(d[2]) }
-				else if (x(d[2]) < 0) { return x(d[3]) }
-				else { return x(d[3]) - x(d[2]) }
+				if (new_x_scale(d[3]) < 0 || new_x_scale(d[2]) > width) { return 0 }
+				else if (new_x_scale(d[2]) < 0 && new_x_scale(d[3]) > width) { return width }
+				else if (new_x_scale(d[3]) > width) { return width - new_x_scale(d[2]) }
+				else if (new_x_scale(d[2]) < 0) { return new_x_scale(d[3]) }
+				else { return new_x_scale(d[3]) - new_x_scale(d[2]) }
 			})
 			.attr("fill", function (d) {
-				if (x(d[2]) > width || x(d[3]) < 0) { return "none" }
+				if (new_x_scale(d[2]) > width || new_x_scale(d[3]) < 0) { return "none" }
 				else { return cicolor(-Math.log10(d[4])) }
 			})
 			.attr("stroke", function (d) {
-				if (x(d[2]) > width) { return "none" }
+				if (new_x_scale(d[2]) > width) { return "none" }
 				else { return "grey" }
 			});
 		svg.selectAll(".cirect")
 			.attr("x", function (d) {
-				if (x(d[1]) < 0) { return 0 }
-				else if (x(d[1]) > width) { return width }
-				else { return x(d[1]) }
+				if (new_x_scale(d[1]) < 0) { return 0 }
+				else if (new_x_scale(d[1]) > width) { return width }
+				else { return new_x_scale(d[1]) }
 			})
 			.attr("width", function (d) {
-				if (x(d[2]) < 0 || x(d[1]) > width) { return 0 }
-				else if (x(d[2]) > width && x(d[1]) < 0) { return width }
-				else if (x(d[1]) < 0) { return x(d[2]) }
-				else if (x(d[2]) > width) { return width - x(d[1]) }
-				else { return x(d[2]) - x(d[1]) }
+				if (new_x_scale(d[2]) < 0 || new_x_scale(d[1]) > width) { return 0 }
+				else if (new_x_scale(d[2]) > width && new_x_scale(d[1]) < 0) { return width }
+				else if (new_x_scale(d[1]) < 0) { return new_x_scale(d[2]) }
+				else if (new_x_scale(d[2]) > width) { return width - new_x_scale(d[1]) }
+				else { return new_x_scale(d[2]) - new_x_scale(d[1]) }
 			});
 
 		svg.selectAll(".ciregrect")
 			.attr("x", function (d) {
-				if (x(d[0]) < 0) { return 0; }
-				else { return x(d[0]); }
+				if (new_x_scale(d[0]) < 0) { return 0; }
+				else { return new_x_scale(d[0]); }
 			})
 			.attr("width", function (d) {
-				return x(d[1]) - x(d[0]);
-				if (x(d[1]) < 0 || x(d[0]) > width) { return 0 }
-				else if (x(d[0]) < 0 && x(d[1]) > width) { return width }
-				else if (x(d[1]) > width) { return width - x(d[0]) }
-				else if (x(d[0]) < 0) { return x(d[1]) }
-				else { return x(d[1]) - x(d[0]) }
+				return new_x_scale(d[1]) - new_x_scale(d[0]);
+				if (new_x_scale(d[1]) < 0 || new_x_scale(d[0]) > width) { return 0 }
+				else if (new_x_scale(d[0]) < 0 && new_x_scale(d[1]) > width) { return width }
+				else if (new_x_scale(d[1]) > width) { return width - new_x_scale(d[0]) }
+				else if (new_x_scale(d[0]) < 0) { return new_x_scale(d[1]) }
+				else { return new_x_scale(d[1]) - new_x_scale(d[0]) }
 			})
 			.attr("fill", function (d) {
-				if (x(d[1]) < 0 || x(d[0]) > width) { return "none" }
+				if (new_x_scale(d[1]) < 0 || new_x_scale(d[0]) > width) { return "none" }
 				else if (d[2] == "enh") { return "orange" }
 				else if (d[2] == "prom") { return "green" }
 				else { return "blue" }
