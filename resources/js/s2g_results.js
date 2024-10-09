@@ -1047,9 +1047,10 @@ export function locusPlot(data, type, chr) {
 		width = 700 - margin.right - margin.left,
 		height = 300 - margin.top - margin.bottom;
 	// set range
-	var x = d3.scaleLinear().range([0, width]);
-	var y = d3.scaleLinear().range([height, 0]);
+	var x = d3.scaleLinear().domain([0,10]).range([0, width]);
+	var y = d3.scaleLinear().domain([0,10]).range([height, 0]);
 
+	// svg actually points to first element: <svg><g>
 	var svg = d3.select("#locusPlot").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
@@ -1116,25 +1117,33 @@ export function locusPlot(data, type, chr) {
 	y.domain([0, Math.max(d3.max(data.snps, function (d) { return -Math.log10(d.gwasP) }), d3.max(data.allsnps, function (d) { return -Math.log10(d[1]) }))]);
 	var xAxis = d3.axisBottom(x).ticks(5);
 	var yAxis = d3.axisLeft(y);
-	// tip
+
+	// Define the tool tip formatting for the SNPs
 	var tip = d3Tip().attr("class", "d3-tip")
 		.offset([-10, 0])
 		.html(function (d) {
-			var out = "rsID: " + d.rsID + "<br>BP: " + d.pos + "<br>P: " + d.gwasP + "<br>MAF: " + d.MAF
-				+ "<br>r2: " + d.r2 + "<br>Ind. Sig. SNP: " + d.IndSigSNP;
-			if (orcol != "NA") { out += "<br>OR: " + d.or; }
-			if (becol != "NA") { out += "<br>Beta: " + d.beta; }
-			if (secol != "NA") { out += "<br>SE: " + d.se; }
+			var out = "<table><tr><td>rsID: </td><td>" + d.rsID + "</td></tr>"
+			    + "<tr><td>BP: </td><td>" + d.pos + "</td></tr>"
+			    + "<tr><td>P: </td><td>" + d.gwasP + "</td></tr>"
+				+ "<tr><td>MAF: </td><td>" + d.MAF + "</td></tr>"
+				+ "<tr><td>r2: </td><td>" + d.r2 + "</td></tr>"
+				+ "<tr><td>Ind. Sig. SNP:&nbsp;</td><td>" + d.IndSigSNP + "</td></tr>";
+			if (orcol != "NA") { out += "<tr><td>OR: </td><td>" + d.or + "</td></tr>"; }
+			if (becol != "NA") { out += "<tr><td>Beta: </td><td>" + d.beta + "</td></tr>"; }
+			if (secol != "NA") { out += "<tr><td>SE: </td><td>" + d.se + "</td></tr>"; }
+			out += "</table>"
 			return out;
 		});
+	// activate the tool tips
 	svg.call(tip);
-	// zoom
-	
+
 	// restrict zoom extent to 10x
-	var zoom = d3.zoom().scaleExtent([1,10]).on("zoom", zoomed);
-	//var xScale = d3.scaleLinear().range([1,10]);
-	//var zoom = d3.zoom().x(x).scaleExtent([1, 10]).on("zoom", zoomed);
-	svg.call(zoom);
+	var zoom = d3.zoom()
+		.scaleExtent([1,10])
+		.on("zoom", zoomed);
+
+	zoom(svg);
+
 	// add rect
 	svg.append("rect").attr("width", width).attr("height", height)
 		.style("fill", "transparent")
@@ -1187,9 +1196,8 @@ export function locusPlot(data, type, chr) {
 		.style("stroke", "black").style("stroke-width", "2")
 		.on("mouseover", tip.show)
 		.on("mouseout", tip.hide);
-	// axis labels
-	svg.append("g").attr("class", "x axis")
-		.attr("transform", "translate(0," + height + ")").call(xAxis);
+
+	var x_axis = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
 	svg.append("g").attr("class", "y axis").call(yAxis);
 	svg.append("text").attr("text-anchor", "middle")
 		.attr("transform", "translate(" + (-margin.left / 2 - 5) + "," + (height / 2) + ")rotate(-90)")
@@ -1202,39 +1210,41 @@ export function locusPlot(data, type, chr) {
 		.style("font-size", "8px")
 		.text("1000G SNPs");
 
+	// x-only zoom handler
 	function zoomed() {
-		svg.select(".x.axis").call(xAxis);
-		svg.selectAll(".nonLD").attr("cx", function (d) { return x(d[0]); })
+		// get the transformation and apply to x axis
+		var new_x_scale = d3.event.transform.rescaleX(x);
+		x_axis.transition()
+        .duration(0)
+        .call(xAxis.scale(new_x_scale));
+
+		// For the SNPs do the x-position scaling based on the transformed scale and 
+		// set appropriate coloring/hidden for all the SNP classes
+		svg.selectAll(".nonLD").attr("cx", function (d) { return new_x_scale(d[0]); })
 			.attr("cy", function (d) { return y(-Math.log10(d[1])); })
-			.style("fill", function (d) { if (x(d[0]) < 0 || x(d[0]) > width) { return "transparent"; } else { return "grey"; } });
-		svg.selectAll(".dot").attr("cx", function (d) { return x(d.pos); })
+			.style("fill", function (d) { if (new_x_scale(d[0]) < 0 || new_x_scale(d[0]) > width) { return "transparent"; } else { return "grey"; } });
+		svg.selectAll(".dot").attr("cx", function (d) { return new_x_scale(d.pos); })
 			.attr("cy", function (d) { return y(-Math.log10(d.gwasP)); })
-			.style("fill", function (d) { if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
+			.style("fill", function (d) { if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
 		svg.selectAll(".KGSNPs")
-			.attr("x", function (d) { return x(d.pos) })
+			.attr("x", function (d) { return new_x_scale(d.pos) })
 			.attr("y", -20)
-			.style('fill', function (d) { if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
+			.style('fill', function (d) { if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
 		svg.selectAll(".leadSNPs")
-			.attr("cx", function (d) { return x(d.pos); })
+			.attr("cx", function (d) { return new_x_scale(d.pos); })
 			.attr("cy", function (d) { return y(-Math.log10(d.gwasP)); })
 			.style("fill", function (d) {
-				if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; }
+				if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; }
 				else if (d.ld == 2) { return colorScale(d.r2); }
 				else if (d.ld == 3) { return "#9933ff" }
 				else if (d.ld == 4) { return "#4d0099" }
 			})
-			.style("stroke", function (d) { if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; } else { return "black"; } });
+			.style("stroke", function (d) { if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; } else { return "black"; } });
 	}
 
 	d3.select('#plotClear').on('click', reset);
 	function reset() {
-		d3.transition().duration(750).tween("zoom", function () {
-			var ix = d3.interpolate(x.domain(), [d3.min(data.allsnps, function (d) { return d[0] }) - side, d3.max(data.allsnps, function (d) { return d[0] }) + side]);
-			return function (t) {
-				zoom.x(x.domain(ix(t)));
-				zoomed();
-			}
-		});
+		svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
 	}
 }
 
