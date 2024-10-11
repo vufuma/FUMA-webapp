@@ -9,6 +9,8 @@ use App\CustomClasses\myFile;
 use App\Models\SubmitJob;
 use App\Models\User;
 
+use Illuminate\Support\Facades\Log;
+
 use Helper;
 
 class FumaController extends Controller
@@ -185,6 +187,7 @@ class FumaController extends Controller
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python annotPlot.py $job_location/ $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells'";
+        //Log::info("Get annot plot data using docker: ".$cmd);
 
         $data = shell_exec($cmd);
         return $data;
@@ -212,6 +215,7 @@ class FumaController extends Controller
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'Rscript annotPlot.R $job_location/ $chrom $xMin $xMax $eqtlgenes $eqtlplot $ciplot $ensembl'";
+        //Log::info("Get annot plot genes using docker: ".$cmd);
 
         $data = shell_exec($cmd);
         $data = explode("\n", $data);
@@ -303,6 +307,7 @@ class FumaController extends Controller
             $fileName = $fileName . '.' . $type;
             $image = new \Imagick();
             $image->setResolution(300, 300);
+            $image->setBackgroundColor(new \ImagickPixel('white'));
             $image->readImageBlob('<?xml version="1.0"?>' . $svg);
             $image->setImageFormat($type);
             return response()->streamDownload(function () use ($image) {
