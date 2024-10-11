@@ -273,12 +273,13 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	// restrict zoom extent to 1000x
+	// Create zoom behavior and restrict zoom extent to 1000x
+	// T.B.D. restrict translation 
 	zoom = d3.zoom()
 		.scaleExtent([0, 1000])
 		.on("zoom", zoomed);
 
-	zoom(svg);
+	svg.call(zoom);
 
 	// vertical line
 	var vertical = svg.append("rect")
@@ -1249,7 +1250,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 	function zoomed() {
 		// get the current transform and apply to x axis
 		var new_x_scale = d3.event.transform.rescaleX(x);
-		// Dedpending on the x axis type remove various test and then scale the axis
+		// Depending on the x axis type remove various test and then scale the axis
 		if (xAxisLabel == "genes") {
 			svg.select(".x.axis.GWAS").call(xAxis).selectAll("text").remove();
 			svg.select(".x.axis.genes").transition().duration(0).call(xAxis.scale(new_x_scale));
@@ -1473,14 +1474,9 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 	// Plot Clear button
 	d3.select('#plotclear').on('click', reset);
 	function reset() {
-		d3.transition().duration(750).tween("zoom", function () {
-			// var ix = d3.interpolate(x.domain(), [d3.min(data1, function(d){return d.pos})-side, d3.max(data1, function(d){return d.pos})+side]);
-			var ix = d3.interpolate(x.domain(), [xMin_init * 1 - side, xMax_init * 1 + side]);
-			return function (t) {
-				zoom.x(x.domain(ix(t)));
-				zoomed();
-			}
-		});
+		// simply restore the identity transform to the zoom setting 
+		// for the top level enclosing g element
+		svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
 	}
 }
 
