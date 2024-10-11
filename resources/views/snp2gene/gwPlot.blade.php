@@ -117,7 +117,7 @@
 			Full results are downloadable from "Download" tab. <br>
 			Note that MAGMA gene-set analyses uses the full distribution of SNP p-values and is different from a pathway enrichment test as implemented in GENE2FUNC that only tests for enrichment of prioritized genes.
 		</span><br><br>
-		<table id="MAGMAtable" class="display compact" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+		<table id="MAGMAtable" class="table table-striped table-sm" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 			<thead>
 				<th>Gene Set</th><th>N genes</th><th>Beta</th><th>Beta STD</th><th>SE</th><th>P</th><th>P<sub>bon</sub></th>
 			</thead>
