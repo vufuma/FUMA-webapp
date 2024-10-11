@@ -11,6 +11,7 @@
 <br><br>
 
 <div class="container">
+	<div id="pageData" data-page-data="{}"></div>
 	<div class="row">
 		<div class="col-md-9 col-xs-9 col-sm-9">
 			<div id='title' style="text-align: center;"><h4>Regional plot</h4></div>
@@ -127,6 +128,13 @@
 		var Chr15cells = "{{$Chr15cells}}";
 		var page = "{{$page}}";
 		var subdir = "{{ Config::get('app.subdir') }}";
+        const pageData = document.querySelector('#pageData');
+        pageData.setAttribute('data-page-data', `{
+            "id": "${id}",
+            "page": "${page}",
+            "subdir": "${subdir}",
+            "loggedin": "${window.loggedin}"
+        }`);
 	</script>
 	
     {{-- Imports from the project using Vite alias macro --}}

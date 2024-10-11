@@ -6,7 +6,7 @@
 	    </div>
 	    <div class="panel-body">
 			<button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob" style="float:right; margin-right:20px;">Delete selected jobs</button>
-			<table class="table">
+			<table class="table table-sm">
 				<thead>
 					<tr>
 						<th>Job ID</th>

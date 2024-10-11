@@ -1555,7 +1555,7 @@ function PlotLocuSum(data) {
 	svg.selectAll('.axis').selectAll('text').style('font-size', '11px');
 }
 
-function Chr15Select() {
+export function Chr15Select() {
 	if ($('#annotPlot_Chrom15').is(":checked") == true) {
 		$('#annotPlotChr15Opt').show();
 		var ts = [];

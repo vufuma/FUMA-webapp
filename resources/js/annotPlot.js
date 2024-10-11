@@ -100,8 +100,6 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 	/*---------------------------------------------
 	| Set parameters
 	---------------------------------------------*/
-	var svg;
-	var zoom;
 	var margin = { top: 50, right: 280, left: 60, bottom: 100 },
 		width = 600;
 	// 5% of the genomic region is added to both side
@@ -268,14 +266,14 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 
 	// Prepare svg
 	// The variable svg points to the top level container (g) element: <svg><g>
-	svg = d3.select('#annotPlot').append('svg')
+	var svg = d3.select('#annotPlot').append('svg')
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	// Create zoom behavior and restrict zoom extent to 1000x
 	// T.B.D. restrict translation 
-	zoom = d3.zoom()
+	var zoom = d3.zoom()
 		.scaleExtent([0, 1000])
 		.on("zoom", zoomed);
 
@@ -289,12 +287,14 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		.attr("height", height + 25)
 		.attr("x", 0)
 		.attr("y", -25)
-		.style("fill-opacity", "0");
+		.style("fill", "none");
+		//.style("fill-opacity", "0");
 
 	// transparent rect for mouse over
 	svg.append("rect")
 		.attr("width", width).attr("height", height)
-		.style("fill-opacity", "0")
+		.attr("fill", "transparent")
+		//.style("fill-opacity", "0")
 		.style("shape-rendering", "crispEdges")
 		.on("mousemove", function () {
 			var mousex = d3.mouse(this)[0];
@@ -459,19 +459,19 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 
 		svg.append("circle")
 			.attr("cx", width + 20).attr("cy", 130).attr("r", 4.5)
-			.style("fill", "#4d0099").style("stroke", "black").style("strole-width", "2");
+			.style("fill", "#4d0099").style("stroke", "black").style("stroke-width", "2");
 		svg.append("text").attr("text-anchor", "bottom")
 			.attr("x", width + 30).attr("y", 133)
 			.text("Top lead SNP").style("font-size", "10px");
 		svg.append("circle")
 			.attr("cx", width + 20).attr("cy", 145).attr("r", 4)
-			.style("fill", "#9933ff").style("stroke", "black").style("strole-width", "2");
+			.style("fill", "#9933ff").style("stroke", "black").style("stroke-width", "2");
 		svg.append("text").attr("text-anchor", "top")
 			.attr("x", width + 30).attr("y", 148)
 			.text("Lead SNPs").style("font-size", "10px");
 		svg.append("circle")
 			.attr("cx", width + 20).attr("cy", 160).attr("r", 3.5)
-			.style("fill", "red").style("stroke", "black").style("strole-width", "2");
+			.style("fill", "red").style("stroke", "black").style("stroke-width", "2");
 		svg.append("text").attr("text-anchor", "top")
 			.attr("x", width + 30).attr("y", 163)
 			.text("Independent significant SNPs").style("font-size", "10px");
@@ -815,6 +815,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 			.data(legData)
 			.enter()
 			.append("g").attr("class", "legend");
+		// The color box legend is either a single vertical column
 		if (y_element.length > 10) {
 			var legHead = chrTop + y_element.length * tileHeight / 2 - 8 * 7.5;
 			legendChr15.append("rect")
@@ -881,7 +882,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				vertical.style("stroke", "transparent")
 			});
 
-		// labels
+		// label - the y 
 		svg.append("text").attr("text-anchor", "middle")
 			.attr("transform", "translate(" + (-margin.left / 2 - 15) + "," + (chrTop + (y_element.length * tileHeight) / 2) + ")rotate(-90)")
 			.text("Chromatin state");
@@ -889,7 +890,9 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 			svg.append("g").attr("class", "x axis Chr15")
 				.attr("transform", "translate(0," + (chrTop + y_element.length * tileHeight) + ")")
 				.call(xAxis).selectAll("text").remove();
-		} else {
+		} 
+		// otherwise use the Chromosome number as legend
+		else {
 			xAxisLabel = "chr15";
 			svg.append("g").attr("class", "x axis Chr15")
 				.attr("transform", "translate(0," + (chrTop + y_element.length * tileHeight) + ")")

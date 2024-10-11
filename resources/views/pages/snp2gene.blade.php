@@ -75,9 +75,10 @@
         debugger;
         import { CheckAll } from "{{ Vite::appjs('NewJobParameters.js') }}";
         window.CheckAll = CheckAll;
-		import { ImgDown, circosDown } from "{{ Vite::appjs('s2g_results.js') }}"
+		import { ImgDown, circosDown, Chr15Select } from "{{ Vite::appjs('s2g_results.js') }}"
 		window.ImgDown = ImgDown;
 		window.circosDown = circosDown;
+		window.Chr15Select = Chr15Select;
         import { NewJobSetup } from "{{ Vite::appjs('NewJobParameters.js') }}";
         import { Snp2GeneSetup } from "{{ Vite::appjs('snp2gene.js') }} ";
         import { GeneMapSetup } from "{{ Vite::appjs('geneMapParameters.js') }}";
