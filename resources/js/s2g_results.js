@@ -1137,12 +1137,13 @@ export function locusPlot(data, type, chr) {
 	// activate the tool tips
 	svg.call(tip);
 
-	// restrict zoom extent to 10x
+	// Create zoom behavior and restrict zoom extent to 10x
+	// T.B.D. restrict translation 
 	var zoom = d3.zoom()
 		.scaleExtent([1,10])
 		.on("zoom", zoomed);
 
-	zoom(svg);
+	svg.call(zoom);
 
 	// add rect
 	svg.append("rect").attr("width", width).attr("height", height)
