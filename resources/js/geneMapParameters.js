@@ -28,7 +28,7 @@ export function getGeneMapIDs(){
 	})
 }
 
-function loadGeneMap(){
+export function loadGeneMap(){
 	var geneMapID = $('#geneMapID').val();
 	if(geneMapID > 0){
 		$.ajax({
