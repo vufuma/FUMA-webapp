@@ -108,7 +108,9 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 
 	// set x axis
 	var x = d3.scaleLinear().range([0, width]);
-	var xAxis = d3.axisBottom(x).ticks(5).tickValues([]); // will enable tick values for the last xAxis only
+	// The default is no tick values for the axis
+	// They will be enabled on the last subplot visible.
+	var xAxis = d3.axisBottom(x).ticks(5).tickFormat("");
 	x.domain([(xMin_init * 1 - side), (xMax_init * 1 + side)]);
 
 	// define colors
@@ -182,9 +184,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 
 	// Variable stores whch plot panel is the bottom
 	var xAxisLabel = "gene";
-	// A holder for d3 axis groups
-	var axisGroupMap = new Map(); // maps the xAxisLabel to a d3 axis group object 
-	var currentXAxisGroup = null; // holds th xAxis group being build
+	var lastXAxisGroup = null; // holds the lowermost xAxis group 
 
 	// height variables
 	var height; // Total height of the plot
@@ -392,19 +392,15 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		.style("fill", "black");
 
 
-	currentXAxisGroup = base.append("g").attr("class", "x axis genes")
+	lastXAxisGroup = base.append("g").attr("class", "x axis genes")
 		.attr("transform", "translate(0," + (genesTop + genesHeight) + ")")
 		.call(xAxis)
-	if (CADDplot == 1 || RDBplot == 1 || Chr15 == 1 || plotData["eqtl"].length > 0 || plotData["ci"].length > 0) {
-		currentXAxisGroup.selectAll("text").remove();
-	} else {
-		xAxisLabel = "genes";
-		currentXAxisGroup.selectAll('text').style('font-size', '11px');
-		base.append("text").attr("text-anchor", "middle")
-			.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
-			.text("Chromosome " + chrom);
-	}
-	axisGroupMap.set["genes"] = currentXAxisGroup;
+
+	xAxisLabel = "genes";
+	lastXAxisGroup.selectAll('text').style('font-size', '11px');
+	base.append("text").attr("text-anchor", "middle")
+		.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
+		.text("Chromosome " + chrom);
 
 	//exon plot
 	genes.exons.forEach(function (d) {
@@ -620,10 +616,9 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		// labels
 		
 		xAxisLabel = "GWAS"
-		currentXAxisGroup = base.append("g").attr("class", "x axis GWAS")
+		lastXAxisGroup = base.append("g").attr("class", "x axis GWAS")
 			.attr("transform", "translate(0," + (gwasTop + gwasHeight) + ")")
 			.call(xAxis);
-		currentXAxisGroup.selectAll("text").remove();
 		base.append("g").attr("class", "y axis").call(yAxis)
 			.selectAll('text').style('font-size', '11px');
 		base.append("text").attr("text-anchor", "middle")
@@ -633,7 +628,6 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 			.attr("transform", "translate(" + (-margin.left / 2) + ", -15)")
 			.style("font-size", "8px")
 			.text("ref SNPs");
-		axisGroupMap.set('GWAS', currentXAxisGroup); 
 	}
 
 	/*---------------------------------------------
@@ -703,19 +697,16 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		base.append("text").attr("text-anchor", "middle")
 			.attr("transform", "translate(" + (-10 - margin.left / 2) + "," + (caddTop + caddHeight / 2) + ")rotate(-90)")
 			.text("CADD score");
-		currentXAxisGroup = base.append("g").attr("class", "x axis CADD")
+		lastXAxisGroup = base.append("g").attr("class", "x axis CADD")
 			.attr("transform", "translate(0," + (caddTop + caddHeight) + ")")
 			.call(xAxis)
-		if (RDBplot == 1 || Chr15 == 1 || plotData["eqtl"].length > 0 || plotData["ci"].length > 0) {
-			currentXAxisGroup.selectAll("text").remove();
-		} else {
-			xAxisLabel = "CADD";
-			currentXAxisGroup.selectAll('text').style('font-size', '11px');
-			base.append("text").attr("text-anchor", "middle")
-				.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
-				.text("Chromosome " + chrom);
-		}
-		axisGroupMap.set("CADD", currentXAxisGroup);
+
+		xAxisLabel = "CADD";
+		lastXAxisGroup.selectAll('text').style('font-size', '11px');
+		base.append("text").attr("text-anchor", "middle")
+			.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
+			.text("Chromosome " + chrom);
+
 		base.append("g").attr("class", "y axis").call(yAxis)
 			.selectAll('text').style('font-size', '11px');
 	}
@@ -773,19 +764,16 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		base.append("text").attr("text-anchor", "middle")
 			.attr("transform", "translate(" + (-10 - margin.left / 2) + "," + (rdbTop + rdbHeight / 2) + ")rotate(-90)")
 			.text("RegulomeDB score");
-		currentXAxisGroup = base.append("g").attr("class", "x axis RDB")
+		lastXAxisGroup = base.append("g").attr("class", "x axis RDB")
 			.attr("transform", "translate(0," + (rdbTop + rdbHeight) + ")")
 			.call(xAxis);
-		if (Chr15 == 1 || plotData["eqtl"].length > 0 || plotData["ci"].length > 0) {
-			currentXAxisGroup.selectAll("text").remove();
-		} else {
-			xAxisLabel = "RDB";
-			currentXAxisGroup.selectAll('text').style('font-size', '11px');
-			base.append("text").attr("text-anchor", "middle")
-				.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
-				.text("Chromosome " + chrom);
-		}
-		axisGroupMap.set("RDB", currentXAxisGroup);
+
+		xAxisLabel = "RDB";
+		lastXAxisGroup.selectAll('text').style('font-size', '11px');
+		base.append("text").attr("text-anchor", "middle")
+			.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
+			.text("Chromosome " + chrom);
+
 		base.append("g").attr("class", "y axis").call(yAxis)
 			.selectAll('text').style('font-size', '11px');
 		RDBlegend();
@@ -891,21 +879,16 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		base.append("text").attr("text-anchor", "middle")
 			.attr("transform", "translate(" + (-margin.left / 2 - 15) + "," + (chrTop + (y_element.length * tileHeight) / 2) + ")rotate(-90)")
 			.text("Chromatin state");
-		currentXAxisGroup = base.append("g").attr("class", "x axis Chr15")
+		lastXAxisGroup = base.append("g").attr("class", "x axis Chr15")
 			.attr("transform", "translate(0," + (chrTop + y_element.length * tileHeight) + ")")
 			.call(xAxis);
-		if (plotData["eqtl"].length > 0 || plotData["ci"].length > 0) {
-			currentXAxisGroup.selectAll("text").remove();
-		} 
-		// otherwise use the Chromosome number as legend
-		else {
-			xAxisLabel = "chr15";
-			currentXAxisGroup.selectAll('text').style('font-size', '11px');
-			base.append("text").attr("text-anchor", "middle")
-				.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
-				.text("Chromosome " + chrom);
-		}
-		axisGroupMap.set("chr15", currentXAxisGroup);
+
+		xAxisLabel = "chr15";
+		lastXAxisGroup.selectAll('text').style('font-size', '11px');
+		base.append("text").attr("text-anchor", "middle")
+			.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
+			.text("Chromosome " + chrom);
+
 		if (y_element.length > 30) {
 			base.append("g").attr("class", "y axis").call(yAxisChr15).selectAll("text").remove();
 		} else {
@@ -999,18 +982,15 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 					.text(eqtlgenes[i])
 					.style("font-size", gene_font_size);
 				if (i == eqtlgenes.length - 1) {
-					currentXAxisGroup = base.append("g").attr("class", "x axis eqtlend")
+					lastXAxisGroup = base.append("g").attr("class", "x axis eqtlend")
 						.attr("transform", "translate(0," + (eqtlTop + 55 * i + 50) + ")")
 						.call(xAxis);
 					if (plotData["ci"].length == 0) {
-						currentXAxisGroup.selectAll('text').style('font-size', '11px');
+						lastXAxisGroup.selectAll('text').style('font-size', '11px');
 						base.append("text").attr("text-anchor", "middle")
 							.attr("transform", "translate(" + width / 2 + "," + (height + 30) + ")")
 							.text("Chromosome " + chrom);
-					} else {
-						currentXAxisGroup.selectAll('text').remove();
 					}
-					axisGroupMap.set('eqtl', currentXAxisGroup)
 				} else {
 					base.append("rect")
 						.attr("x", 0).attr("y", y(0))
@@ -1127,18 +1107,14 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				svg.append("g").attr("class", "y axis").call(yAxis)
 					.selectAll('text').attr("transform", "translate(-5,0)").style('font-size', '11px');
 				if (i == plotData.citypes.length - 1) {
-					currentXAxisGroup = svg.append("g").attr("class", "x axis ci")
+					lastXAxisGroup = svg.append("g").attr("class", "x axis ci")
 						.attr("transform", "translate(0," + (ciTop + cur_height + 5 * i + tmp_height) + ")")
 						.call(xAxis);
 					if (plotData["cieid"].length == 0) {
 						svg.append("text").attr("text-anchor", "middle")
 							.attr("transform", "translate(" + width / 2 + "," + (height + 35) + ")")
 							.text("Chromosome " + chrom);
-					} else {
-						currentXAxisGroup.selectAll("text").remove();
 					}
-					axisGroupMap.set('ci', currentXAxisGroup);
-
 				} else {
 					svg.append("rect")
 						.attr("x", 0).attr("y", y(max_y + 1))
@@ -1210,10 +1186,9 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 						.attr("width", 10).attr("height", tileHeight)
 						.attr("fill", chr15gcol[i]);
 				}
-				currentXAxisGroup = base.append("g").attr("class", "x axis cireg")
+				lastXAxisGroup = base.append("g").attr("class", "x axis cireg")
 					.attr("transform", "translate(0," + (ciregTop + ciregHeight) + ")")
 					.call(xAxis);
-				axisGroupMap.set("cireg", currentXAxisGroup);
 				base.append("text").attr("text-anchor", "middle")
 					.attr("transform", "translate(" + (-margin.left / 2 - 15) + "," + (ciregTop + ciregHeight / 2) + ")rotate(-90)")
 					.text("Regulatory elements");
@@ -1224,7 +1199,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		}
 	}
 	xAxis.tickValues(null)
-	axisGroupMap.get(xAxisLabel).call(xAxis); // enable ticks on the very last axis
+	lastXAxisGroup.call(xAxis); // enable ticks on the very last axis
 
 	// add style to text
 	base.selectAll('.axis').selectAll('path').style('fill', 'none').style('stroke', 'grey');
@@ -1235,22 +1210,35 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 	function zoomed() {
 		// get the current transform and apply to x axis
 		var new_x_scale = d3.event.transform.rescaleX(x);
-		// Depending on the x axis type remove various text and then scale the axis
-		if (xAxisLabel == "genes") {
+		// Scale any x-axes
+		xAxis.ticks(5).tickFormat("");
+		if (xAxisLabel != "genes") {
 			base.select(".x.axis.genes").transition().duration(0).call(xAxis.scale(new_x_scale));
-		} else if (xAxisLabel == "CADD") {
+		}
+		if (xAxisLabel != "GWAS") {
+			base.select(".x.axis.GWAS").transition().duration(0).call(xAxis.scale(new_x_scale));
+		}
+		if (xAxisLabel != "CADD") {
 			base.select(".x.axis.CADD").transition().duration(0).call(xAxis.scale(new_x_scale));
-		} else if (xAxisLabel == "RDB") {
+		}
+		if (xAxisLabel != "GWAS") {
 			base.select(".x.axis.RDB").transition().duration(0).call(xAxis.scale(new_x_scale));
-		} else if (xAxisLabel == "chr15") {
+		}
+		if (xAxisLabel != "Chr15") {
 			base.select(".x.axis.Chr15").transition().duration(0).call(xAxis.scale(new_x_scale));
-		} else if (xAxisLabel == "eqtl") {
+		}
+		if (xAxisLabel != "eqtl") {
 			base.select(".x.axis.eqtlend").transition().duration(0).call(xAxis.scale(new_x_scale));
-		} else if (xAxisLabel == "ci") {
+		}
+		if (xAxisLabel != "ci") {
 			base.select(".x.axis.ci").transition().duration(0).call(xAxis.scale(new_x_scale));
-		} else if (xAxisLabel == "cireg") {
+		}
+		if (xAxisLabel != "cireg") {
 			base.select(".x.axis.cireg").transition().duration(0).call(xAxis.scale(new_x_scale));
 		}
+		xAxis.tickFormat(d3.format(","));
+		lastXAxisGroup.call(xAxis); // enable ticks on the very last axis
+
 
 		// Rescale x positions and rectangle widths
 		svg.selectAll(".GWASdot").attr("cx", function (d) { return new_x_scale(d[2]); });
