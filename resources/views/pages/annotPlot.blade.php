@@ -98,12 +98,8 @@
 
 @push('vite')
     @vite([
-        'resources/js/annotPlot.js',
-        'resources/js/snp2gene.js',
-        'resources/js/celltype.js',
-        'resources/js/sidebar.js',
-        'resources/js/geneMapParameters.js',
-        'resources/js/s2g_results.js'])
+        'resources/js/annotPlot.js'
+		])
 @endpush
 
 @push('page_scripts')
