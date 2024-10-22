@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.8",
+        "jcupitt/vips": "^2.4",
         "laracasts/utilities": "^3.2",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
