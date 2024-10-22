@@ -8,6 +8,8 @@ use App\CustomClasses\DockerApi\DockerNamesBuilder;
 use App\CustomClasses\myFile;
 use App\Models\SubmitJob;
 use App\Models\User;
+use Jcupitt\Vips\Image as VipsImage;
+use Jcupitt\Vips\Target as VipsTarget;
 
 use Illuminate\Support\Facades\Log;
 
@@ -187,7 +189,7 @@ class FumaController extends Controller
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python annotPlot.py $job_location/ $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells'";
-        //Log::info("Get annot plot data using docker: ".$cmd);
+        Log::info("Get annot plot data using docker: ".$cmd);
 
         $data = shell_exec($cmd);
         return $data;
@@ -287,7 +289,7 @@ class FumaController extends Controller
         return response()->download(Storage::path($filedir . $zipfile))->deleteFileAfterSend(true);
     }
 
-    public function imgdown(Request $request)
+    public function imgdown_imagick(Request $request)
     {
         $svg = $request->input('data');
         $jobID = $request->input('jobID');
@@ -314,6 +316,58 @@ class FumaController extends Controller
                 echo $image;
             }, $fileName);
         }
+    }
+
+    // This version of the imgdown uses libvips for the
+    // rendering step. This correctly renders even complex
+    // svg images. Imagick is still used but only for pdf
+    // output.  
+    public function imgdown(Request $request)
+    {
+        $svg = $request->input('data');
+        $jobID = $request->input('jobID');
+        $type = $request->input('type');
+        $fileName = $request->input('fileName') . "_FUMA_" . "jobs" . $jobID;
+
+        if ($type == "svg") {
+            $filename = $fileName . '.svg';
+            return response()->streamDownload(function () use ($svg) {
+                echo $svg;
+            }, $filename);
+        } else {
+            $vipsType = $type;
+            // If the target is pdf first go to png
+            // then from png to pdf using Imagemagick
+            // This gives reliable rendering of complex svgs.
+            if (strcmp($type, 'pdf') == 0) {
+                $vipsType = 'png';
+            }
+            $filedir = config('app.jobdir') . '/' . 'jobs' . '/' . $jobID . '/';
+            $abs_path = Storage::path($filedir . $fileName . '.' . $vipsType);
+            $bufferData = '<?xml version="1.0"?>' . $svg;
+            // These options are passed to the loader
+            $image = VipsImage::newFromBuffer($bufferData, 'dpi=300');
+
+            $target = VipsTarget::newToFile($abs_path);
+            // these options are passed to the saver
+            $targetOptions = ['Q' => 100, 'background' => '255'];
+
+            $image->writeToTarget(
+                $target, 
+                '.' . $vipsType, // need to prefix a . before the extension for the vips API
+                $targetOptions
+            );
+            if (strcmp($type, "pdf") == 0) {
+                $imagick = new \Imagick();
+                $imagick->readImage($abs_path);
+                $imagick->setImageFormat('pdf');
+                $abs_path = Storage::path($filedir . $fileName . '.pdf');
+                $imagick->writeImages($abs_path, true);
+            } 
+            return response()->download($abs_path)->deleteFileAfterSend(true);
+
+        }
+
     }
 
     public function d3text($prefix, $id, $file)
