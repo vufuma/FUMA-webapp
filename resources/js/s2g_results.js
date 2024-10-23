@@ -1365,11 +1365,12 @@ export function PlotSNPAnnot(data) {
 		.attr("dx", "-.65em")
 		.style("text-anchor", "end");
 	svg.append('g').attr("class", "y axis")
-		.call(yAxis)
-		.append("text")
-		.attr("transform", "rotate(-90)")
-		.attr("dy", ".71em")
-		.style("text-anchor", "end");
+		.call(yAxis);
+	// No text in this text element crashes TCPDF - leave this as a warning
+	//	.append("text")
+	//	.attr("transform", "rotate(-90)")
+	//	.attr("dy", ".71em")
+	//	.style("text-anchor", "end");
 	svg.append("text").attr("text-anchor", "middle")
 		.attr("transform", "translate(-28," + (height / 2) + ")rotate(-90)")
 		.text("Proportion");
@@ -1379,6 +1380,7 @@ export function PlotSNPAnnot(data) {
 }
 
 function PlotLocuSum(data) {
+	console.log("Hello World");
 	data.forEach(function (d) {
 		d.nSNPs = +d.nSNPs;
 		d.size = +(d.size / 1000);
@@ -1437,9 +1439,10 @@ function PlotLocuSum(data) {
 		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
 	svg.append('g').attr("class", "y axis")
 		.call(yAxis)
-		.append("text").attr("transform", "rotate(-90)")
-		.attr("dy", ".71em")
-		.style("text-anchor", "end");
+	// No text in this text element crashes TCPDF - leave this as a warning
+	//	.append("text").attr("transform", "rotate(-90)")
+	//	.attr("dy", ".71em")
+	//	.style("text-anchor", "end");
 	svg.append("text").attr("text-anchor", "middle")
 		.attr("transform", "translate(-50,-5)")
 		.text("Genomic loci");
