@@ -77,11 +77,13 @@
         window.CheckAll = CheckAll;
 		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('s2g_results.js') }}"
 		import { loadGeneMap } from "{{ Vite::appjs('geneMapParameters.js') }}";
+		import { g2fbtn } from "{{ Vite::appjs('snp2gene.js') }} ";
 		window.ImgDown = ImgDown;
 		window.circosDown = circosDown;
 		window.Chr15Select = Chr15Select;
 		window.expImgDown = expImgDown;
 		window.loadGeneMap = loadGeneMap;
+		window.g2fbtn = g2fbtn;
 
         import { NewJobSetup } from "{{ Vite::appjs('NewJobParameters.js') }}";
         import { Snp2GeneSetup } from "{{ Vite::appjs('snp2gene.js') }} ";

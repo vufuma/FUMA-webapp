@@ -55,7 +55,7 @@ function getJobList(page) {
 
 
 
-function g2fbtn(id) {
+export function g2fbtn(id) {
 	$('#g2fSubmitJobID').val(id);
 	$('#g2fSubmitBtn').trigger('click');
 }
