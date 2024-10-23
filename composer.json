@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "elibyy/tcpdf-laravel": "^11.1",
         "guzzlehttp/guzzle": "^7.8",
         "jcupitt/vips": "^2.4",
         "laracasts/utilities": "^3.2",
