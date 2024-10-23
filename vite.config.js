@@ -24,6 +24,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/annotPlot.js',
                 'resources/js/NewJobParameters.js',
                 'resources/js/snp2gene.js',
                 'resources/js/browse.js',
@@ -40,16 +41,6 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    resolve: {
-        // Aliases that will be used in Laravel Blade templates
-        // must be defined as macros in app/Providers/AppServiceProvider.php
-        // see doc https://laravel.com/docs/11.x/vite#blade-aliases
-        // The standard aliases defined here ill only work in pure javascript or html
-        alias: {
-            'appjs': './resources/js',
-            'nodejs': './node_modules',
-        }
-    },
     // For running the development server inside the workspace docker
     // The port needs to be exposed in the compose file
     server: {
@@ -60,7 +51,20 @@ export default defineConfig({
             port: 5173,
             clientPort: 5173,
         },
+        //watch: {
+        //    usePolling: true,
+        //},
         cors: true
+    },
+    resolve: {
+        // Aliases that will be used in Laravel Blade templates
+        // must be defined as macros in app/Providers/AppServiceProvider.php
+        // see doc https://laravel.com/docs/11.x/vite#blade-aliases
+        // The standard aliases defined here ill only work in pure javascript or html
+        alias: {
+            'appjs': './resources/js',
+            'nodejs': './node_modules',
+        }
     },
     build: {
         sourcemap: true,
