@@ -22,6 +22,19 @@ import {
 	expHeatPlot 
 } from "./g2f_results.js";
 
+// retrieve the status info from the pageData element
+var status = "";
+var page = "";
+var id = "";
+var subdir = "";
+
+if ($('#pageData').attr("data-page-data")) {
+	status = JSON.parse($('#pageData').attr("data-page-data"))["status"];
+	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
+	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
+	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
+}
+
 export const Gene2FuncSetup = function(){
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
@@ -48,7 +61,7 @@ export const Gene2FuncSetup = function(){
 		$("#genetype option").each(function(){
 			$(this).prop('selected', false);
 		});
-		checkInput();
+		window.checkInput();
 	});
 
 	// download file selection
@@ -116,18 +129,18 @@ export const Gene2FuncSetup = function(){
 	});
 
 	if(pageData.status.length==0 || pageData.status=="new"){
-		checkInput();
+		window.checkInput();
 		$('#resultSide').hide();
 	}else if(pageData.status=="getJob"){
 		// var id = jobID;
 
-		checkInput();
-		summaryTable(id);
-		parametersTable(id);
-		expHeatMap(id);
-		tsEnrich(id);
-		GeneSet(id);
-		GeneTable(id);
+		window.checkInput();
+		summaryTable(subdir, page, prefix, id);
+		parametersTable(subdir, page, prefix, id);
+		expHeatMap(subdir, page, prefix, id);
+		tsEnrich(subdir, page, prefix, id);
+		GeneSet(subdir, page, prefix, id);
+		GeneTable(subdir, page, prefix, id);
 		$('#gene_exp_data').on('change', function(){
 			expHeatPlot(id, $('#gene_exp_data').val())
 		})
@@ -189,11 +202,10 @@ export const Gene2FuncSetup = function(){
 					theme: "sk-circle",
 					message: 'Running GENE2FUNC process. Please wait for a moment..'
 				}
-				HoldOn.open(options)
-				$('#resultSide').hide()
+				$('#resultSide').LoadingOverlay("show", options);
 			},
 			success: function(){
-				HoldOn.close()
+				$('#resultSide').LoadingOverlay("hode");
 			},
 			complete: function(){
 				window.location.href=subdir+'/gene2func/'+id;
@@ -226,7 +238,7 @@ function ImgDown(name, type){
 	$('#'+name+'Submit').trigger('click');
 }
 
-function checkInput(){
+export function checkInput(){
 	var g = document.getElementById('genes').value;
 	var gfile = $('#genesfile').val().length;
 	if(g.length==0 && gfile==0){
@@ -311,3 +323,5 @@ function DownloadFiles(){
 	if(check){$('#download').prop('disabled', false)}
 	else{$('#download').prop('disabled', true)}
 }
+
+export default Gene2FuncSetup;

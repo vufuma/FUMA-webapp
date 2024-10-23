@@ -1,6 +1,6 @@
-export function summaryTable(id){
+export function summaryTable(subdir, page, prefix, id){
 	$.ajax({
-		url: subdir+'/'+page+'/g2f_sumTable',
+		url: subdir + '/' + page + '/g2f_sumTable',
 		type: "POST",
 		data: {
 			jobID: id,
@@ -22,9 +22,9 @@ export function summaryTable(id){
 	});
 }
 
-export function parametersTable(id){
+export function parametersTable(subdir, page, prefix, id){
 	$.ajax({
-		url: subdir+"/"+page+"/g2f_paramTable",
+		url: subdir + "/" + page + "/g2f_paramTable",
 		type: "POST",
 		data: {
 			jobID: id,
@@ -49,9 +49,9 @@ export function parametersTable(id){
 	});
 }
 
-export function expHeatMap(id){
+export function expHeatMap(subdir, page, prefix, id){
 	$.ajax({
-		url: subdir+'/'+page+'/expDataOption',
+		url: subdir + '/' + page + '/expDataOption',
 		type: "POST",
 		data: {
 			jobID: id,
@@ -219,7 +219,7 @@ export function expHeatPlot(id, dataset){
 	})
 }
 
-export function tsEnrich(id){
+export function tsEnrich(subdir, page, prefix, id){
 	var data_title = {
 		'gtex_v8_ts': 'GTEx v8 54 tissue types',
 		'gtex_v8_ts_general': 'GTEx v8 30 general tissue types',
@@ -430,7 +430,7 @@ export function GeneSetTable(category){
 	$('#'+category+'Table').show();
 }
 
-export function GeneSet(id){
+export function GeneSet(subdir, page, prefix, id){
 	$('#GeneSet').html("");
 	var category = ['Hallmark_gene_sets', 'Positional_gene_sets', 'Curated_gene_sets',
 			'Chemical_and_Genetic_pertubation', 'Canonical_Pathways', 'BioCarta', 'KEGG', 'Reactome',
@@ -726,8 +726,8 @@ export function GeneSet(id){
 	});
 }
 
-export function GeneTable(id){
-	geneTable = $('#GeneTable').DataTable({
+export function GeneTable(subdir, page, prefix, id){
+	var geneTable = $('#GeneTable').DataTable({
 		"processing": true,
 		serverSide: false,
 		select: false,

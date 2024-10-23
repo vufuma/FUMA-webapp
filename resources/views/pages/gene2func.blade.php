@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
-<?php
+<!--?php
 header('X-Frame-Options: GOFORIT');
-?>
+?-->
 
 @section('content')
     <div id="wrapper" class="active">
@@ -50,7 +50,7 @@ header('X-Frame-Options: GOFORIT');
                                     </a>
                                     <br />
                                     <textarea id="genes" name="genes" rows="12" cols="50"
-                                        placeholder="Please enter each gene per line here." onkeyup="checkInput()" oninput="checkInput()"></textarea><br />
+                                        placeholder="Please enter each gene per line here." onkeyup="window.checkInput()" oninput="window.checkInput()"></textarea><br />
                                     <br />
                                     2. Upload file
                                     <a class="infoPop" data-toggle="popover"
@@ -58,7 +58,7 @@ header('X-Frame-Options: GOFORIT');
                                         <i class="fa-regular fa-circle-question fa-lg"></i>
                                     </a>
                                     <tab><input class="form-control-file" type="file" name="genesfile" id="genesfile"
-                                            onchange="checkInput()" />
+                                            onchange="window.checkInput()" />
                                         <br />
                                         <div id="GeneCheck" style="padding-bottom: 0;"></div>
                                 </div>
@@ -77,7 +77,7 @@ header('X-Frame-Options: GOFORIT');
                                         Multiple gene-types can be selected.
                                     </span>
                                     <tab><select class="form-control" multiple size="5" name="genetype[]"
-                                            id="genetype" onchange="checkInput();">
+                                            id="genetype" onchange="window.checkInput();">
                                             <option value="all">All</option>
                                             <option value="protein_coding">Protein coding</option>
                                             <option
@@ -100,7 +100,7 @@ header('X-Frame-Options: GOFORIT');
                                             <i class="fa-regular fa-circle-question fa-lg"></i>
                                         </a><br />
                                         <textarea id="bkgenes" name="bkgenes" rows="5" cols="50"
-                                            placeholder="Please enter each gene per line here." onkeyup="checkInput();" oninput="checkInput()"></textarea><br />
+                                            placeholder="Please enter each gene per line here." onkeyup="window.checkInput();" oninput="window.checkInput()"></textarea><br />
                                         <br />
                                         3. Upload a file with a custom list of background genes
                                         <a class="infoPop" data-toggle="popover"
@@ -108,7 +108,7 @@ header('X-Frame-Options: GOFORIT');
                                             <i class="fa-regular fa-circle-question fa-lg"></i>
                                         </a>
                                         <tab><input class="form-control-file" type="file" name="bkgenesfile"
-                                                id="bkgenesfile" onchange="checkInput()" />
+                                                id="bkgenesfile" onchange="window.checkInput()" />
                                             <br />
                                             <div id="bkGeneCheck" style="padding-bottom: 0;"></div>
                                 </div>
@@ -290,7 +290,8 @@ header('X-Frame-Options: GOFORIT');
     <script type="module">
         console.log("Loading modules");
         import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
-        import { Gene2FuncSetup } from "{{ Vite::appjs('gene2func.js') }}"
+        import { Gene2FuncSetup, checkInput } from "{{ Vite::appjs('gene2func.js') }}"
+        window.checkInput = checkInput;
         // document initialization
         $(function(){
             SidebarSetup();
