@@ -10,6 +10,7 @@ use App\Models\SubmitJob;
 use App\Models\User;
 use Jcupitt\Vips\Image as VipsImage;
 use Jcupitt\Vips\Target as VipsTarget;
+use PDF;
 
 use Illuminate\Support\Facades\Log;
 
@@ -318,6 +319,38 @@ class FumaController extends Controller
         }
     }
 
+    private function svgToPdf($svg, $jobID, $abs_path)
+    {
+        PDF::SetCreator('FUMA + tc-lib-pdf');
+        PDF::SetTitle('FUMA Job ', $jobID);
+        PDF::AddPage();
+        PDF::ImageSVG('@' . $svg, $x=null, $y=null, $w=0, $h=0, $link='', $align='', $palign='', $border=0, $fitonpage=true); 
+        PDF::Output($abs_path);
+
+        PDF::reset();
+    }
+
+    private function svgToRasterFormat($svg, $jobID, $type, $abs_path)
+    {
+        $bufferData = '<?xml version="1.0"?>' . $svg;
+        // These options are passed to the loader
+        $image = VipsImage::newFromBuffer($bufferData, 'dpi=300');
+        // Overlay the image onto a white background 
+        // also works for png whereas targetOptions 'background' => '255'
+        // does not. 
+        $background = $image->newFromImage([255, 255, 255, 255]);
+        $image = $background->composite($image, 'over');
+        $target = VipsTarget::newToFile($abs_path);
+        // these options are passed to the saver
+        $targetOptions = ['Q' => 100];
+
+        $image->writeToTarget(
+            $target, 
+            '.' . $type, // need to prefix a . before the extension for the vips API
+            $targetOptions
+        );
+    }
+
     // This version of the imgdown uses libvips for the
     // rendering step. This correctly renders even complex
     // svg images. Imagick is still used but only for pdf
@@ -335,37 +368,16 @@ class FumaController extends Controller
                 echo $svg;
             }, $filename);
         } else {
-            $vipsType = $type;
-            // If the target is pdf first go to png
-            // then from png to pdf using Imagemagick
-            // This gives reliable rendering of complex svgs.
-            if (strcmp($type, 'pdf') == 0) {
-                $vipsType = 'png';
-            }
+            $type;
             $filedir = config('app.jobdir') . '/' . 'jobs' . '/' . $jobID . '/';
-            $abs_path = Storage::path($filedir . $fileName . '.' . $vipsType);
-            $bufferData = '<?xml version="1.0"?>' . $svg;
-            // These options are passed to the loader
-            $image = VipsImage::newFromBuffer($bufferData, 'dpi=300');
+            $abs_path = Storage::path($filedir . $fileName . '.' . $type);
 
-            $target = VipsTarget::newToFile($abs_path);
-            // these options are passed to the saver
-            $targetOptions = ['Q' => 100, 'background' => '255'];
-
-            $image->writeToTarget(
-                $target, 
-                '.' . $vipsType, // need to prefix a . before the extension for the vips API
-                $targetOptions
-            );
             if (strcmp($type, "pdf") == 0) {
-                $imagick = new \Imagick();
-                $imagick->readImage($abs_path);
-                $imagick->setImageFormat('pdf');
-                $abs_path = Storage::path($filedir . $fileName . '.pdf');
-                $imagick->writeImages($abs_path, true);
-            } 
+                $this->svgToPdf($svg, $jobID, $abs_path);
+            } else {
+                $this->svgToRasterFormat($svg, $jobID, $type, $abs_path);
+            }
             return response()->download($abs_path)->deleteFileAfterSend(true);
-
         }
 
     }
