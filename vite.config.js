@@ -22,7 +22,6 @@ export default defineConfig({
         Inspect(),
         laravel({
             input: [
-                'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/annotPlot.js',
                 'resources/js/NewJobParameters.js',

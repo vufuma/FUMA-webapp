@@ -1,3 +1,4 @@
+import '../css/app.css';
 // Just doing all imports in app (could move to bootstrap)
 console.log("In app.js");
 import $ from 'jquery';

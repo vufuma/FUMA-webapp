@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+	<!--'resources/css/app.css', -->
 	<head>
 		@include('partials._head')
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/fuma.js'])
+        @vite(['resources/js/app.js', 'resources/js/fuma.js'])
         @stack('vite')
 
 	</head>

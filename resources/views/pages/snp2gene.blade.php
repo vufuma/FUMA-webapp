@@ -72,7 +72,6 @@
     {{-- Imports from the project using Vite alias macro --}}
     <script type="module">
         console.log("Loading modules");
-        debugger;
         import { CheckAll } from "{{ Vite::appjs('NewJobParameters.js') }}";
         window.CheckAll = CheckAll;
 		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('s2g_results.js') }}"
