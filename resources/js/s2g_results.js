@@ -1380,7 +1380,6 @@ export function PlotSNPAnnot(data) {
 }
 
 function PlotLocuSum(data) {
-	console.log("Hello World");
 	data.forEach(function (d) {
 		d.nSNPs = +d.nSNPs;
 		d.size = +(d.size / 1000);
