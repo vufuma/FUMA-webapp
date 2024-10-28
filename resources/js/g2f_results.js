@@ -287,7 +287,7 @@ export function tsEnrich(subdir, page, prefix, id){
 						.attr("height", height+margin.top+margin.bottom)
 						.append("g")
 						.attr("transform", "translate("+margin.left+","+margin.top+")");
-				var x = d3.scaleOrdinal().rangeBands([0,width]);
+				var x = d3.scaleOrdinal().range([0,width]);
 				var xAxis = d3.axisBottom(x);
 				var label = d3.set(tdata.map(function(d){return d[2]})).values();
 				x.domain(label);
@@ -558,7 +558,7 @@ export function GeneSet(subdir, page, prefix, id){
 					var xprop = d3.scaleLinear().range([0, barplotwidth]);
 					var xpropAxis = d3.axisBottom(xprop);
 					xprop.domain([d3.max(tdata,function(d){return d.N_overlap/d.N_genes})+0.1,0]);
-					var y = d3.scaleOrdinal().rangeBands([0,height]);
+					var y = d3.scaleOrdinal().range([0,height]);
 					var yAxis = d3.axisLeft(y);
 					y.domain(tdata.map(function(d){return d.GeneSet;}));
 					svg.selectAll('rect.prop').data(tdata).enter()
@@ -671,7 +671,7 @@ export function GeneSet(subdir, page, prefix, id){
 						.call(yAxis).selectAll('text').style('font-size', '11px');
 
 					// gene plot
-					var xgenes = d3.scaleOrdinal().rangeBands([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]);
+					var xgenes = d3.scaleOrdinal().range([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]);
 					xgenes.domain(genesplot.map(function(d){return d.gene}));
 					var xgenesAxis = d3.axisBottom(xgenes);
 					svg.selectAll('rect.genes').data(genesplot).enter()
