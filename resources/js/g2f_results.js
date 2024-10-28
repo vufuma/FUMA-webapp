@@ -116,7 +116,7 @@ export function expHeatPlot(prefix, id, dataset){
 
 			var expMax = d3.max(data.data,function(d){return d[2]});
 			var expMin = d3.min(data.data, function(d){return d[2];});
-			var colorScale = d3.scale.linear().domain([0, expMax/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+			var colorScale = d3.scaleLinear().domain([0, expMax/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 
 			// legened
 			var t = [];
@@ -176,7 +176,7 @@ export function expHeatPlot(prefix, id, dataset){
 				if(val=="log2"){
 					expMax = d3.max(data.data,function(d){return d[2]});
 					expMin = d3.min(data.data, function(d){return d[2]});
-					col = d3.scale.linear().domain([0, (expMax+expMin)/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+					col = d3.scaleLinear().domain([0, (expMax+expMin)/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 					legendRect.attr("fill", function(d){return col(d*expMax/(t.length-1))});
 					legendText.text(function(d){return Math.round(100*d*expMax/(t.length-1))/100})
 					if(gsort=="clst"){gi = 1;}
@@ -185,7 +185,7 @@ export function expHeatPlot(prefix, id, dataset){
 					expMax = d3.max(data.data,function(d){return d[3]});
 					expMin = d3.min(data.data, function(d){return d[3];});
 					var m = Math.max(expMax, Math.abs(expMin));
-					col = d3.scale.linear().domain([-m, 0, m]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+					col = d3.scaleLinear().domain([-m, 0, m]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 					legendRect.attr("fill", function(d){return col(d*2*m/(t.length-1)-m)});
 					legendText.text(function(d){return Math.round(d*2*m/(t.length-1)-m)});
 					gcol = 3;
@@ -287,15 +287,15 @@ export function tsEnrich(subdir, page, prefix, id){
 						.attr("height", height+margin.top+margin.bottom)
 						.append("g")
 						.attr("transform", "translate("+margin.left+","+margin.top+")");
-				var x = d3.scale.ordinal().rangeBands([0,width]);
-				var xAxis = d3.svg.axis().scale(x).orient("bottom");
+				var x = d3.scaleOrdinal().rangeBands([0,width]);
+				var xAxis = d3.axisBottom(x);
 				var label = d3.set(tdata.map(function(d){return d[2]})).values();
 				x.domain(label);
 				var currentHeight = 0;
 
 				//up-regulated
-				var yup = d3.scale.linear().range([currentHeight+span, currentHeight]);
-				var yAxisup = d3.svg.axis().scale(yup).orient("left").ticks(4);
+				var yup = d3.scaleLinear().range([currentHeight+span, currentHeight]);
+				var yAxisup = d3.axisLeft(yup).ticks(4);
 				yup.domain([0, d3.max(tdata, function(d){return -Math.log10(d[3])})]);
 				var xLabel = svg.append("g").selectAll(".xLabel")
 					.data(tdata.filter(function(d){if(d[1]=="DEG.up"){return d;}})).enter().append("text")
@@ -334,8 +334,8 @@ export function tsEnrich(subdir, page, prefix, id){
 				currentHeight += span+10;
 
 				//down regulated
-				var ydown = d3.scale.linear().range([currentHeight+span, currentHeight]);
-				var yAxisdown = d3.svg.axis().scale(ydown).orient("left").ticks(4);
+				var ydown = d3.scaleLinear().range([currentHeight+span, currentHeight]);
+				var yAxisdown = d3.axisLeft(ydown).ticks(4);
 				ydown.domain([0, d3.max(tdata, function(d){return -Math.log10(d[3])})]);
 
 				var bardown = svg.selectAll('rect.down')
@@ -364,8 +364,8 @@ export function tsEnrich(subdir, page, prefix, id){
 				currentHeight += span+10;
 
 				//twoside
-				var y = d3.scale.linear().range([currentHeight+span, currentHeight]);
-				var yAxis = d3.svg.axis().scale(y).orient("left").ticks(4);
+				var y = d3.scaleLinear().range([currentHeight+span, currentHeight]);
+				var yAxis = d3.axisLeft(y).ticks(4);
 				y.domain([0, d3.max(tdata, function(d){return -Math.log10(d[3])})]);
 
 				var bartwo = svg.selectAll('rect.two')
@@ -555,11 +555,11 @@ export function GeneSet(subdir, page, prefix, id){
 						.append('g').attr("transform", "translate("+margin.left+","+margin.top+")");
 
 					// bar plot (overlap proportion)
-					var xprop = d3.scale.linear().range([0, barplotwidth]);
-					var xpropAxis = d3.svg.axis().scale(xprop).orient("bottom");
+					var xprop = d3.scaleLinear().range([0, barplotwidth]);
+					var xpropAxis = d3.axisBottom(xprop);
 					xprop.domain([d3.max(tdata,function(d){return d.N_overlap/d.N_genes})+0.1,0]);
-					var y = d3.scale.ordinal().rangeBands([0,height]);
-					var yAxis = d3.svg.axis().scale(y).orient("left");
+					var y = d3.scaleOrdinal().rangeBands([0,height]);
+					var yAxis = d3.axisLeft(y);
 					y.domain(tdata.map(function(d){return d.GeneSet;}));
 					svg.selectAll('rect.prop').data(tdata).enter()
 						.append("rect").attr("class", "bar")
@@ -585,8 +585,8 @@ export function GeneSet(subdir, page, prefix, id){
 						.style('font-size', '11px');
 
 					// bar plot (enrichment P-value)
-					var xbar = d3.scale.linear().range([barplotwidth, barplotwidth*2]);
-					var xbarAxis = d3.svg.axis().scale(xbar).orient("bottom");
+					var xbar = d3.scaleLinear().range([barplotwidth, barplotwidth*2]);
+					var xbarAxis = d3.axisBottom(xbar);
 					if(d3.min(tdata, function(d){return d.adjP})==0){
 						if(tdata.length==1){
 							xbar.domain([0, 1]);
@@ -671,9 +671,9 @@ export function GeneSet(subdir, page, prefix, id){
 						.call(yAxis).selectAll('text').style('font-size', '11px');
 
 					// gene plot
-					var xgenes = d3.scale.ordinal().rangeBands([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]);
+					var xgenes = d3.scaleOrdinal().rangeBands([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]);
 					xgenes.domain(genesplot.map(function(d){return d.gene}));
-					var xgenesAxis = d3.svg.axis().scale(xgenes).orient("bottom");
+					var xgenesAxis = d3.axisBottom(xgenes);
 					svg.selectAll('rect.genes').data(genesplot).enter()
 						.append("rect")
 						.attr("x", function(d){return xgenes(d.gene)})
