@@ -79,12 +79,12 @@ export function expHeatMap(subdir, page, prefix, id){
 			})
 		},
 		complete: function(){
-			expHeatPlot(prefix, id, $("#gene_exp_data").val());
+			expHeatPlot(prefix, page, id, $("#gene_exp_data").val());
 		}
 	})
 }
 
-export function expHeatPlot(prefix, id, dataset){
+export function expHeatPlot(prefix, page, id, dataset){
 	d3.select('#expHeat').select("svg").remove();
 	var itemSizeRow = 15, cellSize=itemSizeRow-1, itemSizeCol=10;
 	var val = $('#expval').val("log2");
@@ -264,7 +264,7 @@ export function tsEnrich(subdir, page, prefix, id){
 
 				// img download buttons
 				$('#'+ds+'Panel').append('<div id="'+ds+'Plot">Download the plot as '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","png");'+"'"+'>PNG</button> '
+					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'("'+ds+'","png");'+"'"+'>PNG</button> '
 					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","jpeg");'+"'"+'>JPG</button> '
 					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","svg");'+"'"+'>SVG</button> '
 					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","pdf");'+"'"+'>PDF</button></div>'
@@ -766,7 +766,7 @@ export function GeneTable(subdir, page, prefix, id){
 	});
 }
 
-export function DEGImgDown(name, type){
+export function DEGImgDown(prefix, id, name, type){
 	$('#DEGData').val($('#'+name).html());
 	$('#DEGType').val(type);
 	$('#DEGJobID').val(id);
