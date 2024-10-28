@@ -142,7 +142,7 @@ export const Gene2FuncSetup = function(){
 		GeneSet(subdir, page, prefix, id);
 		GeneTable(subdir, page, prefix, id);
 		$('#gene_exp_data').on('change', function(){
-			expHeatPlot(id, $('#gene_exp_data').val())
+			expHeatPlot(prefix, id, $('#gene_exp_data').val())
 		})
 	}else if(pageData.status=="query"){
 		$('#geneSubmit').attr("disabled", true);

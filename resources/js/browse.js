@@ -4,14 +4,6 @@ var lociTable_selected=null;
 var annotPlotSelected;
 var prefix = "jobs";
 var geneTable;
-var exp_data_title = {
-	'gtex_v7_ts_avg_log2TPM': 'GTEx v7 53 tissue types',
-	'gtex_v7_ts_general_avg_log2TPM': 'GTEx v7 30 general tissue types',
-	'gtex_v6_ts_avg_log2RPKM': 'GTEx v6 53 tissue types',
-	'gtex_v6_ts_general_avg_log2RPKM': 'GTEx v6 30 general tissue types',
-	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
-	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
-}
 
 import {
     summaryTable,
@@ -129,7 +121,7 @@ export const BrowseSetup = function(){
 					GeneSet(g2f);
 					GeneTable(g2f);
 					$('#gene_exp_data').on('change', function(){
-						expHeatPlot(id, $('#gene_exp_data').val())
+						expHeatPlot(prefix, id, $('#gene_exp_data').val())
 					})
 					$('#resultsSideG2F').show();
 				}

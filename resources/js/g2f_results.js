@@ -1,3 +1,13 @@
+var exp_data_title = {
+	'gtex_v8_ts_avg_log2TPM': 'GTEx v8 54 tissue types',
+	'gtex_v8_ts_general_avg_log2TPM': 'GTEx v8 30 general tissue types',
+	'gtex_v7_ts_avg_log2TPM': 'GTEx v7 53 tissue types',
+	'gtex_v7_ts_general_avg_log2TPM': 'GTEx v7 30 general tissue types',
+	'gtex_v6_ts_avg_log2RPKM': 'GTEx v6 53 tissue types',
+	'gtex_v6_ts_general_avg_log2RPKM': 'GTEx v6 30 general tissue types',
+	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
+	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
+}
 export function summaryTable(subdir, page, prefix, id){
 	$.ajax({
 		url: subdir + '/' + page + '/g2f_sumTable',
@@ -69,12 +79,12 @@ export function expHeatMap(subdir, page, prefix, id){
 			})
 		},
 		complete: function(){
-			expHeatPlot(id, $("#gene_exp_data").val());
+			expHeatPlot(prefix, id, $("#gene_exp_data").val());
 		}
 	})
 }
 
-export function expHeatPlot(id, dataset){
+export function expHeatPlot(prefix, id, dataset){
 	d3.select('#expHeat').select("svg").remove();
 	var itemSizeRow = 15, cellSize=itemSizeRow-1, itemSizeCol=10;
 	var val = $('#expval').val("log2");
@@ -471,7 +481,7 @@ export function GeneSet(subdir, page, prefix, id){
 			data.forEach(function(d){
 				d.adjP = +d.adjP;
 			});
-			tmp_category = d3.set(data.map(function(d){return d.Category})).values();
+			let tmp_category = d3.set(data.map(function(d){return d.Category})).values();
 			tmp_category.forEach(function(d){
 				if(category.indexOf(d)<0){category.push(d)}
 			})
