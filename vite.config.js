@@ -9,6 +9,7 @@ import commonjs from '@rollup/plugin-commonjs';
 export default defineConfig({
     plugins: [
         // adds imports in code were needed import $ from 'jquery'
+
         inject({
             $: 'jquery',
             jQuery: 'jquery',
@@ -43,16 +44,14 @@ export default defineConfig({
     // For running the development server inside the workspace docker
     // The port needs to be exposed in the compose file
     server: {
-        host: '0.0.0.0',
+        host: true,
         port: 5173,
         hmr: {
             host: 'localhost',
-            port: 5173,
-            clientPort: 5173,
         },
-        //watch: {
-        //    usePolling: true,
-        //},
+        watch: {
+            usePolling: true,
+        },
         cors: true
     },
     resolve: {
