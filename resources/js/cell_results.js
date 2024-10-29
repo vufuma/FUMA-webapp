@@ -266,11 +266,11 @@ function PlotStep1(data){
 				.append("g")
 				.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-		var x = d3.scale.ordinal().rangeBands([0,width]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var x = d3.scaleBand([0,width]);
+		var xAxis = d3.axisBottom(x);
 		x.domain(data.map(function(d){return d[1];}));
-		var y = d3.scale.linear().range([height, 0]);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var y = d3.scaleLinear().range([height, 0]);
+		var yAxis = d3.axisLeft(y);
 		y.domain([0, d3.max(data, function(d){return -Math.log10(d[2]);})]);
 
 		// legend
@@ -392,11 +392,11 @@ function PlotStep2(data){
 				.append("g")
 				.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-		var x = d3.scale.ordinal().rangeBands([0,width]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var x = d3.scaleBand([0,width]);
+		var xAxis = d3.axisBottom(x);
 		x.domain(data.map(function(d){return d[1];}));
-		var y = d3.scale.linear().range([height, 0]);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var y = d3.scaleLinear().range([height, 0]);
+		var yAxis = d3.axisLeft(y);
 		y.domain([0, d3.max(data, function(d){return -Math.log10(d[2]);})]);
 
 		// legend
@@ -518,7 +518,7 @@ function PlotStep3(data, step2){
 				.attr("height", height+margin.top+margin.bottom)
 				.append("g")
 				.attr("transform", "translate("+margin.left+","+margin.top+")");
-		var colorScale = d3.scale.linear().domain([0, 0.5, 1]).range(["#000099", "#fff", "#b30000"]);
+		var colorScale = d3.scaleLinear().domain([0, 0.5, 1]).range(["#000099", "#fff", "#b30000"]);
 		var bar_height = 75;
 		var heatmap_top = 80;
 
@@ -571,11 +571,11 @@ function PlotStep3(data, step2){
 			.style("font-size", "11px");
 
 		// bar plot
-		var x = d3.scale.ordinal().rangeBands([0,width]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var x = d3.scaleBand([0,width]);
+		var xAxis = d3.axisBottom(x);
 		x.domain(step2.map(function(d){return d[1];}));
-		var y = d3.scale.linear().range([bar_height, 0]);
-		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(4);
+		var y = d3.scaleLinear().range([bar_height, 0]);
+		var yAxis = d3.axisLeft(y).ticks(4);
 		y.domain([0, d3.max(step2, function(d){return -Math.log10(d[2]);})]);
 		var bar = svg.selectAll("rect.expgeneral").data(step2).enter()
 			.append("rect")

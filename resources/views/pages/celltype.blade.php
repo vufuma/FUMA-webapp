@@ -27,10 +27,9 @@
         </div>
 
         <div id="page-content-wrapper">
-            <div id="pageData" data-page-data="{}"></div>
             <div class="page-content inset">
                 <div id="newJob" class="sidePanel container" style="padding-top:50px;">
-                    {{ html()->form('POST', 'celltype/submit')->acceptsFiles()->novalidate()->open() }}
+                    {{ html()->form('POST', '/celltype/submit')->acceptsFiles()->novalidate()->open() }}
                     <div class="panel panel-default">
                         <div class="panel-body" style="padding-bottom: 10;">
                             <h4>MAGMA gene analysis result</h4>
@@ -550,18 +549,18 @@
 @push('page_scripts')
     {{-- Web (via npm) resources --}}
     {{-- Hand written ones --}}
-    <script type="text/javascript">
+    <script type="module">
 		window.loggedin = "{{ Auth::check() }}";
         console.log(`Page {{ $page }} LoggedIn ${window.loggedin}`)
-        const pageData = document.querySelector('#pageData');
-        pageData.setAttribute('data-page-data', `{
-            "status": "{{ $status }}",
-            "id": "{{ $id }}",
-            "prefix": "{{ $prefix }}",
-            "page": "{{ $page }}",
-            "subdir": "",
-            "loggedin": "{{ Auth::check() }}"
-        }`);
+        import { setPageState } from "{{ Vite::appjs('celltype.js') }}";
+        setPageState(
+            "{{ $status }}",
+            "{{ $id }}",
+            "{{ $prefix }}",
+            "{{ $page }}",
+            "",
+            "{{ Auth::check() }}"
+        );
 
     </script>
     {{-- Imports from the project using Vite alias macro --}}
@@ -571,8 +570,11 @@
         import { CellTypeSetup } from "{{ Vite::appjs('celltype.js') }}";
         import { CheckInput } from "{{ Vite::appjs('celltype.js') }}";
         window.CheckInput = CheckInput;
-        import { GeneMapSetup } from "{{ Vite::appjs('cell_results.js') }}";
-        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
+        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}";
+        import { ImgDownDS, ImgDown, updatePerDatasetPlot } from "{{ Vite::appjs('cell_results.js') }}";
+        window.ImgDownDS = ImgDownDS;
+        window.ImgDown = ImgDown;
+        window.updatePerDatasetPlot = updatePerDatasetPlot;
         $(function(){
             SidebarSetup();
             CellTypeSetup();

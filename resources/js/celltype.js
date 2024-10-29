@@ -193,7 +193,7 @@ function getJobList(page){
 	$('#joblist table tbody')
 		.empty()
 		.append('<tr><td colspan="7" style="text-align:center;">Retrieving data</td></tr>');
-	$.getJSON( pageState.get("subdir")+'/'+page+'/getJobList', function( data ){
+	$.getJSON( pageState.get("subdir")+'/'+ pageState.get("page") +'/getJobList', function( data ){
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){
 			items = '';
@@ -204,7 +204,7 @@ function getJobList(page){
 				}
 
 				if(val.status == 'OK'){
-					val.status = '<a href="'+pageState.get("subdir")+'/'+page+'/'+val.jobID+'">Go to results</a>';
+					val.status = '<a href="'+pageState.get("subdir")+'/'+ pageState.get("page") +'/'+val.jobID+'">Go to results</a>';
 				}
 				items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title
 					+"</td><td>"+(val.parent != null ? val.parent.jobID : '-')+"</td><td>"+(val.parent != null ? val.parent.title : '-')
