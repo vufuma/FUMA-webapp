@@ -11,7 +11,6 @@
         });
     </script>
 
-    <script type="text/javascript" src="{!! URL::asset('js/sweetalert.min.js') !!}"></script>
     <script type="text/javascript" src="{!! URL::asset('js/alerts.js')!!}"></script>
 
 

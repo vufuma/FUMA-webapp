@@ -1,4 +1,5 @@
 // Global functions and methods
+import swal from 'sweetalert'; 
 
 function InactivityTimer(path, delay){
 	var timeout;

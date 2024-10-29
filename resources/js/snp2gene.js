@@ -2,6 +2,7 @@ var prefix = "jobs";
 import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables, ciMapCircosPlot } from "./s2g_results.js";
 import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
+import { swal } from 'sweetalert';
 
 // retrieve the status info from the pageData element
 var status = "";
