@@ -15,12 +15,6 @@ import {
 import swal from 'sweetalert';
 import pageState from "./g2f_pageState.js";
 
-//if ($('#pageData').attr("data-page-data")) {
-//	status = JSON.parse($('#pageData').attr("data-page-data"))["status"];
-//	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
-//	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
-//	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
-//}
 export const setPageState = function(
 	public_path, 
 	storage_path,

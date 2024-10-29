@@ -1,8 +1,23 @@
-var prefix = "celltype";
-var jQuery  = window.jQuery;
-var params = {
-    sortable: true
-};
+import swal from 'sweetalert';
+import { loadResults, DownloadFiles } from './cell_results.js';
+import pageState from "./cell_pageState.js";
+
+export const setPageState = function(
+	status,
+	id,
+	prefix,
+	page,
+	subdir,
+	loggedin,
+
+) {
+	pageState.set("status", status);
+	pageState.set("id", id);
+	pageState.set("prefix", prefix);
+	pageState.set("page", page);
+	pageState.set("subdir", subdir);
+	pageState.set("loggedin", loggedin);
+}
 
 export const CellTypeSetup = function(){
 	// hide submit buttons for imgDown
@@ -10,13 +25,9 @@ export const CellTypeSetup = function(){
 	$('#cellSubmit').attr("disabled", true);
 	$('#resultSide').hide();
 
-    const pageDataElement = document.getElementById('pageData');
-    //console.log(`${pageDataElement.getAttribute('data-page-data')}`)
-    const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
-
     // hash activate
 	var hashid = window.location.hash;
-	if(hashid=="" && pageData.status.length==0){
+	if(hashid=="" && pageState.get("status").length==0){
 		$('a[href="#newJob"]').trigger('click');
 	}else if(hashid==""){
 		$('a[href="#result"]').trigger('click');
@@ -40,14 +51,14 @@ export const CellTypeSetup = function(){
 		DownloadFiles();
 	});
 
-	getJobList(pageData.page);
+	getJobList(pageState.get("page"));
 	$('#refreshTable').on('click', function(){
-		getJobList(pageData.page);
+		getJobList(pageState.get("page"));
 	});
 
 	// Get SNP2GENE job IDs
 	$.ajax({
-		url: subdir+"/celltype/getS2GIDs",
+		url: pageState.get("subdir")+"/celltype/getS2GIDs",
 		type: "POST",
 		error: function(){
 			alert("error for getS2GIDs");
@@ -76,7 +87,7 @@ export const CellTypeSetup = function(){
 				$('.deleteJobCheck').each(function(){
 					if($(this).is(":checked")){
 						$.ajax({
-							url: subdir+'/'+page+'/deleteJob',
+							url: pageState.get("subdir")+'/'+pageState.get("page")+'/deleteJob',
 							type: "POST",
 							data: {
 								jobID: $(this).val()
@@ -91,7 +102,7 @@ export const CellTypeSetup = function(){
 								}
 							},
 							complete: function(){
-								getJobList(pageData.page);
+								getJobList(pageState.get("page"));
 							}
 						});
 					}
@@ -100,11 +111,10 @@ export const CellTypeSetup = function(){
 		});
 	});
 
-	if(status.length==0){
-	}else{
+	if(pageState.get("status").length>0){
 		var jobStatus;
 		$.get({
-			url: subdir+'/'+page+'/checkJobStatus/'+id,
+			url: pageState.get("subdir")+'/'+pageState.get("page")+'/checkJobStatus/'+pageState.get("id"),
 			error: function(){
 				alert("ERROR: checkJobStatus")
 			},
@@ -114,7 +124,7 @@ export const CellTypeSetup = function(){
 			complete: function(){
 				if(jobStatus=="OK"){
 					$('#resultSide').show();
-					loadResults(id);
+					loadResults(pageState.get("id"));
 				}
 			}
 		});
@@ -147,7 +157,7 @@ export function CheckInput(){
 		}else if(s2gID>0){
 			var filecheck = false;
 			$.ajax({
-				url: subdir+"/celltype/checkMagmaFile",
+				url: pageState.get("subdir")+"/celltype/checkMagmaFile",
 				type: 'POST',
 				data: { jobID: s2gID },
 				error: function(){alert("error from checkMagmaFile")},
@@ -183,7 +193,7 @@ function getJobList(page){
 	$('#joblist table tbody')
 		.empty()
 		.append('<tr><td colspan="7" style="text-align:center;">Retrieving data</td></tr>');
-	$.getJSON( subdir+'/'+page+'/getJobList', function( data ){
+	$.getJSON( pageState.get("subdir")+'/'+page+'/getJobList', function( data ){
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){
 			items = '';
@@ -194,7 +204,7 @@ function getJobList(page){
 				}
 
 				if(val.status == 'OK'){
-					val.status = '<a href="'+subdir+'/'+page+'/'+val.jobID+'">Go to results</a>';
+					val.status = '<a href="'+pageState.get("subdir")+'/'+page+'/'+val.jobID+'">Go to results</a>';
 				}
 				items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title
 					+"</td><td>"+(val.parent != null ? val.parent.jobID : '-')+"</td><td>"+(val.parent != null ? val.parent.title : '-')
