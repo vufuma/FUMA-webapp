@@ -1,5 +1,20 @@
 var geneTable;
 var prefix = "gene2func";
+
+// retrieve the status info from the pageData element
+var status = "";
+var page = "";
+var id = "";
+var subdir = "";
+
+if ($('#pageData').attr("data-page-data")) {
+	status = JSON.parse($('#pageData').attr("data-page-data"))["status"];
+	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
+	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
+	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
+}
+
+
 $(document).ready(function(){
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
@@ -102,7 +117,7 @@ $(document).ready(function(){
 		GeneSet(id);
 		GeneTable(id);
 		$('#gene_exp_data').on('change', function(){
-			expHeatPlot(prefix, id, $('#gene_exp_data').val())
+			expHeatPlot(prefix, page, id, $('#gene_exp_data').val())
 		})
 	}else if(status=="query"){
 		$('#geneSubmit').attr("disabled", true);

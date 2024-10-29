@@ -1,15 +1,5 @@
-var geneTable;
 var prefix = "gene2func";
-var exp_data_title = {
-	'gtex_v8_ts_avg_log2TPM': 'GTEx v8 54 tissue types',
-	'gtex_v8_ts_general_avg_log2TPM': 'GTEx v8 30 general tissue types',
-	'gtex_v7_ts_avg_log2TPM': 'GTEx v7 53 tissue types',
-	'gtex_v7_ts_general_avg_log2TPM': 'GTEx v7 30 general tissue types',
-	'gtex_v6_ts_avg_log2RPKM': 'GTEx v6 53 tissue types',
-	'gtex_v6_ts_general_avg_log2RPKM': 'GTEx v6 30 general tissue types',
-	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
-	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
-}
+var id = ""
 
 // Import all the helper functions from g2f_results 
 import { 
@@ -22,31 +12,53 @@ import {
 	expHeatPlot 
 } from "./g2f_results.js";
 
-// retrieve the status info from the pageData element
-var status = "";
-var page = "";
-var id = "";
-var subdir = "";
+import swal from 'sweetalert';
+import pageState from "./g2f_pageState.js";
 
-if ($('#pageData').attr("data-page-data")) {
-	status = JSON.parse($('#pageData').attr("data-page-data"))["status"];
-	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
-	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
-	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
+//if ($('#pageData').attr("data-page-data")) {
+//	status = JSON.parse($('#pageData').attr("data-page-data"))["status"];
+//	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
+//	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
+//	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
+//}
+export const setPageState = function(
+	public_path, 
+	storage_path,
+	subdir,
+	jobdir,
+	status,
+	id,
+	page,
+	loggedin,
+	prefix
+) {
+	pageState.set("public_path", public_path);
+	pageState.set("storage_path", storage_path)
+	pageState.set("subdir", subdir);
+	pageState.set("jobdir", jobdir);
+	pageState.set("status", status);
+	pageState.set("id", id);
+	pageState.set("page", page);
+	pageState.set("loggedin", loggedin);
+	pageState.set("prefix", prefix);
 }
 
 export const Gene2FuncSetup = function(){
+	const page = pageState.get("page");
+	id = pageState.get("id");
+	const subdir = pageState.get("subdir");
+	var status  = pageState.get("status");
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
 
-    const pageDataElement = document.getElementById('pageData');
+    //const pageDataElement = document.getElementById('pageData');
     //console.log(`${pageDataElement.getAttribute('data-page-data')}`)
-    const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
+    //const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
 
 
 	// hash activate
 	var hashid = window.location.hash;
-	if(hashid=="" && pageData.status=="getJob"){
+	if(hashid=="" && status=="getJob"){
 		$('a[href="#g2f_summaryPanel"]').trigger('click');
 	}else if(hashid==""){
 		$('a[href="#newquery"]').trigger('click');
@@ -54,7 +66,7 @@ export const Gene2FuncSetup = function(){
 		$('a[href="'+hashid+'"]').trigger('click');
 	}
 
-	updateList();
+	updateList(subdir);
 
 	// gene type clear
 	$('#bkgeneSelectClear').on('click', function(){
@@ -119,7 +131,7 @@ export const Gene2FuncSetup = function(){
 								}
 							},
 							complete: function(){
-								updateList();
+								updateList(subdir);
 							}
 						});
 					}
@@ -128,10 +140,10 @@ export const Gene2FuncSetup = function(){
 		});
 	});
 
-	if(pageData.status.length==0 || pageData.status=="new"){
+	if(status.length==0 || status=="new"){
 		window.checkInput();
 		$('#resultSide').hide();
-	}else if(pageData.status=="getJob"){
+	}else if(status=="getJob"){
 		// var id = jobID;
 
 		window.checkInput();
@@ -144,20 +156,20 @@ export const Gene2FuncSetup = function(){
 		$('#gene_exp_data').on('change', function(){
 			expHeatPlot(prefix, page, id, $('#gene_exp_data').val())
 		})
-	}else if(pageData.status=="query"){
+	}else if(status=="query"){
 		$('#geneSubmit').attr("disabled", true);
-		id = fumaJS.id;
-		var filedir = fumaJS.filedir;
-		var gtype = fumaJS.gtype;
-		var gval = fumaJS.gval;
-		var bkgtype = fumaJS.bkgtype;
-		var bkgval = fumaJS.bkgval;
-		var ensembl = fumaJS.ensembl;
-		var gene_exp = fumaJS.gene_exp;
-		var MHC = fumaJS.MHC;
-		var adjPmeth = fumaJS.adjPmeth;
-		var adjPcut = fumaJS.adjPcut;
-		var minOverlap = fumaJS.minOverlap;
+		id = window.fumaJS.id;
+		var filedir = window.fumaJS.filedir;
+		var gtype = window.fumaJS.gtype;
+		var gval = window.fumaJS.gval;
+		var bkgtype = window.fumaJS.bkgtype;
+		var bkgval = window.fumaJS.bkgval;
+		var ensembl = window.fumaJS.ensembl;
+		var gene_exp = window.fumaJS.gene_exp;
+		var MHC = window.fumaJS.MHC;
+		var adjPmeth = window.fumaJS.adjPmeth;
+		var adjPcut = window.fumaJS.adjPcut;
+		var minOverlap = window.fumaJS.minOverlap;
 
 		if(gtype=="text"){
 			$('#genes').val(gval.replace(/:/g, '\n'));
@@ -283,7 +295,7 @@ export function checkInput(){
 	}
 };
 
-function updateList(){
+function updateList(subdir){
 	$.getJSON( subdir + "/gene2func/getG2FJobList", function( data ){
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){
@@ -298,7 +310,7 @@ function updateList(){
 					var status = '<a href="'+subdir+'/gene2func/'+val.jobID+'">load results</a>';
 				}
 				else {
-					var status = val.status;
+					status = val.status;
 				}
 
 				items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title+"</td><td>"

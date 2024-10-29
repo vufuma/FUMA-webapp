@@ -1,3 +1,5 @@
+import pageState from "./g2f_pageState.js";
+
 var exp_data_title = {
 	'gtex_v8_ts_avg_log2TPM': 'GTEx v8 54 tissue types',
 	'gtex_v8_ts_general_avg_log2TPM': 'GTEx v8 30 general tissue types',
@@ -7,7 +9,7 @@ var exp_data_title = {
 	'gtex_v6_ts_general_avg_log2RPKM': 'GTEx v6 30 general tissue types',
 	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
 	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
-}
+} 
 export function summaryTable(subdir, page, prefix, id){
 	$.ajax({
 		url: subdir + '/' + page + '/g2f_sumTable',
@@ -766,7 +768,9 @@ export function GeneTable(subdir, page, prefix, id){
 	});
 }
 
-export function DEGImgDown(prefix, id, name, type){
+export function DEGImgDown(name, type){
+	let prefix = pageState.get("prefix");
+	let id = pageState.get("id");
 	$('#DEGData').val($('#'+name).html());
 	$('#DEGType').val(type);
 	$('#DEGJobID').val(id);

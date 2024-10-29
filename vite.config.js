@@ -35,6 +35,7 @@ export default defineConfig({
                 'resources/js/s2g_results.js',
                 'resources/js/g2f_results.js',
                 'resources/js/cell_results.js',
+                'resources/js/g2f_pageState.js',
                 'resources/js/gene2func.js',
                 'resources/js/tutorial_utils.js',
             ],
