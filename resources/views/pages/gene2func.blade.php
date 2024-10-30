@@ -28,7 +28,6 @@ header('X-Frame-Options: GOFORIT');
         <canvas id="canvas" style="display:none;"></canvas>
 
         <div id="page-content-wrapper">
-            <div id="pageData" data-page-data="{}"></div>
             <div class="page-content inset">
                 <!-- Submit genes -->
                 <div id="newquery" class="sidePanel container" style="padding-top:50px;">
@@ -271,19 +270,20 @@ header('X-Frame-Options: GOFORIT');
 @push('page_scripts')
 
     {{-- Web (via npm) resources --}}
-    <script>
+    <script type="module">
         window.loggedin = "{{ Auth::check() }}";
-        const pageData = document.querySelector('#pageData');
-        pageData.setAttribute('data-page-data', `{
-            "public_path": "{{ URL::asset('/image/ajax-loader2.gif') }}",
-            "storage_path": "<?php echo storage_path(); ?>",
-            "subdir": "",
-            "jobdir": "{{ Config::get('app.jobdir') }}",
-            "status": "{{ $status }}",
-            "id": "{{ $id }}",
-            "page": "{{ $page }}",
-            "loggedin": "{{ Auth::check() }}"
-        }`);
+        import { setPageState } from "{{ Vite::appjs('gene2func.js') }}";
+        setPageState(
+            "{{ URL::asset('/image/ajax-loader2.gif') }}",
+            "<?php echo storage_path(); ?>",
+            "",
+            "{{ Config::get('app.jobdir') }}",
+            "{{ $status }}",
+            "{{ $id }}",
+            "{{ $page }}",
+            "{{ Auth::check() }}",
+            "gene2func"
+        );
     </script>
 
     {{-- Imports from the project using Vite alias macro --}}
@@ -302,6 +302,6 @@ header('X-Frame-Options: GOFORIT');
         });
     </script>
     
-    <script>const fumaJS = {{ Js::from(isset($data) ? $data : null)}};</script>
+    <script>window.fumaJS = {{ Js::from(isset($data) ? $data : null)}};</script>
 
 @endpush

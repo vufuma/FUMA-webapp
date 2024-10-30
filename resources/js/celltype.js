@@ -1,6 +1,6 @@
 import swal from 'sweetalert';
 import { loadResults, DownloadFiles } from './cell_results.js';
-import pageState from "./cell_pageState.js";
+import { CellTypeState as pageState}  from "./pageStateComponents.js";
 
 export const setPageState = function(
 	status,
@@ -11,12 +11,14 @@ export const setPageState = function(
 	loggedin,
 
 ) {
-	pageState.set("status", status);
-	pageState.set("id", id);
-	pageState.set("prefix", prefix);
-	pageState.set("page", page);
-	pageState.set("subdir", subdir);
-	pageState.set("loggedin", loggedin);
+	pageState.setState(
+		status,
+		id,
+		prefix,
+		page,
+		subdir,
+		loggedin, 		
+	)
 }
 
 export const CellTypeSetup = function(){
@@ -51,9 +53,9 @@ export const CellTypeSetup = function(){
 		DownloadFiles();
 	});
 
-	getJobList(pageState.get("page"));
+	getJobList();
 	$('#refreshTable').on('click', function(){
-		getJobList(pageState.get("page"));
+		getJobList();
 	});
 
 	// Get SNP2GENE job IDs
@@ -102,7 +104,7 @@ export const CellTypeSetup = function(){
 								}
 							},
 							complete: function(){
-								getJobList(pageState.get("page"));
+								getJobList();
 							}
 						});
 					}
@@ -189,7 +191,7 @@ export function CheckInput(){
 	else{$('#cellSubmit').attr("disabled", true);}
 }
 
-function getJobList(page){
+function getJobList(){
 	$('#joblist table tbody')
 		.empty()
 		.append('<tr><td colspan="7" style="text-align:center;">Retrieving data</td></tr>');

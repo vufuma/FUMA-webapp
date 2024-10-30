@@ -11,13 +11,43 @@ import {
     expHeatMap,
     tsEnrich,
     GeneSet,
-    GeneTable} from "./g2f_results.js";
+    GeneTable,
+	expHeatPlot} from "./g2f_results.js";
+
+import {
+	GWplot,
+	QQplot,
+	MAGMA_GStable,
+	ciMapCircosPlot,
+	MAGMA_expPlot,
+	PlotSNPAnnot,
+	PlotLocuSum
+} from './s2g_results';
+
+import {
+	paramTable,
+	sumTable,
+	showResultTables
+} from './helpers';
+
+import { BrowsePageState as pageState}  from "./pageStateComponents.js";
+export const setPageState = function(
+    id,
+    page,
+    subdir,
+    loggedin, 
+) {
+	pageState.setState(
+		id,
+		page,
+		subdir,
+		loggedin, 
+	);
+}
 
 export const BrowseSetup = function(){
 	// side bar and hash id
-    const pageDataElement = document.getElementById('pageData');
-    const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
-    var id = pageData.id
+    var id = pageState.get("id")
 
 	var hashid = window.location.hash;
 	if(hashid =="" && id.length==0){
@@ -98,7 +128,7 @@ export const BrowseSetup = function(){
 	if(id.length>0){
 		var g2f=0;
 		$.ajax({
-			url: subdir+'/'+page+'/checkG2F',
+			url: pageState.get("subdir")+'/'+pageState.get("page")+'/checkG2F',
 			type: 'POST',
 			data:{
 				jobID: id,
@@ -121,7 +151,7 @@ export const BrowseSetup = function(){
 					GeneSet(g2f);
 					GeneTable(g2f);
 					$('#gene_exp_data').on('change', function(){
-						expHeatPlot(prefix, id, $('#gene_exp_data').val())
+						expHeatPlot(pageState.get("subdir"), prefix, pageState.get("page"), pageState.get("id"), $('#gene_exp_data').val())
 					})
 					$('#resultsSideG2F').show();
 				}
@@ -141,7 +171,7 @@ export const BrowseSetup = function(){
 			url: '/browse' + '/getParams',
 			type: 'POST',
 			data: {
-				jobID: id
+				jobID: pageState.get("id")
 			},
 			error: function () {
 				alert("JobQuery getParams error");
@@ -202,7 +232,7 @@ export const BrowseSetup = function(){
 						alert("JobQuery get magma file contents error");
 					},
 					success: function (data) {
-						selectedData = {
+						let selectedData = {
 							"magma.sets.top": data['magma.sets.top'],
 						};
 						MAGMA_GStable(selectedData);
@@ -240,11 +270,11 @@ export const BrowseSetup = function(){
 				});
 			}
 
-			paramTable(subdir, 'browse', 'jobs', id);
-			sumTable(subdir, 'browse', 'jobs', id);
+			paramTable(pageState.get("subdir"), 'browse', 'jobs', id);
+			sumTable(pageState.get("subdir"), 'browse', 'jobs', id);
 
 			$.ajax({
-                url: subdir + '/' + page + '/getFilesContents',
+                url: pageState.get("subdir") + '/' + pageState.get("page") + '/getFilesContents',
                 type: 'POST',
                 data: {
                     jobID: id,
@@ -260,7 +290,7 @@ export const BrowseSetup = function(){
                 }
             });
 
-			showResultTables('jobs', id, posMap, eqtlMap, ciMap, orcol, becol, secol);
+			showResultTables(pageState.get('subdir'), pageState.get('page'), 'jobs', id, posMap, eqtlMap, ciMap, orcol, becol, secol);
 			$('#GWplotSide').show();
 			$('#resultsSide').show();
 		}
@@ -284,17 +314,18 @@ function getGwasList(){
 	  .empty()
 	  .append('<tr><td colspan="6" style="text-align:center;">Retrieving data</td></tr>');
 
-	$.getJSON(subdir + "/browse/getGwasList", function( data ) {
+	$.getJSON(pageState.get("subdir") + "/browse/getGwasList", function( data ) {
 		var items = '<tr><td colspan="6" style="text-align: center;">No Available GWAS Found</td></tr>';
 		if(data.length){
 			items = '';
 			$.each( data, function( key, val ) {
+				var id = ""
 				if (val.old_id === "") {
-					var id = val.jobID
+					id = val.jobID
 				}else{
-					var id = val.old_id
+					id = val.old_id
 				}
-				val.title = '<a href="'+subdir+'/browse/'+id+'">'+val.title+'</a>';
+				val.title = '<a href="'+pageState.get("subdir")+'/browse/'+id+'">'+val.title+'</a>';
 				// if(val.sumstats_link != "NA"){
 				if(val.sumstats_link.startsWith("http") | val.sumstats_link.startsWith("ftp")){
 					val.sumstats_link = '<a href="'+val.sumstats_link+'" target="_blank">'+val.sumstats_link+'</a>'

@@ -1,17 +1,32 @@
-// retrieve the status info from the pageData element
-var page = "";
-var id = "";
-var subdir = "";
-
-if ($('#pageData').attr("data-page-data")) {
-	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
-	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
-	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
+import { AnnotPlotPageState as pageState}  from "./pageStateComponents.js";
+import { display_dismissable_warning } from "./alerts.js";
+export const setPageState = function(
+    id,
+    page,
+    subdir,
+    loggedin, 
+) {
+	pageState.setState(
+		id,
+		page,
+		subdir,
+		loggedin, 
+	);
 }
 
-export const AnnotPlotSetup = function() {
+export const AnnotPlotSetup = function(
+	prefix,
+	type,
+	rowI,
+	GWASplot,
+	CADDplot,
+	RDBplot,
+	eqtlplot,
+	ciplot,
+	Chr15,
+	Chr15cells		
+) {
 	$('.ImgDownSubmit').hide();
-	const prefix = 'jobs';
 	var plotData;
 	var genes;
 	var chrom;
@@ -25,7 +40,7 @@ export const AnnotPlotSetup = function() {
 		url: 'annotPlot/getData',
 		type: 'POST',
 		data: {
-			jobID: id,
+			jobID: pageState.get('id'),
 			prefix: prefix,
 			type: type,
 			rowI: rowI,
@@ -52,9 +67,9 @@ export const AnnotPlotSetup = function() {
 			}
 			catch (e) {
 				if (e instanceof SyntaxError) {
-					display_dismissable_warning(`Could not parse result of annotPlot/getData data<br> ${e}`, id);
+					display_dismissable_warning(`Could not parse result of annotPlot/getData data<br> ${e}`, pageState.get('id'));
 				} else {
-					display_dismissable_warning(`Exception handling result of annotPlot/getData<br> ${e}`, id);
+					display_dismissable_warning(`Exception handling result of annotPlot/getData<br> ${e}`, pageState.get('id'));
 				}
 				$('#load').html("");
 			}
@@ -64,7 +79,7 @@ export const AnnotPlotSetup = function() {
 				url: 'annotPlot/getGenes',
 				type: 'POST',
 				data: {
-					jobID: id,
+					jobID: pageState.get('id'),
 					prefix: prefix,
 					chrom: chrom,
 					eqtlplot: eqtlplot,
@@ -79,9 +94,9 @@ export const AnnotPlotSetup = function() {
 					}
 					catch (e) {
 						if (e instanceof SyntaxError) {
-							display_dismissable_warning(`Could not parse result of annotPlot/getGenes data<br> ${e}`, id);
+							display_dismissable_warning(`Could not parse result of annotPlot/getGenes data<br> ${e}`, pageState.get('id'));
 						} else {
-							display_dismissable_warning(`Exception handling result of annotPlot/getGenes<br> ${e}`, id);
+							display_dismissable_warning(`Exception handling result of annotPlot/getGenes<br> ${e}`, pageState.get('id'));
 						}
 					}
 					finally {
@@ -89,14 +104,14 @@ export const AnnotPlotSetup = function() {
 					}
 				},
 				complete: function () {
-					Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes);
+					Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot, CADDplot, RDBplot, Chr15cells, Chr15, eqtlplot, ciplot);
 				}
 			});
 		}
 	});
 };
 
-function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
+function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot, CADDplot, RDBplot, Chr15cells, Chr15, eqtlplot, ciplot) {
 	/*---------------------------------------------
 	| Set parameters
 	---------------------------------------------*/
@@ -285,7 +300,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	// Add a clipPath: everything out of this area won't be drawn.
-	var clip = base.append("defs").append("base:clipPath")
+	base.append("defs").append("base:clipPath")
 		.attr("id", "clip")
 		.append("base:rect")
 		.attr("width", width )
@@ -434,7 +449,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 			d[1] = +d[1]; //pos
 			d[2] = +d[2]; //gwasP
 		});
-		var y = d3.scaleLinear().range([gwasTop + gwasHeight, gwasTop]);
+		y = d3.scaleLinear().range([gwasTop + gwasHeight, gwasTop]);
 		var yAxis = d3.axisLeft(y);
 
 		// legend
@@ -518,7 +533,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				if (Chr15 == 1) {
 					cells = Chr15cells.split(":");
 					if (cells[0] == "all") { cells = Chr15eid; }
-					for (var i = 0; i < cells.length; i++) {
+					for (let i = 0; i < cells.length; i++) {
 						table += '<tr><td>' + cells[i] + '</td><td>' + d[14 + i] + '</td></tr>';
 					}
 				}
@@ -556,7 +571,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				if (Chr15 == 1) {
 					cells = Chr15cells.split(":");
 					if (cells[0] == "all") { cells = Chr15eid; }
-					for (var i = 0; i < cells.length; i++) {
+					for (let i = 0; i < cells.length; i++) {
 						table += '<tr><td>' + cells[i] + '</td><td>' + d[14 + i] + '</td></tr>';
 					}
 				}
@@ -602,7 +617,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				if (Chr15 == 1) {
 					cells = Chr15cells.split(":");
 					if (cells[0] == "all") { cells = Chr15eid; }
-					for (var i = 0; i < cells.length; i++) {
+					for (let i = 0; i < cells.length; i++) {
 						table += '<tr><td>' + cells[i] + '</td><td>' + d[14 + i] + '</td></tr>';
 					}
 				}
@@ -635,8 +650,8 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		| Plot CADD
 		---------------------------------------------*/
 	if (CADDplot == 1) {
-		var y = d3.scaleLinear().range([caddTop + caddHeight, caddTop]);
-		var yAxis = d3.axisLeft(y);
+		y = d3.scaleLinear().range([caddTop + caddHeight, caddTop]);
+		yAxis = d3.axisLeft(y);
 
 		// legend
 		y.domain([0, d3.max(plotData.snps, function (d) { return d[9] }) + 1]);
@@ -683,7 +698,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				if (Chr15 == 1) {
 					cells = Chr15cells.split(":");
 					if (cells[0] == "all") { cells = Chr15eid; }
-					for (var i = 0; i < cells.length; i++) {
+					for (let i = 0; i < cells.length; i++) {
 						table += '<tr><td>' + cells[i] + '</td><td>' + d[14 + i] + '</td></tr>';
 					}
 				}
@@ -715,8 +730,8 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		---------------------------------------------*/
 	if (RDBplot == 1) {
 		var y_element = ["1a", "1b", "1c", "1d", "1e", "1f", "2a", "2b", "2c", "3a", "3b", "4", "5", "6", "7"];
-		var y = d3.scalePoint().domain(y_element).range([rdbTop, rdbTop + rdbHeight]);
-		var yAxis = d3.axisLeft(y).tickFormat(function (d) { return d; });
+		y = d3.scalePoint().domain(y_element).range([rdbTop, rdbTop + rdbHeight]);
+		yAxis = d3.axisLeft(y).tickFormat(function (d) { return d; });
 
 		// plot SNPs
 		svg.selectAll("dot").data(plotData.snps.filter(function (d) { if (d[10] != "NA" && d[10] != "" && d[5] != 0) { return d; } })).enter()
@@ -748,7 +763,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				if (Chr15 == 1) {
 					cells = Chr15cells.split(":");
 					if (cells[0] == "all") { cells = Chr15eid; }
-					for (var i = 0; i < cells.length; i++) {
+					for (let i = 0; i < cells.length; i++) {
 						table += '<tr><td>' + cells[i] + '</td><td>' + d[14 + i] + '</td></tr>';
 					}
 				}
@@ -787,11 +802,11 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		});
 		// var colors = ["#FF0000", "#FF4500", "#32CD32", "#008000", "#006400", "#C2E105", "#FFFF00", "#66CDAA", "#8A91D0", "#CD5C5C", "#E9967A", "#BDB76B", "#808080", "#C0C0C0", "white"];
 
-		var cells = d3.set(plotData.Chr15.map(function (d) { return d[0]; })).values();
+		cells = d3.set(plotData.Chr15.map(function (d) { return d[0]; })).values();
 		// EIDlegend(cells);
 		var chr15gcol = [];
-		var y_element = [];
-		for (var i = 0; i < Chr15eid.length; i++) {
+		y_element = [];
+		for (let i = 0; i < Chr15eid.length; i++) {
 			if (cells.indexOf(Chr15eid[i]) >= 0) {
 				y_element.push(Chr15eid[i]);
 				chr15gcol.push(Chr15GroupCols[i]);
@@ -806,7 +821,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 
 		// legend
 		var states = ["TssA", "TssAFlnk", "TxFlnk", "Tx", "Tx/Wk", "EnhG", "Enh", "ZNF/Rpts", "Het", "TssBiv", "BivFlnk", "EnhBiv", "ReprPC", "ReprPCWk", "Quies"];
-		var legData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+		legData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 		var legendChr15 = base.selectAll(".legendChr15")
 			.data(legData)
 			.enter()
@@ -829,7 +844,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				.text(function (d) { return states[d] })
 				.style("font-size", "9px");
 		} else {
-			var legHead = chrTop + y_element.length * tileHeight / 2 - 8 * 4;
+		    legHead = chrTop + y_element.length * tileHeight / 2 - 8 * 4;
 			legendChr15.append("rect")
 				.attr("x", function (d) { if (d < 7) { return width + 10; } else { return width + 70; } })
 				.attr("y", function (d) { if (d < 7) { return legHead + d * 8; } else { return legHead + (d - 7) * 8 } })
@@ -890,7 +905,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 			base.append("g").attr("class", "y axis").call(yAxisChr15)
 				.selectAll("text").attr("transform", "translate(-5,0)").style("font-size", "10px");
 		}
-		for (var i = 0; i < y_element.length; i++) {
+		for (let i = 0; i < y_element.length; i++) {
 			base.append("rect").attr("x", -10).attr("y", yChr15(y_element[i]))
 				.attr("width", 10).attr("height", tileHeight)
 				.attr("fill", chr15gcol[i]);
@@ -915,7 +930,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				d[7] = +d[7]; //FDR
 				d[13] = +d[13]; //eqtlMapFilt
 			});
-			var eqtlgenes = d3.set(plotData.eqtl.map(function (d) { return d[12]; })).values();
+			eqtlgenes = d3.set(plotData.eqtl.map(function (d) { return d[12]; })).values();
 			var tissue = d3.set(plotData.eqtl.map(function (d) { return d[2]; })).values();
 
 			// eqtl color and DB
@@ -928,7 +943,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 			}
 
 			// legend
-			var legData = [];
+			legData = [];
 			for (i = 0; i < tissue.length; i++) {
 				legData.push(i);
 			}
@@ -950,8 +965,8 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 
 			// plot eQTLs per gene
 			for (i = 0; i < eqtlgenes.length; i++) {
-				var y = d3.scaleLinear().range([eqtlTop + 55 * i + 50, eqtlTop + 55 * i]);
-				var yAxis = d3.axisLeft(y).ticks(4);
+				y = d3.scaleLinear().range([eqtlTop + 55 * i + 50, eqtlTop + 55 * i]);
+				yAxis = d3.axisLeft(y).ticks(4);
 				var yMax = d3.max(plotData.eqtl, function (d) { return -Math.log10(d[5]) })
 				if (yMax == undefined) { yMax = d3.max(plotData.eqtl, function (d) { return -Math.log10(d[7]) }) }
 				y.domain([0, yMax + 0.5]);
@@ -1005,9 +1020,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 		| Plot chromatin interactions
 		---------------------------------------------*/
 	if (ciplot == 1) {
-		if (plotData["citypes"].length == 0) {
-
-		} else {
+		if (plotData["citypes"].length > 0) {
 			xAxisLabel = "ci";
 			plotData.ci.forEach(function (d) {
 				d[0] = +d[0]; //start1
@@ -1027,7 +1040,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 			var cur_height = 0;
 
 			// plot chromatin interaction per data set
-			for (var i = 0; i < plotData["citypes"].length; i++) {
+			for (let i = 0; i < plotData["citypes"].length; i++) {
 				var types = plotData.citypes[i];
 				types = types.split(":");
 				var max_y = plotData.ciheight[i];
@@ -1038,8 +1051,8 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 					tmp_height = max_y * ci_cellsize + 10;
 				}
 
-				var y = d3.scaleLinear().range([ciTop + 5 * i + cur_height + tmp_height, ciTop + 5 * i + cur_height]);
-				var yAxis = d3.axisLeft(y).ticks(0);
+				y = d3.scaleLinear().range([ciTop + 5 * i + cur_height + tmp_height, ciTop + 5 * i + cur_height]);
+				yAxis = d3.axisLeft(y).ticks(0);
 				y.domain([max_y + 1, 0]);
 
 				svg.selectAll("rect.ci1").data(plotData.ci.filter(function (d) { if (d[5] == types[0] && d[6] == types[1] && d[7] == types[2]) { return d; } })).enter()
@@ -1123,13 +1136,13 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 				cieid.forEach(function (d) {
 					if (eid.indexOf(d) < 0) { eid.push(d) }
 				});
-				var chr15gcol = [];
+				chr15gcol = [];
 				for (var i = 0; i < Chr15eid.length; i++) {
 					if (cieid.indexOf(Chr15eid[i]) >= 0) {
 						chr15gcol.push(Chr15GroupCols[i]);
 					}
 				}
-				var tileHeight = ciregHeight / cieid.length;
+				tileHeight = ciregHeight / cieid.length;
 
 				// legend
 				base.append("rect").attr("x", width + 20).attr("y", ciregTop + 5)
@@ -1169,7 +1182,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 					base.append("g").attr("class", "y axis").call(yAxisCireg)
 						.selectAll('text').attr("transform", "translate(-5,0)").style('font-size', '11px');
 				}
-				for (var i = 0; i < cieid.length; i++) {
+				for (let i = 0; i < cieid.length; i++) {
 					svg.append("rect").attr("x", -10).attr("y", yCireg(cieid[i]))
 						.attr("width", 10).attr("height", tileHeight)
 						.attr("fill", chr15gcol[i]);
@@ -1303,7 +1316,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes) {
 function geneOver(genes, x, width) {
 	var tg = genes;
 
-	for (var i = 1; i < tg.length; i++) {
+	for (let i = 1; i < tg.length; i++) {
 		var temp = tg.filter(function (d2) {
 			if ((d2[2] <= tg[i][2] && d2[3] >= tg[i][2] && d2[3] <= tg[i][3])
 				|| (d2[2] <= tg[i][2] && d2[3] >= tg[i][3])
@@ -1355,7 +1368,7 @@ function RDBlegend() {
 
 	let FileName = "RDB.txt";
 	$.ajax({
-		url: subdir + '/' + page + '/legendText',
+		url: pageState.get('subdir') + '/' + pageState.get('page') + '/legendText',
 		type: 'POST',
 		data: {
 			fileNames: [FileName]
@@ -1434,7 +1447,7 @@ function EIDlegend(cells) {
 
 	let FileName = "EID.txt";
 	$.ajax({
-		url: subdir + '/' + page + '/legendText',
+		url: pageState.get('subdir') + '/' + pageState.get('page') + '/legendText',
 		type: 'POST',
 		data: {
 			fileNames: [FileName]
@@ -1540,8 +1553,8 @@ function EIDlegend(cells) {
 export function ImgDown(name, type) {
 	$('#' + name + 'Data').val($('#' + name).html());
 	$('#' + name + 'Type').val(type);
-	$('#' + name + 'ID').val(id);
+	$('#' + name + 'ID').val(pageState.get('id'));
 	$('#' + name + 'FileName').val(name);
-	$('#' + name + 'Dir').val(prefix);
+	$('#' + name + 'Dir').val('jobs');
 	$('#' + name + 'Submit').trigger('click');
 }

@@ -1,4 +1,4 @@
-import pageState from "./g2f_pageState.js";
+import { G2FPageState as pageState}  from "./pageStateComponents.js";
 
 var exp_data_title = {
 	'gtex_v8_ts_avg_log2TPM': 'GTEx v8 54 tissue types',
@@ -81,12 +81,12 @@ export function expHeatMap(subdir, page, prefix, id){
 			})
 		},
 		complete: function(){
-			expHeatPlot(prefix, page, id, $("#gene_exp_data").val());
+			expHeatPlot(subdir, prefix, page, id, $("#gene_exp_data").val());
 		}
 	})
 }
 
-export function expHeatPlot(prefix, page, id, dataset){
+export function expHeatPlot(subdir, prefix, page, id, dataset){
 	d3.select('#expHeat').select("svg").remove();
 	var itemSizeRow = 15, cellSize=itemSizeRow-1, itemSizeCol=10;
 	var val = $('#expval').val("log2");
@@ -414,11 +414,11 @@ export function tsEnrich(subdir, page, prefix, id){
 				}else if(type=="two"){
 					idx = 7;
 				}
-				for(var i=0; i<bars.length; i++){
+				for(let i=0; i<bars.length; i++){
 					bars[i].transition().duration(1000)
 						.attr("x", function(d){return d[idx]*cellsize;})
 				}
-				for(var i=0; i<xLabels.length; i++){
+				for(let i=0; i<xLabels.length; i++){
 					xLabels[i].transition().duration(1000)
 						.attr("transform", function(d){
 							return "translate("+((d[idx]+1)*cellsize)+","+(height+10)+")rotate(-70)";
@@ -514,7 +514,7 @@ export function GeneSet(subdir, page, prefix, id){
 					}
 					if(d.GeneSet.length>gs_max){gs_max = d.GeneSet.length;}
 				});
-				genes = d3.set(genesplot.map(function(d){return d.gene;})).values();
+				var genes = d3.set(genesplot.map(function(d){return d.gene;})).values();
 
 				if(tdata.length==0){
 					var panel = $('<div class="panel panel-default" style="padding-top:0;"><div class="panel-heading" style="height: 35px;"><a href="#'
@@ -782,9 +782,9 @@ export function DEGImgDown(name, type){
 export function GSImgDown(name, type){
 	$('#GSData').val($('#'+name).html());
 	$('#GSType').val(type);
-	$('#GSJobID').val(id);
+	$('#GSJobID').val(pageState.get('id'));
 	$('#GSFileName').val(name);
-	$('#GSDir').val(prefix);
+	$('#GSDir').val(pageState.get('prefix'));
 	$('#GSSubmit').trigger('click');
 }
 

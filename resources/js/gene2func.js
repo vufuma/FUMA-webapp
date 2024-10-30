@@ -13,7 +13,7 @@ import {
 } from "./g2f_results.js";
 
 import swal from 'sweetalert';
-import pageState from "./g2f_pageState.js";
+import { G2FPageState as pageState}  from "./pageStateComponents.js";
 
 export const setPageState = function(
 	public_path, 
@@ -26,15 +26,17 @@ export const setPageState = function(
 	loggedin,
 	prefix
 ) {
-	pageState.set("public_path", public_path);
-	pageState.set("storage_path", storage_path)
-	pageState.set("subdir", subdir);
-	pageState.set("jobdir", jobdir);
-	pageState.set("status", status);
-	pageState.set("id", id);
-	pageState.set("page", page);
-	pageState.set("loggedin", loggedin);
-	pageState.set("prefix", prefix);
+	pageState.setState(
+		public_path, 
+		storage_path,
+		subdir,
+		jobdir,
+		status,
+		id,
+		page,
+		loggedin,
+		prefix
+	);
 }
 
 export const Gene2FuncSetup = function(){
@@ -148,7 +150,7 @@ export const Gene2FuncSetup = function(){
 		GeneSet(subdir, page, prefix, id);
 		GeneTable(subdir, page, prefix, id);
 		$('#gene_exp_data').on('change', function(){
-			expHeatPlot(prefix, page, id, $('#gene_exp_data').val())
+			expHeatPlot(subdir, prefix, page, id, $('#gene_exp_data').val())
 		})
 	}else if(status=="query"){
 		$('#geneSubmit').attr("disabled", true);

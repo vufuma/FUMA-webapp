@@ -1,4 +1,4 @@
-import pageState from "./cell_pageState.js";
+import { CellTypeState as pageState}  from "./pageStateComponents.js";
 export function loadResults(id){
 	// Check files
 	$.ajax({

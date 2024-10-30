@@ -26,7 +26,6 @@
 	</div>
 
 		<div id="page-content-wrapper">
-            <div id="pageData" data-page-data="{}"></div>
 			<div class="page-content inset">
 				@include('snp2gene.newjob')
 				@include('snp2gene.geneMap')
@@ -55,17 +54,17 @@
 
 @push('page_scripts')
     {{-- Web (via npm) resources --}}
-	<script>
+	<script type="module">
 		window.loggedin = "{{ Auth::check() }}";
         console.log(`Page {{ $page }} LoggedIn ${window.loggedin}`)
-        const pageData = document.querySelector('#pageData');
-        pageData.setAttribute('data-page-data', `{
-            "status": "{{ $status }}",
-            "id": "{{ $id }}",
-            "page": "{{ $page }}",
-            "subdir": "",
-            "loggedin": "{{ Auth::check() }}"
-        }`);
+		import { setPageState } from "{{ Vite::appjs('snp2gene.js') }}";
+        setPageState(
+			"",
+            "{{ $status }}",
+            "{{ $id }}",
+            "{{ $page }}",
+            "{{ Auth::check() }}"
+		);
 
 	</script>
 
@@ -76,13 +75,15 @@
         window.CheckAll = CheckAll;
 		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('s2g_results.js') }}"
 		import { loadGeneMap } from "{{ Vite::appjs('geneMapParameters.js') }}";
-		import { g2fbtn } from "{{ Vite::appjs('snp2gene.js') }} ";
+		import { g2fbtn, checkPublish, checkPublishInput } from "{{ Vite::appjs('snp2gene.js') }} ";
 		window.ImgDown = ImgDown;
 		window.circosDown = circosDown;
 		window.Chr15Select = Chr15Select;
 		window.expImgDown = expImgDown;
 		window.loadGeneMap = loadGeneMap;
 		window.g2fbtn = g2fbtn;
+		window.checkPublish = checkPublish;
+		window.checkPublishInput = checkPublishInput;
 
         import { NewJobSetup } from "{{ Vite::appjs('NewJobParameters.js') }}";
         import { Snp2GeneSetup } from "{{ Vite::appjs('snp2gene.js') }} ";

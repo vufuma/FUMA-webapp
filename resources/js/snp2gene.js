@@ -1,27 +1,15 @@
 var prefix = "jobs";
-import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables, ciMapCircosPlot } from "./s2g_results.js";
+import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables, ciMapCircosPlot, DownloadFiles } from "./s2g_results.js";
 import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
 import { swal } from 'sweetalert';
+import { S2GPageState as pageState}  from "./pageStateComponents.js";
 
-// retrieve the status info from the pageData element
-var status = "";
-var page = "";
-var id = "";
-var subdir = "";
-
-if ($('#pageData').attr("data-page-data")) {
-	status = JSON.parse($('#pageData').attr("data-page-data"))["status"];
-	page = JSON.parse($('#pageData').attr("data-page-data"))["page"];
-	id = JSON.parse($('#pageData').attr("data-page-data"))["id"];
-	subdir = JSON.parse($('#pageData').attr("data-page-data"))["subdir"];
-}
-
-function getJobList(page) {
+function getJobList() {
 	$('#joblist-panel table tbody')
 		.empty()
 		.append('<tr><td colspan="6" style="text-align:center;">Retrieving data</td></tr>');
-	$.getJSON(subdir + '/' + page + '/getJobList', function (data) {
+	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getJobList', function (data) {
 		var items = '<tr><td colspan="6" style="text-align: center;">No Jobs Found</td></tr>';
 		if (data.length) {
 			items = '';
@@ -29,15 +17,15 @@ function getJobList(page) {
 				var g2fbutton = 'Not available';
 				var publish = 'Not available';
 				if (val.is_public) {
-					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">Go to results</a>';
+					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">Go to results</a>';
 					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
 					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Edit</button>';
 				} else if (val.status == 'OK') {
-					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">Go to results</a>';
+					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">Go to results</a>';
 					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
 					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Publish</button>';
 				} else if (val.status == 'ERROR:005') {
-					val.status = '<a href="' + subdir + '/' + page + '/' + val.jobID + '">ERROR:005</a>';
+					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">ERROR:005</a>';
 				}
 
 				items = items + "<tr><td>" + val.jobID + "</td><td>" + val.title
@@ -61,9 +49,9 @@ export function g2fbtn(id) {
 	$('#g2fSubmitBtn').trigger('click');
 }
 
-function checkPublish(id) {
+export function checkPublish(id) {
 	$.ajax({
-		url: subdir + "/" + page + "/checkPublish",
+		url: pageState.get('subdir') + "/" + pageState.get('page') + "/checkPublish",
 		type: "POST",
 		data: {
 			jobID: id
@@ -125,7 +113,7 @@ function edit(id, data) {
 	$('#modalPublish').modal('show');
 }
 
-function checkPublishInput() {
+export function checkPublishInput() {
 	var submit = false;
 	if ($('#publish_title').val().length > 0 && $('#publish_author').val().length > 0 && $('#publish_email').val().length > 0) { submit = true }
 	if (submit) {
@@ -136,6 +124,21 @@ function checkPublishInput() {
 		$('#publishUpdate').prop('disabled', true)
 	}
 }
+export const setPageState = function(
+    subdir,
+    status,
+    id,
+    page,
+    loggedin, 
+) {
+	pageState.setState(
+		subdir,
+		status,
+		id,
+		page,
+		loggedin, 
+	);
+}
 
 export const Snp2GeneSetup = function(){
 	// hide submit buttons for imgDown
@@ -143,14 +146,8 @@ export const Snp2GeneSetup = function(){
 	$('#annotPlotPanel').hide();
 	$('#g2fSubmitBtn').hide();
 
-
-
-    const pageDataElement = document.getElementById('pageData');
-    //console.log(`${pageDataElement.getAttribute('data-page-data')}`)
-    const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
-
 	var hashid = window.location.hash;
-	if (hashid == "" && status.length == 0) {
+	if (hashid == "" && pageState.get('status').length == 0) {
 		$('a[href="#newJob"]').trigger('click');
 	} else if (hashid == "") {
 		$('a[href="#genomePlots"]').trigger('click');
@@ -165,10 +162,10 @@ export const Snp2GeneSetup = function(){
 		$('#regionalPlot').hide();
 	});
 
-	getJobList(pageData.page);
+	getJobList();
 
 	$('#refreshTable').on('click', function () {
-		getJobList(pageData.page);
+		getJobList();
 	});
 
 	$('#deleteJob').on('click', function () {
@@ -184,7 +181,7 @@ export const Snp2GeneSetup = function(){
 				$('.deleteJobCheck').each(function () {
 					if ($(this).is(":checked")) {
 						$.ajax({
-							url: subdir + '/' + page + '/deleteJob',
+							url: pageState.get('subdir') + '/' + pageState.get('page') + '/deleteJob',
 							type: "POST",
 							data: {
 								jobID: $(this).val()
@@ -199,7 +196,7 @@ export const Snp2GeneSetup = function(){
 								}
 							},
 							complete: function () {
-								getJobList(pageData.page);
+								getJobList();
 								getjobIDs();
 								getGeneMapIDs();
 							}
@@ -236,28 +233,28 @@ export const Snp2GeneSetup = function(){
 		}
 		cur.prev().prop('selected', total);
 	});
-	if (status.length == 0 | status == null) {
+	if (pageState.get('status').length == 0 | pageState.get('status') == null) {
 		$('#downloadFiles').prop("disabled", true);
 		$('#downFileCheck input').each(function () {
 			$(this).prop("checked", false);
 			$(this).prop("disabled", true);
 		});
-	} else if (status == "fileFormatGWAS") {
+	} else if (pageState.get('status') == "fileFormatGWAS") {
 		$('a[href="#newJob"]').trigger('click');
 		$('#fileFormatError').html('<div class="alert alert-danger" style="width: auto;">'
 			+ '<b>Provided file (GWAS summary statistics) format was not valid. Text files (with any extention), zip file or gzip files are acceptable.</b>'
 			+ '</div>');
-	} else if (status == "fileFormatLead") {
+	} else if (pageState.get('status') == "fileFormatLead") {
 		$('a[href="#newJob"]').trigger('click');
 		$('#fileFormatError').html('<div class="alert alert-danger" style="width: auto;">'
 			+ '<b>Provided file (Pre-defined lead SNPs) format was not valid. Only plain text files (with any extention) is acceptable.</b>'
 			+ '</div>');
-	} else if (status == "fileFormatRegions") {
+	} else if (pageState.get('status') == "fileFormatRegions") {
 		$('a[href="#newJob"]').trigger('click');
 		$('#fileFormatError').html('<div class="alert alert-danger" style="width: auto;">'
 			+ '<b>Provided file (Pre-defined genomic regions) format was not valid. Only plain text files (with any extention) is acceptable.</b>'
 			+ '</div>');
-	} else if (status == "FullJobs") {
+	} else if (pageState.get('status') == "FullJobs") {
 		swal({
 			title: "To many jobs",
 			text: "You have more than 50 jobs queued/running. To aboid the FUMA server to be occupied by a single user, please wait until some of your jobs are done. Thank you for your cooperation.",
@@ -272,7 +269,7 @@ export const Snp2GeneSetup = function(){
 		}
 
 		$.get({
-			url: subdir + '/' + page + '/checkJobStatus/' + id,
+			url: pageState.get('subdir') + '/' + pageState.get('page') + '/checkJobStatus/' + pageState.get('id'),
 			error: function () {
 				alert("ERROR: checkJobStatus")
 			},
@@ -295,10 +292,10 @@ export const Snp2GeneSetup = function(){
 			var secol;
 			var magma;
 			$.ajax({
-				url: subdir + '/' + page + '/getParams',
+				url: pageState.get('subdir') + '/' + pageState.get('page') + '/getParams',
 				type: 'POST',
 				data: {
-					jobID: id
+					jobID: pageState.get('id')
 				},
 				error: function () {
 					alert("JobQuery getParams error");
@@ -319,10 +316,10 @@ export const Snp2GeneSetup = function(){
 
 			function fetchData() {
 				$.ajax({
-					url: subdir + '/' + page + '/getFilesContents',
+					url: pageState.get('subdir') + '/' + pageState.get('page') + '/getFilesContents',
 					type: 'POST',
 					data: {
-						jobID: id,
+						jobID: pageState.get('id'),
 						fileNames: ['manhattan.txt', 'magma.genes.out', 'QQSNPs.txt']
 					},
 					error: function () {
@@ -348,10 +345,10 @@ export const Snp2GeneSetup = function(){
 
 				if (magma == 1) {
 					$.ajax({
-						url: subdir + '/' + page + '/getFilesContents',
+						url: pageState.get('subdir') + '/' + pageState.get('page') + '/getFilesContents',
 						type: 'POST',
 						data: {
-							jobID: id,
+							jobID: pageState.get('id'),
 							fileNames: ['magma.sets.top']
 						},
 						error: function () {
@@ -367,10 +364,10 @@ export const Snp2GeneSetup = function(){
 					});
 
 					$.ajax({
-						url: subdir + '/' + page + '/MAGMA_expPlot',
+						url: pageState.get('subdir') + '/' + pageState.get('page') + '/MAGMA_expPlot',
 						type: 'POST',
 						data: {
-							jobID: id,
+							jobID: pageState.get('id'),
 						},
 						error: function () {
 							alert("JobQuery MAGMA_expPlot error");
@@ -385,10 +382,10 @@ export const Snp2GeneSetup = function(){
 				}
 				if (ciMap == 1) {
 					$.ajax({
-						url: subdir + '/' + page + '/circos_chr',
+						url: pageState.get('subdir') + '/' + pageState.get('page') + '/circos_chr',
 						type: 'POST',
 						data: {
-							jobID: id
+							jobID: pageState.get('id')
 						},
 						success: function (data) {
 							ciMapCircosPlot(data);
@@ -396,21 +393,23 @@ export const Snp2GeneSetup = function(){
 					});
 				}
 
-				showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol);
+				showResultTables(pageState.get('subdir'), pageState.get('page'), prefix, pageState.get('id'), posMap, eqtlMap, ciMap, orcol, becol, secol);
 				$('#GWplotSide').show();
 				$('#resultsSide').show();
 			}
 		}
 
-		function error5() {
-			GWplot(id);
-			QQplot(id);
-			MAGMAresults(id);
+		// TODO - decide to delete or fix?
+		// Note: It is unclear what this function was supposed to do 
+		/* function error5() {
+			GWplot(pageState.get('id'));
+			QQplot(pageState.get('id'));
+			MAGMAresults(pageState.get('id'));
 			$.ajax({
-				url: subdir + '/' + page + '/Error5',
+				url: pageState.get('subdir') + '/' + pageState.get('page') + '/Error5',
 				type: 'POST',
 				data: {
-					jobID: id
+					jobID: pageState.get('id')
 				},
 				error: function () {
 					alert("Error5 read file error");
@@ -436,7 +435,7 @@ export const Snp2GeneSetup = function(){
 			$('#results').show();
 			$('#GWplotSide').show();
 			$('#Error5Side').show();
-		}
+		} */
 	}
 
 	// download file selection
@@ -473,7 +472,7 @@ export const Snp2GeneSetup = function(){
 
 	$('#publishSubmit').on('click', function () {
 		$.ajax({
-			url: subdir + '/' + page + '/publish',
+			url: pageState.get('subdir') + '/' + pageState.get('page') + '/publish',
 			type: 'POST',
 			data: {
 				jobID: $('#publish_s2g_jobID').val(),
@@ -511,7 +510,7 @@ export const Snp2GeneSetup = function(){
 
 	$('#publishUpdate').on('click', function () {
 		$.ajax({
-			url: subdir + '/' + page + '/publish',
+			url: pageState.get('subdir') + '/' + pageState.get('page') + '/publish',
 			type: 'POST',
 			data: {
 				jobID: $('#publish_s2g_jobID').val(),
@@ -557,7 +556,7 @@ export const Snp2GeneSetup = function(){
 		}, function (isConfirm) {
 			if (isConfirm) {
 				$.ajax({
-					url: subdir + '/' + page + '/deletePublicRes',
+					url: pageState.get('subdir') + '/' + pageState.get('page') + '/deletePublicRes',
 					type: 'POST',
 					data: {
 						jobID: $('#publish_s2g_jobID').val()
