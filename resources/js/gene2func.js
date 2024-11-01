@@ -231,7 +231,7 @@ function gsFileCheck(){
 	})
 	$('#gsFileN').val(nFiles);
 }
-function gsFileDel(del){
+export function gsFileDel(del){
 	$(del).parent().remove();
 	gsFileCheck();
 }
