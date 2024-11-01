@@ -583,7 +583,7 @@ export function GeneSet(subdir, page, prefix, id){
 						})
 						.selectAll('text').attr('font-weight', 'normal')
 						.style("text-anchor", "end")
-						.attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+						.attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 						.style('font-size', '11px');
 
 					// bar plot (enrichment P-value)
@@ -595,7 +595,7 @@ export function GeneSet(subdir, page, prefix, id){
 							svg.selectAll('rect.p').data(tdata).enter()
 								.append("rect").attr("class", "bar")
 								.attr("x", xbar(0))
-								.attr("width", function(d){return xbar(1)-barplotwidth})
+								.attr("width", function(){return xbar(1)-barplotwidth})
 								.attr("y", function(d){return y(d.GeneSet)})
 								.attr("height", 15)
 								.style("fill", "#4d4dff")
@@ -642,7 +642,7 @@ export function GeneSet(subdir, page, prefix, id){
 									}
 								})
 								.selectAll('text').attr('font-weight', 'normal')
-								.style("text-anchor", "end").attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+								.style("text-anchor", "end").attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 								.style('font-size', '11px');
 							svg.append('text').attr('font-weight', 'normal')
 								.style("text-anchor", "end")
@@ -666,7 +666,7 @@ export function GeneSet(subdir, page, prefix, id){
 						svg.append('g').attr("class", "x axis")
 							.attr("transform", "translate(0,"+height+")")
 							.call(xbarAxis).selectAll('text').attr('font-weight', 'normal')
-							.style("text-anchor", "end").attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+							.style("text-anchor", "end").attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 							.style('font-size', '11px');
 					}
 					svg.append('g').attr("class", "y axis")
@@ -691,7 +691,7 @@ export function GeneSet(subdir, page, prefix, id){
 					svg.append('g').attr("class", "x axis")
 						.attr("transform", "translate(0,"+height+")")
 						.call(xgenesAxis).selectAll('text').attr('font-weight', 'normal')
-						.style("text-anchor", "end").attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+						.style("text-anchor", "end").attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 						.style('font-size', '11px');
 
 					svg.append("text").attr("text-anchor", "middle")
@@ -739,7 +739,7 @@ export function GeneSet(subdir, page, prefix, id){
 }
 
 export function GeneTable(subdir, page, prefix, id){
-	var geneTable = $('#GeneTable').DataTable({
+	$('#GeneTable').DataTable({
 		"processing": true,
 		serverSide: false,
 		select: false,
