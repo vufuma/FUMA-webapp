@@ -1,5 +1,6 @@
 var gwasFileSize = 0;
 var ciFileSize = 0;
+import { S2GPageState as pageState}  from "./pageStateComponents.js";
 
 export const CheckAll = function() {
 	var submit = true;
@@ -369,7 +370,7 @@ export const CheckAll = function() {
 	if($('#posMapChr15check').is(":checked")){
 		$(table.rows[4].cells[3]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
-		var ts = 0;
+		let ts = 0;
 		$('#posMapChr15Ts option').each(function(){
 			if($(this).is(":selected")){ts++;}
 		});
@@ -428,7 +429,7 @@ export const CheckAll = function() {
 		$('#eqtlMapOptFilt').show();
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
-		var ts = 0;
+		let ts = 0;
 		$('#eqtlMapTs option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
@@ -524,7 +525,7 @@ export const CheckAll = function() {
 	if($('#eqtlMapChr15check').is(":checked")){
 		$(table.rows[4].cells[3]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
-		var ts = 0;
+		let ts = 0;
 		$('#eqtlMapChr15Ts option').each(function(){
 			if($(this).is(":selected")){ts++;}
 		});
@@ -593,7 +594,7 @@ export const CheckAll = function() {
 					$(table.rows[2].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 						+'<i class="fa fa-ban"></i>  The size of the last selected file id above 600Mb. Please gzip or filter the file to upload.</div></td>');
 				}else{
-					var filecheck = false;
+					let filecheck = false;
 					$('.ciMapFile').each(function(){
 						if($(this).val().length>0){filecheck=true; return false;}
 					})
@@ -618,7 +619,7 @@ export const CheckAll = function() {
 				submit=false;
 				tablecheck=false;
 			}else{
-				var filecheck = false;
+				let filecheck = false;
 				$('.ciMapFile').each(function(){
 					if($(this).val().length>0){filecheck=true; return false;}
 				})
@@ -882,7 +883,7 @@ export const CheckAll = function() {
 
 export function getjobIDs(){
 	$.ajax({
-		url: subdir+"/snp2gene/getjobIDs",
+		url: pageState.get('subdir')+"/snp2gene/getjobIDs",
 		type: "POST",
 		error: function(){
 			alert("error for getjobIDs");
@@ -1064,7 +1065,7 @@ function setParams(data){
 	}
 	if(data.posMapChr15!="NA"){
 		$('#posMapChe15check').porp("checked", true);
-		var cell = data.posMapChr15.split(":");
+		let cell = data.posMapChr15.split(":");
 		if(cell.indexOf("all")>=0){
 			$('#posMapChr15Ts option').each(function(){
 				$(this).prop('selected', true);
@@ -1090,7 +1091,7 @@ function setParams(data){
 	if(data.eqtlMap == "1"){$('#eqtlMap').prop("checked", true)}
 	else{$('#eqtlMap').prop("checked", false)}
 	if(data.eqtlMaptss != "NA"){
-		var ts = data.eqtlMaptss.split(":");
+		let ts = data.eqtlMaptss.split(":");
 		if(ts.indexOf("all")>=0){
 			$('#eqtlMapTs option').each(function(){
 				$(this).prop('selected', true);
@@ -1119,7 +1120,7 @@ function setParams(data){
 	}
 	if(data.eqtlMapChr15!="NA"){
 		$('#eqtlMapChr15check').prop("checked", true);
-		var cell = data.eqtlMapChr15.split(":");
+		let cell = data.eqtlMapChr15.split(":");
 		if(cell.indexOf("all")>=0){
 			$('#eqtlMapChr15Ts option').each(function(){
 				$(this).prop('selected', true);
@@ -1149,7 +1150,7 @@ function setParams(data){
 			$('#chMap').prop('checked', false);
 		}
 		if(data.ciMapBuiltin!="NA"){
-			var ts = data.ciMapBuiltin.split(":");
+			let ts = data.ciMapBuiltin.split(":");
 			if(ts.indexOf("all")>=0){
 				$('#ciMapBuiltin option').each(function(){
 					$(this).prop('selected', true);
@@ -1163,7 +1164,7 @@ function setParams(data){
 			CheckAll();
 		}
 		if(data.ciMapRoadmap!="NA"){
-			var cell = data.ciMapRoadmap.split(":");
+			let cell = data.ciMapRoadmap.split(":");
 			if(cell.indexOf("all")>=0){
 				$('#ciMapRoadmap option').each(function(){
 					$(this).prop('selected', true);
@@ -1193,7 +1194,7 @@ function setParams(data){
 		}
 		if(data.ciMapChr15!="NA"){
 			$('#ciMapChe15check').porp("checked", true);
-			var cell = data.ciMapChr15.split(":");
+			let cell = data.ciMapChr15.split(":");
 			$('#ciMapChr15Ts option').each(function(){
 				if(cell.indexOf($(this).val())>=0){$(this).prop('selected', true);}
 				else{$(this).prop('selected', false);}
