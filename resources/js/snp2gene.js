@@ -2,7 +2,7 @@ var prefix = "jobs";
 import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables, ciMapCircosPlot, DownloadFiles } from "./s2g_results.js";
 import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
-import { swal } from 'sweetalert';
+import swal from 'sweetalert';
 import { S2GPageState as pageState}  from "./pageStateComponents.js";
 
 function getJobList() {
