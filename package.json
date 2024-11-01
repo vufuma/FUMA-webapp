@@ -5,9 +5,12 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@eslint/js": "^9.13.0",
         "@rollup/plugin-commonjs": "^26.0.1",
         "@rollup/plugin-inject": "^5.0.5",
         "axios": "^1.1.2",
+        "eslint": "^9.13.0",
+        "globals": "^15.11.0",
         "laravel-vite-plugin": "^0.7.2",
         "rollup-plugin-cleanup": "^3.2.1",
         "vite": "^4.5.3",
