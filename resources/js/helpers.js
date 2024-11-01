@@ -208,8 +208,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
     table += "<th>minGwasP</th><th>Genomic Locus</th><th>IndSigSNPs</th></tr></thead>";
     col += ":minGwasP:GenomicLocus:IndSigSNPs"
     $('#geneTable').append(table);
-    var geneTable;
-    geneTable = $('#geneTable').DataTable({
+    $('#geneTable').DataTable({
         processing: true,
         serverSide: false,
         select: false,
@@ -330,7 +329,6 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
         $('#annotPlotPanel').show();
         $('#annotPlotSelect').val('IndSigSNP');
         var rowI = IndSigTable.row(this).index();
-        sigSNPtable_selected = rowI;
         $('#annotPlotRow').val(rowI);
         Chr15Select();
         d3.select('#locusPlot').select("svg").remove();
@@ -365,7 +363,6 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
         $('#annotPlotPanel').show();
         $('#annotPlotSelect').val('leadSNP');
         var rowI = leadTable.row(this).index();
-        sigSNPtable_selected = rowI;
         $('#annotPlotRow').val(rowI);
         Chr15Select();
         d3.select('#locusPlot').select("svg").remove();
@@ -400,7 +397,6 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
         $('#annotPlotPanel').show();
         $('#annotPlotSelect').val('GenomicLocus');
         var rowI = lociTable.row(this).index();
-        lociTable_selected = rowI;
         $('#annotPlotRow').val(rowI);
         Chr15Select();
         d3.select('#locusPlot').select("svg").remove();
