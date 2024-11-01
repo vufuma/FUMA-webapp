@@ -22,7 +22,7 @@ export const GWplot = function (data) {
 	for (let [key, value] of Object.entries(data)) {
 		if (key == 'manhattan.txt') {
 
-			var chromSize = []
+			let chromSize = []
 			for (let i = 0; i < 23; i++) { chromSize.push(0) }
 
 			value.forEach(function (d) {
@@ -117,7 +117,7 @@ export const GWplot = function (data) {
 				$("#geneManhattan").html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
 					+ ' MAGMA was not able to perform.</span><br></div>');
 			} else {
-				var chromSize = [];
+				let chromSize = [];
 				for (let i = 0; i < 23; i++) { chromSize.push(0) }
 				value.forEach(function (d) {
 					if (d['CHR'] == 'X') { d['CHR'] = 23; }
@@ -146,7 +146,7 @@ export const GWplot = function (data) {
 
 				chromStart = [];
 				chromStart.push(0);
-				for (var i = 1; i < 23; i++) {
+				for (let i = 1; i < 23; i++) {
 					if (chr.indexOf(i.toString()) >= 0) {
 						chromStart.push(chromStart[i - 1] + chromSize[i - 1]);
 					} else {
@@ -188,7 +188,7 @@ export const GWplot = function (data) {
 					.selectAll('text').style('font-size', '11px');
 
 				//Chr label
-				for (var i = 0; i < chr.length; i++) {
+				for (let i = 0; i < chr.length; i++) {
 					svg2.append("text").attr("text-anchor", "middle")
 						.attr("transform", "translate(" + x((chromStart[chr[i] - 1] * 2 + chromSize[chr[i] - 1]) / 2) + "," + (height + 20) + ")")
 						.text(chr[i])
@@ -505,7 +505,7 @@ export function MAGMA_expPlot(data) {
 
 		function sortOptions(type) {
 			if (type == "alph") {
-				for (var i = 0; i < bars.length; i++) {
+				for (let i = 0; i < bars.length; i++) {
 					bars[i].transition().duration(1000)
 						.attr("x", function (d) { return d['ascending_var_or_covar_idx'] * cellwidth; });
 					xLabels[i].transition().duration(1000)
@@ -514,7 +514,7 @@ export function MAGMA_expPlot(data) {
 						});
 				}
 			} else if (type == "p") {
-				for (var i = 0; i < bars.length; i++) {
+				for (let i = 0; i < bars.length; i++) {
 					bars[i].transition().duration(1000)
 						.attr("x", function (d) { return d['ascending_P_idx'] * cellwidth; });
 					xLabels[i].transition().duration(1000)
@@ -809,8 +809,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 	table += "<th>minGwasP</th><th>Genomic Locus</th><th>IndSigSNPs</th></tr></thead>";
 	col += ":minGwasP:GenomicLocus:IndSigSNPs"
 	$('#geneTable').append(table);
-	var geneTable;
-	geneTable = $('#geneTable').DataTable({
+	$('#geneTable').DataTable({
 		processing: true,
 		serverSide: false,
 		select: false,
@@ -936,7 +935,6 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('IndSigSNP');
 		var rowI = IndSigTable.row(this).index();
-		var sigSNPtable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -971,7 +969,6 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('leadSNP');
 		var rowI = leadTable.row(this).index();
-		var sigSNPtable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -1006,7 +1003,6 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('GenomicLocus');
 		var rowI = lociTable.row(this).index();
-		var lociTable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -1360,7 +1356,7 @@ export function PlotSNPAnnot(data) {
 	svg.append('g').attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll('text')
-		.attr("transform", function (d) { return "rotate(-65)"; })
+		.attr("transform", function () { return "rotate(-65)"; })
 		.attr("dy", "-.45em")
 		.attr("dx", "-.65em")
 		.style("text-anchor", "end");
@@ -1435,7 +1431,7 @@ export function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	svg.append('g').attr("class", "y axis")
 		.call(yAxis)
 	// No text in this text element crashes TCPDF - leave this as a warning
@@ -1470,7 +1466,7 @@ export function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	// .attr("dx","-.65em").attr("dy", "-.2em");
 	svg.append('g').attr("class", "y axis")
 		.attr("transform", "translate(" + currentWidth + ",0)")
@@ -1501,7 +1497,7 @@ export function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	svg.append('g').attr("class", "y axis")
 		.attr("transform", "translate(" + currentWidth + ",0)")
 		.call(yAxis).selectAll("text").remove();
@@ -1531,7 +1527,7 @@ export function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	svg.append('g').attr("class", "y axis")
 		.attr("transform", "translate(" + currentWidth + ",0)")
 		.call(yAxis).selectAll("text").remove();
