@@ -250,3 +250,9 @@ div.tooltip{
     transition: 400ms linear;
     transform: rotate(0deg);
 }
+
+td.sorting_1,
+th.dt-ordering-desc,
+th.dt-ordering-asc {
+  background-color: whitesmoke !important;
+}

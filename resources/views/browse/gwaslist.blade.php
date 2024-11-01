@@ -16,19 +16,19 @@
         </div>
         <div class="panel-body">
 			<span class="info"><i class="fa fa-info"></i> Click a title to browse the results.</span><br><br>
-	      	<table class="display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto; font-size:14px;">
+	      	<table class="table table-sm" width="100%" cellspacing="0">
 	            <thead>
 	                <tr>
-	                    <th>ID</th>
-						<th>Title</th>
-						<th>Author</th>
-						<th>Email</th>
-						<th>Phenotype</th>
-						<th>Publication</th>
-						<th>Sumstats</th>
-						<th>Sumstats reference</th>
-						<th>Notes</th>
-	                    <th>Publication date</th>
+	                    <th class="sorting">ID</th>
+						<th class="sorting">Title</th>
+						<th class="sorting">Author</th>
+						<th class="sorting">Email</th>
+						<th class="sorting">Phenotype</th>
+						<th class="sorting">Publication</th>
+						<th class="sorting">Sumstats</th>
+						<th class="sorting">Sumstats reference</th>
+						<th class="sorting">Notes</th>
+	                    <th class="sorting">Publication date</th>
 	                </tr>
 	            </thead>
 	            <tbody>
