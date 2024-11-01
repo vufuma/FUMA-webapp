@@ -5,11 +5,11 @@
 	</h4>
 	<br>
 	<!-- Input files upload -->
-	<div class="panel panel-danger" style="padding-top: 0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding-top: 0px;">
+		<div class="card-header input bg-danger text-white" style="padding:5px;">
 			<h4>1. Upload input files <a href="#NewJobFilesPanel" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 		</div>
-		<div class="panel-body collapse in" id="NewJobFilesPanel">
+		<div class="card-body collapse in" id="NewJobFilesPanel">
 			<table class="table table-bordered inputTable" id="NewJobFiles" style="width: auto;">
 				<tr>
 					<td>GWAS summary statistics
@@ -23,7 +23,7 @@
 						</a>
 					</td>
 					<td><input type="file" class="form-control-file" name="GWASsummary" id="GWASsummary"/>
-						Or <input type="checkbox" class="form-check-input" name="egGWAS" id="egGWAS"/> : Use example input (Crohn's disease, Franke et al. 2010).
+						Or <input type="checkbox" class="form-check-inline" name="egGWAS" id="egGWAS"/> : Use example input (Crohn's disease, Franke et al. 2010).
 					</td>
 					<td>
 						<div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">
@@ -39,16 +39,17 @@
 						</a>
 					</td>
 					<td>
-						<span class="info"><i class="fa fa-info"></i> case insensitive</span><br>
-						<span class="form-inline">Chromosome: <input type="text" class="form-control" id="chrcol" name="chrcol"></span><br>
-						<span class="form-inline">Position: <input type="text" class="form-control" id="poscol" name="poscol"></span><br>
-						<span class="form-inline">rsID: <input type="text" class="form-control" id="rsIDcol" name="rsIDcol"></span><br>
-						<span class="form-inline">P-value: <input type="text" class="form-control" id="pcol" name="pcol"></span><br>
-						<span class="form-inline">Risk allele: <input type="text" class="form-control" id="altcol" name="altcol"></span><br>
-						<span class="form-inline">Other allele: <input type="text" class="form-control" id="refcol" name="refcol"></span><br>
-						<span class="form-inline">OR: <input type="text" class="form-control" id="orcol" name="orcol"></span><br>
-						<span class="form-inline">Beta: <input type="text" class="form-control" id="becol" name="becol"></span><br>
-						<span class="form-inline">SE: <input type="text" class="form-control" id="secol" name="secol"></span><br>
+						<span class="info"><i class="fa fa-info"></i> case insensitive</span>
+						<span class="inputSpan">Chromosome: <input type="text" class="form-control" id="chrcol" name="chrcol"></span>
+						<span class="inputSpan">Position: <input type="text" class="form-control" id="poscol" name="poscol"></span>
+						<span class="inputSpan">rsID: <input type="text" class="form-control" id="rsIDcol" name="rsIDcol"></span>
+						<span class="inputSpan">P-value: <input type="text" class="form-control" id="pcol" name="pcol"></span>
+						<span class="inputSpan">Effect allele*: <input type="text" class="form-control" id="eacol" name="eacol"></span>
+						<span style="color:red; font-size: 11px;">* "A1" is effect allele by default</span>
+						<span class="inputSpan">Non effect allele: <input type="text" class="form-control" id="neacol" name="neacol"></span>
+						<span class="inputSpan">OR: <input type="text" class="form-control" id="orcol" name="orcol"></span>
+						<span class="inputSpan">Beta: <input type="text" class="form-control" id="becol" name="becol"></span>
+						<span class="inputSpan">SE: <input type="text" class="form-control" id="secol" name="secol"></span>
 					</td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
@@ -74,7 +75,7 @@
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" class="form-check-input" name="addleadSNPs" id="addleadSNPs" value="1" checked></td>
+					<td><input type="checkbox" class="form-check-inline" name="addleadSNPs" id="addleadSNPs" value="1" checked></td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 						<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when predefined lead SNPs are provided.</div>
@@ -97,11 +98,11 @@
 	</div>
 
 	<!-- Parameters for lead SNPs and candidate SNPs -->
-	<div class="panel panel-danger" style="padding-top: 0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding-top: 0px;">
+		<div class="card-header input bg-danger text-white" style="padding:5px;">
 			<h4>2. Parameters for lead SNPs and candidate SNPs identification<a href="#NewJobParamsPanel" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 		</div>
-		<div class="panel-body collapse in" id="NewJobParamsPanel">
+		<div class="card-body collapse in" id="NewJobParamsPanel">
 			<table class="table table-bordered inputTable" id="NewJobParams" style="width: auto;">
 				<tr>
 					<td>Sample size (N)
@@ -216,11 +217,11 @@
 
 	<!-- Parameters for gene mapping -->
 	<!-- positional mapping -->
-	<div class="panel panel-default" style="padding:0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding:0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>3-1. Gene Mapping (positional mapping) <a href="#NewJobPosMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse" id="NewJobPosMapPanel">
+		<div class="card-body collapse" id="NewJobPosMapPanel">
 			<h4>Positional mapping</h4>
 			<table class="table table-bordered inputTable" id="NewJobPosMap" style="width: auto;">
 				<tr>
@@ -229,7 +230,7 @@
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" class="form-check-input" name="posMap" id="posMap" checked></td>
+					<td><input type="checkbox" class="form-check-inline" name="posMap" id="posMap" checked></td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 						<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -281,7 +282,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="posMapCADDcheck" id="posMapCADDcheck"></td>
+						<td><input type="checkbox" class="form-check-inline" name="posMapCADDcheck" id="posMapCADDcheck"></td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 							<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -306,7 +307,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="posMapRDBcheck" id="posMapRDBcheck"></td>
+						<td><input type="checkbox" class="form-check-inline" name="posMapRDBcheck" id="posMapRDBcheck"></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -346,7 +347,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="posMapChr15check" id="posMapChr15check"></td>
+						<td><input type="checkbox" class="form-check-inline" name="posMapChr15check" id="posMapChr15check"></td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 							<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -563,11 +564,11 @@
 	</div>
 
 	<!-- eqtl mapping -->
-	<div class="panel panel-default" style="padding: 0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card card-default" style="padding: 0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>3-2. Gene Mapping (eQTL mapping)<a href="#NewJobEqtlMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse" id="NewJobEqtlMapPanel">
+		<div class="card-body collapse" id="NewJobEqtlMapPanel">
 			<h4>eQTL mapping</h4>
 			<table class="table table-bordered inputTable" id="NewJobEqtlMap" style="width: auto;">
 				<tr>
@@ -716,7 +717,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="eqtlMapCADDcheck" id="eqtlMapCADDcheck"></td>
+						<td><input type="checkbox" class="form-check-inline" name="eqtlMapCADDcheck" id="eqtlMapCADDcheck"></td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 							<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -741,7 +742,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="eqtlMapRDBcheck" id="eqtlMapRDBcheck"></td>
+						<td><input type="checkbox" class="form-check-inline" name="eqtlMapRDBcheck" id="eqtlMapRDBcheck"></td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 							<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -784,7 +785,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="eqtlMapChr15check" id="eqtlMapChr15check"></td>
+						<td><input type="checkbox" class="form-check-inline" name="eqtlMapChr15check" id="eqtlMapChr15check"></td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 							<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -1000,11 +1001,11 @@
 	</div>
 
 	<!-- chromatin interaction mapping -->
-	<div class="panel panel-default" style="padding: 0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding: 0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>3-3. Gene Mapping (3D Chromatin Interaction mapping)<a href="#NewJobCiMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse" id="NewJobCiMapPanel">
+		<div class="card-body collapse" id="NewJobCiMapPanel">
 			<h4>chromatin interaction mapping</h4>
 			<table class="table table-bordered inputTable" id="NewJobCiMap" style="width: auto;">
 				<tr>
@@ -1310,7 +1311,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="ciMapCADDcheck" id="ciMapCADDcheck"></td>
+						<td><input type="checkbox" class="form-check-inline" name="ciMapCADDcheck" id="ciMapCADDcheck"></td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 							<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -1335,7 +1336,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="ciMapRDBcheck" id="ciMapRDBcheck"></td>
+						<td><input type="checkbox" class="form-check-inline" name="ciMapRDBcheck" id="ciMapRDBcheck"></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -1375,7 +1376,7 @@
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
-						<td><input type="checkbox" class="form-check-input" name="ciMapChr15check" id="ciMapChr15check"></td>
+						<td><input type="checkbox" class="form-check-inline" name="ciMapChr15check" id="ciMapChr15check"></td>
 						<td>
 							<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 							<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -1574,11 +1575,11 @@
 
 
 	<!-- Gene type multiple selection -->
-	<div class="panel panel-default" style="padding:0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding:0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>4. Gene types<a href="#NewJobGenePanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse" id="NewJobGenePanel">
+		<div class="card-body collapse" id="NewJobGenePanel">
 			<table class="table table-bordered inputTable" id="NewJobGene" style="width: auto;">
 				<tr>
 					<td>Gene type
@@ -1610,11 +1611,11 @@
 	</div>
 
 	<!-- MHC regions -->
-	<div class="panel panel-default" style="padding:0px;">
-		<div class="panel-heading input" style="padding:5px;">
+	<div class="card" style="padding:0px;">
+		<div class="card-header input" style="padding:5px;">
 			<h4>5. MHC region<a href="#NewJobMHCPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
-		<div class="panel-body collapse" id="NewJobMHCPanel">
+		<div class="card-body collapse" id="NewJobMHCPanel">
 			<table class="table table-bordered inputTable" id="NewJobMHC" style="width: auto;">
 				<tr>
 					<td>Exclude MHC region
@@ -1624,7 +1625,7 @@
 					</td>
 					<td>
 						<span class="form-inline">
-							<input type="checkbox" class="form-check-input" name="MHCregion" id="MHCregion" value="exMHC" checked>
+							<input type="checkbox" class="form-check-inline" name="MHCregion" id="MHCregion" value="exMHC" checked>
 							<select class="form-control" id="MHCopt" name="MHCopt">
 								<option value="all">from all (annotations and MAGMA)</option>
 								<option selected value="annot">from only annotations</option>
