@@ -1,10 +1,3 @@
-var sigSNPtable_selected=null;
-var leadSNPtable_selected=null;
-var lociTable_selected=null;
-var annotPlotSelected;
-var prefix = "jobs";
-var geneTable;
-
 import {
     summaryTable,
     parametersTable,
@@ -124,9 +117,11 @@ export const BrowseSetup = function(){
 		cur.prev().prop('selected', total);
 	});
 
-	// load results
+	// load g2f results if there are any connected with this 
+	// s2g job id.
 	if(id.length>0){
-		var g2f=0;
+		let g2f_id=0;
+		let subdir = pageState.get("subdir")
 		$.ajax({
 			url: pageState.get("subdir")+'/'+pageState.get("page")+'/checkG2F',
 			type: 'POST',
@@ -137,19 +132,19 @@ export const BrowseSetup = function(){
 				alert('checkG2F error');
 			},
 			success: function(data){
-				if(data.length>0){g2f = data;}
+				if(data.length>0){g2f_id = data;}
 			},
 			complete: function(){
 				loadResults();
 
-				if(g2f){
-					prefix = 'gene2func';
-					summaryTable(g2f);
-					parametersTable(g2f);
-					expHeatMap(g2f);
-					tsEnrich(g2f);
-					GeneSet(g2f);
-					GeneTable(g2f);
+				if(g2f_id){
+					let prefix = 'gene2func';
+					summaryTable(subdir, pageState.get("page"), prefix, g2f_id);
+					parametersTable(subdir, pageState.get("page"), prefix, g2f_id);
+					expHeatMap(subdir, pageState.get("page"), prefix, g2f_id);
+					tsEnrich(subdir, pageState.get("page"), prefix, g2f_id);
+					GeneSet(subdir, pageState.get("page"), prefix, g2f_id);
+					GeneTable(subdir, pageState.get("page"), prefix, g2f_id);
 					$('#gene_exp_data').on('change', function(){
 						expHeatPlot(pageState.get("subdir"), prefix, pageState.get("page"), pageState.get("id"), $('#gene_exp_data').val())
 					})
