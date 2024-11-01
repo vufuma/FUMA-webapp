@@ -123,7 +123,10 @@
     <script type="module">
 		import { AnnotPlotSetup, ImgDown } from "{{ Vite::appjs('annotPlot.js') }}";
 		window.ImgDown = ImgDown;
-		var prefix = "{{$prefix}}";
+		// The data is always in the jobs directory 
+		// so use the "jobs" path prefix (even when looking at public
+		// jobs).
+		var prefix = "jobs"; 
 		var type = "{{$type}}";
 		var rowI = parseInt("{{$rowI}}");
 		var GWASplot = parseInt("{{$GWASplot}}");
