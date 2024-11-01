@@ -505,7 +505,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 			.attr("r", 3.5)
 			.attr("cx", function (d) { return x(d[1]); })
 			.attr("cy", function (d) { return y(-Math.log10(d[2])); })
-			.style("fill", function (d) { return "grey"; });
+			.style("fill", function () { return "grey"; });
 
 		// plot SNPs which exist in the input GWAS file
 		svg.selectAll("dot").data(plotData.snps.filter(function (d) { if (!isNaN(d[4]) && d[5] == 1) { return d; } })).enter()
@@ -982,7 +982,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 							return eQTLcolors[d[2]]
 						}
 					})
-					.on("click", function (d) {
+					.on("click", function () {
 
 					});
 				var gene_font_size = '9px'
@@ -1069,7 +1069,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 					.attr("fill", function (d) {
 						return cicolor(-Math.log10(d[4]))
 					})
-					.attr("stroke", function (d) {
+					.attr("stroke", function () {
 						return "grey";
 					})
 					.attr("stroke-width", 0.1);
@@ -1087,7 +1087,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 					.attr("fill", function (d) {
 						return cicolor(-Math.log10(d[4]))
 					})
-					.attr("stroke", function (d) {
+					.attr("stroke", function () {
 						return "grey"
 					})
 					.attr("stroke-width", 0.1);
