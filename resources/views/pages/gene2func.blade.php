@@ -290,7 +290,7 @@ header('X-Frame-Options: GOFORIT');
     <script type="module">
         console.log("Loading modules");
         import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}";
-        import { Gene2FuncSetup, checkInput, ImgDown, gsFileDel, gsFileDel } from "{{ Vite::appjs('gene2func.js') }}";
+        import { Gene2FuncSetup, checkInput, ImgDown, gsFileDel } from "{{ Vite::appjs('gene2func.js') }}";
         import { DEGImgDown } from "{{ Vite::appjs('g2f_results.js') }}";
         window.checkInput = checkInput;
         window.ImgDown = ImgDown;
