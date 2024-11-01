@@ -1,8 +1,5 @@
 @extends('layouts.master')
 
-@section('stylesheets')
-	<!--link href="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.css" rel="stylesheet"/-->
-@endsection
 
 @section('content')
 	<div id="wrapper" class="active">
@@ -60,10 +57,8 @@
 @push('vite')
     @vite([
         'resources/js/sidebar.js',
-        'resources/js/s2g_results',
-        'resources/js/g2f_results.js',
-        'resources/js/helpers.js',
-        'resources/js/browse.js'])
+        'resources/js/browse.js',
+		'resources/js/s2g_results.js'])
 @endpush
 
 @push('page_scripts')
@@ -71,7 +66,7 @@
 	{{-- Init page state --}}
 	<script type = module>
 		window.loggedin = "{{ Auth::check() }}";
-		import { setPageState } from "{{ Vite::appjs('gene2func.js') }}";
+		import { setPageState } from "{{ Vite::appjs('browse.js') }}";
 		setPageState(
             "{{ $id }}",
             "{{ $page }}",
@@ -81,7 +76,12 @@
 	</script>
 
     <script type="module">
-        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
+		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('s2g_results.js') }}";
+		window.ImgDown = ImgDown;
+		window.circosDown = circosDown;
+		window.Chr15Select = Chr15Select;
+		window.expImgDown = expImgDown;
+        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}";
         import { BrowseSetup } from "{{ Vite::appjs('browse.js') }}";
         $(function(){
             SidebarSetup();
@@ -89,10 +89,4 @@
         })
     </script>
 
-	{{-- Imports from the project --}}
-	<!-- script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/g2f_results.js') !!}?135"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/helpers.js') !!}?135"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/browse.js') !!}?135"></script-->
 @endpush
