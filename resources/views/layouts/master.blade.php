@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div id="foot" class="row">
-			<footer>
+			<footer style="width:100%;">
 				@include('partials._footer')
 			</footer>
 		</div>
