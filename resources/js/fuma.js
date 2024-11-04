@@ -10,7 +10,7 @@ function InactivityTimer(path, delay){
 
 	function start(){
 		if(!timeout){
-			timeout = setTimeout(logout, delay || 86400000); // Default 24 hours
+			timeout = setTimeout(logout, delay || 86400000); // Default 24 hours 86400000
 		}
 	}
 
@@ -49,7 +49,7 @@ export const FumaSetup = function(loggedin){
 		});
 
 	if(loggedin==1){
-		var timer = new InactivityTimer("/logout", 7200000); // 2 hour timeout
+		var timer = new InactivityTimer("/logout", 7200000); // 2 hour timeout 7200000
 		timer.stop();
 		timer.start();
 	}
