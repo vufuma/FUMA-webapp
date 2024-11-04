@@ -1379,7 +1379,7 @@ function RDBlegend() {
 		},
 		success: function (data) {
 			data = data[FileName]
-			console.log(data);
+			//console.log(data);
 			svg.append("text")
 				.attr("x", 0)
 				.attr("y", 0)
