@@ -962,11 +962,11 @@ export const NewJobSetup = function(){
 	})
 };
 
-function loadParams(){
+export function loadParams(){
 	var paramsID = $('#paramsID').val();
 	if(paramsID > 0){
 		$.ajax({
-			url: subdir+"/snp2gene/loadParams",
+			url: pageState.get('subdir')+"/snp2gene/loadParams",
 			type: "POST",
 			data: {
 				jobID: paramsID
@@ -1064,7 +1064,7 @@ function setParams(data){
 		$('#posMapRDBcheck').prop("checked", false);
 	}
 	if(data.posMapChr15!="NA"){
-		$('#posMapChe15check').porp("checked", true);
+		$('#posMapChe15check').prop("checked", true);
 		let cell = data.posMapChr15.split(":");
 		if(cell.indexOf("all")>=0){
 			$('#posMapChr15Ts option').each(function(){

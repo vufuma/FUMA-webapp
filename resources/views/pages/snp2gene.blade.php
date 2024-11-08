@@ -71,16 +71,17 @@
     {{-- Imports from the project using Vite alias macro --}}
     <script type="module">
         console.log("Loading modules");
-        import { CheckAll } from "{{ Vite::appjs('NewJobParameters.js') }}";
+        import { CheckAll, loadParams } from "{{ Vite::appjs('NewJobParameters.js') }}";
         window.CheckAll = CheckAll;
+		window.loadParams = loadParams;
 		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('s2g_results.js') }}"
-		import { loadGeneMap } from "{{ Vite::appjs('geneMapParameters.js') }}";
-		import { g2fbtn, checkPublish, checkPublishInput } from "{{ Vite::appjs('snp2gene.js') }} ";
 		window.ImgDown = ImgDown;
 		window.circosDown = circosDown;
 		window.Chr15Select = Chr15Select;
 		window.expImgDown = expImgDown;
+		import { loadGeneMap } from "{{ Vite::appjs('geneMapParameters.js') }}";
 		window.loadGeneMap = loadGeneMap;
+		import { g2fbtn, checkPublish, checkPublishInput } from "{{ Vite::appjs('snp2gene.js') }} ";
 		window.g2fbtn = g2fbtn;
 		window.checkPublish = checkPublish;
 		window.checkPublishInput = checkPublishInput;
