@@ -8,7 +8,7 @@
         "php": "^8.2",
         "elibyy/tcpdf-laravel": "^11.1",
         "guzzlehttp/guzzle": "^7.8",
-        "jcupitt/vips": "^2.4",
+        "jcupitt/vips": "1.*",
         "laracasts/utilities": "^3.2",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
@@ -16,6 +16,7 @@
         "league/flysystem-read-only": "^3.23",
         "livewire/livewire": "^3.4",
         "predis/predis": "^2.2",
+        "rosell-dk/webp-convert": "^2.9",
         "spatie/laravel-html": "^3.7",
         "spatie/laravel-permission": "^6.7"
     },
