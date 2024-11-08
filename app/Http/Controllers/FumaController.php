@@ -290,6 +290,9 @@ class FumaController extends Controller
         return response()->download(Storage::path($filedir . $zipfile))->deleteFileAfterSend(true);
     }
 
+    // The use of this function is deprecated.
+    // Raster conversion can be donw using libvips via jcupitt/vips
+    // PDF conversion using TCPDF via elibyy/tcpdf-laravel
     public function imgdown_imagick(Request $request)
     {
         $svg = $request->input('data');
@@ -319,6 +322,7 @@ class FumaController extends Controller
         }
     }
 
+    // PDF conversion using TCPDF via elibyy/tcpdf-laravel
     private function svgToPdf($svg, $jobID, $abs_path)
     {
         PDF::SetCreator('FUMA + tc-lib-pdf');
@@ -330,23 +334,44 @@ class FumaController extends Controller
         PDF::reset();
     }
 
+    // Raster conversion can be donw using libvips via jcupitt/vips
     private function svgToRasterFormat($svg, $jobID, $type, $abs_path)
     {
+        // Why we are not using jcupitt/vips 2.*
+        // For libvips FFI preload does not work
+        // because vips.h is too complex.
+        // Therefore there is no easy way to address
+        // the security issues of a completely open FFI.
+        // Instead this is using the (JCupitt) php-vips 1.* interface and
+        // vips php extension which does not rely on FFI. 
+        if (!extension_loaded('vips')) {
+            throw new Exception("The vips extension is not loaded");
+        }
+
         $bufferData = '<?xml version="1.0"?>' . $svg;
         // These options are passed to the loader
+        // The options per image type are documents in the
+        // corresponding libvips commandline tool:
+        // jpeg -> jpegsave
+        // png -> pngsave
+        // webp -> webpsave
+        // For available options refer to 
+        // https://raw.githubusercontent.com/libvips/libvips/refs/tags/v8.16.0/cplusplus/include/vips/VImage8.h
         $image = VipsImage::newFromBuffer($bufferData, 'dpi=300');
         // Overlay the image onto a white background 
         // also works for png whereas targetOptions 'background' => '255'
         // does not. 
         $background = $image->newFromImage([255, 255, 255, 255]);
         $image = $background->composite($image, 'over');
-        $target = VipsTarget::newToFile($abs_path);
-        // these options are passed to the saver
-        $targetOptions = ['Q' => 100];
+        // These options are passed to the saver
+        // Each image type supports different options but
+        // a few are common.
+        $targetOptions = [
+            'Q' => 100,
+        ];
 
-        $image->writeToTarget(
-            $target, 
-            '.' . $type, // need to prefix a . before the extension for the vips API
+        $image->writeToFile(
+            $abs_path, 
             $targetOptions
         );
     }
@@ -357,27 +382,32 @@ class FumaController extends Controller
     // output.  
     public function imgdown(Request $request)
     {
-        $svg = $request->input('data');
-        $jobID = $request->input('jobID');
-        $type = $request->input('type');
-        $fileName = $request->input('fileName') . "_FUMA_" . "jobs" . $jobID;
+        try {
+            $svg = $request->input('data');
+            $jobID = $request->input('jobID');
+            $type = $request->input('type');
+            $fileName = $request->input('fileName') . "_FUMA_" . "jobs" . $jobID;
 
-        if ($type == "svg") {
-            $filename = $fileName . '.svg';
-            return response()->streamDownload(function () use ($svg) {
-                echo $svg;
-            }, $filename);
-        } else {
-            $type;
-            $filedir = config('app.jobdir') . '/' . 'jobs' . '/' . $jobID . '/';
-            $abs_path = Storage::path($filedir . $fileName . '.' . $type);
-
-            if (strcmp($type, "pdf") == 0) {
-                $this->svgToPdf($svg, $jobID, $abs_path);
+            if ($type == "svg") {
+                $filename = $fileName . '.svg';
+                return response()->streamDownload(function () use ($svg) {
+                    echo $svg;
+                }, $filename);
             } else {
-                $this->svgToRasterFormat($svg, $jobID, $type, $abs_path);
+                $type;
+                $filedir = config('app.jobdir') . '/' . 'jobs' . '/' . $jobID . '/';
+                $abs_path = Storage::path($filedir . $fileName . '.' . $type);
+
+                if (strcmp($type, "pdf") == 0) {
+                    $this->svgToPdf($svg, $jobID, $abs_path);
+                } else {
+                    $this->svgToRasterFormat($svg, $jobID, $type, $abs_path);
+                }
+                return response()->download($abs_path)->deleteFileAfterSend(true);
             }
-            return response()->download($abs_path)->deleteFileAfterSend(true);
+        } catch (Exception $e) {
+            Log::error('Error in svg image conversion FumaController::imgdown: ' . $e-getMessage());
+            return abort(500, 'Internal Server Error, please contact support.');
         }
 
     }
@@ -625,10 +655,17 @@ class FumaController extends Controller
             default:
                 return redirect()->back();
         }
-        $path = config("app.downloadsDir") . "/$name";
+        // Try direct download from reference data
+        $ref_data_path_on_host = config('app.ref_data_on_host_path');
+        $downloadDir = config("app.downloadsDir");
+        $downloadPath = $ref_data_path_on_host . '/' . $downloadDir . "/$name";
+        if (!file_exists($downloadPath)) {
+            // Or failing that download from storage
+            $downloadPath = Storage::path(config("app.downloadsDir") . "/$name");
+        }
         # Log::error("Variant path $path");
         $headers = array('Content-Type: application/gzip');
-        return response()->download(Storage::path($path), $name, $headers);
+        return response()->download($downloadPath, $name, $headers);
     }
 
     public function g2f_d3text($prefix, $id, $file)
