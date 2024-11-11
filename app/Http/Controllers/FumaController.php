@@ -386,7 +386,8 @@ class FumaController extends Controller
             $svg = $request->input('data');
             $jobID = $request->input('jobID');
             $type = $request->input('type');
-            $fileName = $request->input('fileName') . "_FUMA_" . "jobs" . $jobID;
+            $dir = $request->input('dir');
+            $fileName = $request->input('fileName') . "_FUMA_" . $dir . $jobID;
 
             if ($type == "svg") {
                 $filename = $fileName . '.svg';
@@ -395,7 +396,7 @@ class FumaController extends Controller
                 }, $filename);
             } else {
                 $type;
-                $filedir = config('app.jobdir') . '/' . 'jobs' . '/' . $jobID . '/';
+                $filedir = config('app.jobdir') . '/' . $dir . '/' . $jobID . '/';
                 $abs_path = Storage::path($filedir . $fileName . '.' . $type);
 
                 if (strcmp($type, "pdf") == 0) {
