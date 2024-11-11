@@ -43,23 +43,26 @@ class FumaController extends Controller
     public function DTfileServerSide(Request $request)
     {
         $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
-        $fin = $request->input('infile');
-        $cols = $request->input('header');
 
-        $draw = $request->input('draw');
-        $order = $request->input('order');
-        $order_column = $order[0]["column"];
-        $order_dir = $order[0]["dir"];
-        $start = $request->input('start');
-        $length = $request->input('length');
-        $search = $request->input('search');
-        $search = $search['value'];
+        $order =  $request->input('order');
+        $search =  $request->input('search');
+
+        $fin = escapeshellarg(escapeshellcmd($request->input('infile')));
+        $cols =  escapeshellarg(escapeshellcmd($request->input('header')));
+        $draw =  escapeshellarg(escapeshellcmd($request->input('draw')));
+        $order_column =  escapeshellarg(escapeshellcmd($order[0]["column"]));
+        $order_dir =  escapeshellarg(escapeshellcmd($order[0]["dir"]));
+        $start =  escapeshellarg(escapeshellcmd($request->input('start')));
+        $length =  escapeshellarg(escapeshellcmd($request->input('length')));
+        $search =  escapeshellarg(escapeshellcmd($search['value']));
 
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'dt');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python dt.py $job_location/ $fin $draw $cols $order_column $order_dir $start $length $search'";
+        $python_command = "python dt.py $job_location/ $fin $draw $cols $order_column $order_dir $start $length $search";
+        $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' -w /app ' . $image_name . ' /bin/sh -c "' . $python_command . '"';
+        // $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python dt.py $job_location/ $fin $draw $cols $order_column $order_dir $start $length $search'";
         $out = shell_exec($cmd);
         echo $out;
 
@@ -91,14 +94,16 @@ class FumaController extends Controller
     public function locusPlot(Request $request)
     {
         $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
-        $type = $request->input('type');
-        $rowI = $request->input('rowI');
+        $type = escapeshellarg(escapeshellcmd($request->input('type')));
+        $rowI = escapeshellarg(escapeshellcmd($request->input('rowI')));
 
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'locus_plot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python locusPlot.py $job_location/ $rowI $type'";
+        $python_command = "python locusPlot.py $job_location/ $rowI $type";
+        $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' -w /app ' . $image_name . ' /bin/sh -c "' . $python_command . '"';
+        // $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python locusPlot.py $job_location/ $rowI $type'";
         $out = shell_exec($cmd);
         return $out;
     }
@@ -166,15 +171,15 @@ class FumaController extends Controller
     {
         $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input("prefix");
-        $type = $request->input("type");
-        $rowI = $request->input("rowI");
-        $GWASplot = $request->input("GWASplot");
-        $CADDplot = $request->input("CADDplot");
-        $RDBplot = $request->input("RDBplot");
-        $eqtlplot = $request->input("eqtlplot");
-        $ciplot = $request->input("ciplot");
-        $Chr15 = $request->input("Chr15");
-        $Chr15cells = $request->input("Chr15cells");
+        $type = escapeshellarg(escapeshellcmd($request->input("type")));
+        $rowI = escapeshellarg(escapeshellcmd($request->input("rowI")));
+        $GWASplot = escapeshellarg(escapeshellcmd($request->input("GWASplot")));
+        $CADDplot = escapeshellarg(escapeshellcmd($request->input("CADDplot")));
+        $RDBplot = escapeshellarg(escapeshellcmd($request->input("RDBplot")));
+        $eqtlplot = escapeshellarg(escapeshellcmd($request->input("eqtlplot")));
+        $ciplot = escapeshellarg(escapeshellcmd($request->input("ciplot")));
+        $Chr15 = escapeshellarg(escapeshellcmd($request->input("Chr15")));
+        $Chr15cells = escapeshellarg(escapeshellcmd($request->input("Chr15cells")));
 
         // $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
 
@@ -184,7 +189,9 @@ class FumaController extends Controller
 
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python annotPlot.py $job_location/ $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells'";
+        $python_command = "python annotPlot.py $job_location/ $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells";
+        $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . $ref_data_path_on_host . ':/data -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' -w /app ' . $image_name . ' /bin/sh -c "' . $python_command . '"';
+        // $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python annotPlot.py $job_location/ $type $rowI $GWASplot $CADDplot $RDBplot $eqtlplot $ciplot $Chr15 $Chr15cells'";
 
         $data = shell_exec($cmd);
         return $data;
@@ -194,16 +201,16 @@ class FumaController extends Controller
     {
         $jobID = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
         $prefix = $request->input("prefix");
-        $chrom = $request->input("chrom");
-        $eqtlplot = $request->input("eqtlplot");
-        $ciplot = $request->input("ciplot");
-        $xMin = $request->input("xMin");
-        $xMax = $request->input("xMax");
-        $eqtlgenes = $request->input("eqtlgenes");
-
         $filedir = config('app.jobdir') . '/' . $prefix . '/' . $jobID . '/';
         $params = parse_ini_string(Storage::get($filedir . 'params.config'), false, INI_SCANNER_RAW);
         $ensembl = $params['ensembl'];
+        
+        $chrom = escapeshellarg(escapeshellcmd($request->input("chrom")));
+        $eqtlplot = escapeshellarg(escapeshellcmd($request->input("eqtlplot")));
+        $ciplot = escapeshellarg(escapeshellcmd($request->input("ciplot")));
+        $xMin = escapeshellarg(escapeshellcmd($request->input("xMin")));
+        $xMax = escapeshellarg(escapeshellcmd($request->input("xMax")));
+        $eqtlgenes = escapeshellarg(escapeshellcmd($request->input("eqtlgenes")));
 
         $container_name = DockerNamesBuilder::containerName($jobID);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'annot_plot');
@@ -211,7 +218,9 @@ class FumaController extends Controller
 
         $ref_data_path_on_host = config('app.ref_data_on_host_path');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'Rscript annotPlot.R $job_location/ $chrom $xMin $xMax $eqtlgenes $eqtlplot $ciplot $ensembl'";
+        $Rscript = "Rscript annotPlot.R $job_location/ $chrom $xMin $xMax $eqtlgenes $eqtlplot $ciplot $ensembl";
+        $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . $ref_data_path_on_host . ':/data -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' -w /app ' . $image_name . ' /bin/sh -c "' . $Rscript . '"';
+        // $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'Rscript annotPlot.R $job_location/ $chrom $xMin $xMax $eqtlgenes $eqtlplot $ciplot $ensembl'";
 
         $data = shell_exec($cmd);
         $data = explode("\n", $data);
@@ -595,11 +604,14 @@ class FumaController extends Controller
 
     public function expPlot($prefix, $id, $dataset)
     {
+        $dataset = escapeshellarg(escapeshellcmd($dataset));
+
         $container_name = DockerNamesBuilder::containerName($id);
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($id, 'gene2func');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python g2f_expPlot.py $job_location/ $dataset'";
+        $python_command = "python g2f_expPlot.py $job_location/ " . $dataset;
+        $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' ' . $image_name . ' /bin/sh -c "' . $python_command . '"';
         $data = shell_exec($cmd);
         return $data;
     }
