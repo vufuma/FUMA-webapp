@@ -71,9 +71,11 @@
     {{-- Imports from the project using Vite alias macro --}}
     <script type="module">
         console.log("Loading modules");
-        import { CheckAll, loadParams } from "{{ Vite::appjs('NewJobParameters.js') }}";
+        import { CheckAll, loadParams, ciFileDel, ciFileCheck } from "{{ Vite::appjs('NewJobParameters.js') }}";
         window.CheckAll = CheckAll;
 		window.loadParams = loadParams;
+		window.ciFileDel = ciFileDel;
+		window.ciFileCheck = ciFileCheck;
 		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('s2g_results.js') }}"
 		window.ImgDown = ImgDown;
 		window.circosDown = circosDown;

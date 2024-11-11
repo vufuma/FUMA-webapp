@@ -1250,7 +1250,7 @@ function setParams(data){
 	CheckAll();
 }
 
-function ciFileCheck(){
+export function ciFileCheck(){
 	var maxSize = 0;
 	var nFiles = 0;
 	$('.ciMapFile').each(function(){
@@ -1266,7 +1266,7 @@ function ciFileCheck(){
 	CheckAll();
 }
 
-function ciFileDel(del){
+export function ciFileDel(del){
 	$(del).parent().parent().remove();
 	ciFileCheck();
 }
