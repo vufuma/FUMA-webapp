@@ -80,8 +80,6 @@ export function updatePerDatasetPlot(){
 }
 
 function PlotPerDataset(data){
-	var bars = [];
-	var xLabels = [];
 	var cellwidths = []
 	var margin = {top:30, right: 30, bottom:100, left:80},
 		height = 150;
@@ -222,9 +220,7 @@ function PlotPerDataset(data){
 }
 
 function PlotStep1(data){
-	var bars = [];
-	var xLabels = [];
-	var cellwidths = []
+	var cellwidths = [];
 	var margin = {top:30, right: 250, bottom:100, left:80},
 		height = 150;
 	var order_i = 5;
@@ -348,9 +344,7 @@ function PlotStep1(data){
 }
 
 function PlotStep2(data){
-	var bars = [];
-	var xLabels = [];
-	var cellwidths = []
+	var cellwidths = [];
 	var margin = {top:30, right: 250, bottom:100, left:80},
 		height = 150;
 	var order_i = 5;
