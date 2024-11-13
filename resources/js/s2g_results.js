@@ -536,6 +536,7 @@ export function expImgDown(gs, type) {
 	$('#expData').val($('#' + gs).html());
 	$('#expType').val(type);
 	$('#expJobID').val(id);
+	$('#expDir').val('jobs');
 	$('#expFileName').val("magma_exp_" + gs);
 	$('#expSubmit').trigger('click');
 }
@@ -544,6 +545,7 @@ export function ImgDown(name, type) {
 	let id = pageState.get('id');
 	$('#' + name + 'Data').val($('#' + name).html());
 	$('#' + name + 'Type').val(type);
+	$('#' + name + 'Dir').val('jobs')
 	$('#' + name + 'ID').val(id);
 	$('#' + name + 'FileName').val(name);
 	$('#' + name + 'Submit').trigger('click');
