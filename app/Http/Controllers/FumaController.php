@@ -56,7 +56,7 @@ class FumaController extends Controller
         $length =  escapeshellarg(escapeshellcmd($request->input('length')));
         $search =  escapeshellarg(escapeshellcmd($search['value']));
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'dt');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
@@ -97,7 +97,7 @@ class FumaController extends Controller
         $type = escapeshellarg(escapeshellcmd($request->input('type')));
         $rowI = escapeshellarg(escapeshellcmd($request->input('rowI')));
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'locus_plot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
@@ -183,7 +183,7 @@ class FumaController extends Controller
 
         // $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'annot_plot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
@@ -212,7 +212,7 @@ class FumaController extends Controller
         $xMax = escapeshellarg(escapeshellcmd($request->input("xMax")));
         $eqtlgenes = escapeshellarg(escapeshellcmd($request->input("eqtlgenes")));
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'annot_plot');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
@@ -606,7 +606,7 @@ class FumaController extends Controller
     {
         $dataset = escapeshellarg(escapeshellcmd($dataset));
 
-        $container_name = DockerNamesBuilder::containerName($id);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($id));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($id, 'gene2func');
 
@@ -618,7 +618,7 @@ class FumaController extends Controller
 
     public function DEGPlot($prefix, $id)
     {
-        $container_name = DockerNamesBuilder::containerName($id);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($id));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
         $job_location = DockerNamesBuilder::jobLocation($id, 'gene2func');
 

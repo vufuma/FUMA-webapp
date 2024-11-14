@@ -304,7 +304,8 @@ class CellController extends Controller
         $jobID = $request->input('jobID');
         $ds = escapeshellarg(escapeshellcmd($request->input('ds')));
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        // $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
@@ -319,7 +320,7 @@ class CellController extends Controller
     {
         $jobID = $request->input('jobID');
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
