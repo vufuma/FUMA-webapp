@@ -302,13 +302,16 @@ class CellController extends Controller
     public function getPerDatasetData(Request $request)
     {
         $jobID = $request->input('jobID');
-        $ds = $request->input('ds');
+        $ds = escapeshellarg(escapeshellcmd($request->input('ds')));
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        // $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_perDatasetPlotData.py $job_location/ $ds'";
+        $python_command = "python celltype_perDatasetPlotData.py $job_location/ $ds";
+        $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' -w /app ' . $image_name . ' /bin/sh -c "' . $python_command . '"';
+        // $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_perDatasetPlotData.py $job_location/ $ds'";
         $json = shell_exec($cmd);
         return $json;
     }
@@ -317,7 +320,7 @@ class CellController extends Controller
     {
         $jobID = $request->input('jobID');
 
-        $container_name = DockerNamesBuilder::containerName($jobID);
+        $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
