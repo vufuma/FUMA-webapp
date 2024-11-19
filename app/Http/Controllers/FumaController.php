@@ -8,6 +8,7 @@ use App\CustomClasses\DockerApi\DockerNamesBuilder;
 use App\CustomClasses\myFile;
 use App\Models\SubmitJob;
 use App\Models\User;
+use App\Models\Update;
 
 use Helper;
 
@@ -15,6 +16,7 @@ class FumaController extends Controller
 {
     public function appinfo()
     {
+        $out["ver"] = Update::orderByDesc('id')->first()->version; #sort the updates table by id and get the highest id to mean the latest update
         $out["user"] = User::get()->count();
 
         $out["s2g"] = SubmitJob::where('type', 'snp2gene')->get()->count();
