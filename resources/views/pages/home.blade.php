@@ -3,7 +3,7 @@
 @section('content')
 	<div class="container" style="padding-top:50px;">
 		<div class="alert alert-danger">
-			<p><strong>Here you can find a detailed list of the error codes. We kindly advise thorough consultation of this troubleshooting list prior to seeking assistance through Google groups. <a href="https://groups.google.com/g/fuma-gwas-users/c/JdxuqR4ihS4">Troubleshooting List</a></strong></p>
+			<p><strong>Here you can find a detailed list of the error codes. We kindly advise thorough consultation of this troubleshooting list prior to seeking assistance through Google groups. <a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw/m/utS6HxWoAAAJ">Troubleshooting List</a></strong></p>
 		</div>
 
 		<div style="text-align: center;">
