@@ -118,10 +118,7 @@
 			From the SNP2GENE job list, the published jobs now have "edit" button instead of "publish" button.
 			By clicking this, you can update the features listed above or delete the published job.
 			Note that deleting the published job does not delete the job from your account.
-			At the same time, when you delete the original job from your account, it does not delete the corresponding published job.
-			If you want to modify/delete published job whose original job is deleted from your account,
-			please contact to the FUMA developer, (Kyoko Watanabe: k.watanabe@vu.nl).
-			Please also provide id of the published job together.<br/>
+			However, when you delete the original job from your account, it <strong>automatically deletes</strong> the corresponding published job.<br/>
 			<span class="info"><i class="fa fa-info"></i> Modification/deletion is only possible when the user is logged in
 				with the same email address as the entry.
 			</span>
