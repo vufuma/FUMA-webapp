@@ -29,7 +29,7 @@
 					<a id="appInfo" class="infoPop" data-placement="bottom" data-toggle="popover" data-html="true"
 						title="FUMA information"
 						data-content='<div style="width:200px;">
-						Current FUMA verions: <span id="FUMAver"></span><br/>
+						Current FUMA version: <span id="FUMAver"></span><br/>
 						Total users: <span id="FUMAuser"></span><br/>
 						Total SNP2GENE jobs: <span id="FUMAs2g"></span><br/>
 						Total GENE2FUNC jobs: <span id="FUMAg2f"></span><br/>
