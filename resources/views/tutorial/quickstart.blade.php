@@ -42,22 +42,22 @@
 			</p><br/>
 
 			<p><h4><strong>2. Submit new job at <a href="{{ Config::get('app.subdir') }}/snp2gene">SNP2GENE</a></strong></h4>
-				A new job stats with a GWAS summary statistics file. A variety of file formats are supported.
+				A new job starts with a GWAS summary statistics file. A variety of file formats are supported.
 				Please refer the section of <a class="inpage" href="{{ Config::get('app.subdir') }}/tutorial#prepare-input-files">Input files</a> for details.
 				If your input file is an output from PLINK, SNPTEST or METAL, you can directly submit the file without specifying column names.<br/>
 				The input GWAS summary statistics file could be a subset of SNPs (e.g. only SNPs which are interesting in your study), but in this case, MAGMA results are not relevant anymore.<br/>
 				Optionally, if you would like to pre-specify lead SNPs, you can upload a file with 3 columns; rsID, chromosome and position.
-				FUMA will then use these SNPs to select LD-related SNPs for annotation and mapping, instead of using lead SNPs identified by FUMA (it requires to disable an option for "identify additional lead SNPs").<br/>
-				In addition, if you are interested in specific genomic regions, you can also provide them by uploading a file with 3 columns; chromosome, start and end position.
+				FUMA will then use these SNPs to select LD-related SNPs for annotation and mapping, instead of using lead SNPs identified by FUMA. If you want FUMA to analyze pre-specified lead SNPs, you will need to disable (uncheck) the section "Identify additional independent lead SNPs". Please note that in order for the pre-specified lead SNPs to be processsed by FUMA, they would need to be present in your input GWAS summary statistics file. <br/>
+				In addition, if you are interested in specific genomic regions, you can also provide them by uploading a file with 3 columns; chromosome, start, and end position.
 				FUMA will then use these genomic regions to select LD-related SNPs for annotation and mapping, instead of determining the regions itself.<br/>
 				<br/>
 				<img src="{!! URL::asset('/image/newjobfile.png') !!}" style="width:80%"/><br/>
 			</p><br/>
 
 			<p><h4><strong>3. Set parameters</strong></h4>
-				On the same page as where you specify the input files, there are a variety of optional parameters that control the prioritization of genes.
+				On the page where you upload the input files, there are a variety of optional parameters that control the prioritization of genes.
 				Please check your parameters carefully.
-				The default settings are to perform identification of independent genome-wide significant SNPs at r<sup>2</sup> 0.6 and lead SNPs at r<sup>2</sup> 0.1, to maps SNPs to genes up to 10kb apart.<br/>
+				The default settings are to perform identification of independent genome-wide significant SNPs at r<sup>2</sup> 0.6 and lead SNPs at r<sup>2</sup> 0.1, and to maps SNPs to genes up to 10kb apart.<br/>
 				To filter SNPs by specific functional annotations and to use eQTL mapping, please change parameters (please refer the parameter section of this tutorial from <a class="inpage" href="{{ Config::get('app.subdir') }}/tutorial#parameters">here</a>).<br/>
 				If all inputs are valid, 'Submit Job' button will be activated. Once you submit a job, this will be listed in My Jobs.<br/>
 				Please do not navigate away from the page while your file is uploading (this may take up to couple of minutes depending on the file size and your internet speed).<br/>

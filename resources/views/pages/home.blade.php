@@ -24,7 +24,7 @@
 			The <a href="{{ Config::get('app.subdir') }}/celltype">Cell Type</a> module takes MAGMA gene analysis result (as an output from SNP2GENE or as provided manually) and predicts relevant cell types.
 			<br/>
 			To submit your own GWAS, login is required for security reason.
-			If you have't registered yet, you can do from <a href="{{ url('/register') }}">here</a>.
+			If you have not registered yet, you can do so from <a href="{{ Config::get('app.subdir') }}/register">here</a>.
 			<br/>
 			You can browse public results of FUMA (including example jobs) from <a href="{{ Config::get('app.subdir') }}/browse">Browse Public Results</a> without registration or login.
 		</p>
