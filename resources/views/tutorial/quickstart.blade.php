@@ -70,7 +70,7 @@
 				Depending on the number of significant genomic regions, this may take between a couple of minutes and an hour.
 				Once a JOB has finished running, you will receive an email.
 				Unless an error occurred during the process, the email includes the link to the result page (this again requires login).
-				You can also access to the results page from My Jobs page. <br/>
+				You can also access the results page from My Jobs page. <br/>
 				The result page displays 4 additional side bars.<br/>
 				<strong>Genome-wide plots</strong>: Manhattan plots and Q-Q plots for GWAS summary statistics and gene-based test by MAGMA, results of MAGMA gene-set analysis and tissue expression analysis.<br/>
 				<strong>Summary of results</strong>: Summary of results such as the number of lead and LD-related SNPs, and mapped genes for overall and per identified genomic risk locus.<br/>
