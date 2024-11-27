@@ -33,16 +33,16 @@ MAGMA gene-property analysis is run with the following command.<br>
 From FUMA v1.3.4 (MAGMA v1.07)<br>
 <code class="codebox">
 	magma --gene-results [input file name].genes.raw \<br>
-	<tab>--gene-covar [file name of selected scRNA-seq data set] \<br>
-	<tab> --model condition-hide=Average direction=greater \<br>
-	<tab>--out [output file name]
+	--gene-covar [file name of selected scRNA-seq data set] \<br>
+	 --model condition-hide=Average direction=greater \<br>
+	--out [output file name]
 </code>
 <br>
 Until FUMA v1.3.3d (MAGMA v1.06)<br>
 <code class="codebox">
 	magma --gene-results [input file name].genes.raw \<br>
-	<tab>--gene-covar [file name of selected scRNA-seq data set] condition=Average  onesided=greater \<br>
-	<tab>--out [output file name]
+	--gene-covar [file name of selected scRNA-seq data set] condition=Average  onesided=greater \<br>
+	--out [output file name]
 </code>
 <br>
 <span class="info"><i class="fa fa-info"></i>

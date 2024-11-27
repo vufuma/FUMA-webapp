@@ -48,6 +48,25 @@ S2GPageState.setState = function(
     this.set('loggedin', loggedin);
 }
 
+// Set all S2G page state values
+export const setS2GPageState = function(
+    subdir,
+    status,
+    id,
+    page,
+    loggedin, 
+) {
+    console.log('Setting the S2G component')
+	S2GPageState.setState(
+		subdir,
+		status,
+		id,
+		page,
+		loggedin, 
+	);
+}
+
+
 export const G2FPageState = new PageState ([
         ["public_path", ""],
         ["storage_path", ""],
@@ -82,6 +101,32 @@ G2FPageState.setState = function(
 	this.set("prefix", prefix);
 }
 
+// Set all G2F page state values
+export const setG2FPageState = function(
+	public_path, 
+	storage_path,
+	subdir,
+	jobdir,
+	status,
+	id,
+	page,
+	loggedin,
+	prefix
+) {
+	G2FPageState.setState(
+		public_path, 
+		storage_path,
+		subdir,
+		jobdir,
+		status,
+		id,
+		page,
+		loggedin,
+		prefix
+	);
+}
+
+
 export const CellTypeState = new PageState ([
         ["status", ""],
         ["id", ""],
@@ -107,6 +152,27 @@ CellTypeState.setState = function(
     this.set('loggedin', loggedin);
 }
 
+// Set all Celltype page state values
+export const setCelltypePageState = function(
+	status,
+	id,
+	prefix,
+	page,
+	subdir,
+	loggedin,
+
+) {
+	CellTypeState.setState(
+		status,
+		id,
+		prefix,
+		page,
+		subdir,
+		loggedin, 		
+	)
+}
+
+
 export const BrowsePageState = new PageState ([
         ["id", ""],
         ["page", ""],
@@ -126,6 +192,22 @@ BrowsePageState.setState = function(
     this.set('loggedin', loggedin);
 }
 
+// Set all Browse page state values
+export const setBrowsePageState = function(
+    id,
+    page,
+    subdir,
+    loggedin, 
+) {
+	BrowsePageState.setState(
+		id,
+		page,
+		subdir,
+		loggedin, 
+	);
+}
+
+
 export const AnnotPlotPageState = new PageState ([
     ["id", ""],
     ["page", ""],
@@ -143,4 +225,19 @@ AnnotPlotPageState.setState = function(
     this.set('page', page);
     this.set('subdir', subdir);
     this.set('loggedin', loggedin);
+}
+
+// Set all AnnotPlot page state values
+export const setAnnotPlotPageState = function(
+    id,
+    page,
+    subdir,
+    loggedin, 
+) {
+	AnnotPlotPageState.setState(
+		id,
+		page,
+		subdir,
+		loggedin, 
+	);
 }

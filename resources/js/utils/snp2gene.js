@@ -3,14 +3,15 @@ import { GWplot, QQplot, MAGMA_GStable, MAGMA_expPlot, showResultTables, ciMapCi
 import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
 import swal from 'sweetalert';
-import { S2GPageState as pageState}  from "./pageStateComponents.js";
+import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
 
 function getJobList() {
+	var items = '';
 	$('#joblist-panel table tbody')
 		.empty()
 		.append('<tr><td colspan="6" style="text-align:center;">Retrieving data</td></tr>');
 	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getJobList', function (data) {
-		var items = '<tr><td colspan="6" style="text-align: center;">No Jobs Found</td></tr>';
+		items = '<tr><td colspan="6" style="text-align: center;">No Jobs Found</td></tr>';
 		if (data.length) {
 			items = '';
 			$.each(data, function (key, val) {
@@ -124,21 +125,6 @@ export function checkPublishInput() {
 		$('#publishUpdate').prop('disabled', true)
 	}
 }
-export const setPageState = function(
-    subdir,
-    status,
-    id,
-    page,
-    loggedin, 
-) {
-	pageState.setState(
-		subdir,
-		status,
-		id,
-		page,
-		loggedin, 
-	);
-}
 
 export const Snp2GeneSetup = function(){
 	// hide submit buttons for imgDown
@@ -168,43 +154,46 @@ export const Snp2GeneSetup = function(){
 		getJobList();
 	});
 
-	$('#deleteJob').on('click', function () {
-		swal({
+	$('#deleteJob').on('click', async() =>  {
+		var span = document.createElement("span");
+		span.innerHTML = "Do you really want to remove selected jobs?<br><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>";
+		let confirm = await swal({
 			title: "Are you sure?",
-			html: true,
-			text: "Do you really want to remove selected jobs?<br><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>",
-			type: "warning",
-			showCancelButton: true,
-			closeOnConfirm: true,
-		}, function (isConfirm) {
-			if (isConfirm) {
-				$('.deleteJobCheck').each(function () {
-					if ($(this).is(":checked")) {
-						$.ajax({
-							url: pageState.get('subdir') + '/' + pageState.get('page') + '/deleteJob',
-							type: "POST",
-							data: {
-								jobID: $(this).val()
-							},
-							error: function () {
-								alert("error at deleteJob");
-							},
-							success: function (resdata) {
-								// chech if resdata is null
-								if (resdata != "") {
-									alert(resdata);
-								}
-							},
-							complete: function () {
-								getJobList();
-								getjobIDs();
-								getGeneMapIDs();
-							}
-						});
-					}
-				});
+			content: span,
+			icon: "warning",
+			buttons: {
+				cancel: true,
+				confirm: true,
 			}
 		});
+		if (confirm) {
+			$('.deleteJobCheck').each(function () {
+				if ($(this).is(":checked")) {
+					$.ajax({
+						url: pageState.get('subdir') + '/' + pageState.get('page') + '/deleteJob',
+						type: "POST",
+						data: {
+							jobID: $(this).val()
+						},
+						error: function () {
+							alert("error at deleteJob");
+						},
+						success: function (resdata) {
+							// chech if resdata is null
+							if (resdata != "") {
+								alert(resdata);
+							}
+						},
+						complete: function () {
+							getJobList();
+							getjobIDs();
+							getGeneMapIDs();
+						}
+					});
+				}
+			});
+		}
+
 	});
 
 	$('.level1').on('click', function () {

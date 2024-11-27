@@ -52,8 +52,8 @@
                             <span class="form-inline">
                                 <input type="checkbox" checked class="form-check-input" name="ensg_id" i="ensg_id" />
                                 : Ensembl gene ID is used in the provided file.
-                                <a class="infoPop" data-toggle="popover"
-                                    data-content="Please UNCHECK this option if you used different gene ID than Ensembl gene ID
+                                <a class="infoPop" data-bs-toggle="popover"
+                                    data-bs-content="Please UNCHECK this option if you used different gene ID than Ensembl gene ID
 								in your uploaded MAGMA output. In that case, provided genes will be mapped to Ensembl gene ID.">
                                     <i class="fa-regular fa-circle-question fa-lg"></i>
                                 </a>
@@ -491,8 +491,8 @@
                             <input type="checkbox" id="step2" name="step2"> Perform step 2 (per dataset conditional
                             analysis)
                             if there is more then one significant cell type per dataset.
-                            <a class="infoPop" data-toggle="popover"
-                                data-content="Step 2 in the workflow is per dataset conditional analysis.
+                            <a class="infoPop" data-bs-toggle="popover"
+                                data-bs-content="Step 2 in the workflow is per dataset conditional analysis.
 							When there are more than one significant cell types from the same dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
 							significant cell types within the dataset. Based on this, forward selection will be performed to identify independent signals.
 							See tutorial for details.">
@@ -502,8 +502,8 @@
                             <input type="checkbox" id="step3" name="step3"> Perform step 3 (cross-datasets
                             conditional analysis)
                             if there is significant cell types from more than one dataset.
-                            <a class="infoPop" data-toggle="popover"
-                                data-content="Step 3 in the workflow is cross-datasets conditional analysis.
+                            <a class="infoPop" data-bs-toggle="popover"
+                                data-bs-content="Step 3 in the workflow is cross-datasets conditional analysis.
 							When there are significant cell types from more than one dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
 							significant cell types across datasets. See tutorial for details.">
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
@@ -541,9 +541,9 @@
     {{-- Vite imports from the project --}}
 @push('vite')
     @vite([
-        'resources/js/cell_results.js',
-        'resources/js/celltype.js',
-        'resources/js/sidebar.js'])
+        'resources/js/utils/cell_results.js',
+        'resources/js/utils/celltype.js',
+        'resources/js/utils/sidebar.js'])
 @endpush
 
 @push('page_scripts')

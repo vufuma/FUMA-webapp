@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-	<div class="container" style="padding-top:50px;">
+	<div class="col-md-8 offset-md-2" style="padding-top:50px;">
 		<div class="alert alert-danger">
 			<p><strong>Here you can find a detailed list of the error codes. We kindly advise thorough consultation of this troubleshooting list prior to seeking assistance through Google groups. <a href="https://groups.google.com/g/fuma-gwas-users/c/JdxuqR4ihS4">Troubleshooting List</a></strong></p>
 		</div>
@@ -82,6 +82,7 @@
 
 	{{-- Hand written ones need module type because of vite jquery async loading--}}
 	<script type="module">
+		import "{{ Vite::appjs('app.js') }}";
 		var loggedin = "{{ Auth::check() }}";
 		$(function(){
 			$('#snp2genebtn').on('click', function(){

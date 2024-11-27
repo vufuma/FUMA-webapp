@@ -20,7 +20,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 	<p><strong>Samples</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#gtexTable" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
+				<a href="#gtexTable" data-bs-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
 			<div id="gtexTable" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
@@ -159,7 +159,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 	<p><strong>Samples</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#gtexTable_v7" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
+				<a href="#gtexTable_v7" data-bs-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
 			<div id="gtexTable_v7" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
@@ -417,7 +417,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 	<p><strong>Samples</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#gtexTable_v8" data-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
+				<a href="#gtexTable_v8" data-bs-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
 			<div id="gtexTable_v8" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
@@ -502,7 +502,7 @@ FUMA contains several data sources of eQTLs and each data source is described in
 	<p><strong>Datasets</strong><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<a href="#eQTLcatalogueTable" data-toggle="collapse">eQTL Catalogue datasets, tissue types, and sample sizes</a><br>
+				<a href="#eQTLcatalogueTable" data-bs-toggle="collapse">eQTL Catalogue datasets, tissue types, and sample sizes</a><br>
 			</div>
 			<div id="eQTLcatalogueTable" class="panel-body collapse">
 				<span class="info"><i class="fa fa-info"></i>

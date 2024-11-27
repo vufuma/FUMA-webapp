@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container" style="padding-top: 50px;">
+    <div class="col-md-8 offset-md-2" style="padding-top: 50px;">
         <table class="table table-bordered" style="table-layout: fixed;">
             <thead>
                 <tr>

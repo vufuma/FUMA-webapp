@@ -23,20 +23,7 @@ import {
 	showResultTables
 } from './helpers';
 
-import { BrowsePageState as pageState}  from "./pageStateComponents.js";
-export const setPageState = function(
-    id,
-    page,
-    subdir,
-    loggedin, 
-) {
-	pageState.setState(
-		id,
-		page,
-		subdir,
-		loggedin, 
-	);
-}
+import { BrowsePageState as pageState}  from "../pages/pageStateComponents.js";
 
 export const BrowseSetup = function(){
 	// side bar and hash id

@@ -1,13 +1,13 @@
 <div id="joblist-panel" class="sidePanel container" style="min-height:80vh;">
 	<h3>My Jobs</h3>
-	<div class="panel panel-default">
-	    <div class="panel-heading">
-	        <div class="panel-title">List of Jobs <tab><a id="refreshTable"><i class="fa fa-refresh"></i></a></div>
+	<div class="card">
+	    <div class="card-header">
+	        <div class="card-title">List of Jobs <a id="refreshTable"><i class="fa fa-refresh"></i></a></div>
 	    </div>
-	    <div class="panel-body">
+	    <div class="card-body">
 			<button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob" style="float:right; margin-right:20px;">Delete selected jobs</button>
-			<table class="table table-sm">
-				<thead>
+			<table class="table">
+				<thead class="table-light">
 					<tr>
 						<th>Job ID</th>
 						<th>Job name</th>
@@ -15,7 +15,7 @@
 						<th>Started at</th>
 						<th>Completed at</th>
 						<th>Status
-							<a class="infoPop" data-toggle="popover" data-html="true" data-content="<b>NEW: </b>The job has been submitted.<br>
+							<a class="infoPop" data-bs-toggle="popover" data-html="true" data-bs-content="<b>NEW: </b>The job has been submitted.<br>
 								<b>QUEUED</b>: The job has been dispatched to queue.<br><b>RUNNING</b>: The job is running.<br>
 								<b>Go to results</b>: The job has been completed. This is linked to result page.<br>
 								<b>ERROR</b>: An error occurred during the process. Please refer email for detail message.">
@@ -50,8 +50,10 @@
 			<div class="modal-body">
 				<table class="table table-bordered">
 					<thead>
-						<th style="width:35%;">Feature</th>
-						<th>Value</th>
+						<tr>
+							<th style="width:35%;">Feature</th>
+							<th>Value</th>
+						</tr>
 					</thead>
 					<tbody>
 						<tr>
@@ -63,7 +65,7 @@
 						<tr>
 							<td>
 								Corresponding GENE2FUNC jobID
-								<a class="infoPop" data-toggle="popover" data-content="
+								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								If you have performed GENE2FUNC for the selected SNP2GENE job, please specify GENE2FUNC jobID.">
 									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
@@ -74,7 +76,7 @@
 						</tr>
 						<tr>
 							<td>Title<sup style="color:red;">*</sup>
-								<a class="infoPop" data-toggle="popover" data-content="
+								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								Please provide self-descriptive title for the job.
 								If the title is not clear enough, the developer might contact you to provide a sufficient information.">
 									<i class="fa-regular fa-circle-question fa-lg"></i>
@@ -94,7 +96,7 @@
 						</tr>
 						<tr>
 							<td>Email<sup style="color:red;">*</sup>
-								<a class="infoPop" data-toggle="popover" data-content="
+								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								Please provide an email address that is reachable to you.
 								Any future modification/deletion of the published job will be only processed
 								when it is requested by the matched email.">
@@ -113,7 +115,7 @@
 						</tr>
 						<tr>
 							<td>Publication
-								<a class="infoPop" data-toggle="popover" data-content="
+								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								This is the publication where the selected SNP2GENE job is described (not the reference to the summary statistics).
 								This can be any format as long as users are able to find the publication.
 								Please provide PubMed ID if possible (e.g. PMID: 29184056).
@@ -129,7 +131,7 @@
 						</tr>
 						<tr>
 							<td>Link to summary statistics
-								<a class="infoPop" data-toggle="popover" data-content="
+								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								If the summary statistics used in this job is publicly available, please provide the original link.">
 									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
@@ -140,7 +142,7 @@
 						</tr>
 						<tr>
 							<td>Reference of summary statistics
-								<a class="infoPop" data-toggle="popover" data-content="
+								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								This should be the original publication of the summary statistics.
 								This can be same as the publication above when a new GWAS result is presented in the publication.">
 									<i class="fa-regular fa-circle-question fa-lg"></i>
@@ -153,7 +155,7 @@
 						<tr>
 							<td>
 								Notes
-								<a class="infoPop" data-toggle="popover" data-content="
+								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								Please add any additional information here.
 								For example, when there are multiple summary statistics available from the same study,
 								you should specify which result this is referring to.">

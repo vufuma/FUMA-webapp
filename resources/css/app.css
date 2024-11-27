@@ -2,7 +2,7 @@
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../../node_modules/bootstrap-select/dist/css/bootstrap-select.min.css";
 @import "../../node_modules/jquery-ui/dist/themes/smoothness/jquery-ui.min.css";
-@import "../../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css";
+@import "../../node_modules/datatables.net-bs5/css/dataTables.bootstrap5.css";
 @import "./style.css";
 
 html {font-size: 15px}

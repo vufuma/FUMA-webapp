@@ -1,6 +1,6 @@
-import { AnnotPlotPageState as pageState}  from "./pageStateComponents.js";
+import { AnnotPlotPageState as pageState}  from "../pages/pageStateComponents.js";
 import { display_dismissable_warning } from "./alerts.js";
-export const setPageState = function(
+export const setAnnotPlotPageState = function(
     id,
     page,
     subdir,
@@ -516,7 +516,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 			.attr("cy", function (d) { return y(-Math.log10(d[4])); })
 			.style("fill", function (d) { return colorScale(d[6]); })
 			.on("click", function (d) {
-				let table = '<table class="table table-sm" style="font-size: 10px;" cellpadding="1">'
+				let table = '<table class="table table-sm" style="font-size: 11px;" cellpadding="1">'
 					+ '<tr><td>Selected SNP</td><td>' + d[3]
 					+ '</td></tr><tr><td>bp</td><td>' + d[2] + '</td></tr><tr><td>r<sup>2</sup></td><td>' + d[6]
 					+ '</td></tr><tr><td>Ind. Sig. SNPs</td><td>' + d[7]
@@ -554,7 +554,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 			.attr("height", "10")
 			.style("fill", function (d) { if (d[5] == 0) { return "grey" } else { return colorScale(d[6]) } })
 			.on("click", function (d) {
-				let table = '<table class="table table-sm" style="font-size: 10px;" cellpadding="1">'
+				let table = '<table class="table table-sm" style="font-size: 11px;" cellpadding="1">'
 					+ '<tr><td>Selected SNP</td><td>' + d[3]
 					+ '</td></tr><tr><td>bp</td><td>' + d[2] + '</td></tr><tr><td>r<sup>2</sup></td><td>' + d[6]
 					+ '</td></tr><tr><td>Ind. Sig. SNPs</td><td>' + d[7]
@@ -600,7 +600,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 			})
 			.style("stroke", "black")
 			.on("click", function (d) {
-				let table = '<table class="table table-sm" style="font-size: 10px;" cellpadding="1">'
+				let table = '<table class="table table-sm" style="font-size: 11px;" cellpadding="1">'
 					+ '<tr><td>Selected SNP</td><td>' + d[3]
 					+ '</td></tr><tr><td>bp</td><td>' + d[2] + '</td></tr><tr><td>r<sup>2</sup></td><td>' + d[6]
 					+ '</td></tr><tr><td>Ind. Sig. SNPs</td><td>' + d[7]
@@ -681,7 +681,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 				}
 			})
 			.on("click", function (d) {
-				let table = '<table class="table table-sm" style="font-size: 10px;" cellpadding="1">'
+				let table = '<table class="table table-sm" style="font-size: 11px;" cellpadding="1">'
 					+ '<tr><td>Selected SNP</td><td>' + d[3]
 					+ '</td></tr><tr><td>bp</td><td>' + d[2] + '</td></tr><tr><td>r<sup>2</sup></td><td>' + d[6]
 					+ '</td></tr><tr><td>Ind. Sig. SNPs</td><td>' + d[7]
@@ -746,7 +746,7 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 				else { return "MediumAquaMarine"; }
 			})
 			.on("click", function (d) {
-				let table = '<table class="table table-sm" style="font-size: 10px;" cellpadding="1">'
+				let table = '<table class="table table-sm" style="font-size: 11px;" cellpadding="1">'
 					+ '<tr><td>Selected SNP</td><td>' + d[3]
 					+ '</td></tr><tr><td>bp</td><td>' + d[2] + '</td></tr><tr><td>r<sup>2</sup></td><td>' + d[6]
 					+ '</td></tr><tr><td>Ind. Sig. SNPs</td><td>' + d[7]
@@ -1305,13 +1305,12 @@ function Plot(plotData, genes, chrom, xMin_init, xMax_init, eqtlgenes, GWASplot,
 	}
 
 	// Plot Clear button
-	d3.select('#plotclear').on('click', reset);
-	function reset() {
+	d3.select('#plotclear').on('click', function () {
 		// simply restore the identity transform to the zoom setting 
 		// for the top level enclosing g element
 		svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
-	}
-}
+	});
+};
 
 function geneOver(genes, x, width) {
 	var tg = genes;

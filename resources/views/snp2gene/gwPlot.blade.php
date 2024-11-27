@@ -113,13 +113,15 @@
 		<h4 style="color: #00004d">MAGMA Gene-Set Analysis</h4>
 		<span class="info"><i class="fa fa-info"></i>
 			MAGMA gene-set analysis is performed for curated gene sets and GO terms obtained from MsigDB (see <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#magma">here</a> for details).<br>
-			The table displays either significant gene sets with P<sub>bon</sub> < 0.05 or top 10 gene sets when there are less than 10 significant gene sets.
+			The table displays either significant gene sets with P<sub>bon</sub> &lt; 0.05 or top 10 gene sets when there are less than 10 significant gene sets.
 			Full results are downloadable from "Download" tab. <br>
 			Note that MAGMA gene-set analyses uses the full distribution of SNP p-values and is different from a pathway enrichment test as implemented in GENE2FUNC that only tests for enrichment of prioritized genes.
 		</span><br><br>
 		<table id="MAGMAtable" class="table table-striped table-sm" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 			<thead>
+				<tr>
 				<th>Gene Set</th><th>N genes</th><th>Beta</th><th>Beta STD</th><th>SE</th><th>P</th><th>P<sub>bon</sub></th>
+				</tr>
 			</thead>
 		</table>
 		<br><br>

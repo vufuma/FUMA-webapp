@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-	<div class="container" style="padding-top: 50px;">
+	<div class="col-md-8 offset-md-2" style="padding-top: 50px;">
 		<div class="alert alert-warning">
 			<i class="fa fa-exclamation-triangle"></i>
 			For scRNA-seq datasets in cell type analysis section, please see <a target="_blank" href="{{ Config::get('app.subdir') }}/tutorial#datasets">tutorial for links and references.</a>

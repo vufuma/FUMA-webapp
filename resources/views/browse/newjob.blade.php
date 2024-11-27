@@ -7,13 +7,13 @@
 	<!-- Input files upload -->
 	<div class="card" style="padding-top: 0px;">
 		<div class="card-header input bg-danger text-white" style="padding:5px;">
-			<h4>1. Upload input files <a href="#NewJobFilesPanel" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+			<h4>1. Upload input files <a href="#NewJobFilesPanel" data-bs-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 		</div>
 		<div class="card-body collapse in" id="NewJobFilesPanel">
 			<table class="table table-bordered inputTable" id="NewJobFiles" style="width: auto;">
 				<tr>
 					<td>GWAS summary statistics
-						<a class="infoPop" data-toggle="popover" title="GWAS summary statistics input file" data-content="Every row should have information on one SNP.
+						<a class="infoPop" data-bs-toggle="popover" title="GWAS summary statistics input file" data-bs-content="Every row should have information on one SNP.
 							The minimum required columns are ‘chromosome, position and P-value’ or ‘rsID and P-value’.
 							If you provide position, please make sure the position is on hg19.
 							The file could be complete results of GWAS or a subset of SNPs can be used as an input.
@@ -32,7 +32,7 @@
 				</tr>
 				<tr>
 					<td>GWAS summary statistics file columns
-						<a class="infoPop" data-toggle="popover" title="GWAS summary statistics input file columns" data-content="This is optional parameter to define column names.
+						<a class="infoPop" data-bs-toggle="popover" title="GWAS summary statistics input file columns" data-bs-content="This is optional parameter to define column names.
 							Unless defined, FUMA will automatically detect columns from the list of acceptable column names (see tutorial for detail).
 							However, to avoid error, please provide column names.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
@@ -59,7 +59,7 @@
 				</tr>
 				<tr>
 					<td>Pre-defined lead SNPs
-						<a class="infoPop" data-toggle="popover" title="Pre-defined lead SNPs" data-content="This option can be used when you already have determined lead SNPs and do not want FUMA to do this for you. This option can be also used when you want to include specific SNPs as lead SNPs which do no reach significant P-value threshold. The input file should have 3 columns, rsID, chromosome and position with header (header could be anything but the order of columns have to match).">
+						<a class="infoPop" data-bs-toggle="popover" title="Pre-defined lead SNPs" data-bs-content="This option can be used when you already have determined lead SNPs and do not want FUMA to do this for you. This option can be also used when you want to include specific SNPs as lead SNPs which do no reach significant P-value threshold. The input file should have 3 columns, rsID, chromosome and position with header (header could be anything but the order of columns have to match).">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -71,7 +71,7 @@
 				</tr>
 				<tr>
 					<td>Identify additional independent lead SNPs
-						<a class="infoPop" data-toggle="popover" title="Additional identification of lead SNPs" data-content="This option is only vallid when pre-defined lead SNPs are provided. Please uncheck this to NOT IDENTIFY additional lead SNPs than the provided ones. When this option is checked, FUMA will identify all independent lead SNPs after taking all SNPs in LD of pre-defined lead SNPs if there is any.">
+						<a class="infoPop" data-bs-toggle="popover" title="Additional identification of lead SNPs" data-bs-content="This option is only vallid when pre-defined lead SNPs are provided. Please uncheck this to NOT IDENTIFY additional lead SNPs than the provided ones. When this option is checked, FUMA will identify all independent lead SNPs after taking all SNPs in LD of pre-defined lead SNPs if there is any.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -83,7 +83,7 @@
 				</tr>
 				<tr>
 					<td>Predefined genomic region
-						<a class="infoPop" data-toggle="popover" title="Pre-defined genomic regions" data-content="This option can be used when you already have defined specific genomic regions of interest and only require annotations of significant SNPs and their proxi SNPs in these regions. The input file should have 3 columns, chromosome, start and end position (on hg19) with header (header could be anything but the order of columns have to match).">
+						<a class="infoPop" data-bs-toggle="popover" title="Pre-defined genomic regions" data-bs-content="This option can be used when you already have defined specific genomic regions of interest and only require annotations of significant SNPs and their proxi SNPs in these regions. The input file should have 3 columns, chromosome, start and end position (on hg19) with header (header could be anything but the order of columns have to match).">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -100,13 +100,13 @@
 	<!-- Parameters for lead SNPs and candidate SNPs -->
 	<div class="card" style="padding-top: 0px;">
 		<div class="card-header input bg-danger text-white" style="padding:5px;">
-			<h4>2. Parameters for lead SNPs and candidate SNPs identification<a href="#NewJobParamsPanel" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+			<h4>2. Parameters for lead SNPs and candidate SNPs identification<a href="#NewJobParamsPanel" data-bs-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 		</div>
 		<div class="card-body collapse in" id="NewJobParamsPanel">
 			<table class="table table-bordered inputTable" id="NewJobParams" style="width: auto;">
 				<tr>
 					<td>Sample size (N)
-						<a class="infoPop" data-toggle="popover" title="Sample size" data-content="The total number of individuals (cases + controls, or total N) used in GWAS.
+						<a class="infoPop" data-bs-toggle="popover" title="Sample size" data-bs-content="The total number of individuals (cases + controls, or total N) used in GWAS.
 							This is only used for MAGMA. When total sample size is defined, the same number will be used for all SNPs.
 							If you have column 'N' in yout input GWAS summary statistics file, specified column will be used for N per SNP.
 							It does not affect functional annotations and prioritizations.
@@ -142,7 +142,7 @@
 				</tr>
 				<tr>
 					<td>Maximum P-value cutoff (&lt;)
-						<a class="infoPop" data-toggle="popover" title="GWAS P-value cutoff" data-content="This threshold defines the maximum P-values of SNPs to be included in the annotation. Setting it at 1 means that all SNPs that are in LD with the lead SNP will be included in the annotation and prioritization even though they may not show a significant association with the phenotype. We advise to set this threshold at least at 0.05.">
+						<a class="infoPop" data-bs-toggle="popover" title="GWAS P-value cutoff" data-bs-content="This threshold defines the maximum P-values of SNPs to be included in the annotation. Setting it at 1 means that all SNPs that are in LD with the lead SNP will be included in the annotation and prioritization even though they may not show a significant association with the phenotype. We advise to set this threshold at least at 0.05.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -171,7 +171,7 @@
 				</tr>
 				<tr>
 					<td>Include 1000 genome variant (non-GWAS tagged SNPs in LD)
-						<a class="infoPop" data-toggle="popover" title="1000G SNPs" data-content="Select ‘yes’ if you want to include SNPs that are not available in the GWAS output but are available in 1000G. Including these SNPs may provide information on functional variants in LD with the lead SNP.">
+						<a class="infoPop" data-bs-toggle="popover" title="1000G SNPs" data-bs-content="Select ‘yes’ if you want to include SNPs that are not available in the GWAS output but are available in 1000G. Including these SNPs may provide information on functional variants in LD with the lead SNP.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -189,7 +189,7 @@
 				</tr>
 				<tr>
 					<td>Minimum Minor Allele Frequency (&ge;)
-						<a class="infoPop" data-toggle="popover" title="Minimu Minor Allele Frequency" data-content="This threshold defines the minimum MAF of the SNPs to be included in the annotation. MAFs are based on the selected reference population (1000G).">
+						<a class="infoPop" data-bs-toggle="popover" title="Minimu Minor Allele Frequency" data-bs-content="This threshold defines the minimum MAF of the SNPs to be included in the annotation. MAFs are based on the selected reference population (1000G).">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -201,7 +201,7 @@
 				</tr>
 				<tr>
 					<td>Maximum distance between LD blocks to merge into a locus (&lt; kb)
-						<a class="infoPop" data-toggle="popover" title="Maximum distance between LD blocks to merge" data-content="LD blocks clorser than the distance will be merged into a genomic locus. If this is set at 0, only phesically overlapped LD blocks will be merged. This is only for representation of GWAS risk loci which does not affect any annotation and prioritization results.">
+						<a class="infoPop" data-bs-toggle="popover" title="Maximum distance between LD blocks to merge" data-bs-content="LD blocks clorser than the distance will be merged into a genomic locus. If this is set at 0, only phesically overlapped LD blocks will be merged. This is only for representation of GWAS risk loci which does not affect any annotation and prioritization results.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -219,14 +219,14 @@
 	<!-- positional mapping -->
 	<div class="card" style="padding:0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h4>3-1. Gene Mapping (positional mapping) <a href="#NewJobPosMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
+			<h4>3-1. Gene Mapping (positional mapping) <a href="#NewJobPosMapPanel" data-bs-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
 		<div class="card-body collapse" id="NewJobPosMapPanel">
 			<h4>Positional mapping</h4>
 			<table class="table table-bordered inputTable" id="NewJobPosMap" style="width: auto;">
 				<tr>
 					<td>Perform positional mapping
-						<a class="infoPop" data-toggle="popover" title="Positional maping" data-content="When checked, positional mapping will be carried out and includes functional consequences of SNPs on gene functions (such as exonic, intronic and splicing).">
+						<a class="infoPop" data-bs-toggle="popover" title="Positional maping" data-bs-content="When checked, positional mapping will be carried out and includes functional consequences of SNPs on gene functions (such as exonic, intronic and splicing).">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -238,7 +238,7 @@
 				</tr>
 				<tr class="posMapOptions">
 					<td>Distance to genes or <br>functional consequences of SNPs on genes to map
-						<a class="infoPop" data-toggle="popover" title="Positional mapping" data-content="
+						<a class="infoPop" data-bs-toggle="popover" title="Positional mapping" data-bs-content="
 							Positional mapping can be performed purly based on the phisical distance between SNPs and genes by providing the maximum distance.
 							Optionally, functional consequences of SNPs on genes can be selected to map only specific SNPs such as SNPs locating on exonic regions.
 							Note that when functional consequnces are selected, only SNPs locationg on the gene body (distance 0) are mapped to genes except upstream and downstream SNPs which are up to 1kb apart from TSS or TES.">
@@ -278,7 +278,7 @@
 					<tr>
 						<td rowspan="2">CADD</td>
 						<td>Perform SNPs filtering based on CADD score.
-							<a class="infoPop" data-toggle="popover" title="CADD score filtering" data-content="Please check this option to filter SNPs based on CADD score and spacify minimum score in the box below.">
+							<a class="infoPop" data-bs-toggle="popover" title="CADD score filtering" data-bs-content="Please check this option to filter SNPs based on CADD score and spacify minimum score in the box below.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -290,7 +290,7 @@
 					</tr>
 					<tr>
 						<td>Minimum CADD score (&ge;)
-							<a class="infoPop" data-toggle="popover" title="CADD score" data-content="CADD score is the score of deleteriousness of SNPs. The heigher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
+							<a class="infoPop" data-bs-toggle="popover" title="CADD score" data-bs-content="CADD score is the score of deleteriousness of SNPs. The heigher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -303,7 +303,7 @@
 					<tr>
 						<td rowspan="2">RegulomeDB</td>
 						<td>Perform SNPs filtering based on RegulomeDB score
-							<a class="infoPop" data-toggle="popover" title="RegulomeDB Score filtering" data-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
+							<a class="infoPop" data-bs-toggle="popover" title="RegulomeDB Score filtering" data-bs-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -312,7 +312,7 @@
 					</tr>
 					<tr>
 						<td>Maximum RegulomeDB score (categorical)
-							<a class="infoPop" data-toggle="popover" title="RegulomeDB score" data-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least liekly. Some SNPs have 'NA' which are not assigned any score.">
+							<a class="infoPop" data-bs-toggle="popover" title="RegulomeDB score" data-bs-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least liekly. Some SNPs have 'NA' which are not assigned any score.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -343,7 +343,7 @@
 						<tr>
 						<td rowspan="4">15-core chromatin state</td>
 						<td>Perform SNPs filtering based on chromatin state
-							<a class="infoPop" data-toggle="popover" title="15-core chromatin state filtering" data-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
+							<a class="infoPop" data-bs-toggle="popover" title="15-core chromatin state filtering" data-bs-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -530,7 +530,7 @@
 					</tr>
 					<tr>
 						<td>15-core chromatin state maximum state
-							<a class="infoPop" data-toggle="popover" title="The maximum chromatin state" data-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
+							<a class="infoPop" data-bs-toggle="popover" title="The maximum chromatin state" data-bs-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -542,7 +542,7 @@
 					</tr>
 					<tr>
 						<td>15-core chromatin state filtering method
-							<a class="infoPop" data-toggle="popover" title="Filtering method for chromatin state" data-content="When multiple tissye/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
+							<a class="infoPop" data-bs-toggle="popover" title="Filtering method for chromatin state" data-bs-content="When multiple tissye/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -566,18 +566,18 @@
 	<!-- eqtl mapping -->
 	<div class="card card-default" style="padding: 0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h4>3-2. Gene Mapping (eQTL mapping)<a href="#NewJobEqtlMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
+			<h4>3-2. Gene Mapping (eQTL mapping)<a href="#NewJobEqtlMapPanel" data-bs-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
 		<div class="card-body collapse" id="NewJobEqtlMapPanel">
 			<h4>eQTL mapping</h4>
 			<table class="table table-bordered inputTable" id="NewJobEqtlMap" style="width: auto;">
 				<tr>
 					<td>Perform eQTL mapping
-						<a class="infoPop" data-toggle="popover" title="eQTL mapping" data-content="eQTL mapping maps SNPs to genes based on eQTL information. This maps SNPs to genes up to 1 Mb part (cis-eQTL). Please check this option to perform eQTL mapping.">
+						<a class="infoPop" data-bs-toggle="popover" title="eQTL mapping" data-bs-content="eQTL mapping maps SNPs to genes based on eQTL information. This maps SNPs to genes up to 1 Mb part (cis-eQTL). Please check this option to perform eQTL mapping.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" calss="form-control" name="eqtlMap", id="eqtlMap"></td>
+					<td><input type="checkbox" class="form-control" name="eqtlMap", id="eqtlMap"></td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 						<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -585,7 +585,7 @@
 				</tr>
 				<tr class="eqtlMapOptions">
 					<td>Tissue types
-						<a class="infoPop" data-toggle="popover" title="Tissue types of eQTLs" data-content="This is mandatory parameter for eQTL mapping. Currentlly 44 tissue types from GTEx and two large scale eQTL study of blood cell are available.">
+						<a class="infoPop" data-bs-toggle="popover" title="Tissue types of eQTLs" data-bs-content="This is mandatory parameter for eQTL mapping. Currentlly 44 tissue types from GTEx and two large scale eQTL study of blood cell are available.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -688,7 +688,7 @@
 				</tr>
 				<tr class="eqtlMapOptions">
 					<td>eQTL P-value threshold
-						<a class="infoPop" data-toggle="popover" title="eQTL P-value threshold" data-content="By default, only significant eQTLs are used (FDR &lt; 0.05). Please UNCHECK 'Use only significant snp-gene pair' to filter eQTLs based on raw P-value.">
+						<a class="infoPop" data-bs-toggle="popover" title="eQTL P-value threshold" data-bs-content="By default, only significant eQTLs are used (FDR &lt; 0.05). Please UNCHECK 'Use only significant snp-gene pair' to filter eQTLs based on raw P-value.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -713,7 +713,7 @@
 					<tr>
 						<td rowspan="2">CADD</td>
 						<td>Perform SNPs filtering based on CADD score.
-							<a class="infoPop" data-toggle="popover" title="CADD score filtering" data-content="Please check this option to filter SNPs based on CADD score and spacify minimum score in the box below.">
+							<a class="infoPop" data-bs-toggle="popover" title="CADD score filtering" data-bs-content="Please check this option to filter SNPs based on CADD score and spacify minimum score in the box below.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -725,7 +725,7 @@
 					</tr>
 					<tr>
 						<td>Minimum CADD score (&ge;)
-							<a class="infoPop" data-toggle="popover" title="CADD score" data-content="CADD score is the score of deleteriousness of SNPs. The heigher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
+							<a class="infoPop" data-bs-toggle="popover" title="CADD score" data-bs-content="CADD score is the score of deleteriousness of SNPs. The heigher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -738,7 +738,7 @@
 					<tr>
 						<td rowspan="2">RegulomeDB</td>
 						<td>Perform SNPs filtering based on RegulomeDB score
-							<a class="infoPop" data-toggle="popover" title="RegulomeDB Score filtering" data-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
+							<a class="infoPop" data-bs-toggle="popover" title="RegulomeDB Score filtering" data-bs-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -750,7 +750,7 @@
 					</tr>
 					<tr>
 						<td>Maximum RegulomeDB score (categorical)
-							<a class="infoPop" data-toggle="popover" title="RegulomeDB score" data-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least liekly. Some SNPs have 'NA' which are not assigned any score.">
+							<a class="infoPop" data-bs-toggle="popover" title="RegulomeDB score" data-bs-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least liekly. Some SNPs have 'NA' which are not assigned any score.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -781,7 +781,7 @@
 					<tr>
 						<td rowspan="4">15-core chromatin state</td>
 						<td>Perform SNPs filtering based on chromatin state
-							<a class="infoPop" data-toggle="popover" title="15-core chromatin state filtering" data-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
+							<a class="infoPop" data-bs-toggle="popover" title="15-core chromatin state filtering" data-bs-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -967,7 +967,7 @@
 					</tr>
 					<tr>
 						<td>15-core chromatin state maximum state
-							<a class="infoPop" data-toggle="popover" title="The maximum chromatin state" data-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
+							<a class="infoPop" data-bs-toggle="popover" title="The maximum chromatin state" data-bs-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -979,7 +979,7 @@
 					</tr>
 					<tr>
 						<td>15-core chromatin state filtering method
-							<a class="infoPop" data-toggle="popover" title="Filtering method for chromatin state" data-content="When multiple tissye/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
+							<a class="infoPop" data-bs-toggle="popover" title="Filtering method for chromatin state" data-bs-content="When multiple tissye/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1003,18 +1003,18 @@
 	<!-- chromatin interaction mapping -->
 	<div class="card" style="padding: 0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h4>3-3. Gene Mapping (3D Chromatin Interaction mapping)<a href="#NewJobCiMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
+			<h4>3-3. Gene Mapping (3D Chromatin Interaction mapping)<a href="#NewJobCiMapPanel" data-bs-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
 		<div class="card-body collapse" id="NewJobCiMapPanel">
 			<h4>chromatin interaction mapping</h4>
 			<table class="table table-bordered inputTable" id="NewJobCiMap" style="width: auto;">
 				<tr>
 					<td>Perform chromatin interaction mapping
-						<a class="infoPop" data-toggle="popover" title="3D chromatin interaction mapping" data-content="3D chromatin interaction mapping maps SNPs to genes based on chromatin interactions such as Hi-C and ChIA-PET. Please check to perform this mapping.">
+						<a class="infoPop" data-bs-toggle="popover" title="3D chromatin interaction mapping" data-bs-content="3D chromatin interaction mapping maps SNPs to genes based on chromatin interactions such as Hi-C and ChIA-PET. Please check to perform this mapping.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" calss="form-control" name="ciMap", id="ciMap"></td>
+					<td><input type="checkbox" class="form-control" name="ciMap", id="ciMap"></td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 						<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -1022,7 +1022,7 @@
 				</tr>
 				<tr class="ciMapOptions">
 					<td>Buildin chromatin interaction data
-						<a class="infoPop" data-toggle="popover" title="Buildin Hi-C data" data-content="Hi-C datasets of 21 tissue and cell types from GSE87112 are selectabe as buildin data. Multiple tissue and cell types can be selected.">
+						<a class="infoPop" data-bs-toggle="popover" title="Buildin Hi-C data" data-bs-content="Hi-C datasets of 21 tissue and cell types from GSE87112 are selectabe as buildin data. Multiple tissue and cell types can be selected.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -1062,8 +1062,8 @@
 				</tr>
 				<tr class="ciMapOptions">
 					<td>Custom chromatin interaction matrices
-						<a class="infoPop" data-toggle="popover" title="Custome chromatin interaction matrices"
-							data-content="Please upload files of custome chromatin interaction matrices (significant loops). The input files have to follow the specific format. Please refer the tutorial for details. THe file name should be '(Name_of_the_data).txt.gz' in which (Name_of_the_data) will be used in the results table.">
+						<a class="infoPop" data-bs-toggle="popover" title="Custome chromatin interaction matrices"
+							data-bs-content="Please upload files of custome chromatin interaction matrices (significant loops). The input files have to follow the specific format. Please refer the tutorial for details. THe file name should be '(Name_of_the_data).txt.gz' in which (Name_of_the_data) will be used in the results table.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -1079,7 +1079,7 @@
 				</tr>
 				<tr class="ciMapOptions">
 					<td>FDR threshold
-						<a class="infoPop" data-toggle="popover" title="FDR threshold for significant interaction" data-content="Significane of interaction for buildin Hi-C datasets are computed by Fit-Hi-C (see tutorial for details). The default threshold is FDR &lt; 1e-6 as suggested by Schmit et al. (2016).">
+						<a class="infoPop" data-bs-toggle="popover" title="FDR threshold for significant interaction" data-bs-content="Significane of interaction for buildin Hi-C datasets are computed by Fit-Hi-C (see tutorial for details). The default threshold is FDR &lt; 1e-6 as suggested by Schmit et al. (2016).">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -1093,7 +1093,7 @@
 				</tr>
 				<tr class="ciMapOptions">
 					<td>Promoter region window
-						<a class="infoPop" data-toggle="popover" title="Promoter region window" data-content="The window of promoter regions are used to overlap TSS of genes with significantly interacted regions with risk loci.
+						<a class="infoPop" data-bs-toggle="popover" title="Promoter region window" data-bs-content="The window of promoter regions are used to overlap TSS of genes with significantly interacted regions with risk loci.
 							By default, promoter region is defined as 250bp upstream and 500bp downsteram of TSS. Genes whoes promoter regions are overlapped with the interacted region are used for gene mapping.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
@@ -1110,7 +1110,7 @@
 				</tr>
 				<tr class="ciMapOptions">
 					<td>Annotate enhancer/promoter regions (Roadmap 111 epigenomes)
-						<a class="infoPop" data-toggle="popover" title="Enhancer/promoter regions" data-content="Enhancers are annotated to overlapped candidate SNPs which are also overlapped with significant chromatin interactions (region 1).
+						<a class="infoPop" data-bs-toggle="popover" title="Enhancer/promoter regions" data-bs-content="Enhancers are annotated to overlapped candidate SNPs which are also overlapped with significant chromatin interactions (region 1).
 							Promoters are annotated to regions which are significantly ineracted with risk loci (region 2). Dyadic enhancer/promoter regions are annotated for both. Please refer the tutorial for detils.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
@@ -1271,12 +1271,12 @@
 				</tr>
 				<tr class="ciMapOptions">
 					<td>Filter SNPs by enhancers
-						<a class="infoPop" data-toggle="popover" title="Filter SNPs by enhancers" data-content="Only map SNPs which are overlapped with enhancers of selected epigenomes. Please select at least one epigenome to enable this option.
+						<a class="infoPop" data-bs-toggle="popover" title="Filter SNPs by enhancers" data-bs-content="Only map SNPs which are overlapped with enhancers of selected epigenomes. Please select at least one epigenome to enable this option.
 							If this option is not checked, all SNPs overlapped with chromatin interaction are used for mapping.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" calss="form-control" name="ciMapEnhFilt", id="ciMapEnhFilt"></td>
+					<td><input type="checkbox" class="form-control" name="ciMapEnhFilt", id="ciMapEnhFilt"></td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 						<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -1284,12 +1284,12 @@
 				</tr>
 				<tr class="ciMapOptions">
 					<td>Filter genes by promoters
-						<a class="infoPop" data-toggle="popover" title="Filter genes by promoters" data-content="Only map to genes whoes promoter regions are overlap with promoters of selected epigenomes. Please select at least one epigenome to enable this option.
+						<a class="infoPop" data-bs-toggle="popover" title="Filter genes by promoters" data-bs-content="Only map to genes whoes promoter regions are overlap with promoters of selected epigenomes. Please select at least one epigenome to enable this option.
 							If this option is not checked, all genes whose promoter reions are overlapped with the interacted regions are mapped.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" calss="form-control" name="ciMapPromFilt", id="ciMapPromFilt"></td>
+					<td><input type="checkbox" @class(['p-4', 'font-bold' => true])="form-control" name="ciMapPromFilt", id="ciMapPromFilt"></td>
 					<td>
 						<div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">
 						<i class="fa fa-exclamation-circle"></i> Optional.</div>
@@ -1307,7 +1307,7 @@
 					<tr>
 						<td rowspan="2">CADD</td>
 						<td>Perform SNPs filtering based on CADD score.
-							<a class="infoPop" data-toggle="popover" title="CADD score filtering" data-content="Please check this option to filter SNPs based on CADD score and spacify minimum score in the box below.">
+							<a class="infoPop" data-bs-toggle="popover" title="CADD score filtering" data-bs-content="Please check this option to filter SNPs based on CADD score and spacify minimum score in the box below.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1319,7 +1319,7 @@
 					</tr>
 					<tr>
 						<td>Minimum CADD score (&ge;)
-							<a class="infoPop" data-toggle="popover" title="CADD score" data-content="CADD score is the score of deleteriousness of SNPs. The heigher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
+							<a class="infoPop" data-bs-toggle="popover" title="CADD score" data-bs-content="CADD score is the score of deleteriousness of SNPs. The heigher, the more deleterious. 12.37 is the suggestive threshold to be deleterious. Coding SNPs tend to have high score than non-coding SNPs.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1332,7 +1332,7 @@
 					<tr>
 						<td rowspan="2">RegulomeDB</td>
 						<td>Perform SNPs filtering based on RegulomeDB score
-							<a class="infoPop" data-toggle="popover" title="RegulomeDB Score filtering" data-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
+							<a class="infoPop" data-bs-toggle="popover" title="RegulomeDB Score filtering" data-bs-content="Please check this option to filter SNPs based on RegulomeDB score and specify the maximum score in the box below.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1341,7 +1341,7 @@
 					</tr>
 					<tr>
 						<td>Maximum RegulomeDB score (categorical)
-							<a class="infoPop" data-toggle="popover" title="RegulomeDB score" data-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least liekly. Some SNPs have 'NA' which are not assigned any score.">
+							<a class="infoPop" data-bs-toggle="popover" title="RegulomeDB score" data-bs-content="RegulomeDB score is a categorical score to represent regulatory function of SNPs based on eQTLs and epigenome information. '1a' is the most likely functional and 7 is the least liekly. Some SNPs have 'NA' which are not assigned any score.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1372,7 +1372,7 @@
 					<tr>
 						<td rowspan="4">15-core chromatin state</td>
 						<td>Perform SNPs filtering based on chromatin state
-							<a class="infoPop" data-toggle="popover" title="15-core chromatin state filtering" data-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
+							<a class="infoPop" data-bs-toggle="popover" title="15-core chromatin state filtering" data-bs-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1540,7 +1540,7 @@
 					</tr>
 					<tr>
 						<td>15-core chromatin state maximum state
-							<a class="infoPop" data-toggle="popover" title="The maximum chromatin state" data-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
+							<a class="infoPop" data-bs-toggle="popover" title="The maximum chromatin state" data-bs-content="The chromatin state represents accessibility of genomic regions (every 200bp) with 15 categorical states. Generally, states &le; 7 are open in given tissue/cell types.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1552,7 +1552,7 @@
 					</tr>
 					<tr>
 						<td>15-core chromatin state filtering method
-							<a class="infoPop" data-toggle="popover" title="Filtering method for chromatin state" data-content="When multiple tissye/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
+							<a class="infoPop" data-bs-toggle="popover" title="Filtering method for chromatin state" data-bs-content="When multiple tissye/cell types are selected, SNPs will be kept if they have chromatin state lower than the threshold in any of, majority of or all of selected tissue/cell types.">
 								<i class="fa-regular fa-circle-question fa-lg"></i>
 							</a>
 						</td>
@@ -1577,13 +1577,13 @@
 	<!-- Gene type multiple selection -->
 	<div class="card" style="padding:0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h4>4. Gene types<a href="#NewJobGenePanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
+			<h4>4. Gene types<a href="#NewJobGenePanel" data-bs-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
 		<div class="card-body collapse" id="NewJobGenePanel">
 			<table class="table table-bordered inputTable" id="NewJobGene" style="width: auto;">
 				<tr>
 					<td>Gene type
-						<a class="infoPop" data-toggle="popover" title="Gene Type" data-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl). By default, only protein-coding genes are used for mapping.">
+						<a class="infoPop" data-bs-toggle="popover" title="Gene Type" data-bs-content="Setting gene type defines what kind of genes should be included in the gene prioritization. Gene type is based on gene biotype obtained from BioMart (Ensembl). By default, only protein-coding genes are used for mapping.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a><br>
 						<span class="info"><i class="fa fa-info"></i> Multiple gene type can be selected.</span>
@@ -1613,13 +1613,13 @@
 	<!-- MHC regions -->
 	<div class="card" style="padding:0px;">
 		<div class="card-header input" style="padding:5px;">
-			<h4>5. MHC region<a href="#NewJobMHCPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
+			<h4>5. MHC region<a href="#NewJobMHCPanel" data-bs-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
 		<div class="card-body collapse" id="NewJobMHCPanel">
 			<table class="table table-bordered inputTable" id="NewJobMHC" style="width: auto;">
 				<tr>
 					<td>Exclude MHC region
-						<a class="infoPop" data-toggle="popover" title="Exclude MHC region" data-content="Please cehck to EXCLUDE MHC region; default MHC region is the genomic region between MOG and COL11A2 genes.">
+						<a class="infoPop" data-bs-toggle="popover" title="Exclude MHC region" data-bs-content="Please cehck to EXCLUDE MHC region; default MHC region is the genomic region between MOG and COL11A2 genes.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</td>
@@ -1640,7 +1640,7 @@
 				</tr>
 				<tr>
 					<td>Extended MHC region
-						<a class="infoPop" data-toggle="popover" title="Extended MHC region" data-content="User defined MHC region. When this option is not given, the default MHC region will be used.">
+						<a class="infoPop" data-bs-toggle="popover" title="Extended MHC region" data-bs-content="User defined MHC region. When this option is not given, the default MHC region will be used.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a><br>
 						<span class="info"><i class="fa fa-info"></i>e.g. 25000000-33000000<br>

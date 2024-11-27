@@ -135,8 +135,8 @@
                                         <th>Type</th>
                                         <th>Submit date</th>
                                         <th>Status
-                                            <a class="infoPop" data-toggle="popover" data-html="true"
-                                                data-content="<b>NEW: </b>The job has been submitted.<br>
+                                            <a class="infoPop" data-bs-toggle="popover" data-html="true"
+                                                data-bs-content="<b>NEW: </b>The job has been submitted.<br>
                                                 <b>QUEUED</b>: The job has been dispatched to queue.<br><b>RUNNING</b>: The job is running.<br>
                                                 <b>Go to results</b>: The job has been completed. This is linked to result page.<br>
                                                 <b>ERROR</b>: An error occurred during the process.">
@@ -195,13 +195,13 @@
                                                                     {{ html()->form('POST', url('admin/search-jobs/action'))->open() }}
                                                                     <input type="hidden" name="container_name" value="{{ $container['name'] }}">
                                                                     @if ($container['state'] == 'running')
-                                                                        <button class="pause" title="Pause" name="pause" value= "pause" data-toggle="tooltip"><i
+                                                                        <button class="pause" title="Pause" name="pause" value= "pause" data-bs-toggle="tooltip"><i
                                                                                 class="material-icons">&#xe034;</i></button>
                                                                     @elseif ($container['state'] == 'paused')
-                                                                        <button class="play" title="Play" name="play" value= "play" data-toggle="tooltip"><i
+                                                                        <button class="play" title="Play" name="play" value= "play" data-bs-toggle="tooltip"><i
                                                                                 class="material-icons">&#xe037;</i></button>
                                                                     @endif
-                                                                        <button class="delete" title="Delete" name="delete" value= "delete" data-toggle="tooltip"><i
+                                                                        <button class="delete" title="Delete" name="delete" value= "delete" data-bs-toggle="tooltip"><i
                                                                                 class="material-icons">&#xE872;</i></button>
                                                                     {{ html()->form()->close() }}
                                                                 </td>

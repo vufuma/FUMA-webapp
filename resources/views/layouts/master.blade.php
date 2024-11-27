@@ -3,7 +3,7 @@
 	<!--'resources/css/app.css', -->
 	<head>
 		@include('partials._head')
-        @vite(['resources/js/app.js', 'resources/js/fuma.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('vite')
 
 	</head>

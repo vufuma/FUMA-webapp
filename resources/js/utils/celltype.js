@@ -1,25 +1,6 @@
 import swal from 'sweetalert';
 import { loadResults, DownloadFiles } from './cell_results.js';
-import { CellTypeState as pageState}  from "./pageStateComponents.js";
-
-export const setPageState = function(
-	status,
-	id,
-	prefix,
-	page,
-	subdir,
-	loggedin,
-
-) {
-	pageState.setState(
-		status,
-		id,
-		prefix,
-		page,
-		subdir,
-		loggedin, 		
-	)
-}
+import { CellTypeState as pageState}  from "../pages/pageStateComponents.js";
 
 export const CellTypeSetup = function(){
 	// hide submit buttons for imgDown
@@ -84,7 +65,7 @@ export const CellTypeSetup = function(){
 			type: "warning",
 			showCancelButton: true,
 			closeOnConfirm: true,
-		}, function(isConfirm){
+		}).then((isConfirm) => {
 			if (isConfirm){
 				$('.deleteJobCheck').each(function(){
 					if($(this).is(":checked")){

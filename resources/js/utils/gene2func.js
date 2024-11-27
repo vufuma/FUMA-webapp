@@ -13,31 +13,7 @@ import {
 } from "./g2f_results.js";
 
 import swal from 'sweetalert';
-import { G2FPageState as pageState}  from "./pageStateComponents.js";
-
-export const setPageState = function(
-	public_path, 
-	storage_path,
-	subdir,
-	jobdir,
-	status,
-	id,
-	page,
-	loggedin,
-	prefix
-) {
-	pageState.setState(
-		public_path, 
-		storage_path,
-		subdir,
-		jobdir,
-		status,
-		id,
-		page,
-		loggedin,
-		prefix
-	);
-}
+import { G2FPageState as pageState}  from "../pages/pageStateComponents.js";
 
 export const Gene2FuncSetup = function(){
 	const page = pageState.get("page");
@@ -107,7 +83,7 @@ export const Gene2FuncSetup = function(){
 			type: "warning",
 			showCancelButton: true,
 			closeOnConfirm: true,
-		}, function(isConfirm){
+		}).then((isConfirm) => {
 			if (isConfirm){
 				$('.deleteJobCheck').each(function(){
 					if($(this).is(":checked")){

@@ -1,43 +1,43 @@
 <!-- result tables -->
 <div class="sidePanel container" style="padding-top:50px;" id="tables">
 	<div class="card"><div class="card-body">
-		<!-- <a href="#tablesPanel" data-toggle="collapse" style="color: #00004d"><h3>Result tables</h3></a> -->
+		<!-- <a href="#tablesPanel" data-bs-toggle="collapse" style="color: #00004d"><h3>Result tables</h3></a> -->
 		<h4 style="color: #00004d">Result tables</h4>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
-			<!-- <li role="presentation" class="active"><a href="#summaryTable" aria-controls="summaryTable" rolw="tab" data-toggle="tab">Summary</a></li> -->
+			<!-- <li role="presentation" class="active"><a href="#summaryTable" aria-controls="summaryTable" rolw="tab" data-bs-toggle="tab">Summary</a></li> -->
 			<li class="nav-item" role="presentation">
-				<a class="nav-link RegionalPlotOn active" href="#lociTablePane" id="lociTablePane-tab" role="tab" data-toggle="tab">Genomic risk loci</a>
+				<a class="nav-link RegionalPlotOn active" href="#lociTablePane" id="lociTablePane-tab" data-bs-toggle="tab">Genomic risk loci</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link RegionalPlotOn" href="#leadSNPtablePane" id="leadSNPtablePane-tab" role="tab" data-toggle="tab">lead SNPs</a>
+				<a class="nav-link RegionalPlotOn" href="#leadSNPtablePane" id="leadSNPtablePane-tab" data-bs-toggle="tab">lead SNPs</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link RegionalPlotOn" href="#sigSNPtablePane" id="sigSNPtablePane-tab" role="tab" data-toggle="tab">Ind. Sig. SNPs</a>
+				<a class="nav-link RegionalPlotOn" href="#sigSNPtablePane" id="sigSNPtablePane-tab" data-bs-toggle="tab">Ind. Sig. SNPs</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link RegionalPlotOff" href="#SNPtablePane" id="SNPtablePane-tab" role="tab" data-toggle="tab">SNPs (annotations)</a>
+				<a class="nav-link RegionalPlotOff" href="#SNPtablePane" id="SNPtablePane-tab" data-bs-toggle="tab">SNPs (annotations)</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link RegionalPlotOff" href="#annovTablePane" id="annovTablePane-tab" role="tab" data-toggle="tab">ANNOVAR</a>
+				<a class="nav-link RegionalPlotOff" href="#annovTablePane" id="annovTablePane-tab" data-bs-toggle="tab">ANNOVAR</a>
 			</li>
 			<li class="nav-item" role="presentation">
-				<a class="nav-link RegionalPlotOff" href="#geneTablePane" id="geneTablePane-tab" role="tab" data-toggle="tab">Mapped Genes</a>
+				<a class="nav-link RegionalPlotOff" href="#geneTablePane" id="geneTablePane-tab" data-bs-toggle="tab">Mapped Genes</a>
 			</li>
 			<li class="nav-item" role="presentation" id="eqtlTableTab">
-				<a class="nav-link RegionalPlotOff" href="#eqtlTablePane" id="eqtlTablePane-tab" role="tab" data-toggle="tab">eQTL</a>
+				<a class="nav-link RegionalPlotOff" href="#eqtlTablePane" id="eqtlTablePane-tab" data-bs-toggle="tab">eQTL</a>
 			</li>
 			<li class="nav-item" role="presentation" id="ciTableTab">
-				<a class="nav-link RegionalPlotOff" href="#ciTablePane" id="ciTablePane-tab" role="tab" data-toggle="tab">Chromatin interactions</a>
+				<a class="nav-link RegionalPlotOff" href="#ciTablePane" id="ciTablePane-tab" data-bs-toggle="tab">Chromatin interactions</a>
 			</li>
 			<li class="nav-item" role="presentation" id="gwascatTableTab">
-				<a class="nav-link RegionalPlotOff" href="#gwascatTablePane" id="gwascatTablePane-tab" role="tab" data-toggle="tab">GWAScatalog</a>
+				<a class="nav-link RegionalPlotOff" href="#gwascatTablePane" id="gwascatTablePane-tab" role="tab" data-bs-toggle="tab">GWAScatalog</a>
 			</li>
-			<!-- <li role="presentation"><a href="#exacTablePane" id="exacTablePane-tab" role="tab" data-toggle="tab">ExAC</a></li> -->
+			<!-- <li role="presentation"><a href="#exacTablePane" id="exacTablePane-tab" role="tab" data-bs-toggle="tab">ExAC</a></li> -->
 			<li class="nav-item" role="presentation">
-				<a class="nav-link RegionalPlotOff" href="#paramsPane" id="paramsPane-tab" role="tab" data-toggle="tab">Parameters</a>
+				<a class="nav-link RegionalPlotOff" href="#paramsPane" id="paramsPane-tab" role="tab" data-bs-toggle="tab">Parameters</a>
 			</li>
-			<!-- <li role="presentation"><a href="#downloads" id="downloads-tab" role="tab" data-toggle="tab">Downloads</a></li> -->
+			<!-- <li role="presentation"><a href="#downloads" id="downloads-tab" role="tab" data-bs-toggle="tab">Downloads</a></li> -->
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -120,7 +120,7 @@
 					<input type="hidden" name="jobID" value="{{$id}}"/>
 					<span class="form-inline">
 						<input type="submit" class="btn btn-default" id="geneQuerySubmit" name="geneQuerySubmit" value="Use mapped genes for GENE2FUNC (open new tab)">
-						<a class="infoPop" data-toggle="popover" data-content="This is linked to GENE2FUNC process. All genes in the table below will be used. You can manually submit selected genes later on. This will open new tab.">
+						<a class="infoPop" data-bs-toggle="popover" data-bs-content="This is linked to GENE2FUNC process. All genes in the table below will be used. You can manually submit selected genes later on. This will open new tab.">
 							<i class="fa-regular fa-circle-question fa-lg"></i>
 						</a>
 					</span>
@@ -255,7 +255,7 @@
 	<!-- region plot -->
 	<div id="regionalPlot">
 		<div class="card"><div class="card-body">
-			<!-- <a href="#regionalPlotPanel" data-toggle="collapse" style="color: #00004d"><h3>Regional Plot (GWAS association)</h3></a> -->
+			<!-- <a href="#regionalPlotPanel" data-bs-toggle="collapse" style="color: #00004d"><h3>Regional Plot (GWAS association)</h3></a> -->
 			<h4 style="color: #00004d">Regional Plot (GWAS association)</h4>
 			<!-- <div class="row collapse in" id="regionalPlotPanel"> -->
 			<span class="info"><i class="fa fa-info"></i>
@@ -280,7 +280,7 @@
 			<!-- <div class="panel panel-default"><div class="panel-body"> -->
 			<div id="annotPlotPanel">
 				<h4><span style="color: #00004d">Regional plot with annotation</span>
-				<a class="infoPop" data-toggle="popover" data-content="To create regional plot with genes and annotations, select the following options and click 'Plot'.">
+				<a class="infoPop" data-bs-toggle="popover" data-bs-content="To create regional plot with genes and annotations, select the following options and click 'Plot'.">
 					<i class="fa-regular fa-circle-question fa-lg"></i>
 				</a>
 				</h4>
@@ -293,14 +293,14 @@
 						<input type="hidden" name="annotPlotSelect" id="annotPlotSelect" value="null"/>
 						<input type="hidden" name="annotPlotRow" id="annotPlotRow" value="null"/>
 						Select annotation(s) to plot:<br>
-						<tab><input type="checkbox" name="annotPlot_GWASp" id="annotPlot_GWASp" checked/>GWAS association statistics<br>
-						<tab><input type="checkbox" name="annotPlot_CADD" id="annotPlot_CADD" checked/>CADD score<br>
-						<tab><input type="checkbox" name="annotPlot_RDB" id="annotPlot_RDB" checked/>RegulomeDB score<br>
-						<tab><input type="checkbox" name="annotPlot_Chrom15" id="annotPlot_Chrom15" onchange="Chr15Select();"/>Chromatine 15 state
+						<input type="checkbox" name="annotPlot_GWASp" id="annotPlot_GWASp" checked/>GWAS association statistics<br>
+						<input type="checkbox" name="annotPlot_CADD" id="annotPlot_CADD" checked/>CADD score<br>
+						<input type="checkbox" name="annotPlot_RDB" id="annotPlot_RDB" checked/>RegulomeDB score<br>
+						<input type="checkbox" name="annotPlot_Chrom15" id="annotPlot_Chrom15" onchange="Chr15Select();"/>Chromatine 15 state
 						<div id="annotPlotChr15Opt">
-							<tab><tab><span style="color:red;">Please select at least one tissue type.</span><br>
-							<tab><tab>Tissue/Cell types: <a id="annotPlotChr15TsClear">clear</a><br>
-							<tab><tab><select multiple size="10" id="annotPlotChr15Ts" name="annotPlotChr15Ts[]" onchange="Chr15Select()">
+							<span style="color:red;">Please select at least one tissue type.</span><br>
+							Tissue/Cell types: <a id="annotPlotChr15TsClear">clear</a><br>
+							<select multiple size="10" id="annotPlotChr15Ts" name="annotPlotChr15Ts[]" onchange="Chr15Select()">
 								<option value="all">All</option>
 								<option class="level1" value="null">Adrenal (1)</option>
 								<option class="level2" value="E080">E080 (Other) Fetal Adrenal Gland</option>
@@ -462,8 +462,8 @@
 							</select><br>
 						</div>
 						<br>
-						<div id="check_eqtl_annotPlot"><tab><input type="checkbox" name="annotPlot_eqtl" id="annotPlot_eqtl" checked/>eQTL<br></div>
-						<div id="check_ci_annotPlot"><tab><input type="checkbox" name="annotPlot_ci" id="annotPlot_ci" checked/>Chromatin interaction<br></div>
+						<div id="check_eqtl_annotPlot"><input type="checkbox" name="annotPlot_eqtl" id="annotPlot_eqtl" checked/>eQTL<br></div>
+						<div id="check_ci_annotPlot"><input type="checkbox" name="annotPlot_ci" id="annotPlot_ci" checked/>Chromatin interaction<br></div>
 						<br>
 						<span class="form-inline">
 							<input class="btn btn-default" type="submit" name="submit" id= "annotPlotSubmit" value="Plot">

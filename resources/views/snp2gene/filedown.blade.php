@@ -22,8 +22,8 @@
 		</div>
 		<span class="form-inline">
 			<input class="btn btn-default btn-xs" type="submit" name="download" id="downloadFiles" value="Download files"/>
-			<tab><a class="allfiles"> Select All </a>
-			<tab><a class="clearfiles"> Clear</a>
+			<a class="allfiles"> Select All </a>
+			<a class="clearfiles"> Clear</a>
 		</span><br>
 	</form>
 </div>

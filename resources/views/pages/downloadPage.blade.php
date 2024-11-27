@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container" style="padding-top: 50px;">
+    <div class="col-md-8 offset-md-2" style="padding-top: 50px;">
         <strong> Please click the download symbol in the third column to download the data files.</strong>
         <table class="table table-bordered" style="width:auto">
             <thead>
@@ -323,13 +323,13 @@
     </div>
 @endsection
 @push('vite')
-    @vite(['resources/js/tutorial_utils.js'])
+    @vite(['resources/js/utils/tutorial_utils.js'])
 @endpush
 
 @push('page_scripts')
     {{-- Imports from the project and local script --}}
     <script type="module">
-        import { tutorialDownloadVariant } from "{{ Vite::appjs('tutorial_utils.js') }}";
+        import tutorialDownloadVariant from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
         window.tutorialDownloadVariant = tutorialDownloadVariant;
         window.loggedin = "{{ Auth::check() }}";
     </script>

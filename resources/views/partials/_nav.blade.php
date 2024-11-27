@@ -4,7 +4,7 @@
         <a class="navbar-brand fuma_brand" href="{{ Config::get('app.subdir') }}/" style="padding-left: 30px;">
             <img src="{!! URL::asset('image/fuma.png') !!}" height="50" alt="FUMAGwas">
         </a>
-        <button type = "button" class = "navbar-toggler" data-toggle = "collapse" data-target = "#topOfPageNav" aria-controls = "topOfPageNav" aria-expanded = "false" aria-label = "Toggle navigation ">
+        <button type = "button" class = "navbar-toggler" data-bs-toggle = "collapse" data-target = "#topOfPageNav" aria-controls = "topOfPageNav" aria-expanded = "false" aria-label = "Toggle navigation ">
             <span class = "navbar-toggler-icon"> </span>
         </button>
 		<div class="collapse navbar-collapse" id="topOfPageNav">
@@ -24,9 +24,9 @@
 				<li class="nav-item {{ Request::is('faq') ? 'active' : ''}}"><a class="nav-link" href="/faq">FAQs</a></li>
 				<li class="nav-item {{ Request::is('updates') ? 'active' : ''}}"><a class="nav-link" href="/updates">Updates</a></li>
 				<li class="nav-item">
-					<a id="appInfo" class="infoPop nav-link" data-placement="bottom" data-toggle="popover" data-html="true"
+					<a id="appInfo" class="infoPop nav-link" data-placement="bottom" data-bs-toggle="popover" data-html="true"
 						title="FUMA information"
-						data-content='<div style="width:200px;">
+						data-bs-content='<div style="width:200px;">
 						Current FUMA verions: <span id="FUMAver"></span><br>
 						Total users: <span id="FUMAuser"></span><br>
 						Total SNP2GENE jobs: <span id="FUMAs2g"></span><br>
@@ -44,25 +44,25 @@
 					<li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Register</a></li>
 				@else
 					<li class="nav-item dropdown">
-						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-expanded="false">
+						<a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown" role="button" aria-expanded="false">
 							{{ Auth::user()-> name }} <span class="caret"></span>
 						</a>
 
-						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="{{ Config::get('app.subdir') }}/snp2gene#joblist-panel">SNP2GENE My Jobs</a>
-							<a class="dropdown-item" href="{{ Config::get('app.subdir') }}/gene2func#queryhistory">GENE2FUNC History</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li><a class="dropdown-item" href="{{ Config::get('app.subdir') }}/snp2gene#joblist-panel">SNP2GENE My Jobs</a></li>
+							<li><a class="dropdown-item" href="{{ Config::get('app.subdir') }}/gene2func#queryhistory">GENE2FUNC History</a><li>
 							@can('Administer roles & permissions')
-								<a class="dropdown-item" href="{{ url('/admin/users') }}">
+								<li><a class="dropdown-item" href="{{ url('/admin/users') }}">
 									<i class="fa fa-btn fa-unlock"></i>
 									Admin
-								</a>
+								</a></li>
 							@endcan
-                            <a class="dropdown-item" href="{{ url('/logout') }}" id="fuma-logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <li><a class="dropdown-item" href="{{ url('/logout') }}" id="fuma-logout-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa fa-btn fa-sign-out"></i>
                                 Logout
-                            </a>
+                            </a></li>
 
-                        </div>
+</ul>
 						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 							{{ csrf_field() }}
 						</form>

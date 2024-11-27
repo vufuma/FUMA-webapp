@@ -1,6 +1,9 @@
+import $ from 'jquery';
+window.$ = $;
+window.jQuery = $;
 var gwasFileSize = 0;
 var ciFileSize = 0;
-import { S2GPageState as pageState}  from "./pageStateComponents.js";
+import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
 
 export const CheckAll = function() {
 	var submit = true;
@@ -103,9 +106,9 @@ export const CheckAll = function() {
 	}
 
 	if(tablecheck==false){
-		$('#NewJobFilesPanel').siblings(".card-header").attr("class", "card-header input bg-danger text-white");
+		$('#NewJobFilesPanel').siblings(".accordion-header").children("button").addClass("bg-danger text-white");
 	}else{
-		$('#NewJobFilesPanel').siblings(".card-header").attr("class", "card-header input bg-light");
+		$('#NewJobFilesPanel').siblings(".accordion-header").children("button").removeClass("bg-danger text-white");
 	}
 
 	//NewJobParams table
@@ -281,9 +284,9 @@ export const CheckAll = function() {
 	}
 
 	if(tablecheck==false){
-		$('#NewJobParamsPanel').siblings(".card-header").attr("class", "card-header input bg-danger text-white");
+		$('#NewJobParamsPanel').siblings(".accordion-header").children("button").addClass("fs-4 bg-danger text-white");
 	}else{
-		$('#NewJobParamsPanel').siblings(".card-header").attr("class", "card-header input bg-light");
+		$('#NewJobParamsPanel').siblings(".accordion-header").children("button").removeClass("bg-danger text-white");
 	}
 
 	//posMap table
@@ -957,7 +960,7 @@ export const NewJobSetup = function(){
 		})
 		n += 1;
 		$('#ciFiles').append('<span class="form-inline ciFile"><br>File '+n+': data type <input type="text" class="form-control" placeholder="e.g. HiC or ChIA-PET" name="ciMapType'+n+'" id="ciMapType'+n
-			+'"><tab><button type="button" class="btn btn-default btn-xs ciFileDel" onclick="ciFileDel(this)">delete</button><tab><input type="file" class="form-control-file ciMapFile" name="ciMapFile'+n+'" id="ciMapFile'+n
+			+'"><button type="button" class="btn btn-default btn-xs ciFileDel" onclick="ciFileDel(this)">delete</button><input type="file" class="form-control-file ciMapFile" name="ciMapFile'+n+'" id="ciMapFile'+n
 			+'" onchange="ciFileCheck()"><input type="hidden" class="ciFileID" id="ciFileID'+n+'" name="ciFileID'+n+'" value="'+n+'"></span>');
 	})
 };

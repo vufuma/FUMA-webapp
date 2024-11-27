@@ -242,16 +242,6 @@ div.tooltip{
   width: 1em;
 }
 
-.card-header a[aria-expanded="true"] .rotfa {
-    transition: 400ms linear;
-    transform: rotate(180deg);
-}
-
-.card-header a[aria-expanded="false"] .rotfa {
-    transition: 400ms linear;
-    transform: rotate(0deg);
-}
-
 td.sorting_1,
 th.dt-ordering-desc,
 th.dt-ordering-asc {

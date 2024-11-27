@@ -52,7 +52,7 @@
                 </table>
             </div>
 
-            <a href="{{ route('users.create') }}" class="btn btn-success" data-toggle="tooltip"
+            <a href="{{ route('users.create') }}" class="btn btn-success" data-bs-toggle="tooltip"
                 title="Usually users are added by registration but can be also be added here.">Add User</a>
 
         </div>

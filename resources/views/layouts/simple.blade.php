@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-	<!--'resources/css/app.css', -->
 	<head>
 		@include('partials._head')
-        @vite(['resources/js/app.js', 'resources/js/fuma.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('vite')
 	</head>
 	<body>
 		<div id="script_alert_block" class="container-fluid text-center"></div>
-		<div class="container-fluid">
+		<div class="container-fluis">
 			<div id="main" class="row">
 				@yield('content')
 			</div>

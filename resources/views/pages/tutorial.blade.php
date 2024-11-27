@@ -128,8 +128,8 @@
 
 @push('vite')
     @vite([
-        'resources/js/sidebar.js',
-        'resources/js/tutorial_utils.js'])
+        'resources/js/utils/sidebar.js',
+        'resources/js/utils/tutorial_utils.js'])
 @endpush
 
 @push('page_scripts')

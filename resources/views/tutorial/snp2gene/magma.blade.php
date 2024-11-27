@@ -23,9 +23,9 @@ In this section, reference panels and gene expression data sets are described de
 	The command FUMA uses is the following.<br>
 	<code class="codebox">
 		magma --bfile [path to the selected reference panel] \<br>
-		<tab>--pval [magma input file] ncol=3 (or N=[total sample size]) \<br>
-		<tab>--gene-annot [path to the annotation file with use selected window size] \<br>
-		<tab>--out [output file]
+		--pval [magma input file] ncol=3 (or N=[total sample size]) \<br>
+		--gene-annot [path to the annotation file with use selected window size] \<br>
+		--out [output file]
 	</code>
 
 </div>
@@ -61,8 +61,8 @@ In this section, reference panels and gene expression data sets are described de
 	Gene set analysis is performed by the following command.<br>
 	<code class="codebox">
 		magma --gene-results [path to]/magma.genes.raw \<br>
-		<tab>--set-annot [path to gene set file] \<br>
-		<tab>--out [output file]
+		--set-annot [path to gene set file] \<br>
+		--out [output file]
 	</code>
 </div>
 
@@ -94,9 +94,9 @@ In this section, reference panels and gene expression data sets are described de
 	MAGMA gene-property analysis is run with the following command, <br>
 	<code class="codebox">
 		magma --gene-results [input file name].genes.raw \<br>
-		<tab>--gene-covar [file name of selected RNA-seq data set] \ <br>
-		<tab>--model direction-covar=greater condition-hide=Average \<br>
-		<tab>--out [output file name]
+		--gene-covar [file name of selected RNA-seq data set] \ <br>
+		--model direction-covar=greater condition-hide=Average \<br>
+		--out [output file name]
 	</code>
 </div>
 

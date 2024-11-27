@@ -1,5 +1,5 @@
 import { tip as d3Tip } from "d3-v6-tip";
-import { S2GPageState as pageState}  from "./pageStateComponents.js";
+import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
 
 export const GWplot = function (data) {
 	var margin = { top: 30, right: 30, bottom: 50, left: 50 },

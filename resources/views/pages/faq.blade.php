@@ -4,7 +4,7 @@
 	<div style="padding-top: 50px; padding-right: 50px; padding-left: 50px;">
 		<div class="panel panel-default">
 			<div class="panel-heading faq" style="padding-top:5px;padding-bottom:5px;">
-				<h4>My job returned: ERROR: 001 (Input file format not correct). What should I do? <a href="#faq1" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+				<h4>My job returned: ERROR: 001 (Input file format not correct). What should I do? <a href="#faq1" data-bs-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 			</div>
 			<div class="panel-body collapse" id="faq1">
 				When you get this error, this is because there has been an issue with the processing of your input. Please check the following:<br>
@@ -19,7 +19,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading faq" style="padding-top:5px;padding-bottom:5px;">
-				<h4>My job returned: ERROR: 001 (Input file format was not correct/ValueError: cannot convert float NaN to integer). What do I do? <a href="#faq2" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+				<h4>My job returned: ERROR: 001 (Input file format was not correct/ValueError: cannot convert float NaN to integer). What do I do? <a href="#faq2" data-bs-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 			</div>
 			<div class="panel-body collapse" id="faq2">
 				When you get this error, this is because one of the columns in your input file that is supposed to be a an integer is a missing value or a NA value.<br>
@@ -30,7 +30,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading faq" style="padding-top:5px;padding-bottom:5px;">
-				<h4>My job returned: ERROR: 001 (No variants remain after filtering). What should I do?<a href="#faq3" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+				<h4>My job returned: ERROR: 001 (No variants remain after filtering). What should I do?<a href="#faq3" data-bs-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 			</div>
 			<div class="panel-body collapse" id="faq3">
 				FUMA creates risk loci for your GWAS summary statistics in step one. In order to do this, we need LD information between variants from our reference panel.
@@ -41,7 +41,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading faq" style="padding-top:5px;padding-bottom:5px;">
-				<h4>My job status shows “Job Failed”. What could cause this and how do I fix this?<a href="#faq4" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+				<h4>My job status shows “Job Failed”. What could cause this and how do I fix this?<a href="#faq4" data-bs-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 			</div>
 			<div class="panel-body collapse" id="faq4">
 				Currently, jobs that are running for more than 6 hours are killed automatically. Most of the time this happens because the job is stuck in MAGMA.<br>
@@ -51,7 +51,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading faq" style="padding-top:5px;padding-bottom:5px;">
-				<h4>How many jobs can I submit at once?<a href="#faq5" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+				<h4>How many jobs can I submit at once?<a href="#faq5" data-bs-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 			</div>
 			<div class="panel-body collapse" id="faq5">
 				We maintain a dedicated server for running FUMA jobs. As this is a free service we provide for the advancement of science, this also means that there is a limited amount of computational resources to go around.<br>

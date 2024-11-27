@@ -56,9 +56,9 @@
 {{-- This projectsown javascript resources - in the header stylesheets section --}}
 @push('vite')
     @vite([
-        'resources/js/sidebar.js',
-        'resources/js/browse.js',
-		'resources/js/s2g_results.js'])
+        'resources/js/utils/sidebar.js',
+        'resources/js/utils/browse.js',
+		'resources/js/utils/s2g_results.js'])
 @endpush
 
 @push('page_scripts')
