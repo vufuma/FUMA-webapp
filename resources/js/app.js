@@ -15,6 +15,9 @@ import 'datatables.net-select';
 import * as d3 from 'd3';
 window.d3 = d3;
 import 'd3-queue';
+import 'js-loading-overlay'
+//import 'gasparesganga-jquery-loading-overlay';
+
 
 
 jQuery.ajaxSetup({
@@ -36,11 +39,19 @@ window.setCelltypePageState = setCelltypePageState;
 window.setAnnotPlotPageState = setAnnotPlotPageState;
 window.setBrowsePageState = setBrowsePageState;
 
+
+
 // Enable all popovers on the current page
 var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl)
+    new bootstrap.Popover(popoverTriggerEl);
+    popoverTriggerEl.setAttribute('tabindex', 0); // tabindex popover in the default order.
 })
+
+import { FumaSetup } from "./utils/fuma.js";
+$(function(){
+    FumaSetup();
+});
 //console.log('Completed app side effects');
 
 
