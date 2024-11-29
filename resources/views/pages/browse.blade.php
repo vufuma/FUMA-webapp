@@ -66,8 +66,7 @@
 	{{-- Init page state --}}
 	<script type = module>
 		window.loggedin = "{{ Auth::check() }}";
-		import { setPageState } from "{{ Vite::appjs('browse.js') }}";
-		setPageState(
+		window.setBrowsePageState(
             "{{ $id }}",
             "{{ $page }}",
             "",
@@ -76,13 +75,13 @@
 	</script>
 
     <script type="module">
-		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('s2g_results.js') }}";
+		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('utils/s2g_results.js') }}";
 		window.ImgDown = ImgDown;
 		window.circosDown = circosDown;
 		window.Chr15Select = Chr15Select;
 		window.expImgDown = expImgDown;
-        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}";
-        import { BrowseSetup } from "{{ Vite::appjs('browse.js') }}";
+        import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
+        import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
         $(function(){
             SidebarSetup();
             BrowseSetup();

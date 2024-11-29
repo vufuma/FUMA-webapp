@@ -23,7 +23,6 @@
 				</span><br><br>
 			</div>
 		</p>
-
 		<h3 id="getCandidate">Prioritize genes based on your own GWAS summary statistics</h3>
 		<p>For risk loci identified by FUMA in your summary statistics, you can obtain functional annotation of SNPs and map them to genes.
 			By changing parameter settings, you can control which annotations or filters need to be used to prioritize genes.
@@ -81,8 +80,6 @@
 				<img src="{!! URL::asset('/image/result.png') !!}" style="width:70%"/><br><br>
 			</p>
 		</div>
-		<br>
-
 		<h3 id="geneQuery">Gene functions: Tissue specific gene expression and shared biological functions of a list of genes</h3>
 		<p><strong>GENE2FUNC</strong> can take the list of prioritized genes from <strong>SNP2GENE</strong> or alternatively you can provide another list of pre-specified genes.
 			Note that the genes prioritized in SNP2GENE are based on the functional and/or eQTL mapping, but not on MAGMA based gene output.

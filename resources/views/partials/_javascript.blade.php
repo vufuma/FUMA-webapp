@@ -1,7 +1,12 @@
 
+@push('vite')
+@vite([
+'resources/js/utils/fuma.js'])
+@endpush
+
     <script>
-        var subdir = "{{ Config::get('app.subdir') }}";
-        var loggedin = "{{ Auth::check() }}";
+        //var window.subdir = "{{ Config::get('app.subdir') }}";
+        //var window.loggedin = "{{ Auth::check() }}";
     </script>
 
 

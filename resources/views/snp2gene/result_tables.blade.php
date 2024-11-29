@@ -277,7 +277,6 @@
 			</div>
 
 			<!-- Annot plot options -->
-			<!-- <div class="panel panel-default"><div class="panel-body"> -->
 			<div id="annotPlotPanel">
 				<h4><span style="color: #00004d">Regional plot with annotation</span>
 				<a class="infoPop" data-bs-toggle="popover" data-bs-content="To create regional plot with genes and annotations, select the following options and click 'Plot'.">

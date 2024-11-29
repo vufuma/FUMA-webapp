@@ -10,21 +10,21 @@
 		<div class="collapse navbar-collapse" id="topOfPageNav">
 			<ul class="navbar-nav ml-auto">
 				<!-- local_start -->
-				<li class="nav-item {{ Request::is('/') ? 'active' : ''}}"><a class="nav-link" href="/">Home</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('/') ? 'active' : ''}}" href="/">Home</a></li>
 				@can('Access Admin Page')
-				<li class="nav-item {{ Request::is('admin') ? 'active' : ''}}"><a class="nav-link" href="/admin">Admin Dashboard</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('admin') ? 'active' : ''}}" href="/admin">Admin Dashboard</a></li>
 				@endcan
-				<li class="nav-item {{ Request::is('tutorial') ? 'active' : ''}}"><a class="nav-link" href="/tutorial">Tutorial</a></li>
-				<li class="nav-item {{ Request::is('browse*') ? 'active' : ''}}"><a class="nav-link" href="/browse">Browse Public Results</a></li>
-				<li class="nav-item {{ Request::is('snp2gene*') ? 'active' : ''}}"><a class="nav-link" href="/snp2gene">SNP2GENE</a></li>
-				<li class="nav-item {{ Request::is('gene2func*') ? 'active' : ''}}"><a class="nav-link" href="/gene2func">GENE2FUNC</a></li>
-				<li class="nav-item {{ Request::is('celltype*') ? 'active' : ''}}"><a class="nav-link" href="/celltype">Cell Type</a></li>
-				<li class="nav-item {{ Request::is('links') ? 'active' : ''}}"><a class="nav-link" href="/links">Links</a></li>
-				<li class="nav-item {{ Request::is('downloadPage') ? 'active' : ''}}"><a class="nav-link" href="/downloadPage">Downloads</a></li>
-				<li class="nav-item {{ Request::is('faq') ? 'active' : ''}}"><a class="nav-link" href="/faq">FAQs</a></li>
-				<li class="nav-item {{ Request::is('updates') ? 'active' : ''}}"><a class="nav-link" href="/updates">Updates</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('tutorial') ? 'active' : ''}}" href="/tutorial">Tutorial</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('browse*') ? 'active' : ''}}" href="/browse">Browse Public Results</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('snp2gene*') ? 'active' : ''}}" href="/snp2gene">SNP2GENE</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('gene2func*') ? 'active' : ''}}" href="/gene2func">GENE2FUNC</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('celltype*') ? 'active' : ''}}" href="/celltype">Cell Type</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('links') ? 'active' : ''}}" href="/links">Links</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('downloadPage') ? 'active' : ''}}" href="/downloadPage">Downloads</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('faq') ? 'active' : ''}}" href="/faq">FAQs</a></li>
+				<li class="nav-item"><a class="nav-link {{ Request::is('updates') ? 'active' : ''}}" href="/updates">Updates</a></li>
 				<li class="nav-item">
-					<a id="appInfo" class="infoPop nav-link" data-placement="bottom" data-bs-toggle="popover" data-html="true"
+					<a id="appInfo" class="infoPop nav-link" data-placement="bottom" data-bs-toggle="popover" data-bs-html="true"
 						title="FUMA information"
 						data-bs-content='<div style="width:200px;">
 						Current FUMA verions: <span id="FUMAver"></span><br>

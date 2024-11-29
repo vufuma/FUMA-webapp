@@ -7,14 +7,14 @@
 				<li class="sidebar-brand"><a id="menu-toggle"><tab><i id="main_icon" class="fa fa-chevron-left"></i></a></li>
 			</ul>
 			<ul class="sidebar-nav" id="sidebar">
-				<li class="active"><a href="#overview">Overview<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
-				<li><a href="#quick-start">Quick Start<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li class="active"><a href="#overview">Overview<span class="sub_icon fa fa-circle-info"></span></a></li>
+				<li><a href="#quick-start">Quick Start<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="quick-startsub">
 					<a href="#generalInfo">General Info</a>
 					<a href="#getCandidate">Prioritize genes</a>
 					<a href="#geneQuery">Gene functions</a>
 				</div>
-				<li><a href="#snp2gene">SNP2GENE<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li><a href="#snp2gene">SNP2GENE<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="snp2genesub">
 					<a href="#prepare-input-files">Input files</a>
 					<a href="#parameters">Parameters</a>
@@ -29,12 +29,12 @@
 					<a href="#chromatin-interactions">Chromatin interactions</a>
 					<!-- <a href="#examples">Example senarios</a> -->
 				</div>
-				<li><a href="#gene2func">GENE2FUNC<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li><a href="#gene2func">GENE2FUNC<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="gene2funcsub">
 					<a href="#submit-genes">Submit genes</a>
 					<a href="#g2fOutputs">Outputs</a>
 				</div>
-				<li><a href="#celltype">Cell type<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li><a href="#celltype">Cell type<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="celltypesub">
 					<a href="#cell_submit">Submit jobs</a>
 					<a href="#basemodel">Base model</a>
@@ -42,8 +42,8 @@
 					<!-- <a href="#cell_outputs">Outputs</a> -->
 					<a href="#datasets">scRNA data sets</a>
 				</div>
-				<li class="active"><a href="#publish">Publish results<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
-				<li class="active"><a href="#data-security">Data security<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li class="active"><a href="#publish">Publish results<span class="sub_icon fa fa-circle-info"></span></a></li>
+				<li class="active"><a href="#data-security">Data security<span class="sub_icon fa fa-circle-info"></span></a></li>
 			</ul>
 		</div>
 
@@ -140,8 +140,8 @@
 	<script type="module">
 		window.page = "tutorial";
 		window.loggedin = "{{ Auth::check() }}";
-        import { SidebarSetup } from "{{ Vite::appjs('sidebar.js') }}"
-        import { tutorialDownloadVariant } from "{{ Vite::appjs('tutorial_utils.js') }}";
+        import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}"
+        import { tutorialDownloadVariant } from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
 
         window.tutorialDownloadVariant = tutorialDownloadVariant;
 		$(function(){

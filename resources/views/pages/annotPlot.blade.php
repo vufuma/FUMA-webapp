@@ -119,8 +119,7 @@
 
 @push('vite')
     @vite([
-        'resources/js/utils/annotPlot.js',
-        'resources/js/pages/page_annotPlot.js'])
+        'resources/js/utils/annotPlot.js'])
 @endpush
 
 @push('page_scripts')

@@ -15,7 +15,7 @@
 						<th>Started at</th>
 						<th>Completed at</th>
 						<th>Status
-							<a class="infoPop" data-bs-toggle="popover" data-html="true" data-bs-content="<b>NEW: </b>The job has been submitted.<br>
+							<a class="infoPop" data-bs-toggle="popover" data-bs-html="true" data-bs-content="<b>NEW: </b>The job has been submitted.<br>
 								<b>QUEUED</b>: The job has been dispatched to queue.<br><b>RUNNING</b>: The job is running.<br>
 								<b>Go to results</b>: The job has been completed. This is linked to result page.<br>
 								<b>ERROR</b>: An error occurred during the process. Please refer email for detail message.">

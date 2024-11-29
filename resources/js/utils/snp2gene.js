@@ -4,6 +4,7 @@ import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
 import swal from 'sweetalert';
 import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
+import 'js-loading-overlay';
 
 function getJobList() {
 	var items = '';
@@ -87,7 +88,13 @@ function publish(id, data) {
 	$('#publishUpdate').hide();
 	$('#publishDelete').hide();
 	$('#modalTitle').html("Publish your results");
-	$('#modalPublish').modal('show');
+	//$('#modalPublish').modal('show');
+	//document.getElementById('modalPublish').addEventListener('shown.bs.modal', function() {
+	//	$('publishSubmit').focus();
+	//});
+	var publishModal = new bootstrap.Modal(document.getElementById('modalPublish'));
+	publishModal.show();
+
 }
 
 function edit(id, data) {
@@ -187,7 +194,7 @@ export const Snp2GeneSetup = function(){
 						complete: function () {
 							getJobList();
 							getjobIDs();
-							getGeneMapIDs();
+							getGeneMapIDs(pageState.get('subdir'));
 						}
 					});
 				}
@@ -476,17 +483,19 @@ export const Snp2GeneSetup = function(){
 				notes: $('#publish_notes').val()
 			},
 			beforeSend: function () {
-				var options = {
-					theme: "sk-circle",
-					message: 'Publishing the result, please wait for a second.'
-				}
-				$('#modalPublish').LoadingOverlay("show", options);
+				//var options = {
+				//	theme: "sk-circle",
+				//	message: 'Publishing the result, please wait for a second.'
+				//}
+				JsLoadingOverlay.show({'spinnerIcon': 'triangle-skew-spin'});
+				//$('#modalPublish').LoadingOverlay("show", options);
 			},
 			error: function () {
 				alert('JQuery publish error');
 			},
 			success: function () {
-				$('#modalPublish').LoadingOverlay("hide");
+				//$('#modalPublish').LoadingOverlay("hide");
+				JsLoadingOverlay.hide()
 				swal({
 					title: "The selected job has been published ",
 					type: "success",

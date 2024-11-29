@@ -13,7 +13,7 @@
 			<option value="log2" selected>Average expression per label (log2 transformed)</option>
 			<option value="norm">Average of normalized expression per label (zero mean across samples)</option>
 		</select>
-		<a class="infoPop" data-bs-toggle="popover" title="Expression value" data-html="true" data-bs-content="
+		<a class="infoPop" data-bs-toggle="popover" title="Expression value" data-bs-html="true" data-bs-content="
 			<b>Average expression per label</b>:
 			This is an average of log2 transformed expression value (e.g. RPKM and TPM) per label (e.g. tissue type or developmental stage).
 			RPKM and TPM were wisolized at 50.
