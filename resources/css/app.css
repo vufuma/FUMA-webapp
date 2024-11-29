@@ -5,5 +5,8 @@
 @import "../../node_modules/datatables.net-bs5/css/dataTables.bootstrap5.css";
 @import "./style.css";
 
-html {font-size: 15px}
+html {
+    font-size: 15px;
+    scroll-padding-top: 20px;
+}
 
