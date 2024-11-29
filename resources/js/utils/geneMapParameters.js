@@ -1,6 +1,6 @@
 var prefix = "jobs";
-export const GeneMapSetup = function(){
-	getGeneMapIDs();
+export const GeneMapSetup = function(subdir){
+	getGeneMapIDs(subdir);
 	geneMapCheckAll();
 
 	$('.geneMapMultiSelect a').on('click',function(){
@@ -12,7 +12,7 @@ export const GeneMapSetup = function(){
 	});
 }
 
-export function getGeneMapIDs(){
+export function getGeneMapIDs(subdir){
 	$.ajax({
 		url: subdir+"/snp2gene/getGeneMapIDs",
 		type: "POST",
@@ -28,7 +28,7 @@ export function getGeneMapIDs(){
 	})
 }
 
-export function loadGeneMap(){
+export function loadGeneMap(subdir){
 	var geneMapID = $('#geneMapID').val();
 	if(geneMapID > 0){
 		$.ajax({

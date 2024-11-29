@@ -15,13 +15,14 @@ window.circosDown = circosDown;
 window.Chr15Select = Chr15Select;
 window.expImgDown = expImgDown;
 import { loadGeneMap } from "../utils/geneMapParameters.js";
-window.loadGeneMap = loadGeneMap;
+window.loadGeneMap = () => loadGeneMap(window.subdir);
 import { g2fbtn, checkPublish, checkPublishInput } from "../utils/snp2gene.js";
 window.g2fbtn = g2fbtn;
 window.checkPublish = checkPublish;
 window.checkPublishInput = checkPublishInput;
 import { geneMapCheckAll } from "../utils/geneMapParameters.js";
 window.geneMapCheckAll = geneMapCheckAll;
+import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
 
 import { NewJobSetup } from "../utils/NewJobParameters.js";
 import { Snp2GeneSetup } from "../utils/snp2gene.js";
@@ -31,5 +32,5 @@ $(function(){
     SidebarSetup();
     NewJobSetup();
     Snp2GeneSetup();
-    GeneMapSetup();
+    GeneMapSetup(pageState.get("subdir"));
 });
