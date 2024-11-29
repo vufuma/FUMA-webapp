@@ -18,11 +18,11 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		Signed statistics are t-statistics.
 	</p>
 	<p><strong>Samples</strong><br>
-		<div class="panel panel-default">
-			<div class="panel-heading">
+		<div class="card">
+			<div class="card-header">
 				<a href="#gtexTable" data-bs-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
-			<div id="gtexTable" class="panel-body collapse">
+			<div id="gtexTable" class="card-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
 					The table contains the list of tissue types available in GTEx v6 for cis-eQTL (only tissues with genotyped sample size &ge; 70).
 				</span>
@@ -157,11 +157,11 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		Signed statistics are betas.
 	</p>
 	<p><strong>Samples</strong><br>
-		<div class="panel panel-default">
-			<div class="panel-heading">
+		<div class="card">
+			<div class="card-header">
 				<a href="#gtexTable_v7" data-bs-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
-			<div id="gtexTable_v7" class="panel-body collapse">
+			<div id="gtexTable_v7" class="card-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
 					The table contains the list of tissue types available in GTEx v7 for cis-eQTL (only tissues with genotyped sample size &ge; 70).
 				</span>
@@ -415,11 +415,11 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		Signed statistics are betas.
 	</p>
 	<p><strong>Samples</strong><br>
-		<div class="panel panel-default">
-			<div class="panel-heading">
+		<div class="card">
+			<div class="card-header">
 				<a href="#gtexTable_v8" data-bs-toggle="collapse">GTEx eQTL tissue types and sample size</a><br>
 			</div>
-			<div id="gtexTable_v8" class="panel-body collapse">
+			<div id="gtexTable_v8" class="card-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
 					The table contains the list of tissue types available in GTEx v8 for cis-eQTL (only tissues with genotyped sample size &ge; 70).
 				</span>
@@ -500,11 +500,11 @@ FUMA contains several data sources of eQTLs and each data source is described in
 		More information on the methods used to generate the eQTL data can be found at <a href="https://www.ebi.ac.uk/eqtl/Methods/">https://www.ebi.ac.uk/eqtl/Methods/</a>.<br>
 	</p>
 	<p><strong>Datasets</strong><br>
-		<div class="panel panel-default">
-			<div class="panel-heading">
+		<div class="card">
+			<div class="card-header">
 				<a href="#eQTLcatalogueTable" data-bs-toggle="collapse">eQTL Catalogue datasets, tissue types, and sample sizes</a><br>
 			</div>
-			<div id="eQTLcatalogueTable" class="panel-body collapse">
+			<div id="eQTLcatalogueTable" class="card-body collapse">
 				<span class="info"><i class="fa fa-info"></i>
 					The table contains the list of datasets included from the eQTL Catalogue.
 				</span>

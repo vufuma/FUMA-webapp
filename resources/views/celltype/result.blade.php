@@ -1,9 +1,9 @@
 <div id="result" class="sidePanel container" style="padding-top:50px;">
-	<div class="panel panel-default">
-	    <div class="panel-heading">
-	        <div class="panel-title">Download MAGMA results</div>
+	<div class="card">
+	    <div class="card-header">
+	        <div class="card-title">Download MAGMA results</div>
 	    </div>
-	    <div class="panel-body">
+	    <div class="card-body">
 			<form action="{{ Config::get('app.subdir') }}/{{$page}}/filedown" method="post" target="_blank">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<input type="hidden" name="jobID" value="{{$id}}"/>
@@ -34,11 +34,11 @@
 			<input type="submit" id="celltypeSubmit" class="ImgDownSubmit"/>
 		</form>
 
-		<div class="panel panel-default">
-		    <div class="panel-heading">
-		        <div class="panel-title">Per-dataset cell type specificity</div>
+		<div class="card">
+		    <div class="card-header">
+		        <div class="card-title">Per-dataset cell type specificity</div>
 		    </div>
-		    <div class="panel-body">
+		    <div class="card-body">
 				Download the plot as
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","png");'>PNG</button>
 				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","jpeg");'>JPG</button>
@@ -71,11 +71,11 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-		    <div class="panel-heading">
-		        <div class="panel-title">Significant cell types across datasets (Step 1)</div>
+		<div class="card">
+		    <div class="card-header">
+		        <div class="card-title">Significant cell types across datasets (Step 1)</div>
 		    </div>
-		    <div class="panel-body">
+		    <div class="card-body">
 				<span class="info"><i class="fa fa-info"></i>
 					The plot is only displayed when there is at least one significant cell type after
 					multiple testing correction across datasets.
@@ -99,11 +99,11 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-		    <div class="panel-heading">
-		        <div class="panel-title">Independent cell type associations based on within-dataset conditional analyses (Step 2)</div>
+		<div class="card">
+		    <div class="card-header">
+		        <div class="card-title">Independent cell type associations based on within-dataset conditional analyses (Step 2)</div>
 		    </div>
-		    <div class="panel-body">
+		    <div class="card-body">
 				<span class="info"><i class="fa fa-info"></i>
 					The plot is only displayed when there is at least one significant cell type after
 					multiple testing correction across datasets.
@@ -127,11 +127,11 @@
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-		    <div class="panel-heading">
-		        <div class="panel-title">Pair-wise cross-datasets conditional analyses (Step 3)</div>
+		<div class="card">
+		    <div class="card-header">
+		        <div class="card-title">Pair-wise cross-datasets conditional analyses (Step 3)</div>
 		    </div>
-		    <div class="panel-body">
+		    <div class="card-body">
 				<span class="info"><i class="fa fa-info"></i>
 					The plot is only displayed when there is at least one significant cell type after
 					multiple testing correction across datasets.

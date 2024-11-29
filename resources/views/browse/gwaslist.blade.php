@@ -1,5 +1,5 @@
-<div id="GwasList" class="sidePanel container" style="min-height:80vh;">
-    <h3>Browse Public Results</h3>
+<div id="GwasList" class="sidePanel container-xl" style="min-height:80vh;">
+    <h3 class="mt-4">Browse Public Results</h3>
 	<div style="padding:30px;">
 		<p>
 			You can browse FUMA results which are shared in public by users.
@@ -10,11 +10,11 @@
 			You can modify/delete the information of publicly available results from the corresponding SNP2GENE job.
 		</p>
 	</div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-title">List of public results <tab></div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">List of public results <tab></div>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
 			<span class="info"><i class="fa fa-info"></i> Click a title to browse the results.</span><br><br>
 	      	<table class="table table-sm" width="100%" cellspacing="0">
 	            <thead>

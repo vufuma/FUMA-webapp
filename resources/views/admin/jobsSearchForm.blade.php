@@ -108,9 +108,9 @@
         {{-- -------------------------------- --}}
 
         <div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">Search Result Jobs: <tab>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Search Result Jobs: <tab>
                         @isset($count)
                             <div style="float:right;">
                                 <b>{{ $count }}</b> job{{ ($count > 1) ? 's' : '' }} found
@@ -121,7 +121,7 @@
                             </a> --}}
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     {{-- <button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob"
                         style="float:right; margin-right:20px;">Delete selected jobs</button> --}}
                     @isset($users)
@@ -135,7 +135,7 @@
                                         <th>Type</th>
                                         <th>Submit date</th>
                                         <th>Status
-                                            <a class="infoPop" data-bs-toggle="popover" data-html="true"
+                                            <a class="infoPop" data-bs-toggle="popover" data-bs-html="true"
                                                 data-bs-content="<b>NEW: </b>The job has been submitted.<br>
                                                 <b>QUEUED</b>: The job has been dispatched to queue.<br><b>RUNNING</b>: The job is running.<br>
                                                 <b>Go to results</b>: The job has been completed. This is linked to result page.<br>

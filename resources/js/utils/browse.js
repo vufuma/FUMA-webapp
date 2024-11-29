@@ -57,7 +57,7 @@ export const BrowseSetup = function(){
 	$('.ImgDownSubmit').hide();
 
 	// input parameters data toggle
-	$('.panel-heading.input a').on('click', function(){
+	$('.card-header.input a').on('click', function(){
 		if($(this).attr('class')=="active"){
 			$(this).removeClass('active');
 			$(this).children('i').attr('class', 'fa fa-chevron-down');
