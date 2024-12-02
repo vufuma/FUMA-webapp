@@ -428,10 +428,10 @@ export function MAGMA_expPlot(data) {
 
 			// img download buttons
 			$('#' + ds + 'Panel').append('<div id="' + ds + 'Plot">Download the plot as '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","png");' + "'" + '>PNG</button> '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","jpeg");' + "'" + '>JPG</button> '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","svg");' + "'" + '>SVG</button> '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","pdf");' + "'" + '>PDF</button></div>'
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","png");' + "'" + '>PNG</button> '
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","jpeg");' + "'" + '>JPG</button> '
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","svg");' + "'" + '>SVG</button> '
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","pdf");' + "'" + '>PDF</button></div>'
 			);
 
 			// plot
