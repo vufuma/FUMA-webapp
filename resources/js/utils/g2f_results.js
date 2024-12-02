@@ -266,10 +266,10 @@ export function tsEnrich(subdir, page, prefix, id){
 
 				// img download buttons
 				$('#'+ds+'Panel').append('<div id="'+ds+'Plot">Download the plot as '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'("'+ds+'","png");'+"'"+'>PNG</button> '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","jpeg");'+"'"+'>JPG</button> '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","svg");'+"'"+'>SVG</button> '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","pdf");'+"'"+'>PDF</button></div>'
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'("'+ds+'","png");'+"'"+'>PNG</button> '
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","jpeg");'+"'"+'>JPG</button> '
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","svg");'+"'"+'>SVG</button> '
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","pdf");'+"'"+'>PDF</button></div>'
 				);
 
 				// plot
@@ -529,15 +529,15 @@ export function GeneSet(subdir, page, prefix, id){
 					let panel = '<div class="card" style="padding-top:0;"><div class="card-header" style="height: 35px;"><a href="#'
 						+category[i]+'Panel" data-bs-toggle="collapse" style="color: black;">'
 						+title+'('+tdata.length+')</div><div class="panel-body collapse" id="'
-						+category[i]+'Panel"><p><a onclick="GeneSetPlot('+"'"+category[i]+"'"+');">Plot</a> / <a onclick="GeneSetTable('+
+						+category[i]+'Panel"><p><a class="link-opacity-75-hover" href="#" onclick="GeneSetPlot('+"'"+category[i]+"'"+');">Plot</a> / <a class="link-opacity-75-hover" href="#" onclick="GeneSetTable('+
 						"'"+category[i]+"'"+');">Table</a></p></div></div>';
 					$('#GeneSet').append(panel);
 					// $('#'+category[i]+"Panel").append('<button class="btn btn-default btn-xs ImgDown" id="'+category[i]+'Img" style="float:right; margin-right:100px;">Download PNG</button>');
 					$('#'+category[i]+"Panel").append('<div id="'+category[i]+'Plot">Download the plot as '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","png");'+"'"+'>PNG</button> '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","jpeg");'+"'"+'>JPG</button> '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","svg");'+"'"+'>SVG</button> '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","pdf");'+"'"+'>PDF</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","png");'+"'"+'>PNG</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","jpeg");'+"'"+'>JPG</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","svg");'+"'"+'>SVG</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","pdf");'+"'"+'>PDF</button> '
 						+'<div id="'+category[i]+'" style="overflow: auto; width: 100%;"></div></div>'
 						+'<div id="'+category[i]+'Table"></div>');
 
@@ -560,7 +560,7 @@ export function GeneSet(subdir, page, prefix, id){
 					var xprop = d3.scaleLinear().range([0, barplotwidth]);
 					var xpropAxis = d3.axisBottom(xprop);
 					xprop.domain([d3.max(tdata,function(d){return d.N_overlap/d.N_genes})+0.1,0]);
-					var y = d3.scaleOrdinal().range([0,height]);
+					var y = d3.scaleBand().range([0,height]); // test
 					var yAxis = d3.axisLeft(y);
 					y.domain(tdata.map(function(d){return d.GeneSet;}));
 					svg.selectAll('rect.prop').data(tdata).enter()
@@ -673,7 +673,7 @@ export function GeneSet(subdir, page, prefix, id){
 						.call(yAxis).selectAll('text').style('font-size', '11px');
 
 					// gene plot
-					var xgenes = d3.scaleOrdinal().range([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]);
+					var xgenes = d3.scaleBand().range([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]); // test
 					xgenes.domain(genesplot.map(function(d){return d.gene}));
 					var xgenesAxis = d3.axisBottom(xgenes);
 					svg.selectAll('rect.genes').data(genesplot).enter()
