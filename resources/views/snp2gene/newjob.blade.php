@@ -6,17 +6,22 @@
 	</h5>
 
 	<!-- load previous settings -->
-	<span class="form-inline" style="font-size:18px;">
-		Use your previous settings from job
-		<select class="form-control" id="paramsID" name="paramsID" onchange="loadParams();">
-			<option value=0>None</option>
-		</select>
-		<a class="infoPop" data-bs-toggle="popover" data-bs-content="By selecting jobID of your existing SNP2GENE jobs,
-		you can load parameter settings that you used before (only if there is any existing job in your account).
-		Note that this does not load input files and title. Please specify input files for each submission.">
-			<i class="fa-regular fa-circle-question fa-lg"></i>
-		</a>
-	</span>
+	<div class="row">
+		<div class="col-4">
+			<span class="form-inline" style="font-size:18px;">
+				Use your previous settings from job&nbsp;<a class="infoPop" data-bs-toggle="popover" title="Previous jobID" data-bs-content="By selecting jobID of your existing SNP2GENE jobs,
+				you can load parameter settings that you used before (only if there is any existing job in your account).
+				Note that this does not load input files and title. Please specify input files for each submission.">
+					<i class="fa-regular fa-circle-question"></i>
+				</a>
+			</span>
+		</div>
+		<div class="col-2">
+			<select class="form-select" id="paramsID" name="paramsID" onchange="loadParams();">
+				<option value=0>None</option>
+			</select>
+		</div>
+	</div>
 	<br><br>
 
 	<!-- Input files upload -->
@@ -216,7 +221,7 @@
 						<tr>
 							<td>Reference panel population</td>
 							<td>
-								<select class="form-control" id="refpanel" name="refpanel">
+								<select class="form-select" id="refpanel" name="refpanel">
 									<option value="1KG/Phase3/ALL">1000G Phase3 ALL</option>
 									<option value="1KG/Phase3/AFR">1000G Phase3 AFR</option>
 									<option value="1KG/Phase3/AMR">1000G Phase3 AMR</option>
@@ -244,7 +249,7 @@
 								</a>
 							</td>
 							<td>
-								<select class="form-control" id="refSNPs" name="refSNPs">
+								<select class="form-select" id="refSNPs" name="refSNPs">
 									<option selected value="Yes">Yes</option>
 									<option value="No">No</option>
 								</select>
@@ -276,9 +281,13 @@
 									<i class="fa-regular fa-circle-question fa-lg"></i>
 								</a>
 							</td>
-							<td><span class="form-inline"><input type="number" class="form-control" id="mergeDist"
+							<td>
+								<div class="input-group">
+									<input type="number" class="form-control" id="mergeDist"
 										name="mergeDist" value="250" onkeyup="window.CheckAll();"
-										onpaste="window.CheckAll();" oninput="window.CheckAll();" /> kb</span></td>
+										onpaste="window.CheckAll();" oninput="window.CheckAll();" />
+									<span class="input-group-text">kb</span></td>
+								</div>
 							<td></td>
 						</tr>
 					</table>
@@ -321,15 +330,19 @@
 								</a>
 							</td>
 							<td>
-								<span class="form-inline">Maximum distance: <input type="number" class="form-control"
+								<div class="input-group">
+									<span class="input-group-text">Maximum distance:</span>
+									 <input type="number" class="form-control"
 										id="posMapWindow" name="posMapWindow" value="10" min="0" max="1000"
 										onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
-										oninput="window.CheckAll();"> kb</span><br>
+										oninput="window.CheckAll();">
+									<span class="input-group-text">kb</span>
+								</div>
 								OR<br>
 								Functional consequences of SNPs on genes:<br>
-								<span class="multiSelect">
-									<a>clear</a><br>
-									<select multiple class="form-control" id="posMapAnnot" name="posMapAnnot[]"
+								<div class="multiSelect input-group">
+									<a class="clear">Clear</a>&nbsp;&nbsp;
+									<select multiple class="form-select" id="posMapAnnot" name="posMapAnnot[]"
 										onchange="window.CheckAll();">
 										<option value="exonic">exonic</option>
 										<option value="splicing">splicing</option>
@@ -339,7 +352,7 @@
 										<option value="upstream">upstream</option>
 										<option value="downstream">downstream</option>
 									</select>
-								</span>
+								</div>
 							</td>
 							<td></td>
 						</tr>
@@ -399,7 +412,7 @@
 								</td>
 								<td>
 									<!-- <input type="text" class="form-control" id="posMapRDBth" name="posMapRDBth" value="7" style="width: 80px;"> -->
-									<select class="form-control" id="posMapRDBth" name="posMapRDBth"
+									<select class="form-select" id="posMapRDBth" name="posMapRDBth"
 										onchange="window.CheckAll();">
 										<option>1a</option>
 										<option>1b</option>
@@ -441,7 +454,7 @@
 									<span class="multiSelect">
 										<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 										<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-										<select multiple class="form-control" size="10" id="posMapChr15Ts"
+										<select multiple class="form-select" size="10" id="posMapChr15Ts"
 											name="posMapChr15Ts[]" onchange="window.CheckAll();">
 											@include('snp2gene.epi_options')
 										</select>
@@ -471,7 +484,7 @@
 									</a>
 								</td>
 								<td>
-									<select class="form-control" id="posMapChr15Meth" name="posMapChr15Meth"
+									<select class="form-select" id="posMapChr15Meth" name="posMapChr15Meth"
 										onchange="window.CheckAll();">
 										<option selected value="any">any</option>
 										<option value="majority">majority</option>
@@ -492,7 +505,7 @@
 									<span class="multiSelect">
 										<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 										<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-										<select multiple class="form-control" size="10" id="posMapAnnoDs"
+										<select multiple class="form-select" size="10" id="posMapAnnoDs"
 											name="posMapAnnoDs[]">
 											@include('snp2gene.bed_annot')
 										</select>
@@ -515,7 +528,7 @@
 									</a>
 								</td>
 								<td>
-									<select class="form-control" id="posMapAnnoMeth" name="posMapAnnoMeth">
+									<select class="form-select" id="posMapAnnoMeth" name="posMapAnnoMeth">
 										<option selected value="NA">No filtering (only annotate SNPs)</option>
 										<option value="any">any</option>
 										<option value="majority">majority</option>
@@ -569,7 +582,7 @@
 								<span class="multiSelect">
 									<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 									<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-									<select multiple class="form-control" id="eqtlMapTs" name="eqtlMapTs[]" size="10"
+									<select multiple class="form-select" id="eqtlMapTs" name="eqtlMapTs[]" size="10"
 										onchange="window.CheckAll();">
 										@include('snp2gene.eqtl_options')
 									</select>
@@ -655,7 +668,7 @@
 								</td>
 								<td>
 									<!-- <input type="text" class="form-control" id="eqtlMapRDBth" name="eqtlMapRDBth" value="7"> -->
-									<select class="form-control" id="eqtlMapRDBth" name="eqtlMapRDBth"
+									<select class="form-select" id="eqtlMapRDBth" name="eqtlMapRDBth"
 										onchange="window.CheckAll();">
 										<option>1a</option>
 										<option>1b</option>
@@ -697,7 +710,7 @@
 									<span class="multiSelect">
 										<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 										<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-										<select multiple class="form-control" size="10" id="eqtlMapChr15Ts"
+										<select multiple class="form-select" size="10" id="eqtlMapChr15Ts"
 											name="eqtlMapChr15Ts[]" onchange="window.CheckAll();">
 											@include('snp2gene.epi_options')
 										</select>
@@ -726,7 +739,7 @@
 									</a>
 								</td>
 								<td>
-									<select class="form-control" id="eqtlMapChr15Meth" name="eqtlMapChr15Meth"
+									<select class="form-select" id="eqtlMapChr15Meth" name="eqtlMapChr15Meth"
 										onchange="window.CheckAll();">
 										<option selected value="any">any</option>
 										<option value="majority">majority</option>
@@ -747,7 +760,7 @@
 									<span class="multiSelect">
 										<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 										<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-										<select multiple class="form-control" size="10" id="eqtlMapAnnoDs"
+										<select multiple class="form-select" size="10" id="eqtlMapAnnoDs"
 											name="eqtlMapAnnoDs[]">
 											@include('snp2gene.bed_annot')
 										</select>
@@ -770,7 +783,7 @@
 									</a>
 								</td>
 								<td>
-									<select class="form-control" id="eqtlMapAnnoMeth" name="eqtlMapAnnoMeth">
+									<select class="form-select" id="eqtlMapAnnoMeth" name="eqtlMapAnnoMeth">
 										<option selected value="NA">No filtering (only annotate SNPs)</option>
 										<option value="any">any</option>
 										<option value="majority">majority</option>
@@ -824,7 +837,7 @@
 								<span class="multiSelect">
 									<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 									<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-									<select multiple class="form-control" id="ciMapBuiltin" name="ciMapBuiltin[]"
+									<select multiple class="form-select" id="ciMapBuiltin" name="ciMapBuiltin[]"
 										size="10" onchange="window.CheckAll();">
 										@include('snp2gene.ci_options')
 									</select>
@@ -890,7 +903,7 @@
 								<span class="multiSelect">
 									<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 									<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-									<select multiple class="form-control" id="ciMapRoadmap" name="ciMapRoadmap[]"
+									<select multiple class="form-select" id="ciMapRoadmap" name="ciMapRoadmap[]"
 										size="10" onchange="window.CheckAll();">
 										@include('snp2gene.PE_options')
 									</select>
@@ -976,7 +989,7 @@
 									</a>
 								</td>
 								<td>
-									<select class="form-control" id="ciMapRDBth" name="ciMapRDBth"
+									<select class="form-select" id="ciMapRDBth" name="ciMapRDBth"
 										onchange="window.CheckAll();">
 										<option>1a</option>
 										<option>1b</option>
@@ -1018,7 +1031,7 @@
 									<span class="multiSelect">
 										<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 										<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-										<select multiple class="form-control" size="10" id="ciMapChr15Ts"
+										<select multiple class="form-select" size="10" id="ciMapChr15Ts"
 											name="ciMapChr15Ts[]" onchange="window.CheckAll();">
 											@include('snp2gene.epi_options')
 										</select>
@@ -1047,7 +1060,7 @@
 									</a>
 								</td>
 								<td>
-									<select class="form-control" id="ciMapChr15Meth" name="ciMapChr15Meth"
+									<select class="form-select" id="ciMapChr15Meth" name="ciMapChr15Meth"
 										onchange="window.CheckAll();">
 										<option selected value="any">any</option>
 										<option value="majority">majority</option>
@@ -1068,7 +1081,7 @@
 									<span class="multiSelect">
 										<a class="clear" style="float:right; padding-right:20px;">Clear</a>
 										<a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-										<select multiple class="form-control" size="10" id="ciMapAnnoDs"
+										<select multiple class="form-select" size="10" id="ciMapAnnoDs"
 											name="ciMapAnnoDs[]">
 											@include('snp2gene.bed_annot')
 										</select>
@@ -1091,7 +1104,7 @@
 									</a>
 								</td>
 								<td>
-									<select class="form-control" id="ciMapAnnoMeth" name="ciMapAnnoMeth">
+									<select class="form-select" id="ciMapAnnoMeth" name="ciMapAnnoMeth">
 										<option selected value="NA">No filtering (only annotate SNPs)</option>
 										<option value="any">any</option>
 										<option value="majority">majority</option>
@@ -1127,7 +1140,7 @@
 						<tr>
 							<td>Ensembl version</td>
 							<td>
-								<select class="form-control" id="ensembl" name="ensembl">
+								<select class="form-select" id="ensembl" name="ensembl">
 									<option selected value="v110">v110</option>
 									<option selected value="v102">v102</option>
 									<!-- REMOVED: no longer supported by biomart option value="v92">v92</option-->
@@ -1151,7 +1164,7 @@
 									selected.</span>
 							</td>
 							<td>
-								<select multiple class="form-control" name="genetype[]" id="genetype"
+								<select multiple class="form-select" name="genetype[]" id="genetype"
 									onchange="window.CheckAll();">
 									<option value="all">All</option>
 									<option selected value="protein_coding">Protein coding</option>
@@ -1206,7 +1219,7 @@
 								<span class="form-inline">
 									<input type="checkbox" class="form-check-inline" name="MHCregion" id="MHCregion"
 										value="exMHC" checked onchange="window.CheckAll();">
-									<select class="form-control" id="MHCopt" name="MHCopt"
+									<select class="form-select" id="MHCopt" name="MHCopt"
 										onchange="window.CheckAll();">
 										<option value="all">from all (annotations and MAGMA)</option>
 										<option selected value="annot">from only annotations</option>
@@ -1269,22 +1282,28 @@
 								</a>
 							</td>
 							<td>
-								<span class="form-inline">
-									<input type="text" class="form-control" id="magma_window" name="magma_window"
-										value="0" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
-										oninput="window.CheckAll();">
-									kb<br>
+								<div class="row">
+									<div class=col-3>
+										<div class="input-group">
+											<input type="text" class="form-control" id="magma_window" name="magma_window"
+												value="0" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
+												oninput="window.CheckAll();">
+											<span class="input-group-text">kb</span>
+										</div>
+									</div>
+								<div>
+								<div class="row">
 									<span class="info"><i class="fa fa-info"></i>
 										One value will set same window size both sides, two values separated
 										by comma will set different window sizes for up- and downstream.
 										e.g. 2,1 will set window sizes 2kb upstream and 1kb downstream of
 										the genes.
 									</span>
-									<br>
+								</div>
 									<span class="info"><i class="fa fa-info"></i>
 										Maximum window size is limited to 50.
 									</span>
-								</span>
+								</div>
 							</td>
 							<td></td>
 						</tr>
@@ -1297,7 +1316,7 @@
 								</a><br>
 							</td>
 							<td>
-								<select multiple class="form-control" name="magma_exp[]" id="magma_exp">
+								<select multiple class="form-select" name="magma_exp[]" id="magma_exp">
 									<option selected value="GTEx/v8/gtex_v8_ts_avg_log2TPM">GTEx v8: 54
 										tissue types</option>
 									<option selected value="GTEx/v8/gtex_v8_ts_general_avg_log2TPM">GTEx v8:
