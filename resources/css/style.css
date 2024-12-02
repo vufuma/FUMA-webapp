@@ -52,12 +52,20 @@ img.footerimg{
     display: inline-block;
 }
 
-.btn-default{
-	background-color: #ECF0F1 !important;
-}
-
-.btn-default:active{
-  background-color: #B3B6B7 !important;
+/* In bootstrap V5 restore the old mid-gray outline buttons 
+which are compatible with HTML input controls */
+.btn-default {
+  --bs-btn-font-weight: 400;
+  --bs-btn-color: #333;
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: #ccc;
+  --bs-btn-hover-color: #333;
+  --bs-btn-hover-bg: #e6e6e6;
+  --bs-btn-hover-border-color: #adadad;
+  --bs-btn-focus-shadow-rgb: #8c8c8c;
+  --bs-btn-active-color: #333;
+  --bs-btn-active-bg: #d4d4d4;
+  --bs-btn-active-border-color: #8c8c8c;
 }
 
 tab {
