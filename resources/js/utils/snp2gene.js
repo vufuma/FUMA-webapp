@@ -4,7 +4,6 @@ import { getjobIDs } from "./NewJobParameters.js";
 import { getGeneMapIDs } from "./geneMapParameters.js";
 import swal from 'sweetalert';
 import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
-import 'js-loading-overlay';
 
 function getJobList() {
 	var items = '';
@@ -20,12 +19,12 @@ function getJobList() {
 				var publish = 'Not available';
 				if (val.is_public) {
 					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">Go to results</a>';
-					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
-					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Edit</button>';
+					g2fbutton = '<button class="btn btn-default btn-sm" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
+					publish = '<button class="btn btn-default btn-sm" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Edit</button>';
 				} else if (val.status == 'OK') {
 					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">Go to results</a>';
-					g2fbutton = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
-					publish = '<button class="btn btn-default btn-xs" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Publish</button>';
+					g2fbutton = '<button class="btn btn-default btn-sm" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
+					publish = '<button class="btn btn-default btn-sm" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Publish</button>';
 				} else if (val.status == 'ERROR:005') {
 					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">ERROR:005</a>';
 				}
@@ -88,11 +87,10 @@ function publish(id, data) {
 	$('#publishUpdate').hide();
 	$('#publishDelete').hide();
 	$('#modalTitle').html("Publish your results");
-	//$('#modalPublish').modal('show');
-	//document.getElementById('modalPublish').addEventListener('shown.bs.modal', function() {
-	//	$('publishSubmit').focus();
-	//});
-	var publishModal = new bootstrap.Modal(document.getElementById('modalPublish'));
+	var publishModal = new bootstrap.Modal('#modalPublish');
+	document.getElementById('modalPublish').addEventListener('shown.bs.modal', () => {
+		$('#publishSubmit').focus();
+	});
 	publishModal.show();
 
 }
@@ -118,7 +116,8 @@ function edit(id, data) {
 	$('#publishUpdate').show();
 	$('#publishDelete').show();
 	$('#modalTitle').html("Edit your public results");
-	$('#modalPublish').modal('show');
+	var publishModal = new bootstrap.Modal('#modalPublish');
+	publishModal.show();
 }
 
 export function checkPublishInput() {
@@ -251,12 +250,10 @@ export const Snp2GeneSetup = function(){
 			+ '<b>Provided file (Pre-defined genomic regions) format was not valid. Only plain text files (with any extention) is acceptable.</b>'
 			+ '</div>');
 	} else if (pageState.get('status') == "FullJobs") {
-		swal({
-			title: "To many jobs",
-			text: "You have more than 50 jobs queued/running. To aboid the FUMA server to be occupied by a single user, please wait until some of your jobs are done. Thank you for your cooperation.",
-			type: "warning",
-			closeOnConfirm: true,
-		});
+		swal("Too many jobs",
+			"You have more than 50 jobs queued/running. To aboid the FUMA server to be occupied by a single user, please wait until some of your jobs are done. Thank you for your cooperation.",
+			"warning"
+		);
 	} else {
 		$('#annotPlotSubmit').attr("disabled", true);
 		$('#CheckAnnotPlotOpt').html('<div class="alert alert-danger">Please select either lead SNP or genomic risk loci to plot. If you haven\'t selected any row, please click one of the row of lead SNP or genomic risk loci table.</div>');
@@ -462,9 +459,9 @@ export const Snp2GeneSetup = function(){
 		}
 	});
 
-	$('#publishCancel').on('click', function () {
-		$('#modalPublish').modal('hide');
-	});
+	//$('#publishCancel').on('click', function () {
+	//	$('#modalPublish').modal('hide');
+	//});
 
 	$('#publishSubmit').on('click', function () {
 		$.ajax({
@@ -483,25 +480,21 @@ export const Snp2GeneSetup = function(){
 				notes: $('#publish_notes').val()
 			},
 			beforeSend: function () {
-				//var options = {
-				//	theme: "sk-circle",
-				//	message: 'Publishing the result, please wait for a second.'
-				//}
-				JsLoadingOverlay.show({'spinnerIcon': 'triangle-skew-spin'});
-				//$('#modalPublish').LoadingOverlay("show", options);
+				$('#modalPublish #publishSpinner #publishSpinnerText').text('Publishing the public result, please wait for a second.')
+				$('#modalPublish #publishButtons').hide();
+				$('#modalPublish #publishSpinner').show();
 			},
 			error: function () {
 				alert('JQuery publish error');
 			},
-			success: function () {
-				//$('#modalPublish').LoadingOverlay("hide");
-				JsLoadingOverlay.hide()
-				swal({
-					title: "The selected job has been published ",
-					type: "success",
-					showCancelButton: false,
-					closeOnConfirm: true,
-				});
+			success: async function () {
+				$('#modalPublish #publishSpinner #publishSpinnerText').text('')
+                $('#modalPublish #publishButtons').show();
+				$('#modalPublish #publishSpinner').hide();
+				swal("Published",
+					"The selected job has been published ",
+					"success"
+				);
 			}
 		});
 	});
@@ -523,23 +516,21 @@ export const Snp2GeneSetup = function(){
 				notes: $('#publish_notes').val()
 			},
 			beforeSend: function () {
-				var options = {
-					theme: "sk-circle",
-					message: 'Updating the public result, please wait for a second.'
-				}
-                $('#modalPublish').LoadingOverlay("show", options);
+				$('#modalPublish #publishSpinner #publishSpinnerText').text('Updating the public result, please wait for a second.')
+                $('#modalPublish #publishButtons').hide();
+				$('#modalPublish #publishSpinner').show();
 			},
 			error: function () {
 				alert('JQuery update error');
 			},
 			success: function () {
-				$('#modalPublish').LoadingOverlay("hide");
-				swal({
-					title: "The selected job has been update ",
-					type: "success",
-					showCancelButton: false,
-					closeOnConfirm: true,
-				});
+				$('#modalPublish #publishSpinner #publishSpinnerText').text('')
+                $('#modalPublish #publishButtons').show();
+				$('#modalPublish #publishSpinner').hide();
+				swal("Updated",
+					"The selected job has been updated",
+					"success"
+				);
 			}
 		});
 	});
@@ -548,10 +539,10 @@ export const Snp2GeneSetup = function(){
 		swal({
 			title: "Are you sure?",
 			text: "Do you really want to delete the public results for the selected job?",
-			type: "warning",
-			showCancelButton: true,
-			closeOnConfirm: true,
-		}, function (isConfirm) {
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		}).then ((isConfirm) => {
 			if (isConfirm) {
 				$.ajax({
 					url: pageState.get('subdir') + '/' + pageState.get('page') + '/deletePublicRes',
@@ -560,23 +551,21 @@ export const Snp2GeneSetup = function(){
 						jobID: $('#publish_s2g_jobID').val()
 					},
 					beforeSend: function () {
-						var options = {
-							theme: "sk-circle",
-							message: 'Deleting the public result, please wait for a second.'
-						}
-						$('#modalPublish').LoadingOverlay("show", options);
+						$('#modalPublish #publishSpinner #publishSpinnerText').text('Deleting the public result, please wait for a second.')
+						$('#modalPublish #publishButtons').hide();
+						$('#modalPublish #publishSpinner').show();
 					},
 					error: function () {
 						alert('JQuery delete error');
 					},
 					success: function () {
-						$('#modalPublish').LoadingOverlay("hide");
-						swal({
-							title: "The selected job has been deleted ",
-							type: "success",
-							showCancelButton: false,
-							closeOnConfirm: true,
-						});
+						$('#modalPublish #publishSpinner #publishSpinnerText').text('')
+						$('#modalPublish #publishButtons').show();
+						$('#modalPublish #publishSpinner').hide();
+						swal("Deleted",
+							"The selected job has been deleted ",
+							"success"
+						);
 					}
 				});
 			}
