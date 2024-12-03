@@ -9,10 +9,12 @@ Version: 1.3.4 (8 Feb 2019)
 Version: 1.3.5 (27 May 2019)
 Version: 1.3.5d (14 Oct 2019)
 Version: 1.6.0 (7 September 2023)
+Version: 1.6.2
 
 
 This file contains description of columns for every downloadable file.
-The output files of MAGMA will be described at the bottom of this README.
+The output files of MAGMA is be described at the bottom of this README.
+
 
 ######################
 # GenomicRiskLoci.txt
@@ -21,17 +23,18 @@ The output files of MAGMA will be described at the bottom of this README.
 GenomicLocus : Index of genomic rick loci.
 uniqID : Unique ID of SNPs consists of chr:position:allele1:allele2 where alleles are alphabetically ordered.
 rsID : rsID of the top lead SNP.
-chr : chromosome of top lead SNP
-pos : position of top lead SNP on hg19
+chr : chromosome of top lead SNP.
+pos : position of top lead SNP on hg19.
 p : P-value of top lead SNP (from the input file).
-start : Start position of the locus
-end : End position of the locus
-nSNPs : Number of unique candidate SNPs in the genomic locus, including non-GWAS-tagged SNPs (which are available in the use selected reference panel).
-nGWASSNPs : Number of the GWAS-tagged candidate SNPs within the genomic locus. This is a subset of "nSNPs".
+start : Start position of the locus.
+end : End position of the locus.
+nSNPs : Number of unique candidate SNPs in the genomic locus, including non-GWAS-tagged SNPs (non-GWAS-tagged SNPs are defined as SNPs that are not found in the input file but are extracted in the reference panel selected by the user).
+nGWASSNPs : Number of the GWAS-tagged candidate SNPs within the genomic locus. This is a subset of "nSNPs". These are the SNPs that are found in the input file. 
 nIndSigSNPs : Number of the independent significant SNPs in the genomic locus.
 IndSigSNPs : rsID of independent significant SNPs in the genomic locus.
 nLeadSNPs : The number of lead SNPs in the genomic locus
 LeadSNPs : rsID of lead SNPs in the genomic locus
+
 
 ######################
 # leadSNPs.txt
@@ -41,11 +44,12 @@ No : Index of lead SNPs
 GenomicLocus : Index of assigned genomic locus matched with "GenomicRiskLoci.txt". Multiple independent lead SNPs can be assigned to the same genomic locus.
 uniqID : Unique ID of SNPs consists of chr:position:allele1:allele2 where alleles are alphabetically ordered.
 rsID : rsID of the SNP.
-chr : chromosome
-pos : position on hg19
+chr : chromosome.
+pos : position on hg19.
 p : P-value (from the input file).
-nIndSigSNPs : Number of independent significant SNPs which are in LD of the lead SNP at r2 0.1
-IndSigSNPs : rsID of independent significant SNPs which are in LD of the lead SNP at r2 0.1
+nIndSigSNPs : Number of independent significant SNPs which are in LD of the lead SNP at r2_2 (default is set to 0.1)
+IndSigSNPs : rsID of independent significant SNPs which are in LD of the lead SNP at r2_2 (default is set to 0.1)
+
 
 ######################
 # IndSigSNPs.txt
@@ -55,11 +59,11 @@ No : Index of independent significant SNPs
 GenomicLocus : Index of assigned genomic locus matched with "GenomicRiskLoci.txt". Multiple independent lead SNPs can be assigned to the same genomic locus.
 uniqID : Unique ID of SNPs consists of chr:position:allele1:allele2 where alleles are alphabetically ordered.
 rsID : rsID of the SNP.
-chr : chromosome
-pos : position on hg19
+chr : chromosome.
+pos : position on hg19.
 p : P-value (from the input file).
-nSNPs : Number of SNPs which are in LD of the independent significant SNP given r2, including non-GWAS-tagged SNPs (which are extracted from the reference panel).
-nGWASSNPs : Number of GWAS-tagged SNPs which are in LD of the ind. sig. SNP given r2.
+nSNPs : Number of SNPs which are in LD of the independent significant SNP at user defined r2 (default is 0.6), including non-GWAS-tagged SNPs (non-GWAS-tagged SNPs are defined as SNPs that are not found in the input file but are extracted in the reference panel selected by the user).
+nGWASSNPs : Number of GWAS-tagged SNPs which are in LD of the independent significant SNP at user defined r2 (default is 0.6).
 
 
 ######################
@@ -68,8 +72,8 @@ nGWASSNPs : Number of GWAS-tagged SNPs which are in LD of the ind. sig. SNP give
 ######################
 uniqID : Unique ID of SNPs consists of chr:position:allele1:allele2 where alleles are alphabetically ordered.
 rsID : rsID of SNPs as provided in the input GWAS, otherwise extracted from the specified reference panel.
-chr : chromosome
-pos : position on hg19
+chr : chromosome.
+pos : position on hg19.
 effect_allele : Effect/risk allele if it is provided in the input GWAS summary statistics file. If not, this is the alternative (minor) allele in the reference panel.
 non_effect_allele : Non-effect/non-risk allele if it is provided in the input GWAS summary statistics file. If not, this is the reference (major) allele in the reference panel.
 MAF : Minor allele frequency computed based on the reference panel.
@@ -80,7 +84,7 @@ se : Standard error provided in the input GWAS summary statistics file if availa
 r2 : The maximum r2 of the SNP with one of the independent significant SNP (this doesn't have to be top lead SNPs in the genomic loci).
 IndSigSNP : rsID of a independent significant SNP which has the maximum r2 of the SNP.
 Genomic locus : Index of the genomic risk loci matching with "GenomicRiskLoci.txt".
-nearestGene : The nearest Gene of the SNP based on ANNOVAR annotations.
+nearestGene : The nearest gene of the SNP based on ANNOVAR annotations.
 	Note that ANNOVAR annotates "consequence" function by prioritising the most deleterious annotation for SNPs which are locating a genomic region where multiple genes are overlapped.
 	Genes are encoded in symbol, if it is available, otherwise Ensembl ID.
 dist : Distance to the nearest gene. SNPs which are locating in the gene body or 1kb up- or down-stream of TSS or TES have 0.
@@ -93,27 +97,30 @@ posMapFilt : Whether the SNP was used for positional mapping or not. 1 is used, 
 eqtlMapFilt : Whether the SNP was used for eQTL mapping or not. 1 is used, otherwise 0. When eQTL mapping is not performed, all SNPs have 0.
 ciMapFilt : Whether the SNP was used for chromatin interaction mapping or not. 1 is used, otherwise 0. When chromatin interaction mapping is not performed, all SNPs have 0.
 
+
 ######################
 # ld.txt
 # r2 for all pairs of one of the independent lead SNPs and SNPs in LD with r2 greater or equal to the user defined threshold
 ######################
-SNP1 : unique ID of one of the independent significant SNPs
-SNP2 : unique ID of SNPs which are in LD of SNP1 with r2 greater or equal to the user defined threshold
-r2 : r2 computed by plink using user-selected reference panel
+SNP1 : unique ID of one of the independent significant SNPs.
+SNP2 : unique ID of SNPs which are in LD of SNP1 with r2 greater or equal to the user defined threshold.
+r2 : r2 computed by plink using user-selected reference panel.
+
 
 ######################
 # annov.txt
 # Full results of ANNOVAR
 ######################
 uniqID : Unique ID of SNPs consists of chr:position:allele1:allele2 where alleles are alphabetically ordered.
-chr : chromosome
-pos : position on hg19
-gene : Ensembl gene ID
-symbol : Gene symbol
-dist : Distance to the gene
-func : Functional consequence on the gene
-exonic function : Functional annotation of exonic SNPs
-exon : Index of exon
+chr : chromosome.
+pos : position on hg19.
+gene : Ensembl gene ID.
+symbol : Gene symbol.
+dist : Distance to the gene.
+func : Functional consequence on the gene.
+exonic function : Functional annotation of exonic SNPs.
+exon : Index of exon.
+
 
 ######################
 # annot.txt
@@ -125,42 +132,45 @@ RDB : RegulomeDB score which is the categorical score (from 1a to 7). 1a is the 
 E001~E129 : Chromatin state predicted by ChromHMM.
 Others: When additional annotations are selected (bed annotations), each column represents one dataset. SNPs overlapping with the corresponding annotation has 1, otherwise 0.
 
+
 ######################
 # annot.bed
 # Additional annotations
 # This file is only available when at least one dataset is selected
 ######################
-chr : chromosome
-start : start position of the annotation on hg19
-end : end position of the annotation on hg19
-dataset : name of the dataset
+chr : chromosome.
+start : start position of the annotation on hg19.
+end : end position of the annotation on hg19.
+dataset : name of the dataset.
+
 
 ######################
 # annov.stats.txt
 # Enrichment statistics for functional consequences of SNPs
 ######################
-annot : Functional consequence of SNPs
-ref.count : Number of SNPs with the corresponding annotation in the user selected reference panel
-ref.prop : Proportion of SNPs with the corresponding annotation in the user selected reference panel
-count : Number of candidate SNPs with the corresponding annotation
-prop : Proportion of candidate SNPs with the corresponding annotation
+annot : Functional consequence of SNPs.
+ref.count : Number of SNPs with the corresponding annotation in the user selected reference panel.
+ref.prop : Proportion of SNPs with the corresponding annotation in the user selected reference panel.
+count : Number of candidate SNPs with the corresponding annotation.
+prop : Proportion of candidate SNPs with the corresponding annotation.
 enrichment : prop / ref.prop. When this value is >1, the annotation is enriched, otherwise depleted.
-fisher.P : P-value from Fisher's exact test (two sided)
+fisher.P : P-value from Fisher's exact test (two sided).
+
 
 ######################
 # genes.txt
 # The list of genes mapped by SNPs in snps.txt based on the user defined mapping parameters.
 # Columns with posMap, eqtlMap or ciMap in the parentheses are only available when positional, eQTL or chromatin interaction mapping is performed, respectively.
 ######################
-ensg : ENSG ID
-symbol : Gene Symbol
-chr : chromosome
-start : Starting position of the gene
-end : Ending position of the gene
-strand : Strand of the gene
-type : Gene biotype from Ensembl
-entrezID : entrez ID (if available)
-HUGO : HUGO (HGNC) gene symbol
+ensg : ENSG ID.
+symbol : Gene Symbol.
+chr : chromosome.
+start : Starting position of the gene.
+end : Ending position of the gene.
+strand : Strand of the gene.
+type : Gene biotype from Ensembl.
+entrezID : entrez ID (if available).
+HUGO : HUGO (HGNC) gene symbol.
 pLI : pLI score from ExAC database. The probability of being loss-of-function intolerant. The higher the score is, the more intolerant to loss-of-function mutations the gene is.
 ncRVIS : Non-coding residual variation intolerance score. The higher the score is, the more intolerant to non-coding variation the gene is.
 posMapSNPs (posMap): Number of SNPs mapped to gene based on positional mapping (after functional filtering if parameters are given).
@@ -179,13 +189,6 @@ IndSigSNPs : rsID of the independent significant SNPs that are in LD with the ma
 	The actual mapped SNPs are available in gene_snps.txt file.
 GenomicLocus : Index of genomic loci where mapped SNPs are from. Multiple loci can be assigned with ":" delimiter.
 
-######################
-# gene_snps.txt
-# All pairs of SNP-gene used for mappings.
-######################
-gene: Ensembl gene ID
-uniqID: unique ID of a SNP mapped to the gene
-type: Type of mapping (posMap/eqtlMap/ciMap)
 
 ######################
 # eqtl.txt
@@ -193,16 +196,16 @@ type: Type of mapping (posMap/eqtlMap/ciMap)
 # The file contains unique pair of SNP-gene-tissue, therefore, a SNP could appear multiple times.
 ######################
 uniqID : Unique ID of SNPs consists of chr:position:allele1:allele2 where alleles are alphabetically ordered.
-chr : chromosome
-pos : position on hg19
-DB : Data source of eQTLs. Currently GTEx, BloodeQTL, BIOS and BRAINEAC are available.
-tissue : Tissue type
-Gene : ENSG ID
-Symbol : Gene symbol
-P-value : P-value of eQTLs
+chr : chromosome.
+pos : position on hg19.
+DB : Data source of eQTLs. Please refer to the online tutorial on details on the data source. 
+tissue : Tissue type.
+Gene : ENSG ID.
+Symbol : Gene symbol.
+P-value : P-value of eQTLs.
 FDR : FDR of eQTLs. Note that method to compute FDR differs between data sources.
 signed_stats : Signed test statistics, the actual value depends on the data source.
-	Please refer the online tutorial for details
+	Please refer the online tutorial for details.
 RiskIncAllele : Risk increasing allele obtained from input GWAS summary statistics.
 	"NA" if signed effect is not provided in the input file.
 	SNPs which are not in the input GWAS but included from reference panel are also encoded as "NA".

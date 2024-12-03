@@ -2,13 +2,13 @@
 <div style="margin-left: 40px;">
 	<h4><strong>1. GWAS summary statistics</strong></h4>
 	<p>GWAS summary statistics is a mandatory input of <strong>SNP2GENE</strong> process.
-		FUMA accept various types of format. For example, PLINK, SNPTEST and METAL output formats can be used as it is.
+		FUMA accepts various types of format. For example, PLINK, SNPTEST and METAL output formats can be used as is.
 		For other formats, column names can be provided.
 		Input files should be prepared in ascii txt or (preferably) gzipped or zipped.
 		Every row should contain information on one SNP.
 		An input GWAS summary statistics file could contain only subset of SNPs (e.g. SNPs of interest for your study to annotate them),
 		but in this case, results of MAGMA will not be relevant anymore.
-		Please note that variants which do not exists in the selected reference panel will not be included in any analyses.<br/>
+		Please note that variants that do not exist in the selected reference panel will not be included in any analyses. The 1000G reference panel is provided in the <a href="{{ url('/downloadPage') }}">Download page</a> (scroll to the section <strong>Reference panel data</strong>).<br/>
 		<span class="info"><i class="fa fa-info"></i>
 			For indels, both alleles need to be matched exactly with reference panel to be included in the analysis.
 			For example, an indel rs144029872 needs to be encoded with AG/A (the order of alleles does not matter),
