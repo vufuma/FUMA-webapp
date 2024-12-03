@@ -52,15 +52,17 @@
 				<div id="overview" class="sidePanel container" style="padding-top:50px;">
 					<h3>General overview of <strong>FUMA<span style="color:#3498DB">GWAS</span></strong></h3>
 					<div style="margin-left: 40px;">
-						<p>The main purpose of FUMA is to use functional, biological information to prioritize genes based on GWAS outcomes.</p>
-						<p>FUMA consists of two separate process; SNP2GENE and GENE2FUNC.</p>
+						<p>The main purpose of FUMA is to use functional and biological information to prioritize genes based on GWAS outcomes.</p>
+						<p>FUMA consists of three modules: SNP2GENE, GENE2FUNC, and Cell Type. </p>
 						<p>To annotate and prioritize SNPs and genes from your GWAS summary statistics, go to <a href="{{ Config::get('app.subdir') }}/snp2gene"><strong>SNP2GENE</strong></a> which compute LD structure,
 						annotates functions to SNPs, and prioritize candidate genes.</p>
 						<p>You can then use the prioritized genes as input to <a href="{{ Config::get('app.subdir') }}/gene2func"><strong>GENE2FUNC</strong></a> to check expression patterns and shared molecular functions between genes.
 							<strong>GENE2FUNC</strong> can also be used for any list of pre-selected genes (i.e. created outside of SNP2GENE).
-						<p/>
+						<p>
+						<p>To identify cell types that could be relevant for your GWAS summary statistics, you can run the <a href="{{ Config::get('app.subdir') }}/celltype"><strong>Cell Type</strong></a> module. 
 						<br/>
-						<img src="{{ URL::asset('/image/pipeline.png') }}" style="width: 80%;">
+						<img src="{{ URL::asset('/image/pipeline.png') }}" style="width: 55%; float: left;" >
+						<img src="{{ URL::asset('/image/celltype_pipeline.png') }}" style="width: 40%; height: 80%">
 					</div>
 				</div>
 

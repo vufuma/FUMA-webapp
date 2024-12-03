@@ -32,11 +32,13 @@ In this section, reference panels and gene expression data sets are described de
 
 <h4>Gene set analyses</h4>
 <div style="padding-left: 40px;">
-	In FUMA, curated gene sets (c2.all) and go terms (c5.bp, c5.cc and c5.mf) from MsigDB are tested.
-	For FUMA &le; v1.3.0, 10894 gene sets (curated gene sets: 4728, GO terms: 6166) from MsigdB v5.2 are used.
-	For FUMA &ge; v1.3.1, 10655 gene sets (curated gene sets: 4738, GO terms: 5917) from MsigDB v6.1 are used.
-	For FUMA &ge; v1.3.4, 10678 gene sets (curated gene sets: 4761, GO terms: 5917) from MsigDB v6.2 are used.
-	Bonferroni correction was performed for the all tested gene sets.
+	In FUMA, curated gene sets (c2.all) and go terms (c5.bp, c5.cc and c5.mf) from MsigDB are tested. <br/>
+	For FUMA &le; v1.3.0, 10894 gene sets (curated gene sets: 4728, GO terms: 6166) from MsigdB v5.2 are used. <br/>
+	For FUMA &ge; v1.3.1, 10655 gene sets (curated gene sets: 4738, GO terms: 5917) from MsigDB v6.1 are used. <br/>
+	For FUMA &ge; v1.3.4, 10678 gene sets (curated gene sets: 4761, GO terms: 5917) from MsigDB v6.2 are used. <br/>
+	For FUMA &ge; v1.5.5, 15496 gene sets (curated gene sets: 5500, GO terms: 9996) from MsigDB v7.0 are used. <br/>
+	For FUMA &ge; v1.5.6, 17023 gene sets (curated gene sets: 6494, GO terms: 10529) from MsigDB v2023.1Hs are used. <br/>
+	Bonferroni correction was performed for the all tested gene sets. <br/>
 	To customise, you can download the output file and select a specific gene sets.
 	<br/>
 	<br/>
