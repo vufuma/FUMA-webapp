@@ -16,7 +16,7 @@
 				</div>
 				<br>
 				<span class="form-inline">
-					<input class="btn btn-default btn-xs" type="submit" name="download" id="download" value="Download files"/>
+					<input class="btn btn-default btn-sm" type="submit" name="download" id="download" value="Download files"/>
 					<a class="allfiles"> Select All </a>
 					<a class="clearfiles"> Clear</a>
 				</span><br>
@@ -40,20 +40,20 @@
 		    </div>
 		    <div class="card-body">
 				Download the plot as
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","png");'>PNG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","jpeg");'>JPG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","svg");'>SVG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDownDS("perDatasetPlot","pdf");'>PDF</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDownDS("perDatasetPlot","png");'>PNG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDownDS("perDatasetPlot","jpeg");'>JPG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDownDS("perDatasetPlot","svg");'>SVG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDownDS("perDatasetPlot","pdf");'>PDF</button>
 				<br><br>
 				<span class="form-inline">
 					Dataset :
-					<select id="dataset_select" class="form-control" style="width: auto;" onchange="updatePerDatasetPlot();">
+					<select id="dataset_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot();">
 					</select>
 				</span>
 				<br>
 				<span class="form-inline">
 					Multiple testing correction :
-					<select id="test_correct_panel1" class="form-control" style="width: auto;">
+					<select id="test_correct_panel1" class="form-select" style="width: auto;">
 						<option value="pd" selected>Per dataset</option>
 						<option value="ad">Across datasets</option>
 						<option value="both">Both</option>
@@ -62,7 +62,7 @@
 				<br>
 				<span class="form-inline">
 					Order cell type by :
-					<select id="celltype_order_panel1" class="form-control" style="width: auto;">
+					<select id="celltype_order_panel1" class="form-select" style="width: auto;">
 						<option value="alph">Alphabetical</option>
 						<option value="p" selected>P-value</option>
 					</select>
@@ -83,14 +83,14 @@
 				</span>
 				<br>
 				Download the plot as
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1", "png");'>PNG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1","jpeg");'>JPG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1","svg");'>SVG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step1Plot", "step1","pdf");'>PDF</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step1Plot", "step1", "png");'>PNG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step1Plot", "step1","jpeg");'>JPG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step1Plot", "step1","svg");'>SVG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step1Plot", "step1","pdf");'>PDF</button>
 				<br><br>
 				<span class="form-inline">
 					Order cell type by :
-					<select id="celltype_order_panel2" class="form-control" style="width: auto;">
+					<select id="celltype_order_panel2" class="form-select" style="width: auto;">
 						<option value="dp" selected>P-value per dataset</option>
 						<option value="p">P-value across dataset</option>
 					</select>
@@ -111,14 +111,14 @@
 				</span>
 				<br>
 				Download the plot as
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","png");'>PNG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","jpeg");'>JPG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","svg");'>SVG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step2Plot", "step2","pdf");'>PDF</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step2Plot", "step2","png");'>PNG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step2Plot", "step2","jpeg");'>JPG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step2Plot", "step2","svg");'>SVG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step2Plot", "step2","pdf");'>PDF</button>
 				<br><br>
 				<span class="form-inline">
 					Order cell type by :
-					<select id="celltype_order_panel3" class="form-control" style="width: auto;">
+					<select id="celltype_order_panel3" class="form-select" style="width: auto;">
 						<option value="dp" selected>P-value per dataset</option>
 						<option value="p">P-value across dataset</option>
 					</select>
@@ -143,14 +143,14 @@
 				</span>
 				<br>
 				Download the plot as
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","png");'>PNG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","jpeg");'>JPG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","svg");'>SVG</button>
-				<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("step3Plot", "step3","pdf");'>PDF</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step3Plot", "step3","png");'>PNG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step3Plot", "step3","jpeg");'>JPG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step3Plot", "step3","svg");'>SVG</button>
+				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step3Plot", "step3","pdf");'>PDF</button>
 				<br><br>
 				<span class="form-inline">
 					Order cell type by :
-					<select id="celltype_order_panel4" class="form-control" style="width: auto;">
+					<select id="celltype_order_panel4" class="form-select" style="width: auto;">
 						<option value="dp" selected>P-value per dataset</option>
 						<option value="p">P-value across dataset</option>
 					</select>
