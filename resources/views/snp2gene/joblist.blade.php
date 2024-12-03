@@ -5,7 +5,7 @@
 	        <div class="card-title">List of Jobs <a id="refreshTable"><i class="fa fa-refresh"></i></a></div>
 	    </div>
 	    <div class="card-body">
-			<button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob" style="float:right; margin-right:20px;">Delete selected jobs</button>
+			<button class="btn btn-default btn-sm mb-2" id="deleteJob" name="deleteJob" style="float:right; margin-right:20px;">Delete selected jobs</button>
 			<table class="table">
 				<thead class="table-light">
 					<tr>
@@ -43,7 +43,7 @@
 </div>
 
 <!-- Modal for publish results -->
-<div class="modal fade" id="modalPublish" role="dialog">
+<div class="modal fade" id="modalPublish" role="dialog" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header"><h4><strong id="modalTitle">Publish your results</strong></h4></div>
@@ -67,7 +67,7 @@
 								Corresponding GENE2FUNC jobID
 								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								If you have performed GENE2FUNC for the selected SNP2GENE job, please specify GENE2FUNC jobID.">
-									<i class="fa-regular fa-circle-question fa-lg"></i>
+									<i class="fa-regular fa-circle-question"></i>
 								</a>
 							</td>
 							<td>
@@ -79,7 +79,7 @@
 								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								Please provide self-descriptive title for the job.
 								If the title is not clear enough, the developer might contact you to provide a sufficient information.">
-									<i class="fa-regular fa-circle-question fa-lg"></i>
+									<i class="fa-regular fa-circle-question"></i>
 								</a>
 							</td>
 							<td>
@@ -100,7 +100,7 @@
 								Please provide an email address that is reachable to you.
 								Any future modification/deletion of the published job will be only processed
 								when it is requested by the matched email.">
-									<i class="fa-regular fa-circle-question fa-lg"></i>
+									<i class="fa-regular fa-circle-question"></i>
 								</a>
 							</td>
 							<td>
@@ -122,7 +122,7 @@
 								If you don't have publication yet, please let the developer know once the publication becomes available.
 								You can also provide preprint DOI.
 								">
-									<i class="fa-regular fa-circle-question fa-lg"></i>
+									<i class="fa-regular fa-circle-question"></i>
 								</a>
 							</td>
 							<td>
@@ -133,7 +133,7 @@
 							<td>Link to summary statistics
 								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								If the summary statistics used in this job is publicly available, please provide the original link.">
-									<i class="fa-regular fa-circle-question fa-lg"></i>
+									<i class="fa-regular fa-circle-question"></i>
 								</a>
 							</td>
 							<td>
@@ -145,7 +145,7 @@
 								<a class="infoPop" data-bs-toggle="popover" data-bs-content="
 								This should be the original publication of the summary statistics.
 								This can be same as the publication above when a new GWAS result is presented in the publication.">
-									<i class="fa-regular fa-circle-question fa-lg"></i>
+									<i class="fa-regular fa-circle-question"></i>
 								</a>
 							</td>
 							<td>
@@ -159,7 +159,7 @@
 								Please add any additional information here.
 								For example, when there are multiple summary statistics available from the same study,
 								you should specify which result this is referring to.">
-									<i class="fa-regular fa-circle-question fa-lg"></i>
+									<i class="fa-regular fa-circle-question"></i>
 								</a>
 								<br>
 								<span class="info"><i class="fa fa-info"></i> Max 300 characters.</span>
@@ -171,10 +171,18 @@
 					</tbody>
 				</table>
 				<span style="color:red;"><sup>*</sup>Required input</span><br><br>
-				<button class="btn btn-default btn-sm" id="publishSubmit">Submit</button>
-				<button class="btn btn-default btn-sm" id="publishUpdate">Update</button>
-				<button class="btn btn-default btn-sm" id="publishDelete">Delete</button>
-				<button class="btn btn-default btn-sm" id="publishCancel">Cancel</button>
+				<div id="publishButtons">
+					<button class="btn btn-primary btn-sm" id="publishSubmit">Submit</button>
+					<button class="btn btn-primary btn-sm" id="publishUpdate">Update</button>
+					<button class="btn btn-primary btn-sm" id="publishDelete">Delete</button>
+					<button class="btn btn-secondary btn-sm" data-bs-dismiss="modal" id="publishCancel">Close</button>
+				</div>
+				<div id="publishSpinner" style="display: none">
+					<button class="btn btn-primary" type="button" disabled>
+						<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+						<span id="publishSpinnerText" role="status"></span>					  
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
