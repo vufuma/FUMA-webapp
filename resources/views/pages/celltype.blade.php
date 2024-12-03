@@ -33,16 +33,16 @@
                     <div class="card">
                         <div class="card-body">
                             <h4>MAGMA gene analysis result</h4>
-                            1. Select from existing SNP2GENE job<br />
+                            1. Select from existing SNP2GENE job<br>
                             <span class="info"><i class="fa fa-info fa-sm"></i>
-                                You can only select one of the succeeded SNP2GENE jobs in your account.<br />
+                                You can only select one of the succeeded SNP2GENE jobs in your account.<br>
                                 When you select a job ID, FUMA will automatically check if MAGMA was performed in the
                                 selected job.
                             </span>
                             <select class="form-select" id="s2gID" name="s2gID" onchange="window.CheckInput();">
                             </select>
                             <br>
-                            2. Upload your own genes.raw file<br />
+                            2. Upload your own genes.raw file<br>
                             <span class="info"><i class="fa fa-info fa-sm"></i>
                                 You can only upload a file with extension "genes.raw"
                                 which is an output of MAGMA gene analysis.
@@ -70,7 +70,7 @@
                     <div class="card mt-2">
                         <div class="card-body" style="padding-bottom: 10;">
                             <h4>Single-cell expression data sets</h4>
-                            Select single-cell expression data sets to perform MAGMA gene-property analysis<br />
+                            Select single-cell expression data sets to perform MAGMA gene-property analysis<br>
                             <span class="info"><i class="fa fa-info fa-sm"></i>
                                 You should not select all datasets if you want to perform step 2 and 3 of the workflow
                                 due to the duplicated cell types in multiple datasets from the same data resource.
@@ -523,7 +523,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <br />
+                            <br>
                             <input type="checkbox" id="step2" name="step2"> Perform step 2 (per dataset conditional
                             analysis)
                             if there is more then one significant cell type per dataset.
@@ -534,7 +534,7 @@
 							See tutorial for details.">
                                 <i class="fa-regular fa-circle-question"></i>
                             </a>
-                            <br />
+                            <br>
                             <input type="checkbox" id="step3" name="step3"> Perform step 3 (cross-datasets
                             conditional analysis)
                             if there is significant cell types from more than one dataset.
@@ -544,11 +544,11 @@
 							significant cell types across datasets. See tutorial for details.">
                                 <i class="fa-regular fa-circle-question"></i>
                             </a>
-                            <br />
+                            <br>
                             <span class="info"><i class="fa fa-info fa-sm"></i>
                                 Step 2 and 3 options are disabled when all scRNA datasets are selected.
                             </span>
-                            <br />
+                            <br>
                             <div class="row mb-1">
                                 <label for="title" class="col-sm-5 col-form-label">
                                     Title:

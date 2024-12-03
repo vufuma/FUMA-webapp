@@ -50,7 +50,7 @@ header('X-Frame-Options: GOFORIT');
                                 <br>
                                 <textarea id="genes" name="genes" rows="12" cols="50"
                                     placeholder="Please enter one gene per line here." onkeyup="window.checkInput()"
-                                    oninput="window.checkInput()"></textarea><br />
+                                    oninput="window.checkInput()"></textarea><br>
                                 <br>
                                 2. Upload file
                                 <a class="infoPop" data-bs-toggle="popover" title="Gene of interest file formatting"
@@ -72,7 +72,7 @@ header('X-Frame-Options: GOFORIT');
                                 <p class="info"><i class="fa fa-info"></i>
                                     Specify background gene-set. This will be used in the hypergeometric test.
                                 </p>
-                                1. Select background genes by gene-type <a id="bkgeneSelectClear">Clear</a><br />
+                                1. Select background genes by gene-type <a id="bkgeneSelectClear">Clear</a><br>
                                 <span class="info"><i class="fa fa-info"></i>
                                     Multiple gene-types can be selected.
                                 </span>
@@ -93,16 +93,16 @@ header('X-Frame-Options: GOFORIT');
                                     <option value="IG_C_gene:TG_D_gene:TG_V_gene:IG_J_gene">IG genes</option>
                                     <option value="TR_C_gene:TR_D_gene:TR_V_gene:TR_J_gene">TR genes</option>
                                 </select>
-                                <br />
+                                <br>
                                 2. Paste custom list of backbround genes
                                 <a class="infoPop" data-bs-toggle="popover" title="Background gene input"
                                     data-bs-content="Please paste one gene per line. ENSG ID, entrez ID and gene symbol are acceptable.">
                                     <i class="fa-regular fa-circle-question"></i>
-                                </a><br />
+                                </a><br>
                                 <textarea id="bkgenes" name="bkgenes" rows="5" cols="50"
                                     placeholder="Please enter each gene per line here." onkeyup="window.checkInput();"
-                                    oninput="window.checkInput()"></textarea><br />
-                                <br />
+                                    oninput="window.checkInput()"></textarea><br>
+                                <br>
                                 3. Upload a file with a custom list of background genes
                                 <a class="infoPop" data-bs-toggle="popover" title="Background gene file formatting"
                                     data-bs-content="The first column should be the genes without header. Extra columns will be ignored. ENSG ID, entrez ID and gene symbol are acceptable.">
@@ -110,7 +110,7 @@ header('X-Frame-Options: GOFORIT');
                                 </a>
                                 <input class="form-control-file" type="file" name="bkgenesfile" id="bkgenesfile"
                                     onchange="window.checkInput()" />
-                                <br />
+                                <br>
                                 <div id="bkGeneCheck" class="mt-2" style="padding-bottom: 0;"></div>
                             </div>
                         </div>
@@ -244,7 +244,7 @@ header('X-Frame-Options: GOFORIT');
                 <div id="checkGenes"></div>
                 <div id="checkBkGenes"></div>
                 <input type="submit" value="Submit" class="btn btn-primary mt-3" id="geneSubmit"
-                    name="geneSubmit" /><br /><br />
+                    name="geneSubmit" /><br><br>
                 {{ html()->form()->close() }}
             </div>
 
@@ -322,9 +322,12 @@ header('X-Frame-Options: GOFORIT');
 <script type="module">
     import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
         import { Gene2FuncSetup, checkInput, ImgDown, gsFileDel } from "{{ Vite::appjs('utils/gene2func.js') }}";
-        import { DEGImgDown } from "{{ Vite::appjs('utils/g2f_results.js') }}";
+        import { DEGImgDown, GSImgDown, GeneSetTable, GeneSetPlot } from "{{ Vite::appjs('utils/g2f_results.js') }}";
         window.checkInput = checkInput;
         window.ImgDown = ImgDown;
+        window.GSImgDown = GSImgDown;
+        window.GeneSetTable = GeneSetTable;
+        window.GeneSetPlot = GeneSetPlot;
         window.DEGImgDown = DEGImgDown;
         window.gsFileDel = gsFileDel;
         // document initialization

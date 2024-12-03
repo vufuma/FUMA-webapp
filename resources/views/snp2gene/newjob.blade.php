@@ -1371,7 +1371,7 @@
         </div>
     </div>
 </div>
-<br />
+<br>
 <div class="row">
     <div class="col-5">
         <div class="input-group">
