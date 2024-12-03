@@ -4,12 +4,12 @@
 	<h4>Gene expression heatmap</h4>
 	<span class="form-inline">
 		Data set:
-		<select id="gene_exp_data" class="form-control" style="width: auto;">
+		<select id="gene_exp_data" class="form-select" style="width: auto;">
 		</select>
 	</span><br><br>
 	<span class="form-inline">
 		Expression Value:
-		<select id="expval" class="form-control" style="width: auto;">
+		<select id="expval" class="form-select" style="width: auto;">
 			<option value="log2" selected>Average expression per label (log2 transformed)</option>
 			<option value="norm">Average of normalized expression per label (zero mean across samples)</option>
 		</select>
@@ -28,22 +28,22 @@
 	<br>
 	<span class="form-inline">
 		Order genes by:
-		<select id="geneSort" class="form-control" style="width: auto;">
+		<select id="geneSort" class="form-select" style="width: auto;">
 			<option value="clst">Cluster</option>
 			<option value="alph" selected>Alphabetical order</option>
 		</select>
 		<tab>
 		Order tissues by:
-		<select id="tsSort" class="form-control" style="width: auto;">
+		<select id="tsSort" class="form-select" style="width: auto;">
 			<option value="clst">Cluster</option>
 			<option value="alph" selected>Alphabetical order</option>
 		</select>
 	</span><br><br>
 	Download the plot as
-	<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("expHeat","png");'>PNG</button>
-	<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("expHeat","jpeg");'>JPG</button>
-	<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("expHeat","svg");'>SVG</button>
-	<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("expHeat","pdf");'>PDF</button>
+	<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("expHeat","png");'>PNG</button>
+	<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("expHeat","jpeg");'>JPG</button>
+	<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("expHeat","svg");'>SVG</button>
+	<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("expHeat","pdf");'>PDF</button>
 
 	<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
