@@ -1,9 +1,16 @@
 <div id="newJob" class="sidePanel container" style="padding-top:50px;">
-	{{ html()->form('POST', '/snp2gene/newJob')->acceptsFiles()->novalidate()->open() }}
-	<!-- New -->
+	<!-- This blade is also used to display an example job in the browse context where it will not be submittable -->
+	@if(Request::is('snp2gene')) 	<!-- Enabled new job -->
+	{!! html()->form('POST', '/snp2gene/newJob')->acceptsFiles()->novalidate()->open() !!}
 	<h5 style="color: #00004d">Upload your GWAS summary statistics and set parameters to obtain functional annotations
 		of the genomic loci associated with your trait.
 	</h5>
+	@else <!-- Disabled new job -->
+	<h5 style="color: #00004d">This is an example page of SNP2GENE job submission.
+		All input options are disabled in this page.
+		Please register to submit your own job.
+	</h5>
+	@endif
 
 	<!-- load previous settings -->
 	<div class="row">
@@ -1375,5 +1382,7 @@
 			and do not move away from the submission page.
 		</div>
 	</div>
-	{{ html()->form()->close() }}
+	@if(Request::is('snp2gene'))
+	{!! html()->form()->close() !!}
+	@endif
 </div>

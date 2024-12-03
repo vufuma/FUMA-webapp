@@ -34,7 +34,7 @@
 		<div id="page-content-wrapper">
 			<div class="page-content inset">
 				@include('browse.gwaslist')
-				@include('browse.newjob')
+				@include('snp2gene.newjob')
 
 				<!-- SNP2GENE result page -->
 				@include('snp2gene.gwPlot')

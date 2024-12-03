@@ -71,8 +71,8 @@ export const BrowseSetup = function(){
 	$('#SubmitNewJob').prop('disabled', true);
 	$('#geneQuerySubmit').prop('disabled', true);
 
-	// disabel input
-	$('#newJob :input').each(function(){
+	// disable all input (but leave the accordion buttons functional)
+	$('#newJob input:not([type=accordion_button])').each(function(){
 		$(this).prop('disabled', true);
 	});
 
