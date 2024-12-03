@@ -1397,6 +1397,6 @@
     </div>
     @if (Request::is('snp2gene'))
         {!! html()->form()->close() !!}
-		</div>
     @endif
+</div>
 </div>
