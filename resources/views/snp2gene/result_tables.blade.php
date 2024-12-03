@@ -179,9 +179,9 @@
 				<br>
 				<h4>Circos plots of chromatin interactions and eQTLs</h4>
 				Download circos plots (all displayed chromosomes) as
-				<button class="btn btn-default btn-xs circosDown" onclick='circosDown("png");'>PNG</button>
-				<button class="btn btn-default btn-xs circosDown" onclick='circosDown("svg");'>SVG</button>
-				<button class="btn btn-default btn-xs circosDown" onclick='circosDown("conf");'>Circos config files</button>
+				<button class="btn btn-default btn-sm circosDown" onclick='circosDown("png");'>PNG</button>
+				<button class="btn btn-default btn-sm circosDown" onclick='circosDown("svg");'>SVG</button>
+				<button class="btn btn-default btn-sm circosDown" onclick='circosDown("conf");'>Circos config files</button>
 
 				<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/circosDown">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">

@@ -28,7 +28,7 @@
 			<input type="checkbox" name="GRCh38file" id="GRCh38file" checked onchange="DownloadFiles();">Variants dropped during rsID annotation from GRCh38 input<br>
 		</div>
 		<span class="form-inline">
-			<input class="btn btn-default btn-xs" type="submit" name="download" id="download" value="Download files"/>
+			<input class="btn btn-default btn-sm" type="submit" name="download" id="download" value="Download files"/>
 			<a class="allfiles"> Select All </a>
 			<a class="clearfiles"> Clear</a>
 		</span><br>

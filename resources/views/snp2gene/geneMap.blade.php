@@ -591,7 +591,7 @@
 							</td>
 							<td>
 								<span id="ciFiles"></span><br>
-								<button type="button" class="btn btn-default btn-xs" id="ciFileAdd">add
+								<button type="button" class="btn btn-default btn-sm" id="ciFileAdd">add
 									file</button>
 								<input type="hidden" value="0" id="ciFileN" name="ciFileN">
 							</td>
