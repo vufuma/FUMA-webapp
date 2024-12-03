@@ -177,23 +177,33 @@
                     <table class="table table-bordered inputTable" id="NewJobParams" style="width: auto;">
                         <tr>
                             <td>Sample size (N)
-                                <a class="infoPop" data-bs-toggle="popover" title="Sample size"
+                                <a class="infoPop" data-bs-toggle="popover" data-bs-html="true" title="Sample size"
                                     data-bs-content="The total number of individuals (cases + controls, or total N) used in GWAS.
+									<br>
 									This is only used for MAGMA. When total sample size is defined, the same number will be used for all SNPs.
-									If you have column 'N' in your input GWAS summary statistics file, specified column will be used for N per SNP.
+									<br>
+									If you have <b>column 'N'</b> in your input GWAS summary statistics file, specified column will be used for N per SNP.
+									<br>
 									It does not affect functional annotations and prioritizations.
+									<br>
 									If you don't know the sample size, the random number should be fine (> 50), yet that does not render the gene-based tests from MAGMA invalid.">
                                     <i class="fa-regular fa-circle-question fa-lg"></i>
                                 </a>
                             </td>
                             <td>
-                                Total sample size (integer): <input type="number" class="form-control"
-                                    id="N" name="N" onkeyup="window.CheckAll();"
-                                    onpaste="window.CheckAll();" oninput="window.CheckAll();">
+								<div class="form-floating">
+                                	<input type="number" class="form-control"
+										id="N" name="N" onkeyup="window.CheckAll();"
+										onpaste="window.CheckAll();" oninput="window.CheckAll();">
+									<label for="N">Total sample size (integer): </label>
+								</div>
                                 OR<br>
-                                Column name for N per SNP (text): <input type="text" class="form-control"
-                                    id="Ncol" name="Ncol" onkeyup="window.CheckAll();"
-                                    onpaste="window.CheckAll();" oninput="window.CheckAll();">
+								<div class="form-floating">
+									<input type="text" class="form-control"
+										id="Ncol" name="Ncol" onkeyup="window.CheckAll();"
+										onpaste="window.CheckAll();" oninput="window.CheckAll();">
+									<label for="Ncol">Column name for N per SNP (text): </label>
+								</div>
                             </td>
                             <td></td>
                         </tr>
