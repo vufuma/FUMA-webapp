@@ -17,21 +17,22 @@
 
     <!-- load previous settings -->
     <div class="row">
-        <div class="col-4">
-            <span class="form-inline" style="font-size:18px;">
-                Use your previous settings from job&nbsp;<a class="infoPop" data-bs-toggle="popover"
-                    title="Previous jobID"
-                    data-bs-content="By selecting jobID of your existing SNP2GENE jobs,
-				you can load parameter settings that you used before (only if there is any existing job in your account).
-				Note that this does not load input files and title. Please specify input files for each submission.">
-                    <i class="fa-regular fa-circle-question"></i>
-                </a>
-            </span>
-        </div>
-        <div class="col-2">
-            <select class="form-select" id="paramsID" name="paramsID" onchange="loadParams();">
-                <option value=0>None</option>
-            </select>
+        <div class="col-6">
+			<div class="input-group">
+				<span class="form-inline input-group-text" style="font-size:18px;">
+					Load settings from previous job&nbsp;
+					<a class="infoPop" data-bs-toggle="popover"
+						title="Previous jobID"
+						data-bs-content="By selecting jobID of your existing SNP2GENE jobs,
+					you can load parameter settings that you used before (only if there is any existing job in your account).
+					Note that this does not load input files and title. Please specify input files for each submission.">
+						<i class="fa-regular fa-circle-question"></i>
+					</a>
+				</span>
+				<select class="form-select" id="paramsID" name="paramsID" onchange="loadParams();">
+					<option value=0>None</option>
+				</select>
+			</div>
         </div>
     </div>
     <br><br>
