@@ -25,7 +25,8 @@
         <p>Syncing the database and storage is a very important task. This is because the database contains the information
             about the files in the storage. If the database is not in sync with the storage, then the files in the storage
             will not be accessible. This is a very important task to do when you are moving the project from one server to
-            another.</p>
+            another. Brief instruction: find a time when there is no queued jobs, bring the server down, run the listDirectoryContents.
+            Then, delete the discrepancies using the Del button, which will create a delDirectoryAndDbContents job.</p>
 
         <livewire:syncdbstorage-jobs />
 
