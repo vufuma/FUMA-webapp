@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\CustomClasses\DockerApi\DockerNamesBuilder;
+use App\CustomClasses\myFile;
 
 use App\Models\SubmitJob;
 
@@ -105,7 +106,7 @@ class G2FController extends Controller
         } else {
             $gtype = "file";
             $gval = $_FILES["genesfile"]["name"];
-            $request->file('genesfile')->move($filedir, $_FILES["genesfile"]["name"]);
+            myFile::fileValidationAndStore($request->file('genesfile'), $gval, $filedir);
         }
 
         if ($request->filled('genetype')) {
@@ -120,7 +121,7 @@ class G2FController extends Controller
         } else {
             $bkgtype = "file";
             $bkgval = $_FILES["bkgenesfile"]["name"];
-            $request->file('bkgenesfile')->move($filedir, $_FILES["bkgenesfile"]["name"]);
+            myFile::fileValidationAndStore($request->file('bkgenesfile'), $bkgval, $filedir);
         }
 
         $ensembl = $request->input('ensembl');
@@ -134,7 +135,7 @@ class G2FController extends Controller
                 $id = (string) $n;
                 if ($request->hasFile("gsFile" . $id)) {
                     $tmp_filename = $_FILES["gsFile" . $id]["name"];
-                    $request->file("gsFile" . $id)->move($filedir, $tmp_filename);
+                    myFile::fileValidationAndStore($request->file("gsFile" . $id), $tmp_filename, $filedir);
                     $gsFiles[] = $tmp_filename;
                 }
                 $n++;
