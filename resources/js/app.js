@@ -16,7 +16,6 @@ import * as d3 from 'd3';
 window.d3 = d3;
 import 'd3-queue';
 import 'js-loading-overlay'
-//import 'gasparesganga-jquery-loading-overlay';
 
 
 
