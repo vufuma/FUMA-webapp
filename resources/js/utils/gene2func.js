@@ -23,11 +23,6 @@ export const Gene2FuncSetup = function(){
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
 
-    //const pageDataElement = document.getElementById('pageData');
-    //console.log(`${pageDataElement.getAttribute('data-page-data')}`)
-    //const pageData = JSON.parse(pageDataElement.getAttribute('data-page-data'));
-
-
 	// hash activate
 	var hashid = window.location.hash;
 	if(hashid=="" && status=="getJob"){
@@ -90,6 +85,7 @@ export const Gene2FuncSetup = function(){
 						$.ajax({
 							url: subdir+"/gene2func/deleteJob",
 							type: "POST",
+							timeout: 120000,
 							data: {
 								jobID: $(this).val()
 							},
@@ -128,73 +124,6 @@ export const Gene2FuncSetup = function(){
 		$('#gene_exp_data').on('change', function(){
 			expHeatPlot(subdir, prefix, page, id, $('#gene_exp_data').val())
 		})
-	}else if(status=="query"){
-		$('#geneSubmit').attr("disabled", true);
-		id = window.fumaJS.id;
-		var filedir = window.fumaJS.filedir;
-		var gtype = window.fumaJS.gtype;
-		var gval = window.fumaJS.gval;
-		var bkgtype = window.fumaJS.bkgtype;
-		var bkgval = window.fumaJS.bkgval;
-		var ensembl = window.fumaJS.ensembl;
-		var gene_exp = window.fumaJS.gene_exp;
-		var MHC = window.fumaJS.MHC;
-		var adjPmeth = window.fumaJS.adjPmeth;
-		var adjPcut = window.fumaJS.adjPcut;
-		var minOverlap = window.fumaJS.minOverlap;
-
-		if(gtype=="text"){
-			$('#genes').val(gval.replace(/:/g, '\n'));
-		}
-
-		if(bkgtype == "select"){
-			var tmp = document.getElementById('genetype');
-			for(var i=0; i<tmp.options.length; i++){
-				if(bkgval.indexOf(tmp.options[i].value)>=0){
-					tmp.options[i].selected=true;
-				}
-			}
-		}else if(bkgtype == "text"){
-			$('#bkgenes').val(bkgval.replace(/:/g, '\n'));
-		}
-
-		$('#ensembl option').each(function(){
-			if($(this).val()==ensembl){$(this).prop("selected", true)}
-			else{$(this).prop("selected", false)}
-		})
-
-		gene_exp = gene_exp.split(":");
-		$('#gene_exp option').each(function(){
-			if(gene_exp.indexOf($(this).val())>=0){$(this).prop("selected", true)}
-			else{$(this).prop("selected", false)}
-		})
-
-		if(MHC==1){
-			$('#MHC').attr('checked', true);
-		}
-
-		d3.select('#expHeat').select('svg').remove();
-		d3.select('#tsEnrichBar').select('svg').remove();
-		$.ajax({
-			url: "geneQuery",
-			type: "POST",
-			data: {
-				jobID: id
-			},
-			beforeSend: function(){
-				var options = {
-					theme: "sk-circle",
-					message: 'Running GENE2FUNC process. Please wait for a moment..'
-				}
-				$('#resultSide').LoadingOverlay("show", options);
-			},
-			success: function(){
-				$('#resultSide').LoadingOverlay("hode");
-			},
-			complete: function(){
-				window.location.href=subdir+'/gene2func/'+id;
-			}
-		});
 	}
 };
 

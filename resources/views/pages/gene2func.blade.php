@@ -28,7 +28,7 @@ header('X-Frame-Options: GOFORIT');
     <canvas id="canvas" style="display:none;"></canvas>
 
     <div id="page-content-wrapper">
-        <div class="page-content inset">
+        <div class="page-content inset">            
             <!-- Submit genes -->
             <div id="newquery" class="sidePanel container" style="padding-top:50px;">
                 {{ html()->form('POST', '/gene2func/submit')->acceptsFiles()->novalidate()->open() }}
