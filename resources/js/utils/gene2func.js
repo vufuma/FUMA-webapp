@@ -33,7 +33,10 @@ export const Gene2FuncSetup = function(){
 		$('a[href="'+hashid+'"]').trigger('click');
 	}
 
-	updateList(subdir);
+	updateList();
+	$('#refreshTable').on('click', function(){
+		updateList();
+	});
 
 	// gene type clear
 	$('#bkgeneSelectClear').on('click', function(){
@@ -99,7 +102,7 @@ export const Gene2FuncSetup = function(){
 								}
 							},
 							complete: function(){
-								updateList(subdir);
+								updateList();
 							}
 						});
 					}
@@ -200,7 +203,8 @@ export function checkInput(){
 	}
 };
 
-function updateList(subdir){
+function updateList(){
+	const subdir = pageState.get("subdir");
 	$.getJSON( subdir + "/gene2func/getG2FJobList", function( data ){
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){

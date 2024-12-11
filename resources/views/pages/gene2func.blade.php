@@ -252,7 +252,7 @@ header('X-Frame-Options: GOFORIT');
             <div id="queryhistory" class="sidePanel container" style="padding-top:50px;">
                 <div class="card">
                     <div class="card-header">
-                        Gene query history
+                        <div class="card-title">Gene query history <a id="refreshTable"><i class="fa fa-refresh"></i></a></div>
                     </div>
                     <div class="card-body">
                         <button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob"
