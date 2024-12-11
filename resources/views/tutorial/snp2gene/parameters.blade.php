@@ -41,7 +41,7 @@
 				<td>Input file of GWAS summary statistics.
 					Plain text file or zipped or gzipped files are acceptable.
 					The maximum file size which can be uploaded is 600Mb.
-					As well as full results of GWAS summary statistics, subset of results can also be used.
+					In addition to full results of GWAS summary statistics, subset of results can also be used.
 					e.g. If you would like to look up specific SNPs, you can filter out other SNPs.
 					Please refer to the <a class="inpage" href="{{ Config::get('app. subdir') }}/tutorial#prepare-input-files">Input files</a> section for specific file format.
 				</td>
@@ -213,7 +213,7 @@
 <div style="margin-left: 40px;">
 	<h4><strong>3. Parameters for gene mapping</strong></h4>
 	<p>There are two options for gene mapping; positional and eQTL mappings. By default, positional mapping with maximum distance 10kb is performed.
-		Since parameters in this section largely affect the result of mapped genes, please set carefully.
+		Since parameters in this section largely affect the result of mapped genes, please set them carefully.
 	</p>
 	<h4><strong>3.1 Positional mapping</strong></h4>
 	<table class="table table-bordered">
@@ -668,9 +668,9 @@
 			<tr>
 				<td>Perform MAGMA</td>
 				<td>Optional</td>
-				<td>UNCHECK to SKIP MAGMA analyses.</td>
+				<td>CHECK to ENABLE MAGMA analyses.</td>
 				<td>Check</td>
-				<td>Checked</td>
+				<td>Unchecked</td>
 			</tr>
 			<tr>
 				<td>MAGMA gene annotation window</td>

@@ -3,7 +3,7 @@
 @section('content')
 	<div class="col-md-8 offset-md-2" style="padding-top:50px;">
 		<div class="alert alert-danger">
-			<p><strong>Here you can find a detailed list of the error codes. We kindly advise thorough consultation of this troubleshooting list prior to seeking assistance through Google groups. <a href="https://groups.google.com/g/fuma-gwas-users/c/JdxuqR4ihS4">Troubleshooting List</a></strong></p>
+			<p><strong>Here you can find a detailed list of the error codes. We kindly advise thorough consultation of this troubleshooting list prior to seeking assistance through Google groups. <a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw/m/utS6HxWoAAAJ">Troubleshooting List</a></strong></p>
 		</div>
 
 		<div style="text-align: center;">
@@ -14,28 +14,22 @@
 		<p>
 			<strong style="font-size: large;">About FUMA</strong><br>
 			FUMA is a platform that can be used to annotate, prioritize, visualize and interpret GWAS results.
-			<br>
-			The <a href="{{ Config::get('app.subdir') }}/snp2gene">SNP2GENE</a> function takes GWAS summary statistics as an input,
+			<br/>
+			The <a href="{{ Config::get('app.subdir') }}/snp2gene">SNP2GENE</a> module takes GWAS summary statistics as an input,
 			and provides extensive functional annotation for all SNPs in genomic areas identified by lead SNPs.
-			<br>
-			The <a href="{{ Config::get('app.subdir') }}/gene2func">GENE2FUNC</a> function takes a list of gene IDs (as identified by SNP2GENE or as provided manually)
-			and annotates genes in biological context
-			<br>
+			<br/>
+			The <a href="{{ Config::get('app.subdir') }}/gene2func">GENE2FUNC</a> module takes a list of gene IDs (as identified by SNP2GENE or as provided manually)
+			and annotates genes in biological context.
+			<br/>
+			The <a href="{{ Config::get('app.subdir') }}/celltype">Cell Type</a> module takes MAGMA gene analysis result (as an output from SNP2GENE or as provided manually) and predicts relevant cell types.
+			<br/>
 			To submit your own GWAS, login is required for security reason.
-			If you have't registered yet, you can do from <a href="{{ url('/register') }}">here</a>.
-			<br>
+			If you have not registered yet, you can do so from <a href="{{ Config::get('app.subdir') }}/register">here</a>.
+			<br/>
 			You can browse public results of FUMA (including example jobs) from <a href="{{ Config::get('app.subdir') }}/browse">Browse Public Results</a> without registration or login.
 		</p>
 		<p>
 			Please post any questions, suggestions and bug reports on Google Forum: <a target="_blank" href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a>.<br>
-		</p>
-		<p>
-			<strong style="font-size: large;">News</strong><br>
-			<b>26 February 2023: </b> FUMA is upgraded to version 1.5.2.<br>
-			A frequently asked questions page is added. In addition, some other minor updates to wording on the website was done.<br>
-			<b>03 February 2023: </b> FUMA is upgraded to version 1.5.1.<br>
-			Starting from FUMA version 1.5.1, as default MAGMA is unchecked. If you want to obtain results from MAGMA, please select 'Perform MAGMA' in step 6 on the submission page. <br>
-			For other updates, please see the <a href="{{ Config::get('app.subdir') }}/updates">Updates</a> page.
 		</p>
 		<p>
 			<strong style="font-size: large;">Citation</strong><br>

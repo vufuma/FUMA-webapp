@@ -18,18 +18,14 @@
 			For each pixel, the plotted data point was randomly selected.
 			SNPs with P-value ≥ 1e-5 are removed.
 		</li>
-		<li>Overlapping data points (SNPs) were filtered such that only one data point per pixel was kept.
-			For each pixel, the plotted data point was randomly selected.
-			SNPs with P-value ≥ 1e-5 are removed.
-		</li>
 	</ul>
 	<span class="info"><i class="fa fa-info"></i>
 		MHC region is shown in this manhattan plot even if option is set to exclude MHC region from annotations.
 	</span><br>
 </p>
-<p><strong>Plots for gene-based test (MAGMA)</strong><br>
-	Gene analysis was performed by using MAGMA (v1.6) with default setting.
-	SNPs were assigned to the genes obtained from Ensembl build 85 (only protein-coding genes).<br>
+<p><strong>Plots for gene-based test (MAGMA)</strong><br/>
+	Gene analysis was performed by using MAGMA (v1.10 with default setting.
+	SNPs were assigned to the genes obtained from Ensembl build 85 (only protein-coding genes).<br/>
 	Genome-wide significance (red dashed line) was set at 0.05 / (the number of tested genes).
 	Genes whose P-value reached the genome-wide significance can be labeled in the manhattan plot.
 	The number of genes to label can be controlled by typing the number at the left upper side of the plot.
@@ -39,8 +35,8 @@
 		therefore manhattan plot also does not display genes in MHC region.
 	</span><br>
 </p>
-<p><strong>MAGMA Gene-Set Analysis</strong><br>
-	Using the result of gene analysis (gene level p-value), (competitive) gene-set analysis is performed with default parameters with MAGMA v1.6.
+<p><strong>MAGMA Gene-Set Analysis</strong><br/>
+	Using the result of gene analysis (gene level p-value), (competitive) gene-set analysis is performed with default parameters with MAGMA v1.10.
 	Gene sets were obtained from Msigdb v7.0 for "Curated gene sets" and "GO terms".
 </p>
 <p><strong>MAGMA Tissue Expression Analysis (<span style="color: blue;">FUMA v1.1.0</span>)</strong><br>

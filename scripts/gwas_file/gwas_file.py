@@ -62,14 +62,14 @@ regionfile = param.get('inputfiles', 'regionsfile')
 if leadfile != "NA":
 	leadfile = filedir+"input.lead"
 	tmp = pd.read_csv(leadfile, delim_whitespace=True)
-	tmp = tmp.as_matrix()
+	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
 		sys.exit("Input lead SNPs file does not have enought columns.")
 
 if regionfile != "NA":
 	regionfile = filedir+"input.regions"
 	tmp = pd.read_csv(regionfile, delim_whitespace=True)
-	tmp = tmp.as_matrix()
+	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
 		sys.exit("Input genomic region file does not have enought columns.")
 
@@ -540,7 +540,7 @@ elif chrcol is None or poscol is None:
 	print("Either chr or pos is not provided")
 	##### read input file #####
 	gwas = pd.read_csv(gwas, comment="#", sep=delim, dtype=str)
-	gwas = gwas.as_matrix()
+	gwas = gwas.to_numpy()
 	gwas = gwas[gwas[:,rsIDcol].argsort()]
 
 	##### write header of input.snps #####

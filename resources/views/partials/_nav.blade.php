@@ -36,7 +36,7 @@
 			<li class="nav-item">
 				<a id="appInfo" class="infoPop nav-link" data-placement="bottom" data-bs-toggle="popover"
 					data-bs-html="true" title="FUMA information" data-bs-content='<div style="width:200px;">
-						Current FUMA verions: <span id="FUMAver"></span><br>
+						Current FUMA verion: <span id="FUMAver"></span><br>
 						Total users: <span id="FUMAuser"></span><br>
 						Total SNP2GENE jobs: <span id="FUMAs2g"></span><br>
 						Total GENE2FUNC jobs: <span id="FUMAg2f"></span><br>

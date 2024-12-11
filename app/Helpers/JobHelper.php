@@ -47,8 +47,9 @@ class JobHelper
             JobHelper::sendJobMail($job, new JobCompletedSuccessfully($job, $msg));
         }
 
-        JobHelper::rmFiles($job);
-
+        if (App::isProduction()) {
+            JobHelper::rmFiles($job);
+        }
         return;
     }
 
