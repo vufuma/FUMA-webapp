@@ -3,7 +3,7 @@ String abs_path_of_jenkins_home_on_host = "/var/www/.laradock/data/jenkins/jenki
 String abs_path_of_project_root_on_host = "/var/www/html/FUMA-webapp"
 
 // ssh config
-String user_on_main_server = "ams375"
+String user_on_main_server = "tph205"
 String ip_of_main_server = "130.37.53.63"
 
 pipeline {
@@ -46,7 +46,7 @@ pipeline {
     }
     post {
         success {
-            sshagent(credentials: ['fuma_main_srv']) {
+            sshagent(credentials: ['fuma_main_srv_2']) {
                 sh "ssh -o StrictHostKeyChecking=no ${user_on_main_server}@${ip_of_main_server} git -C ${abs_path_of_project_root_on_host} fetch --all"
                 sh "ssh -o StrictHostKeyChecking=no ${user_on_main_server}@${ip_of_main_server} git -C ${abs_path_of_project_root_on_host} reset --hard origin/FUMA-webapp-new-production"
                 sh "ssh -o StrictHostKeyChecking=no ${user_on_main_server}@${ip_of_main_server} docker compose -f ${abs_path_of_project_root_on_host}/laradock-FUMA/production_docker-compose.yml exec --user laradock workspace bash -c \\'${optimization_command}\\'"
