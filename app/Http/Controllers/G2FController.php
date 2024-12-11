@@ -295,6 +295,18 @@ class G2FController extends Controller
             Storage::append($paramfile, "adjPcut=$adjPcut");
             Storage::append($paramfile, "minOverlap=$minOverlap");
 
+            $queue = 'default';
+            $user = Auth::user();
+            if ($user->can('Access Priority Queue')) {
+                $queue = 'high';
+            }
+            
+                    // Queue job
+            (new SubmitJob)->updateStatus($jobID, 'QUEUED');
+            Gene2FuncJob::dispatch($jobID)
+                ->onQueue($queue)
+                ->afterCommit();
+
             $data = [
                 'id' => $jobID,
                 'filedir' => $filedir,
@@ -310,7 +322,7 @@ class G2FController extends Controller
                 'minOverlap' => $minOverlap
             ];
 
-            return view('pages.gene2func', ['status' => 'query', 'id' => $jobID, 'page' => 'gene2func', 'prefix' => 'gene2func', 'data' => $data]);
+            return view('pages.gene2func', ['status' => 'query', 'id' => $jobID, 'page' => 'queryhistory', 'prefix' => 'gene2func', 'data' => $data]);
         } else {
             $jobID = $checkExists->jobID;
             return redirect("gene2func/" . $jobID);

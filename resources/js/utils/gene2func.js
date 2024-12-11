@@ -108,10 +108,10 @@ export const Gene2FuncSetup = function(){
 		});
 	});
 
-	if(status.length==0 || status=="new"){
+	if(status.length==0 || status=="new") {
 		window.checkInput();
 		$('#resultSide').hide();
-	}else if(status=="getJob"){
+	} else if(status=="getJob") {
 		// var id = jobID;
 
 		window.checkInput();
@@ -124,6 +124,10 @@ export const Gene2FuncSetup = function(){
 		$('#gene_exp_data').on('change', function(){
 			expHeatPlot(subdir, prefix, page, id, $('#gene_exp_data').val())
 		})
+	} else if(status=="query") {
+		window.checkInput();
+		$('#resultSide').hide();
+		window.location.href=subdir+'/gene2func/#queryhistory';
 	}
 };
 
