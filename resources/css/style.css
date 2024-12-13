@@ -251,3 +251,73 @@ th.dt-ordering-desc,
 th.dt-ordering-asc {
   background-color: whitesmoke !important;
 }
+
+/* This section is used in the Update editor denoted by class .editupdate  */
+
+.editupdate .options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+}
+
+.editupdate button {
+  height: 28px;
+  width: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  border: none;
+  background-color: #ffffff;
+  outline: none;
+  color: #020929;
+}
+
+.editupdate select {
+  padding: 7px;
+  border: 1px solid #020929;
+  border-radius: 3px;
+}
+
+.editupdate .options label,
+.editupdate .options select {
+  font-family: "Poppins", sans-serif;
+}
+
+.editupdate .input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editupdate input[type="color"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 40px;
+  height: 28px;
+  border: none;
+  cursor: pointer;
+}
+
+.editupdate input[type="color"]::-webkit-color-swatch {
+  border-radius: 15px;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #020929;
+}
+
+.editupdate input[type="color"]::-moz-color-swatch {
+  border-radius: 15px;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #020929;
+}
+
+.editupdate #text-input {
+  margin-top: 10px;
+  border: 1px solid #dddddd;
+  padding: 20px;
+  height: 50vh;
+}
+
+.editupdate .active {
+  background-color: #e0e9ff;
+}

@@ -20,10 +20,21 @@
     </div>
 @endsection
 
-@section('scripts')
-    {{-- Imports from the web --}}
+@push('vite')
+    @vite([
+        'resources/js/utils/sidebar.js',
+        'resources/js/utils/browse.js'])
+@endpush
 
-    {{-- Hand written ones --}}
+@push('page_scripts')
 
-    {{-- Imports from the project --}}
-@endsection
+    <script type="module">
+        import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
+        import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
+        $(function(){
+            SidebarSetup();
+            BrowseSetup();
+        })
+    </script>
+
+@endpush

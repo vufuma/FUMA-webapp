@@ -27,7 +27,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('page_scripts')
     {{-- Imports from the web --}}
 
     {{-- Imports from the project --}}
@@ -36,4 +36,4 @@
     <script type="text/javascript">
         var loggedin = "{{ Auth::check() }}";
     </script>
-@endsection
+@endpush

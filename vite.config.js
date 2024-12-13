@@ -35,7 +35,7 @@ export default defineConfig({
                 'resources/js/pages/page_s2g.js',
                 'resources/js/pages/pageStateComponents',
                 'resources/js/utils/snp2gene.js',
-
+                'resources/js/utils/updates.js',
                 'resources/js/utils/annotPlot.js',
                 'resources/js/utils/NewJobParameters.js',
                 'resources/js/utils/snp2gene.js',
