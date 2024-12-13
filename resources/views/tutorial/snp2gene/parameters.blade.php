@@ -5,19 +5,19 @@
 	If for example you are interested in prioritizing genes only when they are indicated by an eQTL that is in LD with a significant lead SNP, or by exonic SNPs, then you need to adjust the parameter settings.
 </p>
 <p>Each of user inputs and parameters have status as described below.
-	Please make sure all input has non-red status, otherwise the submit button will not be activated.<br/><br/>
+	Please make sure all input has non-red status, otherwise the submit button will not be activated.<br><br>
 	<span class="alert alert-info" style="padding: 5px;">
 		This is for optional inputs/parameters.
-	</span><br/><br/>
+	</span><br><br>
 	<span class="alert alert-success" style="padding: 5px;">
 		This is the message if everything is fine.
-	</span><br/><br/>
+	</span><br><br>
 	<span class="alert alert-danger" style="padding: 5px;">
 		This is the message if the input/parameter is mandatory and not given or invalid input is given.
-	</span><br/><br/>
+	</span><br><br>
 	<span class="alert alert-warning" style="padding: 5px;">
 		This is the warning message for the input/parameter. Please check your input settings.
-	</span><br/><br/>
+	</span><br><br>
 </p>
 <p>In this section, every parameter that can be adjusted will be described in detail.
 </p>
@@ -67,7 +67,7 @@
 			<tr>
 				<td>Pre-defined genetic region</td>
 				<td>Optional</td>
-				<td>Optional pre-defined genomic regions.<br/>
+				<td>Optional pre-defined genomic regions.<br>
 					FUMA only looks at provided regions to identify lead SNPs and SNPs in LD of them.
 					If you are only interested in specific regions, this option will increase the speed of process.
 				</td>
@@ -77,7 +77,7 @@
 		</tbody>
 	</table>
 </div>
-<br/>
+<br>
 <div style="margin-left: 40px;">
 	<h4><strong>2. Parameters for lead SNPs and candidate SNPs identification</strong></h4>
 	<table class="table table-bordered">
@@ -98,7 +98,7 @@
 				<td>The total number of individuals in the GWAS or the number of individuals per SNP.
 					This is only used for MAGMA to compute the gene-based P-values.
 					For total sample size, input should be an integer.
-					When the input file of GWAS summary statistics contains a column of sample size per SNP, the column name can be provided in the second text box.<br/>
+					When the input file of GWAS summary statistics contains a column of sample size per SNP, the column name can be provided in the second text box.<br>
 					<span class="info"><i class="fa fa-info"></i> When column name is provided, please make sure that the column only contains integers (no float or scientific notation).
 						If there are any float values, they will be rounded up by FUMA.
 					</span>
@@ -114,7 +114,7 @@
 				</td>
 				<td>numeric</td>
 				<td>5e-8</td>
-				<td><span style="color: blue;">lower</span>: decrease #lead SNPs. <br/>
+				<td><span style="color: blue;">lower</span>: decrease #lead SNPs. <br>
 					<span style="color:red;">higher</span>: increase #lead SNPs.
 				</td>
 			</tr>
@@ -126,7 +126,7 @@
 				</td>
 				<td>numeric</td>
 				<td>0.05</td>
-				<td><span style="color:red;">higher</span>: decrease #candidate SNPs.<br/>
+				<td><span style="color:red;">higher</span>: decrease #candidate SNPs.<br>
 					<span style="color: blue;">lower</span>: increase #candidate SNPs.
 				</td>
 			</tr>
@@ -138,7 +138,7 @@
 				</td>
 				<td>numeric</td>
 				<td>0.6</td>
-				<td><span style="color:red;">higher</span>: decrease #candidate SNPs and increase #independent significant SNPs.<br/>
+				<td><span style="color:red;">higher</span>: decrease #candidate SNPs and increase #independent significant SNPs.<br>
 					<span style="color: blue;">lower</span>: increase #candidate SNPs and decrease #independent significant SNPs.
 				</td>
 			</tr>
@@ -150,7 +150,7 @@
 				</td>
 				<td>numeric</td>
 				<td>0.1</td>
-				<td><span style="color:red;">higher</span>: increase #lead SNPs.<br/>
+				<td><span style="color:red;">higher</span>: increase #lead SNPs.<br>
 					<span style="color: blue;">lower</span>: decrease #lead SNPs.
 				</td>
 			</tr>
@@ -188,7 +188,7 @@
 				</td>
 				<td>numeric</td>
 				<td>0</td>
-				<td><span style="color:red;">higher</span>: decrease #candidate SNPs.<br/>
+				<td><span style="color:red;">higher</span>: decrease #candidate SNPs.<br>
 					<span style="color: blue;">lower</span>: increase #candidate SNPs.
 				</td>
 			</tr>
@@ -202,14 +202,14 @@
 				</td>
 				<td>numeric</td>
 				<td>250kb</td>
-				<td><span style="color:red;">higher</span>: decrease #genomic loci.<br/>
+				<td><span style="color:red;">higher</span>: decrease #genomic loci.<br>
 					<span style="color: blue;">lower</span>: increase #genomic loci.
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
-<br/>
+<br>
 <div style="margin-left: 40px;">
 	<h4><strong>3. Parameters for gene mapping</strong></h4>
 	<p>There are two options for gene mapping; positional and eQTL mappings. By default, positional mapping with maximum distance 10kb is performed.
@@ -242,10 +242,10 @@
 			<tr>
 				<td>Distance to genes or functional consequences of SNPs on genes to map</td>
 				<td>Mandatory if positional mapping is activated.</td>
-				<td>Positional mapping criterion either map SNPs to genes based on physical distances or functional consequences of SNPs on genes. <br/>
+				<td>Positional mapping criterion either map SNPs to genes based on physical distances or functional consequences of SNPs on genes. <br>
 					When maximum distance is provided SNPs are mapped to genes based on the distance given the user defined maximum distance.
 					Alternatively, specific functional consequences of SNPs on genes can be selected which filtered SNPs to map to genes.
-					Note that when functional consequences are selected, all SNPs are locating on the gene body (distance 0) except upstream and downstream SNPs which are up to 1kb apart from TSS or TSE. <br/>
+					Note that when functional consequences are selected, all SNPs are locating on the gene body (distance 0) except upstream and downstream SNPs which are up to 1kb apart from TSS or TSE. <br>
 					<span class="info"><i class="fa fa-info"></i>
 						When the maximum distance is set at > 0kb and < 1kb all upstream and downstream SNPs are included since the actual distance is not provided by ANNOVAR.
 						Therefore, the maximum distance > 0kb and < 1kb is same as the maximum distance 1 kb.
@@ -305,7 +305,7 @@
 				<td>The P-value threshold of eQTLs.
 					Two options are available, <code>Use only significant snp-gene pairs</code> or nominal P-value threshold.
 					When <code>Use only significant snp-gene pairs</code> is checked, only eQTLs with FDR &le; 0.05 will be used.
-					Otherwise, defined nominal P-value is used to filter eQTLs.<br/>
+					Otherwise, defined nominal P-value is used to filter eQTLs.<br>
 					<span class="info"><i class="fa fa-info"></i>
 						Some of eQTL data source only contained eQTLs with a certain FDR threshold.
 						Please refer to the <a href="{{ Config::get('app.subdir') }}/tutorial#eQTLs">eQTLs</a> section for details of each data sources.
@@ -313,7 +313,7 @@
 				</td>
 				<td>Check / Numeric</td>
 				<td>Checked / 1e-3</td>
-				<td><span style="color: blue;">lower</span>: increase #eQTLs and #mapped genes.<br/>
+				<td><span style="color: blue;">lower</span>: increase #eQTLs and #mapped genes.<br>
 					<span style="color: red;">higher</span>: decrease #eQTLs and #mapped genes.
 				</td>
 			</tr>
@@ -359,7 +359,7 @@
 					The data should be pre-computed chromatin loops with significance (ideally FDR but another score can be used, see the Chromatin interactions section for details).
 					The file should be gzipped and named as "(name-of-data).txt.gz". Multiple files can be uploaded.
 					For each data, user can also provide data type, such as Hi-C, ChIA-PET or C5 which is not mandatory but will be used in the result table and regional plot.
-					The file format is described in the <a href="{{ Config::get('app.subdir') }}/tutorial#chromatin-interactions">Chromatin interactions</a> section in this tutorial.<br/>
+					The file format is described in the <a href="{{ Config::get('app.subdir') }}/tutorial#chromatin-interactions">Chromatin interactions</a> section in this tutorial.<br>
 					<span class="info"><i class="fa fa-info"></i>
 						Please avoid uploading more than one file with identical file names. In that case, the files are over-written by the last uploaded one.
 					</span>
@@ -372,14 +372,14 @@
 				<td>FDR threshold (&le;)</td>
 				<td>Mandatory if <code>chromatin interaction mapping</code> is CHECKED</td>
 				<td>FDR threshold for significant loops.
-					The default value is set at 1e-6 which is suggested by <a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/27851967">Schmitt et al. (2016)</a><br/>
+					The default value is set at 1e-6 which is suggested by <a target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/27851967">Schmitt et al. (2016)</a><br>
 					<span class="info"><i class="fa fa-info"></i>
 						This threshold will be applied both build in and user uploaded chromatin loops.
 					</span>
 				</td>
 				<td>Numeric</td>
 				<td>1e-6</td>
-				<td><span style="color: blue;">lower</span>: increase #chromatin interactions and #mapped genes.<br/>
+				<td><span style="color: blue;">lower</span>: increase #chromatin interactions and #mapped genes.<br>
 					<span style="color: red;">higher</span>: decrease #chromatin interactions and #mapped genes.
 				</td>
 			</tr>
@@ -394,7 +394,7 @@
 				</td>
 				<td>text</td>
 				<td>250-500</td>
-				<td><span style="color: blue;">lower</span>: increase #mapped genes.<br/>
+				<td><span style="color: blue;">lower</span>: increase #mapped genes.<br>
 					<span style="color: red;">smaller</span>: decrease #mapped genes.
 				</td>
 			</tr>
@@ -469,7 +469,7 @@
 			<td>The higher the CADD score, the more deleterious.</td>
 			<td>numeric</td>
 			<td>12.37</td>
-			<td><span style="color:red;">higher</span>: less SNPs will be mapped to genes.<br/>
+			<td><span style="color:red;">higher</span>: less SNPs will be mapped to genes.<br>
 				<span style="color: blue;">lower</span>: more SNPs will be mapped to genes.</td>
 			</td>
 		</tr>
@@ -495,7 +495,7 @@
 			</td>
 			<td>string</td>
 			<td>7</td>
-			<td><span style="color:red;">higher</span>: more SNPs will be mapped to genes.<br/>
+			<td><span style="color:red;">higher</span>: more SNPs will be mapped to genes.<br>
 				<span style="color: blue;">lower</span>: less SNPs will be mapped to genes.</td>
 			</td>
 		</tr>
@@ -526,7 +526,7 @@
 			</td>
 			<td>numeric</td>
 			<td>7</td>
-			<td><span style="color:red;">higher</span>: more SNPs will be mapped to genes.<br/>
+			<td><span style="color:red;">higher</span>: more SNPs will be mapped to genes.<br>
 				<span style="color: blue;">lower</span>: less SNPs will be mapped to genes.</td>
 			</td>
 		</tr>
@@ -569,7 +569,7 @@
 		</tr>
 		</tbody>
 	</table>
-	<br/>
+	<br>
 </div>
 
 <div style="margin-left: 40px;">
@@ -598,7 +598,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<br/>
+	<br>
 </div>
 
 <div style="margin-left: 40px;">
@@ -644,13 +644,13 @@
 			</tr>
 		</tbody>
 	</table>
-	<br/>
+	<br>
 </div>
 
 <div style="margin-left: 40px;">
 	<h4><strong>6. MAGMA analysis</strong></h4>
 	<p>
-		Starting from FUMA version 1.5.1, user needs to check the magma checkbox to perform MAGMA. 
+		Starting from FUMA version 1.5.1, user needs to check the magma checkbox to perform MAGMA.
 		MAGMA gene and gene-set analyses are performed for the input summary statistics.
 		Gene expression data sets for MAGMA gene expression analysis can be also selected from here.
 	</p>
@@ -694,7 +694,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<br/>
+	<br>
 </div>
 
 <div style="margin-left: 40px;">

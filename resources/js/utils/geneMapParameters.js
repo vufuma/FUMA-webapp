@@ -1,6 +1,6 @@
 var prefix = "jobs";
-$(document).ready(function(){
-	getGeneMapIDs();
+export const GeneMapSetup = function(subdir){
+	getGeneMapIDs(subdir);
 	geneMapCheckAll();
 
 	$('.geneMapMultiSelect a').on('click',function(){
@@ -10,9 +10,9 @@ $(document).ready(function(){
 		});
 		geneMapCheckAll();
 	});
-})
+}
 
-function getGeneMapIDs(){
+export function getGeneMapIDs(subdir){
 	$.ajax({
 		url: subdir+"/snp2gene/getGeneMapIDs",
 		type: "POST",
@@ -28,7 +28,7 @@ function getGeneMapIDs(){
 	})
 }
 
-function loadGeneMap(){
+export function loadGeneMap(subdir){
 	var geneMapID = $('#geneMapID').val();
 	if(geneMapID > 0){
 		$.ajax({
@@ -80,7 +80,7 @@ function geneMapSetParams(data){
 		$('#geneMap_posMapRDBcheck').prop("checked", false);
 	}
 	if(data.posMapChr15!="NA"){
-		$('#geneMap_posMapChe15check').porp("checked", true);
+		$('#geneMap_posMapChe15check').prop("checked", true);
 		var cell = data.posMapChr15.split(":");
 		if(cell.indexOf("all")>=0){
 			$('#geneMap_posMapChr15Ts option').each(function(){
@@ -236,7 +236,7 @@ function geneMapSetParams(data){
 	geneMapCheckAll();
 }
 
-function geneMapCheckAll(){
+export function geneMapCheckAll(){
 	var submit = true;
 	var table;
 	var tablecheck = true;
@@ -371,9 +371,9 @@ function geneMapCheckAll(){
 	}
 
 	if(tablecheck==false){
-		$('#geneMapPosMapPanel').parent().attr("class", "panel panel-danger");
+		$('#geneMapPosMapPanel').siblings(".accordion-header").children("button").addClass("bg-danger text-white");
 	}else{
-		$('#geneMapPosMapPanel').parent().attr("class", "panel panel-default");
+		$('#geneMapPosMapPanel').siblings(".accordion-header").children("button").removeClass("bg-danger text-white");
 	}
 
 	//eqtlMap table
@@ -526,9 +526,9 @@ function geneMapCheckAll(){
 	}
 
 	if(tablecheck==false){
-		$('#geneMapEqtlMapPanel').parent().attr("class", "panel panel-danger");
+		$('#geneMapEqtlMapPanel').siblings(".accordion-header").children("button").addClass("bg-danger text-white");
 	}else{
-		$('#geneMapEqtlMapPanel').parent().attr("class", "panel panel-default");
+		$('#geneMapEqtlMapPanel').siblings(".accordion-header").children("button").removeClass("bg-danger text-white");
 	}
 
 	//ciMap table
@@ -753,9 +753,9 @@ function geneMapCheckAll(){
 	}
 
 	if(tablecheck==false){
-		$('#geneMapCiMapPanel').parent().attr("class", "panel panel-danger");
+		$('#geneMapCiMapPanel').siblings(".accordion-header").children("button").addClass("bg-danger text-white");
 	}else{
-		$('#geneMapCiMapPanel').parent().attr("class", "panel panel-default");
+		$('#geneMapCiMapPanel').siblings(".accordion-header").children("button").removeClass("bg-danger text-white");
 	}
 
 	//check if job is selected
@@ -764,3 +764,5 @@ function geneMapCheckAll(){
 	if(submit){$('#SubmitGeneMap').attr("disabled", false)}
 	else{$('#SubmitGeneMap').attr("disabled", true)}
 }
+
+export default GeneMapSetup;

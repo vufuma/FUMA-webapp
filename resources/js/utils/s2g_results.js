@@ -1,5 +1,8 @@
-function GWplot(data) {
-	margin = { top: 30, right: 30, bottom: 50, left: 50 },
+import { tip as d3Tip } from "d3-v6-tip";
+import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
+
+export const GWplot = function (data) {
+	var margin = { top: 30, right: 30, bottom: 50, left: 50 },
 		width = 800,
 		height = 300;
 
@@ -19,8 +22,8 @@ function GWplot(data) {
 	for (let [key, value] of Object.entries(data)) {
 		if (key == 'manhattan.txt') {
 
-			var chromSize = []
-			for (var i = 0; i < 23; i++) { chromSize.push(0) }
+			let chromSize = []
+			for (let i = 0; i < 23; i++) { chromSize.push(0) }
 
 			value.forEach(function (d) {
 				d['chr'] = +d['chr']; //chr
@@ -28,22 +31,22 @@ function GWplot(data) {
 				d['p'] = +d['p']; // p
 				if (chromSize[d['chr'] - 1] < d['bp']) { chromSize[d['chr'] - 1] = d['bp'] }
 			});
-			for (var i = 0; i < 23; i++) { chromSize[i] *= 1.1 }
+			for (let i = 0; i < 23; i++) { chromSize[i] *= 1.1 }
 
 			var chr = d3.set(value.map(function (d) { return d['chr']; })).values();
 			var chromStart = [];
 			chromStart.push(0);
-			for (var i = 1; i < 23; i++) {
+			for (let i = 1; i < 23; i++) {
 				if (chr.indexOf(i.toString()) >= 0) {
 					chromStart.push(chromStart[i - 1] + chromSize[i - 1]);
 				} else {
 					chromStart.push(chromStart[i - 1])
 				}
 			}
-			var x = d3.scale.linear().range([0, width]);
+			var x = d3.scaleLinear().range([0, width]);
 			x.domain([0, chromSize.reduce(function (a, b) { return a + b; }, 0)]);
-			var xAxis = d3.svg.axis().scale(x).orient("bottom");
-			var y = d3.scale.linear().range([height, 0]);
+			var xAxis = d3.axisBottom(x);
+			var y = d3.scaleLinear().range([height, 0]);
 			var minP = d3.min(value, function (d) { if (d['p'] > 1e-300) { return d['p'] } })
 			var lowP = d3.min(value, function (d) { return d['p'] });
 			var yMax = -Math.log10(minP);
@@ -54,7 +57,7 @@ function GWplot(data) {
 			}
 			y.domain([0, yMax]);
 
-			var yAxis = d3.svg.axis().scale(y).orient("left");
+			var yAxis = d3.axisLeft().scale(y);
 
 			svg.selectAll("dot.manhattan").data(value).enter()
 				.append("circle")
@@ -93,7 +96,7 @@ function GWplot(data) {
 			}
 
 			//Chr label
-			for (var i = 0; i < chr.length; i++) {
+			for (let i = 0; i < chr.length; i++) {
 				svg.append("text").attr("text-anchor", "middle")
 					.attr("transform", "translate(" + x((chromStart[chr[i] - 1] * 2 + chromSize[chr[i] - 1]) / 2) + "," + (height + 20) + ")")
 					.text(chr[i])
@@ -112,10 +115,10 @@ function GWplot(data) {
 
 			if (value == null || value.length == 0) {
 				$("#geneManhattan").html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' MAGMA was not able to perform.</span><br/></div>');
+					+ ' MAGMA was not able to perform.</span><br></div>');
 			} else {
-				var chromSize = [];
-				for (var i = 0; i < 23; i++) { chromSize.push(0) }
+				let chromSize = [];
+				for (let i = 0; i < 23; i++) { chromSize.push(0) }
 				value.forEach(function (d) {
 					if (d['CHR'] == 'X') { d['CHR'] = 23; }
 					d['CHR'] = +d['CHR']; //chr
@@ -124,7 +127,7 @@ function GWplot(data) {
 					d['P'] = +d['P']; //p
 					if (chromSize[d['CHR'] - 1] < d['START']) { chromSize[d['CHR'] - 1] = d['STOP'] }
 				});
-				for (var i = 0; i < 23; i++) { chromSize[i] *= 1.1 }
+				for (let i = 0; i < 23; i++) { chromSize[i] *= 1.1 }
 				var nSigGenes = 0;
 				var sortedP = [];
 				sortedP.push(0);
@@ -139,24 +142,24 @@ function GWplot(data) {
 
 				sortedP = sortedP.sort(function (a, b) { return a - b; });
 				// var chr = d3.set(value.map(function(d){return d.CHR;})).values();
-				var chr = d3.set(value.map(function (d) { return d['CHR']; })).values();
+				chr = d3.set(value.map(function (d) { return d['CHR']; })).values();
 
-				var chromStart = [];
+				chromStart = [];
 				chromStart.push(0);
-				for (var i = 1; i < 23; i++) {
+				for (let i = 1; i < 23; i++) {
 					if (chr.indexOf(i.toString()) >= 0) {
 						chromStart.push(chromStart[i - 1] + chromSize[i - 1]);
 					} else {
 						chromStart.push(chromStart[i - 1])
 					}
 				}
-				var x = d3.scale.linear().range([0, width]);
+				x = d3.scaleLinear().range([0, width]);
 				x.domain([0, chromSize.reduce(function (a, b) { return a + b; }, 0)]);
-				var xAxis = d3.svg.axis().scale(x).orient("bottom");
-				var y = d3.scale.linear().range([height, 0]);
+				xAxis = d3.axisBottom(x);
+				y = d3.scaleLinear().range([height, 0]);
 				// y.domain([0, d3.max(value, function(d){return -Math.log10(d.P);})+1]);
 				y.domain([0, d3.max(value, function (d) { return -Math.log10(d['P']); }) + 1]);
-				var yAxis = d3.svg.axis().scale(y).orient("left");
+				yAxis = d3.axisLeft(y);
 
 				svg2.selectAll("dot.geneManhattan").data(value).enter()
 					.append("circle")
@@ -185,7 +188,7 @@ function GWplot(data) {
 					.selectAll('text').style('font-size', '11px');
 
 				//Chr label
-				for (var i = 0; i < chr.length; i++) {
+				for (let i = 0; i < chr.length; i++) {
 					svg2.append("text").attr("text-anchor", "middle")
 						.attr("transform", "translate(" + x((chromStart[chr[i] - 1] * 2 + chromSize[chr[i] - 1]) / 2) + "," + (height + 20) + ")")
 						.text(chr[i])
@@ -218,7 +221,7 @@ function GWplot(data) {
 	}
 }
 
-function QQplot(data) {
+export function QQplot(data) {
 	var margin = { top: 30, right: 30, bottom: 50, left: 50 },
 		width = 300,
 		height = 300;
@@ -244,8 +247,8 @@ function QQplot(data) {
 				d.exp = +d['exp'];
 			});
 
-			var x = d3.scale.linear().range([0, width]);
-			var y = d3.scale.linear().range([height, 0]);
+			var x = d3.scaleLinear().range([0, width]);
+			var y = d3.scaleLinear().range([height, 0]);
 			var xMax = d3.max(value, function (d) { return d.exp; });
 			var minP = d3.max(value, function (d) { if (d.obs < 300) { return d.obs } })
 			var lowP = d3.max(value, function (d) { return d.obs });
@@ -256,8 +259,8 @@ function QQplot(data) {
 			}
 			x.domain([0, (xMax + xMax * 0.01)]);
 			y.domain([0, (yMax + yMax * 0.01)]);
-			var yAxis = d3.svg.axis().scale(y).orient("left");
-			var xAxis = d3.svg.axis().scale(x).orient("bottom");
+			var yAxis = d3.axisLeft(y);
+			var xAxis = d3.axisBottom(x);
 
 			// var maxP = Math.min(d3.max(data, function(d){return d.exp;}), d3.max(data, function(d){return d.obs;}));
 			var maxP = Math.min(xMax, yMax);
@@ -307,7 +310,7 @@ function QQplot(data) {
 		} else if (key == 'magma.genes.out') {
 			if (value == null || value.length == 0) {
 				$("#geneQQplot").html('<div style="text-align:center; padding-top:24px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' MAGMA was not able to perform.</span><br/></div>');
+					+ ' MAGMA was not able to perform.</span><br></div>');
 			} else {
 
 				let obs = [];
@@ -332,14 +335,14 @@ function QQplot(data) {
 					d.n = +d.n;
 				});
 
-				var x = d3.scale.linear().range([0, width]);
-				var y = d3.scale.linear().range([height, 0]);
+				var x = d3.scaleLinear().range([0, width]);
+				var y = d3.scaleLinear().range([height, 0]);
 				var xMax = d3.max(all_row, function (d) { return d.exp; });
 				var yMax = d3.max(all_row, function (d) { return d.obs; });
 				x.domain([0, (xMax + xMax * 0.01)]);
 				y.domain([0, (yMax + yMax * 0.01)]);
-				var yAxis = d3.svg.axis().scale(y).orient("left");
-				var xAxis = d3.svg.axis().scale(x).orient("bottom");
+				var yAxis = d3.axisLeft(y);
+				var xAxis = d3.axisBottom(x);
 
 				// var maxP = Math.min(d3.max(all_row, function(d){return d.exp;}), d3.max(all_row, function(d){return d.obs;}));
 				var maxP = Math.min(xMax, yMax);
@@ -374,7 +377,7 @@ function QQplot(data) {
 	}
 }
 
-function MAGMA_GStable(data) {
+export function MAGMA_GStable(data) {
 	$('#MAGMAtable').DataTable({
 		"data": data['magma.sets.top'],
 		columns: [
@@ -392,7 +395,7 @@ function MAGMA_GStable(data) {
 	});
 }
 
-function MAGMA_expPlot(data) {
+export function MAGMA_expPlot(data) {
 	var data_title = {
 		'gtex_v8_ts_avg_log2TPM': 'GTEx v8 53 tissue types',
 		'gtex_v8_ts_general_avg_log2TPM': 'GTEx v8 30 general tissue types',
@@ -406,7 +409,7 @@ function MAGMA_expPlot(data) {
 
 	if (data == null || data == undefined || data.lenght == 0) {
 		$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-			+ ' There was an error, MAGMA was not able to perform.</span><br/></div>');
+			+ ' There was an error, MAGMA was not able to perform.</span><br></div>');
 	} else {
 		data.forEach(function (d) {
 			d['p'] = +d['p']; //P-value
@@ -425,10 +428,10 @@ function MAGMA_expPlot(data) {
 
 			// img download buttons
 			$('#' + ds + 'Panel').append('<div id="' + ds + 'Plot">Download the plot as '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","png");' + "'" + '>PNG</button> '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","jpeg");' + "'" + '>JPG</button> '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","svg");' + "'" + '>SVG</button> '
-				+ '<button class="btn btn-default btn-xs ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","pdf");' + "'" + '>PDF</button></div>'
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","png");' + "'" + '>PNG</button> '
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","jpeg");' + "'" + '>JPG</button> '
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","svg");' + "'" + '>SVG</button> '
+				+ '<button class="btn btn-default btn-sm ImgDown" onclick=' + "'" + 'expImgDown("' + ds + '","pdf");' + "'" + '>PDF</button></div>'
 			);
 
 			// plot
@@ -449,11 +452,11 @@ function MAGMA_expPlot(data) {
 				.append("g")
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-			var x = d3.scale.ordinal().rangeBands([0, width]);
-			var xAxis = d3.svg.axis().scale(x).orient("bottom");
+			var x = d3.scaleBand().range([0, width]);
+			var xAxis = d3.axisBottom(x);
 			x.domain(tdata.map(function (d) { return d['var_name']; }));
-			var y = d3.scale.linear().range([height, 0]);
-			var yAxis = d3.svg.axis().scale(y).orient("left");
+			var y = d3.scaleLinear().range([height, 0]);
+			var yAxis = d3.axisLeft(y);
 			y.domain([0, d3.max(tdata, function (d) { return -Math.log10(d['p']); })]);
 
 			var Pbon = 0.05 / tdata.length;
@@ -502,7 +505,7 @@ function MAGMA_expPlot(data) {
 
 		function sortOptions(type) {
 			if (type == "alph") {
-				for (var i = 0; i < bars.length; i++) {
+				for (let i = 0; i < bars.length; i++) {
 					bars[i].transition().duration(1000)
 						.attr("x", function (d) { return d['ascending_var_or_covar_idx'] * cellwidth; });
 					xLabels[i].transition().duration(1000)
@@ -511,7 +514,7 @@ function MAGMA_expPlot(data) {
 						});
 				}
 			} else if (type == "p") {
-				for (var i = 0; i < bars.length; i++) {
+				for (let i = 0; i < bars.length; i++) {
 					bars[i].transition().duration(1000)
 						.attr("x", function (d) { return d['ascending_P_idx'] * cellwidth; });
 					xLabels[i].transition().duration(1000)
@@ -528,15 +531,35 @@ function MAGMA_expPlot(data) {
 	}
 }
 
-function expImgDown(gs, type) {
+export function expImgDown(gs, type) {
+	let id = pageState.get('id');
 	$('#expData').val($('#' + gs).html());
 	$('#expType').val(type);
 	$('#expJobID').val(id);
+	$('#expDir').val('jobs');
 	$('#expFileName').val("magma_exp_" + gs);
 	$('#expSubmit').trigger('click');
 }
 
-function ciMapCircosPlot(data) {
+export function ImgDown(name, type) {
+	let id = pageState.get('id');
+	$('#' + name + 'Data').val($('#' + name).html());
+	$('#' + name + 'Type').val(type);
+	$('#' + name + 'Dir').val('jobs')
+	$('#' + name + 'ID').val(id);
+	$('#' + name + 'FileName').val(name);
+	$('#' + name + 'Submit').trigger('click');
+}
+
+export function circosDown(type) {
+	let id = pageState.get('id');
+	$('#circosPlotID').val(id);
+	//$('#circosPlotDir').val(prefix);
+	$('#circosPlotType').val(type);
+	$('#circosPlotSubmit').trigger('click');
+}
+
+export function ciMapCircosPlot(data) {
 	data = data[0];
 
 	// let sortedKeys = Object.keys(data).sort();
@@ -550,17 +573,17 @@ function ciMapCircosPlot(data) {
 
 	for (var key in data) {
 		images += '<div class="col-md-4 col-xs-4 col-sm-4">'
-			+ 'Chromosome ' + key + '<br/>'
+			+ 'Chromosome ' + key + '<br>'
 			// + '<a target="_blank" href="' + 'data:image/png;base64,' + data[key] + '">' // TODO: do something to click and open in new tab
 			+ '<img width="80%" src="' + 'data:image/png;base64,' + data[key] + '"></img>'
-			+ '</a><br/><br/>'
+			+ '</a><br><br>'
 			+ '</div>';
 	}
 	images += '</div>';
 	$('#ciMapCircosPlot').html(images);
 }
 
-function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
+export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
 	$('#plotClear').hide();
 	$('#download').attr('disabled', false);
 	if (eqtlMap == 0) {
@@ -591,7 +614,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 		},
 		success: function (data) {
 			data = JSON.parse(data);
-			var table = '<table class="table table-condensed table-bordered" style="width: 90%; text-align: right;"><tbody>'
+			var table = '<table class="table table-condensed table-bordered table-sm" style="width: 90%; text-align: right;"><tbody>'
 			data.forEach(function (d) {
 				if (d[0] != "created_at") {
 					d[1] = d[1].replace(/:/g, ', ');
@@ -770,7 +793,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 	});
 
 	file = "genes.txt";
-	var table = "<thead><tr><th>Gene</th><th>Symbol</th><th>HUGO</th><th>entrezID</th><th>chr</th><th>start</th><th>end</th>";
+	table = "<thead><tr><th>Gene</th><th>Symbol</th><th>HUGO</th><th>entrezID</th><th>chr</th><th>start</th><th>end</th>";
 	table += "<th>strand</th><th>type</th><th>pLI</th><th>ncRVIS</th>";
 	var col = "ensg:symbol:HUGO:entrezID:chr:start:end:strand:type:pLI:ncRVIS";
 	if (posMap == 1) {
@@ -788,8 +811,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 	table += "<th>minGwasP</th><th>Genomic Locus</th><th>IndSigSNPs</th></tr></thead>";
 	col += ":minGwasP:GenomicLocus:IndSigSNPs"
 	$('#geneTable').append(table);
-	var geneTable;
-	geneTable = $('#geneTable').DataTable({
+	$('#geneTable').DataTable({
 		processing: true,
 		serverSide: false,
 		select: false,
@@ -915,7 +937,6 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('IndSigSNP');
 		var rowI = IndSigTable.row(this).index();
-		sigSNPtable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -933,12 +954,12 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 			},
 			success: function (data) {
 				var plotData = JSON.parse(data.replace(/NaN/g, "-1"));
-				locusPlot(plotData, "IndSigSNP", chr);
+				locusPlot(plotData, "IndSigSNP", chr, orcol, becol, secol);
 			}
 		});
 
 		$('#selectedLeadSNP').html("");
-		var out = "<h5>Selected Ind. Sig. SNP</h5><table class='table table-striped'><tr><td>Ind. Sig. SNP</td><td>" + rowData[3]
+		var out = "<h5>Selected Ind. Sig. SNP</h5><table class='table table-striped table-sm'><tr><td>Ind. Sig. SNP</td><td>" + rowData[3]
 			+ "</td></tr><tr><td>Chrom</td><td>" + rowData[4] + "</td></tr><tr><td>BP</td><td>"
 			+ rowData[5] + "</td></tr><tr><td>P-value</td><td>" + rowData[6] + "</td></tr><tr><td>SNPs within LD</td><td>"
 			+ rowData[7] + "</td></tr><tr><td>GWAS SNPs within LD</td><td>" + rowData[8] + "</td></tr>";
@@ -950,7 +971,6 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('leadSNP');
 		var rowI = leadTable.row(this).index();
-		sigSNPtable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -968,12 +988,12 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 			},
 			success: function (data) {
 				var plotData = JSON.parse(data.replace(/NaN/g, "-1"));
-				locusPlot(plotData, "leadSNP", chr);
+				locusPlot(plotData, "leadSNP", chr, orcol, becol, secol);
 			}
 		});
 
 		$('#selectedLeadSNP').html("");
-		var out = "<h5>Selected lead SNP</h5><table class='table table-striped'><tr><td>Lead SNP</td><td>" + rowData[3]
+		var out = "<h5>Selected lead SNP</h5><table class='table table-striped table-sm'><tr><td>Lead SNP</td><td>" + rowData[3]
 			+ "</td></tr><tr><td>Chrom</td><td>" + rowData[4] + "</td></tr><tr><td>BP</td><td>"
 			+ rowData[5] + "</td></tr><tr><td>P-value</td><td>" + rowData[6] + "</td></tr>"
 			+ "<tr><td>#Ind. Sig. SNPs</td><td>" + rowData[7] + "</td></tr>";
@@ -985,7 +1005,6 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 		$('#annotPlotPanel').show();
 		$('#annotPlotSelect').val('GenomicLocus');
 		var rowI = lociTable.row(this).index();
-		lociTable_selected = rowI;
 		$('#annotPlotRow').val(rowI);
 		Chr15Select();
 		d3.select('#locusPlot').select("svg").remove();
@@ -1003,12 +1022,12 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 			},
 			success: function (data) {
 				var plotData = JSON.parse(data.replace(/NaN/g, "-1"));
-				locusPlot(plotData, "loci", chr);
+				locusPlot(plotData, "loci", chr, orcol, becol, secol);
 			}
 		});
 
 		$('#selectedLeadSNP').html("");
-		var out = "<h5>Selected Locus</h5><table class='table table-striped'><tr><td>top lead SNP</td><td>" + rowData[2]
+		var out = "<h5>Selected Locus</h5><table class='table table-striped table-sm'><tr><td>top lead SNP</td><td>" + rowData[2]
 			+ "</td></tr><tr><td>Chrom</td><td>" + rowData[3] + "</td></tr><tr><td>BP</td><td>"
 			+ rowData[4] + "</td></tr><tr><td>P-value</td><td>" + rowData[5] + "</td></tr>"
 			+ "<tr><td>#Ind. Sig. SNPs</td><td>" + rowData[10] + "</td></tr><tr><td>#lead SNPs</td><td>" + rowData[12]
@@ -1019,23 +1038,24 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
 	});
 }
 
-function locusPlot(data, type, chr) {
+export function locusPlot(data, type, chr, orcol, becol, secol) {
 	// create plot space
-	var colorScale = d3.scale.linear().domain([0.0, 0.5, 1.0]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+	var colorScale = d3.scaleLinear().domain([0.0, 0.5, 1.0]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 	var margin = { top: 50, right: 50, bottom: 60, left: 50 },
 		width = 700 - margin.right - margin.left,
 		height = 300 - margin.top - margin.bottom;
 	// set range
-	var x = d3.scale.linear().range([0, width]);
-	var y = d3.scale.linear().range([height, 0]);
+	var x = d3.scaleLinear().domain([0,10]).range([0, width]);
+	var y = d3.scaleLinear().domain([0,10]).range([height, 0]);
 
+	// Variable svg actually points to first (g) element: <svg><g>
 	var svg = d3.select("#locusPlot").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	var legData = [];
-	for (i = 10; i > 0; i--) {
+	for (let i = 10; i > 0; i--) {
 		legData.push(i * 0.1);
 	}
 	// legend
@@ -1093,23 +1113,36 @@ function locusPlot(data, type, chr) {
 	var side = (d3.max(data.allsnps, function (d) { return d[0] }) - d3.min(data.allsnps, function (d) { return d[0] })) * 0.05;
 	x.domain([d3.min(data.allsnps, function (d) { return d[0] }) - side, d3.max(data.allsnps, function (d) { return d[0] }) + side]);
 	y.domain([0, Math.max(d3.max(data.snps, function (d) { return -Math.log10(d.gwasP) }), d3.max(data.allsnps, function (d) { return -Math.log10(d[1]) }))]);
-	var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5);
-	var yAxis = d3.svg.axis().scale(y).orient("left");
-	// tip
-	var tip = d3.tip().attr("class", "d3-tip")
+	var xAxis = d3.axisBottom(x).ticks(5);
+	var yAxis = d3.axisLeft(y);
+
+	// Define the tool tip formatting for the SNPs
+	var tip = d3Tip().attr("class", "d3-tip")
 		.offset([-10, 0])
 		.html(function (d) {
-			var out = "rsID: " + d.rsID + "<br/>BP: " + d.pos + "<br/>P: " + d.gwasP + "<br/>MAF: " + d.MAF
-				+ "<br/>r2: " + d.r2 + "<br/>Ind. Sig. SNP: " + d.IndSigSNP;
-			if (orcol != "NA") { out += "<br/>OR: " + d.or; }
-			if (becol != "NA") { out += "<br/>Beta: " + d.beta; }
-			if (secol != "NA") { out += "<br/>SE: " + d.se; }
+			var out = "<table><tr><td>rsID: </td><td>" + d.rsID + "</td></tr>"
+			    + "<tr><td>BP: </td><td>" + d.pos + "</td></tr>"
+			    + "<tr><td>P: </td><td>" + d.gwasP + "</td></tr>"
+				+ "<tr><td>MAF: </td><td>" + d.MAF + "</td></tr>"
+				+ "<tr><td>r2: </td><td>" + d.r2 + "</td></tr>"
+				+ "<tr><td>Ind. Sig. SNP:&nbsp;</td><td>" + d.IndSigSNP + "</td></tr>";
+			if (orcol != "NA") { out += "<tr><td>OR: </td><td>" + d.or + "</td></tr>"; }
+			if (becol != "NA") { out += "<tr><td>Beta: </td><td>" + d.beta + "</td></tr>"; }
+			if (secol != "NA") { out += "<tr><td>SE: </td><td>" + d.se + "</td></tr>"; }
+			out += "</table>"
 			return out;
 		});
+	// activate the tool tips
 	svg.call(tip);
-	// zoom
-	var zoom = d3.behavior.zoom().x(x).scaleExtent([1, 10]).on("zoom", zoomed);
+
+	// Create zoom behavior and restrict zoom extent to 10x
+	// T.B.D. restrict translation 
+	var zoom = d3.zoom()
+		.scaleExtent([1,10])
+		.on("zoom", zoomed);
+
 	svg.call(zoom);
+
 	// add rect
 	svg.append("rect").attr("width", width).attr("height", height)
 		.style("fill", "transparent")
@@ -1162,9 +1195,8 @@ function locusPlot(data, type, chr) {
 		.style("stroke", "black").style("stroke-width", "2")
 		.on("mouseover", tip.show)
 		.on("mouseout", tip.hide);
-	// axis labels
-	svg.append("g").attr("class", "x axis")
-		.attr("transform", "translate(0," + height + ")").call(xAxis);
+
+	svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
 	svg.append("g").attr("class", "y axis").call(yAxis);
 	svg.append("text").attr("text-anchor", "middle")
 		.attr("transform", "translate(" + (-margin.left / 2 - 5) + "," + (height / 2) + ")rotate(-90)")
@@ -1177,43 +1209,47 @@ function locusPlot(data, type, chr) {
 		.style("font-size", "8px")
 		.text("1000G SNPs");
 
+	// x-direction only zoom handler
 	function zoomed() {
-		svg.select(".x.axis").call(xAxis);
-		svg.selectAll(".nonLD").attr("cx", function (d) { return x(d[0]); })
+		// get the current transform and apply to x axis
+		var new_x_scale = d3.event.transform.rescaleX(x);
+		svg.select(".x.axis").transition()
+        .duration(0)
+        .call(xAxis.scale(new_x_scale));
+
+		// For the SNPs do the x-position scaling (cy) based on the transformed scale and 
+		// set appropriate coloring/hidden(transparent) for all the SNP classes
+		svg.selectAll(".nonLD").attr("cx", function (d) { return new_x_scale(d[0]); })
 			.attr("cy", function (d) { return y(-Math.log10(d[1])); })
-			.style("fill", function (d) { if (x(d[0]) < 0 || x(d[0]) > width) { return "transparent"; } else { return "grey"; } });
-		svg.selectAll(".dot").attr("cx", function (d) { return x(d.pos); })
+			.style("fill", function (d) { if (new_x_scale(d[0]) < 0 || new_x_scale(d[0]) > width) { return "transparent"; } else { return "grey"; } });
+		svg.selectAll(".dot").attr("cx", function (d) { return new_x_scale(d.pos); })
 			.attr("cy", function (d) { return y(-Math.log10(d.gwasP)); })
-			.style("fill", function (d) { if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
+			.style("fill", function (d) { if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
 		svg.selectAll(".KGSNPs")
-			.attr("x", function (d) { return x(d.pos) })
+			.attr("x", function (d) { return new_x_scale(d.pos) })
 			.attr("y", -20)
-			.style('fill', function (d) { if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
+			.style('fill', function (d) { if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; } else if (d.ld == 0) { return "grey"; } else { return colorScale(d.r2); } });
 		svg.selectAll(".leadSNPs")
-			.attr("cx", function (d) { return x(d.pos); })
+			.attr("cx", function (d) { return new_x_scale(d.pos); })
 			.attr("cy", function (d) { return y(-Math.log10(d.gwasP)); })
 			.style("fill", function (d) {
-				if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; }
+				if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; }
 				else if (d.ld == 2) { return colorScale(d.r2); }
 				else if (d.ld == 3) { return "#9933ff" }
 				else if (d.ld == 4) { return "#4d0099" }
 			})
-			.style("stroke", function (d) { if (x(d.pos) < 0 || x(d.pos) > width) { return "transparent"; } else { return "black"; } });
+			.style("stroke", function (d) { if (new_x_scale(d.pos) < 0 || new_x_scale(d.pos) > width) { return "transparent"; } else { return "black"; } });
 	}
 
 	d3.select('#plotClear').on('click', reset);
 	function reset() {
-		d3.transition().duration(750).tween("zoom", function () {
-			var ix = d3.interpolate(x.domain(), [d3.min(data.allsnps, function (d) { return d[0] }) - side, d3.max(data.allsnps, function (d) { return d[0] }) + side]);
-			return function (t) {
-				zoom.x(x.domain(ix(t)));
-				zoomed();
-			}
-		});
+		// simply restore the identity transform to the zoom setting 
+		// for the top level enclosing g element
+		svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
 	}
 }
 
-function PlotSNPAnnot(data) {
+export function PlotSNPAnnot(data) {
 	var margin = { top: 20, right: 80, bottom: 90, left: 40 },
 		width = 500 - margin.right - margin.left,
 		height = 250 - margin.top - margin.bottom;
@@ -1230,23 +1266,24 @@ function PlotSNPAnnot(data) {
 	max_e = Math.ceil(max_e * 100) / 100
 	var min_e = d3.min(data, function (d) { if (d.enrichment > 0) { return Math.log2(d.enrichment) } });
 	min_e = Math.ceil(min_e * 100) / 100
-	var colorScale = d3.scale.linear().domain([min_e, 0, max_e]).range(["#0000ff", "#ffffe6", "#ff0000"]);
+	var colorScale = d3.scaleLinear().domain([min_e, 0, max_e]).range(["#0000ff", "#ffffe6", "#ff0000"]);
 	var x_element = data.map(function (d) { return d.annot; });
-	var x = d3.scale.ordinal().domain(x_element).rangeRoundBands([0, width], 0.1);
-	var y = d3.scale.linear().range([height, 0]);
-	var xAxis = d3.svg.axis().scale(x).orient("bottom");
-	var yAxis = d3.svg.axis().scale(y).orient("left").ticks(5);
+	//var x = d3.scaleOrdinal().domain(x_element).rangeRoundBands([0, width], 0.1);
+	var x = d3.scaleBand().domain(x_element).range([0,width]).round(true).padding(0.1);
+	var y = d3.scaleLinear().range([height, 0]);
+	var xAxis = d3.axisBottom(x);
+	var yAxis = d3.axisLeft(y).ticks(5);
 	var svg = d3.select('#snpAnnotPlot').append('svg')
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	var tip = d3.tip()
+	var tip = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([-5, 0])
 		.html(function (d) {
 			return 'count: ' + d.count
-				+ '<br/>proportion: ' + Number(d.prop).toPrecision(3)
-				+ '<br/>enrichment: ' + Number(d.enrichment).toPrecision(3) + '<br/>P: ' + Number(Number(d['fisher.P']).toPrecision(3)).toExponential(2);
+				+ '<br>proportion: ' + Number(d.prop).toPrecision(3)
+				+ '<br>enrichment: ' + Number(d.enrichment).toPrecision(3) + '<br>P: ' + Number(Number(d['fisher.P']).toPrecision(3)).toExponential(2);
 		})
 	svg.call(tip);
 	y.domain([0, d3.max(data, function (d) { return d.prop }) * 1.05]);
@@ -1288,7 +1325,7 @@ function PlotSNPAnnot(data) {
 	// background bar for small proportion
 	svg.selectAll('.backbar').data(data).enter().append('rect').attr("class", "backbar")
 		.attr("x", function (d) { return x(d.annot); })
-		.attr("width", x.rangeBand())
+		.attr("width", x.bandwidth())
 		.attr("y", y(d3.max(data, function (d) { return d.prop }) / 2))
 		.attr("height", height - y(d3.max(data, function (d) { return d.prop }) / 2))
 		.attr("fill", "transparent")
@@ -1299,7 +1336,7 @@ function PlotSNPAnnot(data) {
 	// plot main bar
 	svg.selectAll('.bar').data(data).enter().append('rect').attr("class", "bar")
 		.attr("x", function (d) { return x(d.annot); })
-		.attr("width", x.rangeBand())
+		.attr("width", x.bandwidth())
 		.attr("y", function (d) { return y(d.prop); })
 		.attr("height", function (d) { return height - y(d.prop); })
 		.attr("fill", function (d) { return colorScale(Math.log2(d.enrichment)) })
@@ -1321,16 +1358,17 @@ function PlotSNPAnnot(data) {
 	svg.append('g').attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll('text')
-		.attr("transform", function (d) { return "rotate(-65)"; })
+		.attr("transform", function () { return "rotate(-65)"; })
 		.attr("dy", "-.45em")
 		.attr("dx", "-.65em")
 		.style("text-anchor", "end");
 	svg.append('g').attr("class", "y axis")
-		.call(yAxis)
-		.append("text")
-		.attr("transform", "rotate(-90)")
-		.attr("dy", ".71em")
-		.style("text-anchor", "end");
+		.call(yAxis);
+	// No text in this text element crashes TCPDF - leave this as a warning
+	//	.append("text")
+	//	.attr("transform", "rotate(-90)")
+	//	.attr("dy", ".71em")
+	//	.style("text-anchor", "end");
 	svg.append("text").attr("text-anchor", "middle")
 		.attr("transform", "translate(-28," + (height / 2) + ")rotate(-90)")
 		.text("Proportion");
@@ -1339,7 +1377,7 @@ function PlotSNPAnnot(data) {
 	svg.selectAll('.axis').selectAll('text').style('font-size', '11px');
 }
 
-function PlotLocuSum(data) {
+export function PlotLocuSum(data) {
 	data.forEach(function (d) {
 		d.nSNPs = +d.nSNPs;
 		d.size = +(d.size / 1000);
@@ -1350,29 +1388,29 @@ function PlotLocuSum(data) {
 	var margin = { top: 60, right: 30, bottom: 70, left: 180 },
 		width = 600,
 		height = 15 * y_element.length;
-	var y = d3.scale.ordinal().domain(y_element).rangeBands([0, height], 0.1);
-	var yAxis = d3.svg.axis().scale(y).orient("left");
+	var y = d3.scaleBand().domain(y_element).range([0, height]).padding(0.1);
+	var yAxis = d3.axisLeft(y);
 	var svg = d3.select('#lociPlot').append('svg')
 		.attr("class", 'plotSVG')
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append('g').attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	var tip_size = d3.tip()
+	var tip_size = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.size + " kb"; });
 	svg.call(tip_size);
-	var tip_nSNPs = d3.tip()
+	var tip_nSNPs = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.nSNPs; });
 	svg.call(tip_nSNPs);
-	var tip_nGenes = d3.tip()
+	var tip_nGenes = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.nGenes; });
 	svg.call(tip_nGenes);
-	var tip_nWithinGene = d3.tip()
+	var tip_nWithinGene = d3Tip()
 		.attr('class', 'd3-tip')
 		.offset([0, 0])
 		.html(function (d) { return d.nWithinGene; });
@@ -1380,14 +1418,14 @@ function PlotLocuSum(data) {
 	var currentWidth = 0;
 	var eachWidth = 140;
 	// plot nSNPs
-	var x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	var xAxis = d3.svg.axis().scale(x).orient("bottom");
+	var x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	var xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.size })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.size) })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "lightgreen")
 		.on("mouseover", tip_size.show)
 		.on("mouseout", tip_size.hide);
@@ -1395,12 +1433,13 @@ function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	svg.append('g').attr("class", "y axis")
 		.call(yAxis)
-		.append("text").attr("transform", "rotate(-90)")
-		.attr("dy", ".71em")
-		.style("text-anchor", "end");
+	// No text in this text element crashes TCPDF - leave this as a warning
+	//	.append("text").attr("transform", "rotate(-90)")
+	//	.attr("dy", ".71em")
+	//	.style("text-anchor", "end");
 	svg.append("text").attr("text-anchor", "middle")
 		.attr("transform", "translate(-50,-5)")
 		.text("Genomic loci");
@@ -1414,14 +1453,14 @@ function PlotLocuSum(data) {
 		.text("Size (kb)");
 	currentWidth += eachWidth + 10;
 	// plot size
-	x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	xAxis = d3.svg.axis().scale(x).orient("bottom");
+	x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.nSNPs; })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.nSNPs) - currentWidth })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "skyblue")
 		.on("mouseover", tip_nSNPs.show)
 		.on("mouseout", tip_nSNPs.hide);
@@ -1429,7 +1468,7 @@ function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	// .attr("dx","-.65em").attr("dy", "-.2em");
 	svg.append('g').attr("class", "y axis")
 		.attr("transform", "translate(" + currentWidth + ",0)")
@@ -1445,14 +1484,14 @@ function PlotLocuSum(data) {
 	currentWidth += eachWidth + 10;
 
 	// plot nGene
-	x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	xAxis = d3.svg.axis().scale(x).orient("bottom");
+	x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.nGenes; })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.nGenes) - currentWidth })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "orange")
 		.on("mouseover", tip_nGenes.show)
 		.on("mouseout", tip_nGenes.hide);
@@ -1460,7 +1499,7 @@ function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	svg.append('g').attr("class", "y axis")
 		.attr("transform", "translate(" + currentWidth + ",0)")
 		.call(yAxis).selectAll("text").remove();
@@ -1475,14 +1514,14 @@ function PlotLocuSum(data) {
 	currentWidth += eachWidth + 10;
 
 	// plot nWithinGene
-	x = d3.scale.linear().range([currentWidth, currentWidth + eachWidth]);
-	xAxis = d3.svg.axis().scale(x).orient("bottom");
+	x = d3.scaleLinear().range([currentWidth, currentWidth + eachWidth]);
+	xAxis = d3.axisBottom(x);
 	x.domain([0, d3.max(data, function (d) { return d.nWithinGene; })]);
 	svg.selectAll('rect.size').data(data).enter().append("rect").attr("class", "bar")
 		.attr("x", x(0))
 		.attr("width", function (d) { return x(d.nWithinGene) - currentWidth })
 		.attr("y", function (d) { return y(d.label) })
-		.attr("height", y.rangeBand())
+		.attr("height", y.bandwidth())
 		.attr("fill", "pink")
 		.on("mouseover", tip_nWithinGene.show)
 		.on("mouseout", tip_nWithinGene.hide);
@@ -1490,7 +1529,7 @@ function PlotLocuSum(data) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis).selectAll("text")
 		.style("text-anchor", "end")
-		.attr("transform", function (d) { return "translate(-12,3)rotate(-65)"; });
+		.attr("transform", function () { return "translate(-12,3)rotate(-65)"; });
 	svg.append('g').attr("class", "y axis")
 		.attr("transform", "translate(" + currentWidth + ",0)")
 		.call(yAxis).selectAll("text").remove();
@@ -1516,7 +1555,7 @@ function PlotLocuSum(data) {
 	svg.selectAll('.axis').selectAll('text').style('font-size', '11px');
 }
 
-function Chr15Select() {
+export function Chr15Select() {
 	if ($('#annotPlot_Chrom15').is(":checked") == true) {
 		$('#annotPlotChr15Opt').show();
 		var ts = [];
@@ -1540,7 +1579,7 @@ function Chr15Select() {
 	}
 }
 
-function DownloadFiles() {
+export function DownloadFiles() {
 	var check = false;
 	$('#downFileCheck input').each(function () {
 		if ($(this).is(":checked") == true) { check = true; }
@@ -1549,17 +1588,4 @@ function DownloadFiles() {
 	else { $('#download').prop('disabled', true) }
 }
 
-function ImgDown(name, type) {
-	$('#' + name + 'Data').val($('#' + name).html());
-	$('#' + name + 'Type').val(type);
-	$('#' + name + 'ID').val(id);
-	$('#' + name + 'FileName').val(name);
-	$('#' + name + 'Submit').trigger('click');
-}
-
-function circosDown(type) {
-	$('#circosPlotID').val(id);
-	$('#circosPlotDir').val(prefix);
-	$('#circosPlotType').val(type);
-	$('#circosPlotSubmit').trigger('click');
-}
+export default GWplot;

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\CustomClasses\DockerApi\DockerNamesBuilder;
+use App\Jobs\Gene2FuncJob;
 use App\CustomClasses\myFile;
 
 use App\Models\SubmitJob;
+use Illuminate\Support\Facades\Log;
 
 use Helper;
 use Auth;
@@ -182,6 +184,17 @@ class G2FController extends Controller
         Storage::append($paramfile, "adjPcut=$adjPcut");
         Storage::append($paramfile, "minOverlap=$minOverlap");
 
+        $queue = 'default';
+        $user = Auth::user();
+        if ($user->can('Access Priority Queue')) {
+            $queue = 'high';
+        }
+        // Queue job
+        (new SubmitJob)->updateStatus($jobID, 'QUEUED');
+        Gene2FuncJob::dispatch($jobID)
+            ->onQueue($queue)
+            ->afterCommit();
+
         $data = [
             'id' => $jobID,
             'filedir' => $filedir,
@@ -197,39 +210,7 @@ class G2FController extends Controller
             'minOverlap' => $minOverlap
         ];
 
-        return view('pages.gene2func', ['status' => 'query', 'id' => $jobID, 'page' => 'gene2func', 'prefix' => 'gene2func', 'data' => $data]);
-    }
-
-    public function geneQuery(Request $request)
-    {
-        $ref_data_path_on_host = config('app.ref_data_on_host_path');
-        $jobID = $request->input('jobID');
-
-        $job = SubmitJob::where('jobID', $jobID)
-            ->whereNull('removed_at')
-            ->first();
-        $job->status = 'RUNNING';
-        $job->started_at = date("Y-m-d H:i:s");
-        $job->save();
-
-
-        $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f_r');
-        $job_location = DockerNamesBuilder::jobLocation($jobID, 'gene2func');
-
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript gene2func.R $job_location/'";
-        exec($cmd, $output, $error);
-
-        $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'g2f');
-        $job_location = DockerNamesBuilder::jobLocation($jobID, 'gene2func');
-
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python GeneSet.py $job_location/'";
-        exec($cmd, $output, $error);
-
-        $job->status = config('snp2gene_status_codes.15.short_name');
-        $job->completed_at = date("Y-m-d H:i:s");
-        $job->save();
+        return view('pages.gene2func', ['status' => 'query', 'id' => $jobID, 'page' => 'queryhistory', 'prefix' => 'gene2func', 'data' => $data]);
     }
 
     public function snp2geneGeneQuery(Request $request)
@@ -314,6 +295,18 @@ class G2FController extends Controller
             Storage::append($paramfile, "adjPcut=$adjPcut");
             Storage::append($paramfile, "minOverlap=$minOverlap");
 
+            $queue = 'default';
+            $user = Auth::user();
+            if ($user->can('Access Priority Queue')) {
+                $queue = 'high';
+            }
+            
+                    // Queue job
+            (new SubmitJob)->updateStatus($jobID, 'QUEUED');
+            Gene2FuncJob::dispatch($jobID)
+                ->onQueue($queue)
+                ->afterCommit();
+
             $data = [
                 'id' => $jobID,
                 'filedir' => $filedir,
@@ -329,7 +322,7 @@ class G2FController extends Controller
                 'minOverlap' => $minOverlap
             ];
 
-            return view('pages.gene2func', ['status' => 'query', 'id' => $jobID, 'page' => 'gene2func', 'prefix' => 'gene2func', 'data' => $data]);
+            return view('pages.gene2func', ['status' => 'query', 'id' => $jobID, 'page' => 'queryhistory', 'prefix' => 'gene2func', 'data' => $data]);
         } else {
             $jobID = $checkExists->jobID;
             return redirect("gene2func/" . $jobID);

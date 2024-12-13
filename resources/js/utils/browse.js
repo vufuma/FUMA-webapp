@@ -1,21 +1,36 @@
-var sigSNPtable_selected=null;
-var leadSNPtable_selected=null;
-var lociTable_selected=null;
-var annotPlotSelected;
-var prefix = "jobs";
-var geneTable;
-var exp_data_title = {
-	'gtex_v7_ts_avg_log2TPM': 'GTEx v7 53 tissue types',
-	'gtex_v7_ts_general_avg_log2TPM': 'GTEx v7 30 general tissue types',
-	'gtex_v6_ts_avg_log2RPKM': 'GTEx v6 53 tissue types',
-	'gtex_v6_ts_general_avg_log2RPKM': 'GTEx v6 30 general tissue types',
-	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
-	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
-}
-$(document).ready(function(){
+import {
+    summaryTable,
+    parametersTable,
+    expHeatMap,
+    tsEnrich,
+    GeneSet,
+    GeneTable,
+	expHeatPlot} from "./g2f_results.js";
+
+import {
+	GWplot,
+	QQplot,
+	MAGMA_GStable,
+	ciMapCircosPlot,
+	MAGMA_expPlot,
+	PlotSNPAnnot,
+	PlotLocuSum
+} from './s2g_results';
+
+import {
+	paramTable,
+	sumTable,
+	showResultTables
+} from './helpers';
+
+import { BrowsePageState as pageState}  from "../pages/pageStateComponents.js";
+
+export const BrowseSetup = function(){
 	// side bar and hash id
+    var id = pageState.get("id")
+
 	var hashid = window.location.hash;
-	if(hashid=="" && id.length==0){
+	if(hashid =="" && id.length==0){
 		$('a[href="#GwasList"]').trigger('click');
 	}else if(hashid==""){
 		$('a[href="#genomePlots"]').trigger('click');
@@ -42,7 +57,7 @@ $(document).ready(function(){
 	$('.ImgDownSubmit').hide();
 
 	// input parameters data toggle
-	$('.panel-heading.input a').on('click', function(){
+	$('.card-header.input a').on('click', function(){
 		if($(this).attr('class')=="active"){
 			$(this).removeClass('active');
 			$(this).children('i').attr('class', 'fa fa-chevron-down');
@@ -56,8 +71,8 @@ $(document).ready(function(){
 	$('#SubmitNewJob').prop('disabled', true);
 	$('#geneQuerySubmit').prop('disabled', true);
 
-	// disabel input
-	$('#newJob :input').each(function(){
+	// disable all input (but leave the accordion buttons functional)
+	$('#newJob input:not([type=accordion_button])').each(function(){
 		$(this).prop('disabled', true);
 	});
 
@@ -89,11 +104,13 @@ $(document).ready(function(){
 		cur.prev().prop('selected', total);
 	});
 
-	// load results
+	// load g2f results if there are any connected with this 
+	// s2g job id.
 	if(id.length>0){
-		var g2f=0;
+		let g2f_id=0;
+		let subdir = pageState.get("subdir")
 		$.ajax({
-			url: subdir+'/'+page+'/checkG2F',
+			url: pageState.get("subdir")+'/'+pageState.get("page")+'/checkG2F',
 			type: 'POST',
 			data:{
 				jobID: id,
@@ -102,21 +119,21 @@ $(document).ready(function(){
 				alert('checkG2F error');
 			},
 			success: function(data){
-				if(data.length>0){g2f = data;}
+				if(data.length>0){g2f_id = data;}
 			},
 			complete: function(){
 				loadResults();
-								
-				if(g2f){
-					prefix = 'gene2func';
-					summaryTable(g2f);
-					parametersTable(g2f);
-					expHeatMap(g2f);
-					tsEnrich(g2f);
-					GeneSet(g2f);
-					GeneTable(g2f);
+
+				if(g2f_id){
+					let prefix = 'gene2func';
+					summaryTable(subdir, pageState.get("page"), prefix, g2f_id);
+					parametersTable(subdir, pageState.get("page"), prefix, g2f_id);
+					expHeatMap(subdir, pageState.get("page"), prefix, g2f_id);
+					tsEnrich(subdir, pageState.get("page"), prefix, g2f_id);
+					GeneSet(subdir, pageState.get("page"), prefix, g2f_id);
+					GeneTable(subdir, pageState.get("page"), prefix, g2f_id);
 					$('#gene_exp_data').on('change', function(){
-						expHeatPlot(id, $('#gene_exp_data').val())
+						expHeatPlot(pageState.get("subdir"), prefix, pageState.get("page"), pageState.get("id"), $('#gene_exp_data').val())
 					})
 					$('#resultsSideG2F').show();
 				}
@@ -136,7 +153,7 @@ $(document).ready(function(){
 			url: '/browse' + '/getParams',
 			type: 'POST',
 			data: {
-				jobID: id
+				jobID: pageState.get("id")
 			},
 			error: function () {
 				alert("JobQuery getParams error");
@@ -197,7 +214,7 @@ $(document).ready(function(){
 						alert("JobQuery get magma file contents error");
 					},
 					success: function (data) {
-						selectedData = {
+						let selectedData = {
 							"magma.sets.top": data['magma.sets.top'],
 						};
 						MAGMA_GStable(selectedData);
@@ -220,7 +237,7 @@ $(document).ready(function(){
 				});
 			} else {
 				$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-					+ ' MAGMA was not performed.</span><br/></div>');
+					+ ' MAGMA was not performed.</span><br></div>');
 			}
 			if (ciMap == 1) {
 				$.ajax({
@@ -235,11 +252,11 @@ $(document).ready(function(){
 				});
 			}
 
-			paramTable(subdir, 'browse', 'jobs', id);
-			sumTable(subdir, 'browse', 'jobs', id);
+			paramTable(pageState.get("subdir"), 'browse', 'jobs', id);
+			sumTable(pageState.get("subdir"), 'browse', 'jobs', id);
 
 			$.ajax({
-                url: subdir + '/' + page + '/getFilesContents',
+                url: pageState.get("subdir") + '/' + pageState.get("page") + '/getFilesContents',
                 type: 'POST',
                 data: {
                     jobID: id,
@@ -255,7 +272,7 @@ $(document).ready(function(){
                 }
             });
 
-			showResultTables('jobs', id, posMap, eqtlMap, ciMap, orcol, becol, secol);
+			showResultTables(pageState.get('subdir'), pageState.get('page'), 'jobs', id, posMap, eqtlMap, ciMap, orcol, becol, secol);
 			$('#GWplotSide').show();
 			$('#resultsSide').show();
 		}
@@ -272,24 +289,25 @@ $(document).ready(function(){
 			$(this).prop("checked", false);
 		});
 	});
-});
+};
 
 function getGwasList(){
   $('#GwasList table tbody')
 	  .empty()
 	  .append('<tr><td colspan="6" style="text-align:center;">Retrieving data</td></tr>');
 
-	$.getJSON(subdir + "/browse/getGwasList", function( data ) {
+	$.getJSON(pageState.get("subdir") + "/browse/getGwasList", function( data ) {
 		var items = '<tr><td colspan="6" style="text-align: center;">No Available GWAS Found</td></tr>';
 		if(data.length){
 			items = '';
 			$.each( data, function( key, val ) {
+				var id = ""
 				if (val.old_id === "") {
-					var id = val.jobID
+					id = val.jobID
 				}else{
-					var id = val.old_id
+					id = val.old_id
 				}
-				val.title = '<a href="'+subdir+'/browse/'+id+'">'+val.title+'</a>';
+				val.title = '<a href="'+pageState.get("subdir")+'/browse/'+id+'">'+val.title+'</a>';
 				// if(val.sumstats_link != "NA"){
 				if(val.sumstats_link.startsWith("http") | val.sumstats_link.startsWith("ftp")){
 					val.sumstats_link = '<a href="'+val.sumstats_link+'" target="_blank">'+val.sumstats_link+'</a>'
@@ -309,3 +327,5 @@ function getGwasList(){
 		$('#GwasList table').DataTable({"stripeClasses": [], select: false, order: [[0, 'desc']],});
 	});
 }
+
+export default BrowseSetup;
