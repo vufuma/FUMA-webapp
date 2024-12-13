@@ -5,7 +5,8 @@
 @endsection
 
 @section('content')
-    <div class="container" style="padding-top: 50px;">
+<div class ="col">
+    <div class="container-xl" style="padding-top: 50px;">
         <div class="table-title">
             <h2>Database <b>Tools</b></h2>
             <h4>Sync Db Storage</h4>
@@ -32,10 +33,11 @@
 
         {{ html()->form('POST', url('admin/db-tools/sync-db-storage/new_listing_job'))->open() }}
         <div>
-            <button type="submit" class="btn btn-info" style="float: right;">Start Listing Jobs</button>
+            <button type="submit" class="btn btn-primary mt-3" style="float: right;">Start Listing Jobs</button>
         </div>
         {{ html()->form()->close() }}
     </div>
+</div>
 @endsection
 
 @section('scripts')

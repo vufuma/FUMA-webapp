@@ -4,6 +4,7 @@
 @endsection
 
 @section('content')
+<div class ="col">
     <div class="container" style="padding-top:50px;">
         <div style="text-align: center;">
             <h2>Admin Dashboard</h2>
@@ -18,6 +19,7 @@
             <li><a href="/admin/db-tools">DB tools</a></li>
         </ul>
     </div>
+</div>
 @endsection
 
 @push('vite')

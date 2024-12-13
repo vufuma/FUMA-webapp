@@ -34,6 +34,7 @@
 @endsection
 
 @section('content')
+<div class ="col">
     <div class="container" style="padding-top: 50px;">
 
         <div class="table-title">
@@ -94,7 +95,7 @@
                         <input type="text" id="job_id" name="job_id" placeholder="optional" value="{{ old('job_id') }}">
                     </div>
                     <div class="col-md-5">
-                        <button type="submit" class="btn btn-info" style="float: right;">Search</button>
+                        <button type="submit" class="btn btn-primary" style="float: right;">Search</button>
                     </div>
                 </div>
             </div>
@@ -223,6 +224,7 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('scripts')

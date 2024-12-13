@@ -131,7 +131,7 @@
         <div id="text-input" contenteditable="true" name="text"></div><br>
         <input type="hidden" id="hiddeninput" name="description" />
 
-        <input class="btn btn-info" id="save" type="submit" value="Save" name="submit" />
+        <input class="btn btn-primary" id="save" type="submit" value="Save" name="submit" />
         {{ html()->form()->close() }}
     </div>
 </div>
