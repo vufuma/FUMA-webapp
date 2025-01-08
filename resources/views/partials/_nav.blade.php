@@ -4,7 +4,7 @@
 	<a class="navbar-brand fuma_brand" href="{{ Config::get('app.subdir') }}/" style="padding-left: 30px;">
 		<img src="{!! URL::asset('image/fuma.png') !!}" height="50" alt="FUMAGwas">
 	</a>
-	<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-target="#topOfPageNav"
+	<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#topOfPageNav"
 		aria-controls="topOfPageNav" aria-expanded="false" aria-label="Toggle navigation ">
 		<span class="navbar-toggler-icon"> </span>
 	</button>
