@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import Inspect from 'vite-plugin-inspect';
 import laravel from 'laravel-vite-plugin';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-//import inject from "@rollup/plugin-inject";
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import inject from "@rollup/plugin-inject";
@@ -13,13 +12,7 @@ export default defineConfig({
     logLevel: 'info',
     plugins: [
         visualizer({ open: true, filename: 'bundle-visualization.html' }),
-        inject({
-            $: "jquery",
-            jQuery: "jquery",
-            bootstrap: ['bootstrap', '*']
-        }),
         commonjs({
-            //include: "node_modules/**/*.js",
             sourcemap: true,
             requireReturnsDefault: "auto",
             transformMixedEsModules: true,
@@ -82,6 +75,13 @@ export default defineConfig({
             treeshake: true,
             preserveEntrySignatures: 'strict', // While minimizing keep export names
             plugins: [
+                inject({
+                    include: ['**/*.js'],
+                    exclude: ['**/*.css'],
+                    $: "jquery",
+                    jQuery: "jquery",
+                    bootstrap: ['bootstrap', '*']
+                }),
                 nodeResolve({
                     browser: true,
                 }),
