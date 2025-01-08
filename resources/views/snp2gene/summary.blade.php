@@ -7,23 +7,23 @@
 
 		<div class="col-md-7 col-xs-7 col-sm-7" style="text-align:center;">
 			<h4><span style="color: #00004d">Functional consequences of SNPs on genes</span>
-			<a class="infoPop" data-toggle="popover" data-content="The histogram displays the proportion of SNPs (all SNPs in LD of Ind. sig. SNPs)
+			<a class="infoPop" data-bs-toggle="popover" data-bs-content="The histogram displays the proportion of SNPs (all SNPs in LD of Ind. sig. SNPs)
 				which have corresponding functional annotation assigned by ANNOVAR.
 				Bars are colored by log2(enrichment) relative to all SNPs in the selected reference panel.
 				See tutorial for more details.">
-				<i class="fa fa-question-circle-o fa-lg"></i>
+				<i class="fa-regular fa-circle-question fa-lg"></i>
 			</a>
 			</h4>
 			<span class="into"><i class="fa fa-info"></i>
 				Statistics are available in "annov.stats.txt".
 				The file is downloadable from the "Download" tab.
 			</span>
-			<br/>
+			<br>
 			Download the plot as
-			<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("snpAnnotPlot","png");'>PNG</button>
-			<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("snpAnnotPlot","jpeg");'>JPG</button>
-			<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("snpAnnotPlot","svg");'>SVG</button>
-			<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("snpAnnotPlot","pdf");'>PDF</button>
+			<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("snpAnnotPlot","png");'>PNG</button>
+			<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("snpAnnotPlot","jpeg");'>JPG</button>
+			<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("snpAnnotPlot","svg");'>SVG</button>
+			<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("snpAnnotPlot","pdf");'>PDF</button>
 
 			<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -38,18 +38,18 @@
 			<!-- <canvas id="snpAnnotPlotCanvas" style="display: none;"></canvas> -->
 		</div>
 	</div>
-	<br/>
+	<br>
 	<div style="text-align:center;">
 		<h4><span style="color: #00004d">Summary per genomic risk locus</span>
-		<a class="infoPop" data-toggle="popover" data-content="The histograms display summary results per genomic locus. Note that genomic loci could contain more than one independent lead SNPs.">
-			<i class="fa fa-question-circle-o fa-lg"></i>
+		<a class="infoPop" data-bs-toggle="popover" data-bs-content="The histograms display summary results per genomic locus. Note that genomic loci could contain more than one independent lead SNPs.">
+			<i class="fa-regular fa-circle-question fa-lg"></i>
 		</a>
 		</h4>
 		Download the plot as
-		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("lociPlot","png");'>PNG</button>
-		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("lociPlot","jpeg");'>JPG</button>
-		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("lociPlot","svg");'>SVG</button>
-		<button class="btn btn-default btn-xs ImgDown" onclick='ImgDown("lociPlot","pdf");'>PDF</button>
+		<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("lociPlot","png");'>PNG</button>
+		<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("lociPlot","jpeg");'>JPG</button>
+		<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("lociPlot","svg");'>SVG</button>
+		<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("lociPlot","pdf");'>PDF</button>
 
 		<form method="post" target="_blank" action="{{ Config::get('app.subdir') }}/{{$page}}/imgdown">
 			<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -62,5 +62,5 @@
 		</form>
 		<div id="lociPlot"></div>
 	</div>
-	<br/><br/>
+	<br><br>
 </div>

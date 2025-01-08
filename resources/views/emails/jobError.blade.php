@@ -8,7 +8,7 @@
 
     <p>
         This is unfortunate! An error occurred during the process of your job (job ID: {{ $jobID }}, job title:
-        {{ $jobtitle }}).<br />
+        {{ $jobtitle }}).<br>
         {{ $status }}
     </p>
 
@@ -65,10 +65,10 @@
 		<a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw">GUIDELINES ON TROUBLESHOOTING FUMA ERRORS</a>
 		and <a href="https://groups.google.com/g/fuma-gwas-users/c/oVvZFhMpCY4">GUIDELINES ON FUMA ISSUES SUBMISSION</a>. 
         You can post questions, suggestions and bug reports on Google Forum:
-        <a href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a><br /><br />
-        FUMA development team<br />
-        VU University Amsterdam<br />
-        Dept. Complex Trait Genetics<br />
+        <a href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a><br><br>
+        FUMA development team<br>
+        VU University Amsterdam<br>
+        Dept. Complex Trait Genetics<br>
     </p>
 </body>
 

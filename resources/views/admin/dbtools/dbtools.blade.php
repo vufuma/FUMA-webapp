@@ -4,6 +4,7 @@
 @endsection
 
 @section('content')
+<div class ="col">
     <div class="container" style="padding-top: 50px;">
         <div class="table-title">
             <h2>Database <b>Tools</b></h2>
@@ -15,6 +16,7 @@
 
         </ul>
     </div>
+</div>
 @endsection
 
 @section('scripts')
