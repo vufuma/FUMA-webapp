@@ -50,7 +50,7 @@
 		<br/>
 
 		<h3>Data sets</h3>
-		Each data set available on FUMA is described details. TESTING TESTING. 
+		Each data set available on FUMA is described details.
 		Scripts for pre-processing are available on github repository at
 		<a target="_blank" href="https://github.com/Kyoko-wtnb/FUMA_scRNA_data">https://github.com/Kyoko-wtnb/FUMA_scRNA_data</a>.
 		Processed data can be also downloaded from this repository (so you can run it by yourself!!).
