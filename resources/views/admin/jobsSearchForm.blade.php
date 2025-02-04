@@ -127,6 +127,7 @@
                     @isset($users)
                         @foreach ($users as $user => $jobs)
                             <p><strong> {{ $user }} </strong></p>
+                            <button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob" style="float:right; margin-right:20px;">Delete selected jobs</button>
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -146,6 +147,7 @@
                                         <th>Removed at</th>
                                         <th>Removed by</th>
                                         <th>Containers</th>
+                                        <th>Select</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -211,6 +213,10 @@
                                                 </table>
                                             @endif
                                         </td>
+                                        <td>
+                                            <input type="checkbox" class="deleteJobCheck" job-id="{{ $job->jobID }}" job-type="{{ $job->type }}"/>
+                                        </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -229,6 +235,14 @@
     {{-- Imports from the web --}}
 
     {{-- Hand written ones --}}
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 
     {{-- Imports from the project --}}
+    <script type="text/javascript" src="{!! URL::asset('js/jobsSearch.js') !!}?131"></script>
 @endsection
