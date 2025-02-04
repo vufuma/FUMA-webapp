@@ -60,6 +60,7 @@ Schedule::call(function () {
         'NEW_geneMap',
         'JOB FAILED',
         'NEW' // since this will delete only jobs that are older than 3 months, stuck NEW jobs can also be deleted safely
+    );
 
     $jobs = SubmitJob::wherein('status', $err_codes)
         ->where('created_at', '<', now()->subMonth(3))
@@ -76,7 +77,7 @@ Schedule::call(function () {
         return;
     }
     Helper::writeToCsv($out_file, $result);
-})->weeklyOn(2, '10:30')
+})->weeklyOn(2, '10:45')
     ->environments('production')
     ->name('Find jobs to be deleted')
     ->withoutOverlapping();
