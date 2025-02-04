@@ -156,7 +156,7 @@ class Helper
         }
 
         // Verify this job belongs to the user
-        if ($job->user_id != Auth::user()->id) {
+        if ($job->user_id != Auth::user()->id && !Auth::user()->can("Delete All Jobs")) {
             return "You can't delete other user's jobs.";
         }
 
