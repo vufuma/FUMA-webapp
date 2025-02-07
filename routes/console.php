@@ -143,7 +143,7 @@ function findOKJobs(){
     $njobs = DB::table('SubmitJobs')
     ->selectRaw('count(*) as total, email')
     ->groupBy('email')
-    ->having('total', '>', 20) #change here to update the maximum number of jobs per user to keep
+    ->having('total', '>', 500) #change here to update the maximum number of jobs per user to keep
     ->where('status', 'OK')
     ->where('type', 'snp2gene')
     ->where('removed_at', null)
@@ -152,7 +152,7 @@ function findOKJobs(){
     $results = [];
 
     foreach ($njobs as $njob) {
-        $nToRemove = $njob->total - 20; #change here to update the maximum number of jobs per user to keep
+        $nToRemove = $njob->total - 500; #change here to update the maximum number of jobs per user to keep
         $allJobsPerEmail = DB::table('SubmitJobs')
         ->select('jobID', 'created_at', 'type', 'status')
         ->where('status', 'OK')
