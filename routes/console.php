@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schedule;
 use App\Models\SubmitJob;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Helper;
-
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -63,7 +63,7 @@ Schedule::call(function () {
     );
 
     $jobs = SubmitJob::wherein('status', $err_codes)
-        ->where('created_at', '<', now()->subMonth(3))
+        ->where('created_at', '<', now())
         ->where('removed_at', null)
         ->get(['jobID', 'created_at', 'type', 'status']);
 
@@ -154,3 +154,99 @@ Schedule::call(function () {
     ->environments('production')
     ->name('Delete Faulty Jobs')
     ->withoutOverlapping();
+
+# schedule a task to list jobs to be deleted 
+# here, if a user has more than 50 jobs, then only the most recent 50 jobs are kept. 
+
+function findOKJobs(){
+    $emailsToSkip_file = Storage::path(config('app.jobdir') . '/schedule_logs/emails_to_skip_when_removing_ok_jobs.txt');
+    $emailsToSkip = explode("\n", file_get_contents($emailsToSkip_file));
+
+    $njobs = DB::table('SubmitJobs')
+    ->selectRaw('count(*) as total, email')
+    ->groupBy('email')
+    ->having('total', '>', 50)
+    ->where('status', 'OK')
+    ->where('type', 'snp2gene')
+    ->where('removed_at', null)
+    ->get(['jobID', 'created_at', 'type', 'status']);
+    $results = [];
+
+    foreach ($njobs as $njob) {
+        $nToRemove = $njob->total - 50;
+        $allJobsPerEmail = DB::table('SubmitJobs')
+        ->select('jobID', 'created_at', 'type', 'status')
+        ->where('status', 'OK')
+        ->where('type', 'snp2gene')
+        ->where('removed_at', null)
+        ->where('email', $njob->email)
+        ->whereNot('email', $emailsToSkip)
+        ->orderByRaw('created_at')
+        ->limit($nToRemove)
+        ->get();
+
+        foreach ($allJobsPerEmail as $jobPerEmail) {
+            $keys = array('jobID', 'created_at', 'type', 'status');
+            $values = array($jobPerEmail->jobID, $jobPerEmail->created_at, $jobPerEmail->type, $jobPerEmail->status);
+            $jobPerEmail_arr = array_combine($keys, $values);
+            array_push($results, $jobPerEmail_arr);
+        }
+    }
+    return $results;
+}
+
+Schedule::call(function(){
+    $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.ok_jobs_to_be_deleted.csv');
+    $results = findOKJobs();
+
+    if (count($results) == 0) {
+        return;
+    }
+    Helper::writeToCsv($out_file, $results);
+})->weeklyOn(2, '10:45')
+    ->environments('local')
+    ->name('Find ok jobs to be deleted')
+    ->withoutOverlapping();
+
+// Schedule::call(function () {
+//     $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.ok_jobs_to_be_deleted.csv');
+//     $dir = config('app.jobdir');
+
+//     $njobs = DB::table('SubmitJobs')
+//     ->selectRaw('count(*) as total, email')
+//     ->groupBy('email')
+//     ->having('total', '>', 50)
+//     ->where('status', 'OK')
+//     ->where('type', 'snp2gene')
+//     ->where('removed_at', null)
+//     ->get(['jobID', 'created_at', 'type', 'status']);
+//     $results = [];
+
+//     foreach ($njobs as $njob) {
+//         $nToRemove = $njob->total - 50;
+//         $allJobsPerEmail = DB::table('SubmitJobs')
+//         ->select('jobID', 'created_at', 'type', 'status')
+//         ->where('status', 'OK')
+//         ->where('type', 'snp2gene')
+//         ->where('removed_at', null)
+//         ->where('email', $njob->email)
+//         ->orderByRaw('created_at')
+//         ->limit($nToRemove)
+//         ->get();
+
+//         foreach ($allJobsPerEmail as $jobPerEmail) {
+//             $keys = array('jobID', 'created_at', 'type', 'status');
+//             $values = array($jobPerEmail->jobID, $jobPerEmail->created_at, $jobPerEmail->type, $jobPerEmail->status);
+//             $jobPerEmail_arr = array_combine($keys, $values);
+//             array_push($results, $jobPerEmail_arr);
+//         }
+//     }
+
+//     if (count($results) == 0) {
+//         return;
+//     }
+//     Helper::writeToCsv($out_file, $results);
+// })->weeklyOn(2, '10:45')
+//     ->environments('local')
+//     ->name('Find ok jobs to be deleted')
+//     ->withoutOverlapping();
