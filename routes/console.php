@@ -173,6 +173,7 @@ function findOKJobs(){
     return $results;
 }
 
+## Schedule a task to list the OK jobs to be deleted
 Schedule::call(function(){
     $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.ok_jobs_to_be_deleted.csv');
     $results = findOKJobs();
@@ -184,4 +185,39 @@ Schedule::call(function(){
 })->weeklyOn(2, '10:45')
     ->environments('local')
     ->name('Find ok jobs to be deleted')
+    ->withoutOverlapping();
+
+## Schedule a task to delete the OK jobs
+Schedule::call(function () {
+    $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.ok_jobs_deleted.csv');
+    $dir = config('app.jobdir');
+
+    $jobs = findOKJobs();
+
+    $result = [];
+    foreach ($jobs as $job) {
+
+        if ($job['type'] == 'snp2gene' || $job['type'] == 'geneMap') {
+            $job['dir'] = $dir . '/jobs/';
+        } else {
+            $job['dir'] = $dir . '/' . $job['type'] . '/';
+        }
+
+        $err = Helper::deleteJobByAdmin($job['dir'], $job['jobID']);
+
+        if (!$err) {
+            $err = 'Deleted';
+        }
+        $job['deletion_status'] = $err;
+
+        array_push($result, $job);
+    }
+
+    if (count($result) == 0) {
+        return;
+    }
+    Helper::writeToCsv($out_file, $result);
+})->weeklyOn(2, '20:00')
+    ->environments('production')
+    ->name('Delete Faulty Jobs')
     ->withoutOverlapping();
