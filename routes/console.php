@@ -97,7 +97,7 @@ Schedule::call(function () {
 
 
 ## Schedule a task to delete the faulty jobs
-## Currently there is a delay so there are more jobs that are deleted than being listed as above because of the timestampt
+## Currently there is a delay so there are more jobs that are deleted than being listed as above because of the timestamp
 Schedule::call(function () {
     $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.schedule.csv');
     $dir = config('app.jobdir');
@@ -143,15 +143,16 @@ function findOKJobs(){
     $njobs = DB::table('SubmitJobs')
     ->selectRaw('count(*) as total, email')
     ->groupBy('email')
-    ->having('total', '>', 50)
+    ->having('total', '>', 20) #change here to update the maximum number of jobs per user to keep
     ->where('status', 'OK')
     ->where('type', 'snp2gene')
     ->where('removed_at', null)
+    ->where('is_public', '=', 0)
     ->get(['jobID', 'created_at', 'type', 'status']);
     $results = [];
 
     foreach ($njobs as $njob) {
-        $nToRemove = $njob->total - 50;
+        $nToRemove = $njob->total - 20; #change here to update the maximum number of jobs per user to keep
         $allJobsPerEmail = DB::table('SubmitJobs')
         ->select('jobID', 'created_at', 'type', 'status')
         ->where('status', 'OK')
@@ -159,6 +160,7 @@ function findOKJobs(){
         ->where('removed_at', null)
         ->where('email', $njob->email)
         ->whereNot('email', $emailsToSkip)
+        ->where('is_public', '=', 0)
         ->orderByRaw('created_at')
         ->limit($nToRemove)
         ->get();
@@ -182,9 +184,9 @@ Schedule::call(function(){
         return;
     }
     Helper::writeToCsv($out_file, $results);
-})->weeklyOn(2, '10:45')
-    ->environments('local')
-    ->name('Find ok jobs to be deleted')
+})->monthlyOn(4, '10:00') #run every month on the 4th at 10:00
+    ->environments('production')
+    ->name('Find OK jobs to be deleted')
     ->withoutOverlapping();
 
 ## Schedule a task to delete the OK jobs
@@ -217,7 +219,7 @@ Schedule::call(function () {
         return;
     }
     Helper::writeToCsv($out_file, $result);
-})->weeklyOn(2, '20:00')
+})->monthlyOn(4, '12:00')
     ->environments('production')
-    ->name('Delete Faulty Jobs')
+    ->name('Delete OK Jobs')
     ->withoutOverlapping();
