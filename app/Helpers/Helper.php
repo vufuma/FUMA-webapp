@@ -337,4 +337,94 @@ class Helper
         }
         return null;
     }
+    
+## Write a function to get the list of faulty jobs that are older than 1 month
+
+    public static function findFaultyJobs() {
+        $err_indices = [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            16,
+            17,
+            18
+        ];
+
+        #make this in for loop to get the short names of the error codes
+        $err_codes = array_map(function ($index) {
+            return config('snp2gene_status_codes.' . $index . '.short_name');
+        }, $err_indices);
+
+        array_push(
+            $err_codes,
+            'ADMIN_KILLED',
+            'ERROR',
+            'PENDING',
+            'NEW_geneMap',
+            'JOB FAILED',
+            'NEW' // since this will delete only jobs that are older than 3 months, stuck NEW jobs can also be deleted safely
+        );
+
+        $jobs = SubmitJob::wherein('status', $err_codes)
+            ->where('created_at', '<', now()->subMonth(2))
+            ->where('removed_at', null)
+            ->get(['jobID', 'created_at', 'type', 'status']);
+
+        return $jobs;
+    }
+    /* Schedulilng deletion of OK jobs
+    Logic: for each user, OK jobs are removed if the user has more than a certain threshold. Currently set to 500. 
+    */
+    
+    public static function findOKJobs(){
+        $emailsToSkip_file = Storage::path(config('app.jobdir') . '/schedule_logs/emails_to_skip_when_removing_ok_jobs.txt');
+        $emailsToSkip = explode("\n", file_get_contents($emailsToSkip_file));
+    
+        $njobs = DB::table('SubmitJobs')
+        ->selectRaw('count(*) as total, email')
+        ->groupBy('email')
+        ->having('total', '>', 500) #change here to update the maximum number of jobs per user to keep
+        ->where('status', 'OK')
+        ->where('type', 'snp2gene')
+        ->where('removed_at', null)
+        ->where('is_public', '=', 0)
+        ->get(['jobID', 'created_at', 'type', 'status']);
+        $results = [];
+    
+        foreach ($njobs as $njob) {
+            $nToRemove = $njob->total - 500; #change here to update the maximum number of jobs per user to keep
+            $allJobsPerEmail = DB::table('SubmitJobs')
+            ->select('jobID', 'created_at', 'type', 'status', 'email')
+            ->where('status', 'OK')
+            ->where('type', 'snp2gene')
+            ->where('removed_at', null)
+            ->where('email', $njob->email)
+            ->whereNot('email', $emailsToSkip)
+            ->where('is_public', '=', 0)
+            ->orderByRaw('created_at')
+            ->limit($nToRemove)
+            ->get();
+    
+            foreach ($allJobsPerEmail as $jobPerEmail) {
+                $keys = array('jobID', 'created_at', 'type', 'status', 'email');
+                $values = array($jobPerEmail->jobID, $jobPerEmail->created_at, $jobPerEmail->type, $jobPerEmail->status, $jobPerEmail->email);
+                $jobPerEmail_arr = array_combine($keys, $values);
+                array_push($results, $jobPerEmail_arr);
+            }
+        }
+        return $results;
+    }
+
 }

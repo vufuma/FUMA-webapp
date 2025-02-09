@@ -26,59 +26,12 @@ Artisan::command('inspire', function () {
 Logic: faulty jobs are removed if they are older than 1 month
 */
 
-## Write a function to get the list of faulty jobs that are older than 1 month
-
-function findFaultyJobs() {
-    $err_indices = [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        16,
-        17,
-        18
-    ];
-
-    #make this in for loop to get the short names of the error codes
-    $err_codes = array_map(function ($index) {
-        return config('snp2gene_status_codes.' . $index . '.short_name');
-    }, $err_indices);
-
-    array_push(
-        $err_codes,
-        'ADMIN_KILLED',
-        'ERROR',
-        'PENDING',
-        'NEW_geneMap',
-        'JOB FAILED',
-        'NEW' // since this will delete only jobs that are older than 3 months, stuck NEW jobs can also be deleted safely
-    );
-
-    $jobs = SubmitJob::wherein('status', $err_codes)
-        ->where('created_at', '<', now()->subMonth(2))
-        ->where('removed_at', null)
-        ->get(['jobID', 'created_at', 'type', 'status']);
-
-    return $jobs;
-}
-
 ## Schedule a task to find the faulty jobs to be deleted
 Schedule::call(function () {
     $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.to_be_deleted.csv');
     $dir = config('app.jobdir');
 
-    $jobs = findFaultyJobs();
+    $jobs = Helper::findFaultyJobs();
 
     $results = [];
     foreach ($jobs as $job) {
@@ -102,7 +55,7 @@ Schedule::call(function () {
     $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.schedule.csv');
     $dir = config('app.jobdir');
 
-    $jobs = findFaultyJobs();
+    $jobs = Helper::findFaultyJobs();
 
     $results = [];
     foreach ($jobs as $job) {
@@ -132,53 +85,11 @@ Schedule::call(function () {
     ->name('Delete Faulty Jobs')
     ->withoutOverlapping();
 
-/* Schedulilng deletion of OK jobs
-Logic: for each user, OK jobs are removed if the user has more than a certain threshold. Currently set to 500. 
-*/
-
-function findOKJobs(){
-    $emailsToSkip_file = Storage::path(config('app.jobdir') . '/schedule_logs/emails_to_skip_when_removing_ok_jobs.txt');
-    $emailsToSkip = explode("\n", file_get_contents($emailsToSkip_file));
-
-    $njobs = DB::table('SubmitJobs')
-    ->selectRaw('count(*) as total, email')
-    ->groupBy('email')
-    ->having('total', '>', 500) #change here to update the maximum number of jobs per user to keep
-    ->where('status', 'OK')
-    ->where('type', 'snp2gene')
-    ->where('removed_at', null)
-    ->where('is_public', '=', 0)
-    ->get(['jobID', 'created_at', 'type', 'status']);
-    $results = [];
-
-    foreach ($njobs as $njob) {
-        $nToRemove = $njob->total - 500; #change here to update the maximum number of jobs per user to keep
-        $allJobsPerEmail = DB::table('SubmitJobs')
-        ->select('jobID', 'created_at', 'type', 'status', 'email')
-        ->where('status', 'OK')
-        ->where('type', 'snp2gene')
-        ->where('removed_at', null)
-        ->where('email', $njob->email)
-        ->whereNot('email', $emailsToSkip)
-        ->where('is_public', '=', 0)
-        ->orderByRaw('created_at')
-        ->limit($nToRemove)
-        ->get();
-
-        foreach ($allJobsPerEmail as $jobPerEmail) {
-            $keys = array('jobID', 'created_at', 'type', 'status', 'email');
-            $values = array($jobPerEmail->jobID, $jobPerEmail->created_at, $jobPerEmail->type, $jobPerEmail->status, $jobPerEmail->email);
-            $jobPerEmail_arr = array_combine($keys, $values);
-            array_push($results, $jobPerEmail_arr);
-        }
-    }
-    return $results;
-}
 
 ## Schedule a task to list the OK jobs to be deleted
 Schedule::call(function(){
     $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.ok_jobs_to_be_deleted.csv');
-    $results = findOKJobs();
+    $results = Helper::findOKJobs();
 
     if (count($results) == 0) {
         return;
@@ -194,7 +105,7 @@ Schedule::call(function () {
     $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.ok_jobs_deleted.csv');
     $dir = config('app.jobdir');
 
-    $jobs = findOKJobs();
+    $jobs = Helper::findOKJobs();
 
     $result = [];
     foreach ($jobs as $job) {
