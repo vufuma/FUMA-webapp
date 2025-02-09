@@ -66,7 +66,7 @@ function findFaultyJobs() {
     );
 
     $jobs = SubmitJob::wherein('status', $err_codes)
-        ->where('created_at', '<', now())
+        ->where('created_at', '<', now()->subMonth(2))
         ->where('removed_at', null)
         ->get(['jobID', 'created_at', 'type', 'status']);
 
@@ -80,10 +80,10 @@ Schedule::call(function () {
 
     $jobs = findFaultyJobs();
 
-    $result = [];
+    $results = [];
     foreach ($jobs as $job) {
 
-        array_push($result, $job->toArray());
+        array_push($results, $job->toArray());
     }
 
     if (count($results) == 0) {
@@ -104,7 +104,7 @@ Schedule::call(function () {
 
     $jobs = findFaultyJobs();
 
-    $result = [];
+    $results = [];
     foreach ($jobs as $job) {
 
         if ($job->type == 'snp2gene' || $job->type == 'geneMap') {
@@ -120,13 +120,13 @@ Schedule::call(function () {
         }
         $job->deletion_status = $err;
 
-        array_push($result, $job->toArray());
+        array_push($results, $job->toArray());
     }
 
-    if (count($result) == 0) {
+    if (count($results) == 0) {
         return;
     }
-    Helper::writeToCsv($out_file, $result);
+    Helper::writeToCsv($out_file, $results);
 })->weeklyOn(2, '20:00')
     ->environments('production')
     ->name('Delete Faulty Jobs')
@@ -219,7 +219,7 @@ Schedule::call(function () {
         return;
     }
     Helper::writeToCsv($out_file, $result);
-})->monthlyOn(4, '12:00')
+})->monthlyOn(4, '16:00')
     ->environments('production')
     ->name('Delete OK Jobs')
     ->withoutOverlapping();
