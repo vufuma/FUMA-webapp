@@ -13,20 +13,21 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading faq" style="padding-top:5px;padding-bottom:5px;">
-				<h4>How many jobs can I submit at once?<a href="#faq5" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+				<h4>How many jobs can I submit at once?<a href="#faq2" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 			</div>
-			<div class="panel-body collapse" id="faq5">
+			<div class="panel-body collapse" id="faq2">
 				We maintain a dedicated server for running FUMA jobs. As this is a free service we provide for the advancement of science, this also means that there is a limited amount of computational resources to go around.<br/>
-				In order to prevent single users to occupy the entire server, there is a job limit of <<strong>10 jobs per user</strong>.<br/>
+				In order to prevent single users to occupy the entire server, there is a job limit of <strong>10 jobs per user</strong>.<br/>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading faq" style="padding-top:5px;padding-bottom:5px;">
-				<h4>How many jobs can I save on FUMA?<a href="#faq5" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
+				<h4>How many jobs can I save on FUMA?<a href="#faq3" data-toggle="collapse" class="active" style="float: right; padding-right:20px;"><i class="fa fa-chevron-up"></i></a></h4>
 			</div>
-			<div class="panel-body collapse" id="faq5">
-				Each user can store at most <strong>100 SNP2GENE jobs </strong> on the FUMA server (Policy updated as of v1.6.5)<br/>
+			<div class="panel-body collapse" id="faq3">
+				Each user can store at most <strong>100 SNP2GENE jobs </strong> on the FUMA server (Policy updated as of v1.6.5).<br/>
+				Currently, there is no restriction on the number of GENE2FUNC and Cell Type jobs stored on the FUMA server because these jobs tend to be small in size (but subject to change).<br/>
 				All faulty jobs will be deleted after 1 month.<br/>
 			</div>
 		</div>
