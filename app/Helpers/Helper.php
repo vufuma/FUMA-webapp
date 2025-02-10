@@ -378,14 +378,14 @@ class Helper
         );
 
         $jobs = SubmitJob::wherein('status', $err_codes)
-            ->where('created_at', '<', now()->subMonth(2))
+            ->where('created_at', '<', now()->subMonth(1))
             ->where('removed_at', null)
             ->get(['jobID', 'created_at', 'type', 'status']);
 
         return $jobs;
     }
     /* Schedulilng deletion of OK jobs
-    Logic: for each user, OK jobs are removed if the user has more than a certain threshold. Currently set to 500. 
+    Logic: for each user, OK jobs are removed if the user has more than a certain threshold. Currently set to 200. 
     */
     
     public static function findOKJobs(){
@@ -395,7 +395,7 @@ class Helper
         $njobs = DB::table('SubmitJobs')
         ->selectRaw('count(*) as total, email')
         ->groupBy('email')
-        ->having('total', '>', 500) #change here to update the maximum number of jobs per user to keep
+        ->having('total', '>', 200) #change here to update the maximum number of jobs per user to keep
         ->where('status', 'OK')
         ->where('type', 'snp2gene')
         ->where('removed_at', null)
@@ -404,7 +404,7 @@ class Helper
         $results = [];
     
         foreach ($njobs as $njob) {
-            $nToRemove = $njob->total - 500; #change here to update the maximum number of jobs per user to keep
+            $nToRemove = $njob->total - 200; #change here to update the maximum number of jobs per user to keep
             $allJobsPerEmail = DB::table('SubmitJobs')
             ->select('jobID', 'created_at', 'type', 'status', 'email')
             ->where('status', 'OK')
