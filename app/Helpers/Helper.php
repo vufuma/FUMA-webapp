@@ -411,7 +411,7 @@ class Helper
             ->where('type', 'snp2gene')
             ->where('removed_at', null)
             ->where('email', $njob->email)
-            ->whereNot('email', $emailsToSkip)
+            ->whereNotIn('email', $emailsToSkip)
             ->where('is_public', '=', 0)
             ->orderByRaw('created_at')
             ->limit($nToRemove)
