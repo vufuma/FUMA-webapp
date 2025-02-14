@@ -2,7 +2,7 @@
 
 ###########################################################
 # eQTL file has to follow the following structure and tabixable
-# chr	pos 	A1	A2	tested-allele	statistics	P	FDR/corrected P
+##chr   pos     a1      a2      testedAllele    gene    stats   p       geneQ
 #
 # A1/A2 are in arbitrary order
 # If alleles are provided but tested allele is not specified,
@@ -14,7 +14,7 @@ import sys
 import os
 import pandas as pd
 import numpy as np
-import ConfigParser
+import configparser
 import tabix
 import re
 
@@ -24,28 +24,25 @@ def eqtl_tabix(region, tb):
 	try:
 		tmp = tb.querys(region)
 	except:
-		print "Tabix failed for region "+region
+		print("Tabix failed for region "+region)
 	else:
 		for l in tmp:
 			eqtls.append(l[0:9])
 	return eqtls
 
-##### check argument #####
-if len(sys.argv) < 2:
-	print "ERROR: not enough arguments\nUSAGE: ./geteQTL.py <filedir>"
-	sys.exit()
+# ##### check argument #####
+# if len(sys.argv) < 2:
+# 	print("ERROR: not enough arguments\nUSAGE: ./geteQTL.py <filedir>")
+# 	sys.exit()
 
-##### add '/' to the filedir #####
-filedir = sys.argv[1]
-if re.match(".+\/$", filedir) is None:
-	filedir += '/'
+filedir="/home/tnphung/FUMA-dev/refactor_geteQTL/218399"
 
 ##### get config files #####
-cfg = ConfigParser.ConfigParser()
+cfg = configparser.ConfigParser()
 cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
-param_cfg = ConfigParser.ConfigParser()
-param_cfg.read(filedir+'params.config')
+param_cfg = configparser.ConfigParser()
+param_cfg.read(os.path.join(filedir, 'params.config'))
 
 ##### get parameters #####
 qtldir = cfg.get('data', 'QTL')
@@ -54,17 +51,14 @@ sigonly = int(param_cfg.get('eqtlMap', 'eqtlMapSig'))
 eqtlP = float(param_cfg.get('eqtlMap', 'eqtlMapP'))
 
 ##### files #####
-fsnps = filedir+"snps.txt"
-floci = filedir+"GenomicRiskLoci.txt"
-fout = filedir+"eqtl.txt"
-
-##### write header for output file #####
-with open(fout, 'w+') as fo:
-	fo.write("uniqID\tdb\ttissue\tgene\ttestedAllele\tp\tsigned_stats\tFDR\n")
+fsnps = os.path.join(filedir, "snps.txt")
+floci = os.path.join(filedir, "GenomicRiskLoci.txt")
+fout = open(os.path.join(filedir, "eqtl.txt"), "w")
+print("\t".join(["uniqID", "db", "tissue", "gene", "testedAllele", "p", "signed_stats", "FDR"]), file=fout)
 
 ##### Process per locus #####
-loci = pd.read_csv(floci, sep="\t", usecols=[0,3,6,7], header=0)
-snps = pd.read_csv(fsnps, sep="\t", usecols=[0,2,3], header=0)
+loci = pd.read_csv(floci, sep="\t", usecols=[0,3,6,7], header=0) #GenomicLocus, chr, start, end
+snps = pd.read_csv(fsnps, sep="\t", usecols=[0,2,3], header=0) #uniqID, chr, pos
 
 for feqtl in eqtlds:
 	reg = re.match(r'(.+)\/(.+).txt.gz', feqtl)
@@ -79,7 +73,7 @@ for feqtl in eqtlds:
 		eqtls = pd.DataFrame(eqtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
 
 		### filter on eQTLs based on position
-		eqtls = eqtls[eqtls.iloc[:,1].astype('int').isin(snps[snps.iloc[:,1]==chrom].iloc[:,2])]
+		eqtls = eqtls[eqtls.iloc[:,1].astype('int').isin(snps[snps.iloc[:,1]==chrom].iloc[:,2])] #get the eqtls that are in the snps.txt file
 		if len(eqtls)==0: continue
 
 		### filter by P/FDR
