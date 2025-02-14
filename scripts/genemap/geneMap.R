@@ -3,7 +3,7 @@ library(data.table)
 library(kimisc)
 library(GenomicRanges)
 
-start_time <- Sys.time()
+start.time <- Sys.time()
 
 # ##### get commnad line arguments #####
 # args <- commandArgs(TRUE)
@@ -31,9 +31,9 @@ posMapChr15 <- params$posMap$posMapChr15
 posMapChr15Max <- as.numeric(params$posMap$posMapChr15Max) # gives a warning
 posMapChr15Meth <- params$posMap$posMapChr15Meth
 eqtlMap <- as.numeric(params$eqtlMap$eqtlMap)
-# eqtlMaptss <- params$eqtlMap$eqtlMaptss
-# eqtlMapSigeqtl <- as.numeric(params$eqtlMap$eqtlMapSig)
-# eqtlP <- as.numeric(params$eqtlMap$eqtlMapP)
+eqtlMaptss <- params$eqtlMap$eqtlMaptss
+eqtlMapSigeqtl <- as.numeric(params$eqtlMap$eqtlMapSig)
+eqtlP <- as.numeric(params$eqtlMap$eqtlMapP)
 eqtlMapCADDth <- as.numeric(params$eqtlMap$eqtlMapCADDth)
 eqtlMapRDBth <- params$eqtlMap$eqtlMapRDBth
 eqtlMapChr15 <- params$eqtlMap$eqtlMapChr15
@@ -96,6 +96,10 @@ if(exMHC==1){
 
 ENSG$chromosome_name[ENSG$chromosome_name=="X"] <- 23
 ENSG$chromosome_name <- as.numeric(ENSG$chromosome_name)
+
+end.time <- Sys.time()
+time.taken <- end.time - start.time
+print(time.taken)
 
 ##### read files #####
 snps <- fread(paste0(filedir, "snps.txt"), data.table=F)
@@ -190,7 +194,6 @@ genes <- c()
 if(eqtlMap==1){
 	print("Performing eqtlMap...")
 	eqtl <- fread(paste0(filedir, "eqtl.txt"), data.table=F)
-	a=nrow(eqtl)
 	if(nrow(eqtl)>0){
 		eqtl <- eqtl[eqtl$gene %in% ENSG$ensembl_gene_id,]
 		eqtl$chr <- snps$chr[match(eqtl$uniqID, snps$uniqID)]
