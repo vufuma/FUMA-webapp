@@ -2,7 +2,7 @@
 
 ###########################################################
 # eQTL file has to follow the following structure and tabixable
-##chr   pos     a1      a2      testedAllele    gene    stats   p       geneQ
+##chr   bp      REF     ALT     ALT     gene    regression_slope        nominal_pval    FDR
 #
 # A1/A2 are in arbitrary order
 # If alleles are provided but tested allele is not specified,

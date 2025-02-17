@@ -99,11 +99,20 @@ def process_ensg(config_class):
     
     return ENSG
 
-def do_eqtl_mapping(config_class, eqtl_fp):
-    eqtl = pd.read_csv(eqtl_fp, sep="\t")
+def do_eqtl_mapping(config_class, eqtl_fp, snps_fp):
+    eqtl = pd.read_csv(eqtl_fp, sep="\t", keep_default_na=False)
+    snps = pd.read_csv(snps_fp, sep="\t")
     ENSG = process_ensg(config_class)
     if eqtl.shape[0] > 0: 
-        eqtl = pd.merge(eqtl, ENSG, left_on="gene", right_on="ensembl_gene_id")
-        print(eqtl.shape)
+        eqtl = eqtl.query("gene.isin(@ENSG['ensembl_gene_id'])")
+        eqtl['chr'] = eqtl['uniqID'].map(snps.set_index('uniqID')['chr'])
+        eqtl['pos'] = eqtl['uniqID'].map(snps.set_index('uniqID')['pos'])
+        eqtl['symbol'] = eqtl['gene'].map(ENSG.set_index('ensembl_gene_id')['external_gene_name'])
+        eqtl['eqtlMapFilt'] = 1
+    # print(eqtl.head)
+        
+    #TODO: Implement the different filtering
+    
+    return eqtl
     
             
