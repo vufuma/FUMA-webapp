@@ -453,7 +453,7 @@
 				</tr>
 				<tr class="eqtlMapOptions">
 					<td>Tissue types
-						<a class="infoPop" data-toggle="popover" title="Tissue types of eQTLs" data-content="This is mandatory parameter for eQTL mapping. Currently 44 tissue types from GTEx and two large scale eQTL study of blood cell are available.">
+						<a class="infoPop" data-toggle="popover" title="Tissue types of eQTLs" data-content="This is mandatory parameter for eQTL mapping.">
 							<i class="fa fa-question-circle-o fa-lg"></i>
 						</a>
 					</td>
@@ -649,10 +649,49 @@
 		</div>
 	</div>
 
+		<!-- pqtl mapping -->
+		<div class="panel panel-default" style="padding: 0px;">
+		<div class="panel-heading input" style="padding:5px;">
+			<h4>3-3. Gene Mapping (pQTL mapping)<a href="#NewJobPqtlMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
+		</div>
+		<div class="panel-body collapse" id="NewJobPqtlMapPanel">
+			<h4>pQTL mapping</h4>
+			<table class="table table-bordered inputTable" id="NewJobPqtlMap" style="width: auto;">
+				<tr>
+					<td>Perform pQTL mapping
+						<a class="infoPop" data-toggle="popover" title="pQTL mapping" data-content="pQTL mapping maps SNPs to genes based on pQTL information. Please check this option to perform pQTL mapping.">
+							<i class="fa fa-question-circle-o fa-lg"></i>
+						</a>
+					</td>
+					<td><input type="checkbox" calss="form-control" name="pqtlMap", id="pqtlMap" onchange="CheckAll();"></td>
+					<td></td>
+				</tr>
+				<tr class="pqtlMapOptions">
+					<td>pQTLs datasets
+						<a class="infoPop" data-toggle="popover" title="pQTLs datasets" data-content="This is mandatory parameter for pQTL mapping.">
+							<i class="fa fa-question-circle-o fa-lg"></i>
+						</a>
+					</td>
+					<td>
+						<span class="multiSelect">
+							<a class="clear" style="float:right; padding-right:20px;">Clear</a>
+							<a class="all" style="float:right; padding-right:20px;">Select all</a></br>
+							<select multiple class="form-control" id="pqtlMapDs" name="pqtlMapDs[]" size="10" onchange="CheckAll();">
+								@include('snp2gene.pqtl_options')
+							</select>
+						</span>
+					</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		</div>
+			
+
 	<!-- chromatin interaction mapping -->
 	<div class="panel panel-default" style="padding: 0px;">
 		<div class="panel-heading input" style="padding:5px;">
-			<h4>3-3. Gene Mapping (3D Chromatin Interaction mapping)<a href="#NewJobCiMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
+			<h4>3-4. Gene Mapping (3D Chromatin Interaction mapping)<a href="#NewJobCiMapPanel" data-toggle="collapse" style="float: right; padding-right:20px;"><i class="fa fa-chevron-down"></i></a></h4>
 		</div>
 		<div class="panel-body collapse" id="NewJobCiMapPanel">
 			<h4>chromatin interaction mapping</h4>

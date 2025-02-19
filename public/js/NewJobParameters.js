@@ -971,6 +971,36 @@ function CheckAll(){
 		$('#NewJobEqtlMapPanel').parent().attr("class", "panel panel-default");
 	}
 
+	//pqtlMap table
+	tablecheck=true;
+	table = $('#NewJobPqtlMap')[0];
+	if($('#pqtlMap').is(":checked")==true){
+		$('.pqtlMapOptions').show();
+		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			+'<i class="fa fa-check"></i> OK.</div></td>');
+		var ds = 0;
+		$('#pqtlMapDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+		if(ds>0){
+			$(table.rows[1].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-check"></i> OK.</div></td>');
+		}else{
+			$(table.rows[1].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-ban"></i> Please select at least one dataset.</div></td>');
+			submit=false;
+			tablecheck=false;
+		}
+	}else{
+		$('.pqtlMapOptions').hide();
+	}
+
+	if(tablecheck==false){
+		$('#NewJobPqtlMapPanel').parent().attr("class", "panel panel-danger");
+	}else{
+		$('#NewJobPqtlMapPanel').parent().attr("class", "panel panel-default");
+	}
+
 	//ciMap table
 	tablecheck=true;
 	table = $('#NewJobCiMap')[0];
