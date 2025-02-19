@@ -117,6 +117,7 @@ def process_eqtl(fqtl, config_class, loci, snps, fout):
 def process_pqtl(fqtl, config_class, loci, snps, fout):
     db = fqtl.split("/")[0]
     ts = fqtl.split("/")[1].split(".txt.gz")[0]
+    print(os.path.join(config_class._qtldir, "pQTL", db, ts + ".txt.gz"))
     tb = tabix.open(os.path.join(config_class._qtldir, "pQTL", db, ts + ".txt.gz"))
     for locus in range(len(loci)):
         qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class, type="pqtl")

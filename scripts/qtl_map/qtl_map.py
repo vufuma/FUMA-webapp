@@ -10,8 +10,8 @@ from qtl_map_helpers import process_eqtl, do_eqtl_mapping, process_pqtl, do_pqtl
 
 def main():
     start = time.time()
-    # filedir = sys.argv[1]
-    filedir="/home/tnphung/FUMA-dev/refactor_geteQTL/3/"
+    filedir = sys.argv[1]
+    # filedir="/home/tnphung/FUMA-dev/refactor_geteQTL/3/"
     
     config_class = Configuration(filedir=filedir) #create a config class
     

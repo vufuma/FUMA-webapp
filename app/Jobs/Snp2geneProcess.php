@@ -130,6 +130,13 @@ class Snp2geneProcess implements ShouldQueue
                 }
             }
 
+            if ($params['pqtlMap'] == 1) {
+                if (!$this->qtlMap()) {
+                    // error handling
+                    return;
+                }
+            }
+
             if ($params['ciMap'] == 1) {
                 if (!$this->getCI()) {
                     // error handling
@@ -437,6 +444,30 @@ class Snp2geneProcess implements ShouldQueue
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python geteQTL.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        Storage::append($this->logfile, "Command to be executed:");
+        Storage::append($this->logfile, $cmd . "\n");
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
+
+        if ($error) {
+            JobHelper::JobTerminationHandling($jobID, 11);
+            return false;
+        }
+        return true;
+    }
+
+    private function qtlMap()
+    {
+        $jobID = $this->jobID;
+        Storage::append($this->logfile, "----- qtl_map.py -----\n");
+        Storage::append($this->errorfile, "----- qtl_map.py -----\n");
+
+        $container_name = DockerNamesBuilder::containerName($jobID);
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'qtl_map');
+        $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
+
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python qtl_map.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
