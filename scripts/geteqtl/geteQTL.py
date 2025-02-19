@@ -30,12 +30,12 @@ def eqtl_tabix(region, tb):
 			eqtls.append(l[0:9])
 	return eqtls
 
-# ##### check argument #####
-# if len(sys.argv) < 2:
-# 	print("ERROR: not enough arguments\nUSAGE: ./geteQTL.py <filedir>")
-# 	sys.exit()
+##### check argument #####
+if len(sys.argv) < 2:
+	print("ERROR: not enough arguments\nUSAGE: ./geteQTL.py <filedir>")
+	sys.exit()
 
-filedir="/home/tnphung/FUMA-dev/refactor_geteQTL/218399"
+filedir=sys.argv[1]
 
 ##### get config files #####
 cfg = configparser.ConfigParser()
@@ -64,7 +64,7 @@ for feqtl in eqtlds:
 	reg = re.match(r'(.+)\/(.+).txt.gz', feqtl)
 	db = reg.group(1)
 	ts = reg.group(2)
-	tb = tabix.open(qtldir+"/"+feqtl)
+	tb = tabix.open(os.path.join(qtldir, "eQTL", feqtl))
 	for li in range(len(loci)):
 		chrom = loci.iloc[li,1]
 		start = loci.iloc[li,2]
@@ -116,4 +116,4 @@ for feqtl in eqtlds:
 		eqtls = eqtls[["uniqID", "db", "tissue", "gene", "ta", "p", "stats", "fdr"]]
 		eqtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
 
-# os.system("Rscript "+os.path.dirname(os.path.realpath(__file__))+"/align_eqtl.R "+filedir)
+os.system("Rscript "+os.path.dirname(os.path.realpath(__file__))+"/align_eqtl.R "+filedir)

@@ -2,13 +2,12 @@
 library(data.table)
 
 ##### get commnad line arguments #####
-# args <- commandArgs(TRUE)
-# filedir <- args[1]
-# if(grepl("\\/$", filedir)==F){
-#   filedir <- paste(filedir, '/', sep="")
-# }
+args <- commandArgs(TRUE)
+filedir <- args[1]
+if(grepl("\\/$", filedir)==F){
+  filedir <- paste(filedir, '/', sep="")
+}
 
-filedir="/home/tnphung/FUMA-dev/refactor_geteQTL/218399/"
 
 ##### read files #####
 eqtl <- fread(paste(filedir, "eqtl.txt", sep=""), data.table=F)
