@@ -16,26 +16,31 @@ def eqtl_tabix(region, tb):
 	return qtls
 
 
-def process_loci(tb, loci, locus, snps, config_class):
+def process_loci(tb, loci, locus, snps, config_class, type):
     chrom = loci.iloc[locus,1]
     start = loci.iloc[locus,2]
     end = loci.iloc[locus,3]
     qtls = eqtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
-    qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
+    
+    if type == "eqtl":
+        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
+    elif type == "pqtl":
+        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'type', 'log10P'])
+
 
     ### filter on qtls based on position
     qtls = qtls[qtls.iloc[:,1].astype('int').isin(snps[snps.iloc[:,1]==chrom].iloc[:,2])] #get the qtls that are in the snps.txt file
     if len(qtls)==0: 
         return None
 
-    ### filter by P/FDR
-    #qtls.iloc[:,6:] = qtls.iloc[:,6:].apply(pd.to_numeric, errors='coerce', axis=1)
-    if config_class._sigonly == 1:
-        qtls = qtls[pd.to_numeric(qtls.iloc[:,8], errors='coerce')<0.05]
-    else:
-        qtls = qtls[pd.to_numeric(qtls.iloc[:,7], errors='coerce')<config_class._eqtlP]
-    if len(qtls)==0:
-        return None
+    ### filter by P/FDR if eqtl
+    if type == "eqtl":
+        if config_class._sigonly == 1:
+            qtls = qtls[pd.to_numeric(qtls.iloc[:,8], errors='coerce')<0.05]
+        else:
+            qtls = qtls[pd.to_numeric(qtls.iloc[:,7], errors='coerce')<config_class._eqtlP]
+        if len(qtls)==0:
+            return None
 
     ### assign uniqID
     ## if qtls do not have alleles, take uniqID from snps
@@ -46,26 +51,42 @@ def process_loci(tb, loci, locus, snps, config_class):
         qtls = qtls.merge(snps.loc[snps.iloc[:, 1] == chrom, ["pos", "uniqID"]], on="pos", how="left")
         qtls = qtls[qtls.uniqID.isin(snps.uniqID)]
 
-    elif qtls.iloc[0, 2] == "NA" or qtls.iloc[0, 3] == "NA":
-        # Generate uniqID1 and uniqID2 using vectorized string operations
-        snps[['uniqID1', 'uniqID2']] = snps['uniqID'].str.split(":", expand=True).iloc[:, [0, 1, 3]].agg(':'.join, axis=1), \
-                                    snps['uniqID'].str.split(":", expand=True).drop(columns=2).agg(':'.join, axis=1)
+    elif qtls.iloc[0,2]=="NA" or qtls.iloc[0,3]=="NA":
+        # snps['uniqID1'] = snps.uniqID.apply(lambda x: ":".join(x.split(":")[0:3]))
+        # snps['uniqID2'] = snps.uniqID.apply(lambda x: ":".join(np.delete(x.split(":"),2)))
+        # if qtls.iloc[0,2]=="NA":
+        #     qtls['uniqID1'] = qtls.iloc[:,0].astype('str')+":"+qtls.iloc[:,1].astype('str')+":"+qtls.iloc[:,3]
+        # else:
+        #     qtls['uniqID1'] = qtls.iloc[:,0].astype('str')+":"+qtls.iloc[:,1].astype('str')+":"+qtls.iloc[:,2]
+        # tmp_qtls = qtls[qtls.uniqID1.isin(snps.uniqID1)]
+        # tmp_qtls = tmp_qtls.merge(snps[snps.uniqID1.isin(tmp_qtls.uniqID1)].loc[:,["uniqID1", "uniqID"]], on="uniqID1", how="left")
+        # tmp_qtls = tmp_qtls.drop(columns="uniqID1")
+        # qtls = qtls[qtls.uniqID1.isin(snps.uniqID2)]
+        # qtls = qtls.merge(snps[snps.uniqID2.isin(qtls.uniqID1)].loc[:,["uniqID2", "uniqID"]], left_on="uniqID1", right_on="uniqID2", how="left")
+        # qtls = qtls.drop(columns=["uniqID1", "uniqID2"])
+        # qtls = pd.concat([qtls, tmp_qtls], ignore_index=True)
+        # del tmp_qtls
+        
+        # Create 'uniqID1' and 'uniqID2' for 'snps' using vectorized operations
+        snps['uniqID1'] = snps['uniqID'].str.split(":").str[:3].str.join(":")
+        snps['uniqID2'] = snps['uniqID'].str.split(":").apply(lambda x: ":".join(np.delete(x, 2)))
 
-        qtls["uniqID1"] = qtls.iloc[:, 0].astype(str) + ":" + qtls.iloc[:, 1].astype(str) + ":" + \
-                        np.where(qtls.iloc[:, 2] == "NA", qtls.iloc[:, 3], qtls.iloc[:, 2])
+        # Construct 'uniqID1' for 'qtls' based on condition
+        col_idx = 3 if qtls.iloc[0, 2] == "NA" else 2
+        qtls['uniqID1'] = qtls.iloc[:, 0].astype(str) + ":" + qtls.iloc[:, 1].astype(str) + ":" + qtls.iloc[:, col_idx].astype(str)
 
-        # Match using uniqID1
-        matched_uniqID1 = qtls[qtls.uniqID1.isin(snps.uniqID1)]
-        matched_uniqID1 = matched_uniqID1.merge(snps.loc[snps.uniqID1.isin(matched_uniqID1.uniqID1), ["uniqID1", "uniqID"]],
-                                                on="uniqID1", how="left").drop(columns="uniqID1")
+        # Filter and merge qtls based on 'uniqID1'
+        qtls1 = qtls[qtls['uniqID1'].isin(snps['uniqID1'])].merge(
+            snps[['uniqID1', 'uniqID']], on='uniqID1', how='left'
+        ).drop(columns=['uniqID1'])
 
-        # Match using uniqID2
-        qtls = qtls[qtls.uniqID1.isin(snps.uniqID2)]
-        qtls = qtls.merge(snps.loc[snps.uniqID2.isin(qtls.uniqID1), ["uniqID2", "uniqID"]],
-                        left_on="uniqID1", right_on="uniqID2", how="left").drop(columns=["uniqID1", "uniqID2"])
+        # Filter and merge qtls based on 'uniqID2'
+        qtls2 = qtls[qtls['uniqID1'].isin(snps['uniqID2'])].merge(
+            snps[['uniqID2', 'uniqID']], left_on='uniqID1', right_on='uniqID2', how='left'
+        ).drop(columns=['uniqID1', 'uniqID2'])
 
-        # Combine results
-        qtls = pd.concat([qtls, matched_uniqID1], ignore_index=True)
+        # Concatenate the two filtered qtls DataFrames
+        qtls = pd.concat([qtls1, qtls2], ignore_index=True)
 
     else:
         qtls.iloc[:, 2:4] = np.sort(qtls.iloc[:, 2:4], axis=1)  # Sort in-place
@@ -80,20 +101,30 @@ def align_qtl(qtls): #TODO: add the condition here. Now just add NA placeholder
     return qtls
     
 
-def process_qtl(fqtl, config_class, loci, snps, fout):
-    # reg = re.match(r'(.+)\/(.+).txt.gz', fqtl)
-    # db = reg.group(1)
-    # ts = reg.group(2)
-    db = fqtl.split("_v6_")[0]
-    ts = fqtl.split("_v6_")[1]
-    tb = tabix.open(os.path.join(config_class._qtldir, db, "v6", ts + ".txt.gz"))
+def process_eqtl(fqtl, config_class, loci, snps, fout):
+    db = fqtl.split("/")[0]
+    ts = fqtl.split("/")[1].split(".txt.gz")[0]
+    tb = tabix.open(os.path.join(config_class._qtldir, "eQTL", db, ts + ".txt.gz"))
     for locus in range(len(loci)):
-        qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class)
+        qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class, type="eqtl")
         if qtls is not None:
             aligned_qtls = align_qtl(qtls)
             aligned_qtls['db'] = db
             aligned_qtls['tissue'] = ts
             aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "gene", "ta", "p", "stats", "fdr", "RiskIncAllele", "alignedDirection"]]
+            aligned_qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
+            
+def process_pqtl(fqtl, config_class, loci, snps, fout):
+    db = fqtl.split("/")[0]
+    ts = fqtl.split("/")[1].split(".txt.gz")[0]
+    tb = tabix.open(os.path.join(config_class._qtldir, "pQTL", db, ts + ".txt.gz"))
+    for locus in range(len(loci)):
+        qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class, type="pqtl")
+        if qtls is not None:
+            aligned_qtls = align_qtl(qtls)
+            aligned_qtls['db'] = db
+            aligned_qtls['tissue'] = ts
+            aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "gene", "ta", "log10P", "type", "RiskIncAllele", "alignedDirection"]]
             aligned_qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
             
             
@@ -131,9 +162,8 @@ def process_ensg(config_class):
     
     return ENSG
 
-def do_eqtl_mapping(config_class, eqtl_fp, snps_fp):
+def do_eqtl_mapping(config_class, eqtl_fp, snps):
     eqtl = pd.read_csv(eqtl_fp, sep="\t", keep_default_na=False)
-    snps = pd.read_csv(snps_fp, sep="\t")
     ENSG = process_ensg(config_class)
     if eqtl.shape[0] > 0: 
         eqtl = eqtl.query("gene.isin(@ENSG['ensembl_gene_id'])")
@@ -146,3 +176,14 @@ def do_eqtl_mapping(config_class, eqtl_fp, snps_fp):
         
     #TODO: Implement the different filtering
             
+def do_pqtl_mapping(config_class, pqtl_fp, snps):
+    pqtl = pd.read_csv(pqtl_fp, sep="\t", keep_default_na=False)
+    # snps = pd.read_csv(snps_fp, sep="\t")
+    ENSG = process_ensg(config_class)
+    if pqtl.shape[0] > 0: 
+        pqtl = pqtl.query("gene.isin(@ENSG['external_gene_name'])")
+        pqtl['chr'] = pqtl['uniqID'].map(snps.set_index('uniqID')['chr'])
+        pqtl['pos'] = pqtl['uniqID'].map(snps.set_index('uniqID')['pos'])
+        pqtl['symbol'] = pqtl['gene'].map(ENSG.set_index('ensembl_gene_id')['external_gene_name'])
+        pqtl['pqtlMapFilt'] = 1
+        return pqtl
