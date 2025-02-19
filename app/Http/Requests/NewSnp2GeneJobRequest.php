@@ -78,6 +78,8 @@ class NewSnp2GeneJobRequest extends FormRequest
             'eqtlMapChr15Max' => '',
             'eqtlMapChr15Meth' => '',
             'eqtlMapAnnoMeth' => '',
+            'pqtlMap' => '',
+            'pqtlMapDs' => '',
             'ciMap' => '',
             'ciMapType' => '',
             'ciMapAnnoDs' => '',

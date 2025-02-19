@@ -26,6 +26,8 @@ class Configuration:
         self._eqtlMapChr15 = None
         self._eqtlMapChr15Max = None
         self._eqtlMapChr15Meth = None
+        self._pqtlMap = None
+        self._pqtlMapdss = None
         
         self.get_values()
         
@@ -68,3 +70,5 @@ class Configuration:
         self._eqtlMapChr15 = self.param.get("eqtlMap", "eqtlMapChr15")
         self._eqtlMapChr15Max = self.param.get("eqtlMap", "eqtlMapChr15Max")
         self._eqtlMapChr15Meth = self.param.get("eqtlMap", "eqtlMapChr15Meth")
+        self._pqtlMap = int(self.param.get("pqtlMap", "pqtlMap"))
+        self._pqtlMapdss = self.param.get("pqtlMap", "pqtlMapdss").split(":")
