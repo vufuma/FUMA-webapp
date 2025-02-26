@@ -25,7 +25,7 @@ def process_loci(tb, loci, locus, snps, config_class, type):
     if type == "eqtl":
         qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
     elif type == "pqtl":
-        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'type', 'log10P'])
+        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P'])
 
 
     ### filter on qtls based on position
@@ -125,7 +125,7 @@ def process_pqtl(fqtl, config_class, loci, snps, fout):
             aligned_qtls = align_qtl(qtls)
             aligned_qtls['db'] = db
             aligned_qtls['tissue'] = ts
-            aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "gene", "ta", "log10P", "type", "RiskIncAllele", "alignedDirection"]]
+            aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "protein", "a2", "P", "type", "RiskIncAllele", "alignedDirection"]]
             aligned_qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
             
             
@@ -179,12 +179,10 @@ def do_eqtl_mapping(config_class, eqtl_fp, snps):
             
 def do_pqtl_mapping(config_class, pqtl_fp, snps):
     pqtl = pd.read_csv(pqtl_fp, sep="\t", keep_default_na=False)
-    # snps = pd.read_csv(snps_fp, sep="\t")
     ENSG = process_ensg(config_class)
     if pqtl.shape[0] > 0: 
-        pqtl = pqtl.query("gene.isin(@ENSG['external_gene_name'])")
+        pqtl = pqtl.query("protein.isin(@ENSG['external_gene_name'])")
         pqtl['chr'] = pqtl['uniqID'].map(snps.set_index('uniqID')['chr'])
         pqtl['pos'] = pqtl['uniqID'].map(snps.set_index('uniqID')['pos'])
-        pqtl['symbol'] = pqtl['gene'].map(ENSG.set_index('ensembl_gene_id')['external_gene_name'])
         pqtl['pqtlMapFilt'] = 1
         return pqtl

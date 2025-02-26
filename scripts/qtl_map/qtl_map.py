@@ -11,7 +11,6 @@ from qtl_map_helpers import process_eqtl, do_eqtl_mapping, process_pqtl, do_pqtl
 def main():
     start = time.time()
     filedir = sys.argv[1]
-    # filedir="/home/tnphung/FUMA-dev/refactor_geteQTL/3/"
     
     config_class = Configuration(filedir=filedir) #create a config class
     
@@ -33,11 +32,11 @@ def main():
     if config_class._pqtlMap == 1:
         out_fp = os.path.join(filedir, "pqtl.txt")
         fout = open(out_fp, "w")
-        print("\t".join(["uniqID", "db", "tissue", "gene", "testedAllele", "log10P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
+        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
         for fpqtl in config_class._pqtlMapdss:
-        # fpqtl = "Eldjarn_2023/Plasma_SomaScan_Iceland.txt.gz"
             process_pqtl(fqtl=fpqtl, config_class=config_class, loci=loci, snps=snps, fout=fout)
-            fout.close()
+        fout.close()
+        for fpqtl in config_class._pqtlMapdss:
             pqtl = do_pqtl_mapping(config_class, out_fp, snps)
             pqtl.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
     
