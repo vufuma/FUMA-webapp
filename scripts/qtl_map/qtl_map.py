@@ -32,7 +32,7 @@ def main():
     if config_class._pqtlMap == 1:
         out_fp = os.path.join(filedir, "pqtl.txt")
         fout = open(out_fp, "w")
-        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
+        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "maf", "beta", "se", "P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
         for fpqtl in config_class._pqtlMapdss:
             process_pqtl(fqtl=fpqtl, config_class=config_class, loci=loci, snps=snps, fout=fout)
         fout.close()
