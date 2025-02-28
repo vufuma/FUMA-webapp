@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 
-def eqtl_tabix(region, tb):
+def qtl_tabix(region, tb):
 	qtls = []
 	try:
 		tmp = tb.querys(region)
@@ -16,31 +16,38 @@ def eqtl_tabix(region, tb):
 	return qtls
 
 
-def pqtl_tabix(region, tb):
-	qtls = []
-	try:
-		tmp = tb.querys(region)
-	except:
-		print("Tabix failed for region "+region)
-	else:
-		for l in tmp:
-			qtls.append(l[0:11])
-	return qtls
+# def pqtl_tabix(region, tb):
+# 	qtls = []
+# 	try:
+# 		tmp = tb.querys(region)
+# 	except:
+# 		print("Tabix failed for region "+region)
+# 	else:
+# 		for l in tmp:
+# 			qtls.append(l[0:11])
+# 	return qtls
 
 
 def process_loci(tb, loci, locus, snps, config_class, type):
     chrom = loci.iloc[locus,1]
     start = loci.iloc[locus,2]
     end = loci.iloc[locus,3]
-    if type == "eqtl":
-        qtls = eqtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
-    if type == "pqtl":
-        qtls = pqtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
+    # if type == "eqtl":
+    #     qtls = eqtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
+    # if type == "pqtl":
+    #     qtls = pqtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
+    
+    # if type == "eqtl":
+    #     qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
+    # elif type == "pqtl":
+    #     qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'maf', 'protein', 'type', 'beta', 'se', 'P'])
+    
+    qtls = qtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
     
     if type == "eqtl":
         qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
     elif type == "pqtl":
-        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'maf', 'protein', 'type', 'beta', 'se', 'P'])
+        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P'])
 
 
     ### filter on qtls based on position
@@ -140,7 +147,7 @@ def process_pqtl(fqtl, config_class, loci, snps, fout):
             aligned_qtls = align_qtl(qtls)
             aligned_qtls['db'] = db
             aligned_qtls['tissue'] = ts
-            aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "protein", "a2", "maf", "beta", "se", "P", "type", "RiskIncAllele", "alignedDirection"]]
+            aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "RiskIncAllele", "alignedDirection"]]
             aligned_qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
             
             
