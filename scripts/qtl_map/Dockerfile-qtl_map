@@ -5,6 +5,8 @@ WORKDIR /app
 COPY qtl_map/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN Rscript -e "install.packages(c('coloc', 'data.table', dplyr'))"
+
 COPY app.config ./
 COPY qtl_map/qtl_map_helpers.py ./qtl_map_helpers.py
 COPY qtl_map/config_helpers.py ./config_helpers.py
