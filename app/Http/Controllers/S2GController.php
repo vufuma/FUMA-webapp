@@ -648,6 +648,14 @@ class S2GController extends Controller
             $pqtlMapdss = "NA";
         }
 
+        if ($request->filled('pqtlColoc')) {
+            $pqtlColoc = 1;
+            $cases_prop = $request->input('cases_prop');
+        } else {
+            $pqtlColoc = 0;
+            $cases_prop = "NA";
+        }
+
         // chromatin interaction mapping
         $ciMap = 0;
         $ciMapFileN = 0;
@@ -871,6 +879,8 @@ class S2GController extends Controller
         Storage::append($paramfile, "\n[pqtlMap]");
         Storage::append($paramfile, "pqtlMap=$pqtlMap");
         Storage::append($paramfile, "pqtlMapdss=$pqtlMapdss");
+        Storage::append($paramfile, "pqtlColoc=$pqtlColoc");
+        Storage::append($paramfile, "cases_prop=$cases_prop");
 
         Storage::append($paramfile, "\n[ciMap]");
         Storage::append($paramfile, "ciMap=$ciMap");

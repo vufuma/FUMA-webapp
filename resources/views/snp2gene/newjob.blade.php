@@ -663,7 +663,7 @@
 							<i class="fa fa-question-circle-o fa-lg"></i>
 						</a>
 					</td>
-					<td><input type="checkbox" calss="form-control" name="pqtlMap", id="pqtlMap" onchange="CheckAll();"></td>
+					<td><input type="checkbox" name="pqtlMap", id="pqtlMap" onchange="CheckAll();"></td>
 					<td></td>
 				</tr>
 				<tr class="pqtlMapOptions">
@@ -683,6 +683,37 @@
 					</td>
 					<td></td>
 				</tr>
+
+				<tr class="pqtlColocAnalysis">
+					<td>Perform colocalization analyses with pQTLs
+						<a class="infoPop" data-toggle="popover" title="pQTL coloc" data-content="Please check this option if you want to run colocalization analyses.">
+							<i class="fa fa-question-circle-o fa-lg"></i>
+						</a>
+					</td>
+
+					<td><input type="checkbox" name="pqtlColoc", id="pqtlColoc" onchange="CheckAll();">
+					</td>
+
+					<td>
+					</td>
+				</tr>
+
+				<tr class="casesProp">
+
+				<td>Proportion of cases (if the trait is case-control)
+						<a class="infoPop" data-toggle="popover" title="Proportion of cases" data-content="If your GWAS summary statistics is for a case-control study, please enter the proportion of cases. This is required for coloc package.If the trait was quantitative, please enter 0. Value of 0 for this field will be intepreted as quantitative trait.">
+							<i class="fa fa-question-circle-o fa-lg"></i>
+						</a>
+				</td>
+
+				<td>
+					If case-control, what is the proportion of cases: <input type="number" class="form-control" id="cases_prop" name="cases_prop" onkeyup="CheckAll();" onpaste="CheckAll();" oninput="CheckAll();">
+				</td>
+
+				<td>
+				</td>
+				</tr>
+
 			</table>
 		</div>
 		</div>
