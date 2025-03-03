@@ -5,7 +5,23 @@ WORKDIR /app
 COPY qtl_map/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN Rscript -e "install.packages(c('coloc', 'data.table', dplyr'))"
+# RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
+    # && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends build-essential r-base \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libarmadillo-dev \
+    liblapack-dev \
+    libblas-dev \
+    gfortran \
+    build-essential 
+
+# RUN Rscript -e "install.packages(c('coloc', 'data.table', dplyr'))"
+
+RUN R -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes"); remotes::install_github("chr1swallace/coloc@main")'
 
 COPY app.config ./
 COPY qtl_map/qtl_map_helpers.py ./qtl_map_helpers.py
