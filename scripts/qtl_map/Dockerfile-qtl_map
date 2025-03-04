@@ -22,11 +22,15 @@ RUN apt-get update && apt-get install -y \
 # RUN Rscript -e "install.packages(c('coloc', 'data.table', dplyr'))"
 
 RUN R -e 'if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes"); remotes::install_github("chr1swallace/coloc@main")'
+RUN R -e "install.packages('data.table', repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('dplyr', repos='http://cran.rstudio.com/')"
 
 COPY app.config ./
 COPY qtl_map/qtl_map_helpers.py ./qtl_map_helpers.py
 COPY qtl_map/config_helpers.py ./config_helpers.py
 COPY qtl_map/qtl_map.py ./qtl_map.py
+COPY qtl_map/coloc.py ./coloc.py
+COPY qtl_map/coloc_func.R ./coloc_func.R
 
 # Configure non-root user.
 ARG USERNAME

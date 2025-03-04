@@ -28,6 +28,9 @@ class Configuration:
         self._eqtlMapChr15Meth = None
         self._pqtlMap = None
         self._pqtlMapdss = None
+        self._pqtlColoc = None
+        self._cases_prop = None
+        self._N = None
         
         self.get_values()
         
@@ -72,3 +75,6 @@ class Configuration:
         self._eqtlMapChr15Meth = self.param.get("eqtlMap", "eqtlMapChr15Meth")
         self._pqtlMap = int(self.param.get("pqtlMap", "pqtlMap"))
         self._pqtlMapdss = self.param.get("pqtlMap", "pqtlMapdss").split(":")
+        self._pqtlColoc = int(self.param.get("pqtlMap", "pqtlColoc"))
+        self._cases_prop = self.param.get("pqtlMap", "cases_prop")
+        self._N = self.param.get("params", "N")
