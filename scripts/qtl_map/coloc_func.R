@@ -22,7 +22,7 @@ print("### Processing coloc_func.R")
 snps_filtered = snps %>%
   filter(pos %in% pqtls$pos)
 
-snps_filtered$logOR = log(snps_filtered$or) 
+# snps_filtered$logOR = log(snps_filtered$or) 
 
 snps_filtered = snps_filtered %>%
   distinct(pos, .keep_all = TRUE)
@@ -36,7 +36,8 @@ pqtls_filtered = pqtls %>%
 dataset_gwas <- list(
   snp = as.character(snps_filtered$pos),
   position = snps_filtered$pos,
-  beta = snps_filtered$logOR,    # Use log odds ratio (logOR)
+  # beta = snps_filtered$logOR,    # Use log odds ratio (logOR)
+  beta = snps_filtered$or,    # Use log odds ratio (logOR)
   varbeta = snps_filtered$se^2,  # Variance of logOR (SE squared)
   MAF = snps_filtered$maf,       # Minor allele frequency
   P = snps_filtered$p,
