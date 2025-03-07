@@ -267,6 +267,34 @@ function setParams(data){
 		});
 		$('#eqtlMapAnnoMeth').val(data.eqtlMapAnnoMeth);
 	}
+
+	//pqtl map
+	if(data.pqtlMap == "1"){$('#pqtlMap').prop("checked", true)}
+	else{$('#pqtlMap').prop("checked", false)}
+	if(data.pqtlMapdss != "NA"){
+		var ts = data.pqtlMapdss.split(":");
+		if(ts.indexOf("all")>=0){
+			$('#pqtlMapDs option').each(function(){
+				$(this).prop('selected', true);
+			});
+		}else{
+			$('#pqtlMapDs option').each(function(){
+				if(ts.indexOf($(this).val())>=0){$(this).prop('selected', true);}
+				else{$(this).prop('selected', false);}
+			});
+		}
+		CheckAll();
+		if(data.pqtlColoc=="1"){
+			$('#pqtlColoc').prop("checked", true);
+			$('#cases_prop').val(data.cases_prop);
+		}
+		else{
+			$('#pqtlColoc').prop("checked", false);
+			$('#cases_prop').val(data.cases_prop);
+		}
+	}
+
+	//ci map
 	if(data.ciMap!=null){
 		if(data.ciMap=="1"){
 			$('#ciMap').prop('checked', true);
