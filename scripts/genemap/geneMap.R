@@ -22,6 +22,11 @@ params <- ConfigParser(file=paste0(filedir, 'params.config'))
 genetype <- params$params$genetype
 exMHC <- as.numeric(params$params$exMHC)
 extMHC <- params$params$extMHC
+# check the parameter MHCopt. If MHCopt is magma only, set exMHC to 0
+mhcopt <- params$params$MHCopt
+if (exMHC==1 && mhcopt=="magma") {
+	exMHC <- 0
+}
 posMap <- as.numeric(params$posMap$posMap)
 posMapWindowSize <- params$posMap$posMapWindowSize
 posMapAnnot <- params$posMap$posMapAnnot
