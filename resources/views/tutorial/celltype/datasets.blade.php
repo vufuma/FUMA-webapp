@@ -39,6 +39,22 @@ Pre-process was performed as the following steps. Please see each script for mor
 	</thead>
 	<tbody>
 		<tr>
+			<td>Adult Human Brain </td>
+			<td style="word-wrap:break-word;word-break:break-all;">
+				Data: <a target="_blank" href="https://cellxgene.cziscience.com/collections/283d65eb-dd53-496d-adb7-7570c7caa443">https://cellxgene.cziscience.com/collections/283d65eb-dd53-496d-adb7-7570c7caa443</a>
+			</td>
+			<td>Adult Human Brain.<br/>
+				Brief summary: In Siletti et al. 2023, postmortem tissues were isolated from 3 donors. Neurons were enriched from ~100 locations across the forebrain (cerebral cortex, hippocampus, cerebral nuclei, hypothalamus, and thalamus), midbrain, and hindbrain (pons, medulla, and cerebellum). In total, there were ~3M cells that formed 31 superclusters, 461 clusters, and 3313 subclusters.
+				From the data downloaded from cellxgene, we processed 105 datasets that we categorized to different specific regions of the brain. For each of the 105 datasets, we created two files for 2 level of cell type annotations. For more information on how this data was processed, please check: <a target="_blank" href="https://github.com/tanyaphung/scrnaseq_viewer/blob/main/notes/14_Silletti_adult_human_brain_notes.md">https://github.com/tanyaphung/scrnaseq_viewer/blob/main/notes/14_Silletti_adult_human_brain_notes.md</a>
+
+			</td>
+			<td>Siletti et al. 2023. Transcriptomic diversity of cell types across the adult human brain.
+				<i>Science.</i> <b>Vol 382</b>, Issue 6667.<br/>
+				<a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/37824663/">PMID: 36318921</a>
+			</td>
+			<td>26 January 2025</td>
+		</tr>
+		<tr>
 			<td>GSE168408</td>
 			<td style="word-wrap:break-word;word-break:break-all;">
 				Website: <a target="_blank" href="http://brain.listerlab.org/">http://brain.listerlab.org/</a>,

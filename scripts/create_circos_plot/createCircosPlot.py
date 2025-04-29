@@ -31,15 +31,18 @@ def createConfig(c, filedir, circos_config, loci, ci, snps, genes):
 
 	loci = np.c_[loci, loci[:,4], loci[:,5]]
 	for l in ci:
-		if min(l[2], l[5]) < loci[loci[:,0]==l[0],6]:
-			loci[loci[:,0]==l[0],6] = min(l[2], l[5])
-		if max(l[3], l[6]) > loci[loci[:,0]==l[0],7]:
-			loci[loci[:,0]==l[0],7] = max(l[3], l[6])
+		if loci[loci[:,0]==l[0]].size > 0:
+			if min(l[2], l[5]) < loci[loci[:,0]==l[0],6]:
+				loci[loci[:,0]==l[0],6] = min(l[2], l[5])
+
+			if max(l[3], l[6]) > loci[loci[:,0]==l[0],7]:
+				loci[loci[:,0]==l[0],7] = max(l[3], l[6])
 	for l in genes:
-		if l[1] < loci[loci[:,0]==int(l[4]),6]:
-			loci[loci[:,0]==int(l[4]),6] = l[1]
-		if l[2] > loci[loci[:,0]==int(l[4]),7]:
-			loci[loci[:,0]==int(l[4]),7] = l[2]
+		if loci[loci[:,0]==int(l[4])].size > 0:
+			if l[1] < loci[loci[:,0]==int(l[4]),6]:
+				loci[loci[:,0]==int(l[4]),6] = l[1]
+			if l[2] > loci[loci[:,0]==int(l[4]),7]:
+				loci[loci[:,0]==int(l[4]),7] = l[2]
 	cur_pos = 0
 	tmp_start = []
 	tmp_end = []
