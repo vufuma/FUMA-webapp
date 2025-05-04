@@ -1,6 +1,6 @@
-import $ from 'jquery';
-window.$ = $;
-window.jQuery = $;
+//import $ from 'jquery';
+//window.$ = $;
+//window.jQuery = $;
 var gwasFileSize = 0;
 var ciFileSize = 0;
 import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
