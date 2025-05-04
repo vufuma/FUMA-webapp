@@ -1,13 +1,11 @@
 import './bootstrap.js';
-import $ from 'jquery';
+// Setup some common globals
 window.$ = $;
-window.jQuery = $;
+window.jQuery = jQuery;
+window.bootstrap = bootstrap;
 
-
-import 'bootstrap';
 import 'tree-multiselect';
-// not used anymore?
-///import 'bootstrap-select';
+
 import 'datatables.net-bs5';
 import 'datatables.net-buttons';
 import 'datatables.net-buttons-bs5';
@@ -18,10 +16,11 @@ import 'd3-queue';
 import 'js-loading-overlay'
 
 
-
+// Centralize the CSRF token for all AJAX requests
 jQuery.ajaxSetup({
     headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
 });
+
 
 // Page state initialize functions - make available globally.
 // This side effect also prevent tree shaking

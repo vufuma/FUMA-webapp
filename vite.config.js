@@ -42,6 +42,7 @@ export default defineConfig({
                 'resources/js/utils/cell_results.js',
                 'resources/js/utils/gene2func.js',
                 'resources/js/utils/tutorial_utils.js',
+                'resources/js/utils/jobsSearch.js',
             ],
             refresh: true,
         }),
@@ -75,8 +76,9 @@ export default defineConfig({
             treeshake: true,
             preserveEntrySignatures: 'strict', // While minimizing keep export names
             plugins: [
+                // Ensure that any module using $, jQuery, or bootstrap has it available 
                 inject({
-                    include: ['**/*.js'],
+                    include: ['**/*.js', '**/*.ts'],
                     exclude: ['**/*.css'],
                     $: "jquery",
                     jQuery: "jquery",
@@ -92,21 +94,18 @@ export default defineConfig({
                     defaultExportMode: 'default', // Retain proper ES module default export
                     symbols: false,
                 },
-                // Output modern ES Modules
+                // Output modern ES Modules - no globals needed
                 format: 'esm',
-                // d3 and dataTables represent two
+                // d3 and jquery/dataTables represent two
                 // large logical chunks in the final
-                // bundle. Split them out for efficiency. 
+                // bundle. Split them out manually for efficiency. 
                 manualChunks(id) {
                     if (id.includes('d3')) {
                         return 'd3';
-                    } else if (id.includes('dataTables')) {
+                    } else if (id.includes('dataTables') || id.includes('tree-multiselect')) {
                         return 'dataTables';
                     }
                 },
-                globals: {
-                    jquery: 'window.$'
-                }
             },
         },
         manifest: true
