@@ -1,5 +1,6 @@
+import swal from 'sweetalert';
 var prefix = "jobs";
-$(document).ready(function () {
+export function setupDeleteJob() {
 	$('#deleteJob').on('click', function () {
 		swal({
 			title: "Are you sure?",
@@ -8,7 +9,7 @@ $(document).ready(function () {
 			type: "warning",
 			showCancelButton: true,
 			closeOnConfirm: true,
-		}, function (isConfirm) {
+		}).then((isConfirm) => {
 			if (isConfirm) {
 				$('.deleteJobCheck').each(function () {
 					if ($(this).is(":checked")) {
@@ -31,10 +32,8 @@ $(document).ready(function () {
 					}
 				});
             }
-        }
-    )
-}
-    )
-}
-)
+        });
+	}
+)}
+
 

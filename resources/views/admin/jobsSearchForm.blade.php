@@ -111,7 +111,7 @@
         <div>
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Search Result Jobs: <tab>
+                    <div class="card-title">Search Result Jobs: 
                         @isset($count)
                             <div style="float:right;">
                                 <b>{{ $count }}</b> job{{ ($count > 1) ? 's' : '' }} found
@@ -224,7 +224,7 @@
                             <hr class="bg-danger border-2 border-top border-danger">
                         @endforeach
                     @else
-                        <p align="center">No jobs found</p>
+                        <p style="text-align:center">No jobs found</p>
                     @endisset
                 </div>
             </div>
@@ -233,18 +233,19 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('vite')
+    @vite([
+        'resources/js/utils/jobsSearch.js'])
+@endpush
+
+@push('page_scripts')
     {{-- Imports from the web --}}
 
     {{-- Hand written ones --}}
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+    <script type="module">
+        import setupDeleteJob from "{{ Vite::appjs('utils/jobsSearch.js') }}";
+        $(function(){
+            setupDeleteJob();
         });
     </script>
-
-    {{-- Imports from the project --}}
-    <script type="text/javascript" src="{!! URL::asset('js/jobsSearch.js') !!}?131"></script>
-@endsection
+@endpush
