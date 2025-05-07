@@ -62,9 +62,9 @@ export const CellTypeSetup = function(){
 		swal({
 			title: "Are you sure?",
 			text: "Do you really want to remove selected jobs?",
-			type: "warning",
-			showCancelButton: true,
-			closeOnConfirm: true,
+			icon: "warning",
+			buttons: true,
+			closeModal: true,
 		}).then((isConfirm) => {
 			if (isConfirm){
 				$('.deleteJobCheck').each(function(){
