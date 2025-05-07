@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <div>
-        <div class="col-lg-10 col-lg-offset-1" style="padding-top:50px;">
+    <div id="page-content-wrapper">
+        <div class="col-lg-12 offset-lg-2" style="padding-top:50px;">
             <h1><i class="fa fa-key"></i> Roles
 
                 <a href="{{ route('users.index') }}" class="btn btn-default pull-right">Users</a>
@@ -54,8 +54,8 @@
 
 @section('scripts')
     {{-- Imports from the web --}}
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script-->
+    <!--script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
 
     {{-- Hand written ones --}}
     <script type="text/javascript">

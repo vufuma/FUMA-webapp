@@ -1,4 +1,5 @@
-function paramTable(subdir, page, prefix, id) {
+import { Chr15Select, locusPlot } from './s2g_results.js';
+export function paramTable(subdir, page, prefix, id) {
     $.ajax({
         url: subdir + '/' + page + '/paramTable',
         type: "POST",
@@ -24,7 +25,7 @@ function paramTable(subdir, page, prefix, id) {
     });
 }
 
-function sumTable(subdir, page, prefix, id) {
+export function sumTable(subdir, page, prefix, id) {
     $.ajax({
         url: subdir + '/' + page + '/sumTable',
         type: "POST",
@@ -38,7 +39,7 @@ function sumTable(subdir, page, prefix, id) {
     });
 }
 
-function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
+export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
     $('#plotClear').hide();
     $('#download').attr('disabled', false);
     if (eqtlMap == 0) {
@@ -146,7 +147,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
     cols += ":GenomicLocus:r2:IndSigSNP:nearestGene:dist:func:CADD:RDB:minChrState:commonChrState";
 
     $('#SNPtable').html(table)
-    var SNPtable = $('#SNPtable').DataTable({
+    $('#SNPtable').DataTable({
         processing: true,
         serverSide: false,
         select: false,
@@ -171,7 +172,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
         "iDisplayLength": 10
     });
 
-    var annovTable = $('#annovTable').DataTable({
+    $('#annovTable').DataTable({
         processing: true,
         serverSide: false,
         select: false,
@@ -189,7 +190,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
         "iDisplayLength": 10
     });
 
-    var table = "<thead><tr><th>Gene</th><th>Symbol</th><th>HUGO</th><th>entrezID</th><th>chr</th><th>start</th><th>end</th>";
+    table = "<thead><tr><th>Gene</th><th>Symbol</th><th>HUGO</th><th>entrezID</th><th>chr</th><th>start</th><th>end</th>";
     table += "<th>strand</th><th>type</th><th>pLI</th><th>ncRVIS</th>";
     var col = "ensg:symbol:HUGO:entrezID:chr:start:end:strand:type:pLI:ncRVIS";
     if (posMap == 1) {
@@ -207,8 +208,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
     table += "<th>minGwasP</th><th>Genomic Locus</th><th>IndSigSNPs</th></tr></thead>";
     col += ":minGwasP:GenomicLocus:IndSigSNPs"
     $('#geneTable').append(table);
-    var geneTable;
-    geneTable = $('#geneTable').DataTable({
+    $('#geneTable').DataTable({
         processing: true,
         serverSide: false,
         select: false,
@@ -227,7 +227,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
     });
 
     if (eqtlMap == 1) {
-        var eqtlTable = $('#eqtlTable').DataTable({
+        $('#eqtlTable').DataTable({
             processing: true,
             serverSide: true,
             searchDelay: 3000,
@@ -248,7 +248,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
     }
 
     if (ciMap == 1) {
-        var ciTable = $('#ciTable').DataTable({
+        $('#ciTable').DataTable({
             processing: true,
             serverSide: true,
             searchDelay: 3000,
@@ -267,7 +267,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             "iDisplayLength": 10
         });
 
-        var ciSNPsTable = $('#ciSNPsTable').DataTable({
+        $('#ciSNPsTable').DataTable({
             processing: true,
             serverSide: true,
             searchDelay: 3000,
@@ -286,7 +286,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             "iDisplayLength": 10
         });
 
-        var ciGenesTable = $('#ciGenesTable').DataTable({
+        $('#ciGenesTable').DataTable({
             processing: true,
             serverSide: true,
             searchDelay: 3000,
@@ -306,7 +306,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
         });
     }
 
-    var gwascatTable = $('#gwascatTable').DataTable({
+    $('#gwascatTable').DataTable({
         processing: true,
         serverSide: false,
         select: false,
@@ -329,7 +329,6 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
         $('#annotPlotPanel').show();
         $('#annotPlotSelect').val('IndSigSNP');
         var rowI = IndSigTable.row(this).index();
-        sigSNPtable_selected = rowI;
         $('#annotPlotRow').val(rowI);
         Chr15Select();
         d3.select('#locusPlot').select("svg").remove();
@@ -347,7 +346,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             },
             success: function (data) {
                 var plotData = JSON.parse(data.replace(/NaN/g, "-1"));
-                locusPlot(plotData, "IndSigSNP", chr);
+                locusPlot(plotData, "IndSigSNP", chr, orcol, becol, secol);
             }
         });
 
@@ -364,7 +363,6 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
         $('#annotPlotPanel').show();
         $('#annotPlotSelect').val('leadSNP');
         var rowI = leadTable.row(this).index();
-        sigSNPtable_selected = rowI;
         $('#annotPlotRow').val(rowI);
         Chr15Select();
         d3.select('#locusPlot').select("svg").remove();
@@ -382,7 +380,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             },
             success: function (data) {
                 var plotData = JSON.parse(data.replace(/NaN/g, "-1"));
-                locusPlot(plotData, "leadSNP", chr);
+                locusPlot(plotData, "leadSNP", chr, orcol, becol, secol);
             }
         });
 
@@ -399,7 +397,6 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
         $('#annotPlotPanel').show();
         $('#annotPlotSelect').val('GenomicLocus');
         var rowI = lociTable.row(this).index();
-        lociTable_selected = rowI;
         $('#annotPlotRow').val(rowI);
         Chr15Select();
         d3.select('#locusPlot').select("svg").remove();
@@ -417,7 +414,7 @@ function showResultTables(prefix, id, posMap, eqtlMap, ciMap, orcol, becol, seco
             },
             success: function (data) {
                 var plotData = JSON.parse(data.replace(/NaN/g, "-1"));
-                locusPlot(plotData, "loci", chr);
+                locusPlot(plotData, "loci", chr, orcol, becol, secol);
             }
         });
 

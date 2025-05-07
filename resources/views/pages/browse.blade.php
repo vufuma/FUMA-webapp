@@ -1,8 +1,5 @@
 @extends('layouts.master')
 
-@section('stylesheets')
-	<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.css" rel="stylesheet"/>
-@endsection
 
 @section('content')
 	<div id="wrapper" class="active">
@@ -37,7 +34,7 @@
 		<div id="page-content-wrapper">
 			<div class="page-content inset">
 				@include('browse.gwaslist')
-				@include('browse.newjob')
+				@include('snp2gene.newjob')
 
 				<!-- SNP2GENE result page -->
 				@include('snp2gene.gwPlot')
@@ -56,32 +53,39 @@
 	</div>
 @endsection
 
-@section('scripts')
-	{{-- Imports from the web --}}
-	<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script>
-	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/b-2.3.6/sl-1.6.2/datatables.min.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-	<script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-	<script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-	<script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
-	<script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-	<script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script>
+{{-- This projectsown javascript resources - in the header stylesheets section --}}
+@push('vite')
+    @vite([
+        'resources/js/utils/sidebar.js',
+        'resources/js/utils/browse.js',
+		'resources/js/utils/s2g_results.js'])
+@endpush
 
-	{{-- Hand written ones --}}
-	<script type="text/javascript">
-		$.ajaxSetup({
-			headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')}
-		});
-		var id = "{{$id}}";
-		var page = "{{$page}}"
-		var subdir = "{{ Config::get('app.subdir') }}";
-		var loggedin = "{{ Auth::check() }}";
+@push('page_scripts')
+
+	{{-- Init page state --}}
+	<script type = module>
+		window.loggedin = "{{ Auth::check() }}";
+		window.setBrowsePageState(
+            "{{ $id }}",
+            "{{ $page }}",
+            "",
+            "{{ Auth::check() }}"			
+		);
 	</script>
 
-	{{-- Imports from the project --}}
-	<script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/s2g_results.js') !!}?135"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/g2f_results.js') !!}?135"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/helpers.js') !!}?135"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/browse.js') !!}?135"></script>
-@endsection
+    <script type="module">
+		import { ImgDown, circosDown, Chr15Select, expImgDown } from "{{ Vite::appjs('utils/s2g_results.js') }}";
+		window.ImgDown = ImgDown;
+		window.circosDown = circosDown;
+		window.Chr15Select = Chr15Select;
+		window.expImgDown = expImgDown;
+        import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
+        import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
+        $(function(){
+            SidebarSetup();
+            BrowseSetup();
+        })
+    </script>
+
+@endpush

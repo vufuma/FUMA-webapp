@@ -34,6 +34,7 @@
 @endsection
 
 @section('content')
+<div class ="col">
     <div class="container" style="padding-top: 50px;">
 
         <div class="table-title">
@@ -70,7 +71,7 @@
                         <div class="col-md-2">
                             <input type="checkbox" id="status{{ $key }}" name="status[{{ $key }}]"
                                 value="{{ $status }}" @isset(old('status')[$key]) checked @endisset>
-                                    
+
                             <label for="status{{ $key }}">{{ $status }}</label>
                         </div>
                         @if (($key + 1) % 6 === 0)
@@ -94,7 +95,7 @@
                         <input type="text" id="job_id" name="job_id" placeholder="optional" value="{{ old('job_id') }}">
                     </div>
                     <div class="col-md-5">
-                        <button type="submit" class="btn btn-info" style="float: right;">Search</button>
+                        <button type="submit" class="btn btn-primary" style="float: right;">Search</button>
                     </div>
                 </div>
             </div>
@@ -106,11 +107,11 @@
         <br>
 
         {{-- -------------------------------- --}}
-        
+
         <div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">Search Result Jobs: <tab>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Search Result Jobs: 
                         @isset($count)
                             <div style="float:right;">
                                 <b>{{ $count }}</b> job{{ ($count > 1) ? 's' : '' }} found
@@ -121,7 +122,7 @@
                             </a> --}}
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     {{-- <button class="btn btn-default btn-sm" id="deleteJob" name="deleteJob"
                         style="float:right; margin-right:20px;">Delete selected jobs</button> --}}
                     @isset($users)
@@ -136,12 +137,12 @@
                                         <th>Type</th>
                                         <th>Submit date</th>
                                         <th>Status
-                                            <a class="infoPop" data-toggle="popover" data-html="true"
-                                                data-content="<b>NEW: </b>The job has been submitted.<br/>
-                                                <b>QUEUED</b>: The job has been dispatched to queue.<br/><b>RUNNING</b>: The job is running.<br/>
-                                                <b>Go to results</b>: The job has been completed. This is linked to result page.<br/>
+                                            <a class="infoPop" data-bs-toggle="popover" data-bs-html="true"
+                                                data-bs-content="<b>NEW: </b>The job has been submitted.<br>
+                                                <b>QUEUED</b>: The job has been dispatched to queue.<br><b>RUNNING</b>: The job is running.<br>
+                                                <b>Go to results</b>: The job has been completed. This is linked to result page.<br>
                                                 <b>ERROR</b>: An error occurred during the process.">
-                                                <i class="fa fa-question-circle-o fa-lg"></i>
+                                                <i class="fa-regular fa-circle-question fa-lg"></i>
                                             </a>
                                         </th>
                                         <th>Removed at</th>
@@ -197,13 +198,13 @@
                                                                     {{ html()->form('POST', url('admin/search-jobs/action'))->open() }}
                                                                     <input type="hidden" name="container_name" value="{{ $container['name'] }}">
                                                                     @if ($container['state'] == 'running')
-                                                                        <button class="pause" title="Pause" name="pause" value= "pause" data-toggle="tooltip"><i
+                                                                        <button class="pause" title="Pause" name="pause" value= "pause" data-bs-toggle="tooltip"><i
                                                                                 class="material-icons">&#xe034;</i></button>
                                                                     @elseif ($container['state'] == 'paused')
-                                                                        <button class="play" title="Play" name="play" value= "play" data-toggle="tooltip"><i
+                                                                        <button class="play" title="Play" name="play" value= "play" data-bs-toggle="tooltip"><i
                                                                                 class="material-icons">&#xe037;</i></button>
                                                                     @endif
-                                                                        <button class="delete" title="Delete" name="delete" value= "delete" data-toggle="tooltip"><i
+                                                                        <button class="delete" title="Delete" name="delete" value= "delete" data-bs-toggle="tooltip"><i
                                                                                 class="material-icons">&#xE872;</i></button>
                                                                     {{ html()->form()->close() }}
                                                                 </td>
@@ -223,26 +224,28 @@
                             <hr class="bg-danger border-2 border-top border-danger">
                         @endforeach
                     @else
-                        <p align="center">No jobs found</p>
+                        <p style="text-align:center">No jobs found</p>
                     @endisset
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
-@section('scripts')
+@push('vite')
+    @vite([
+        'resources/js/utils/jobsSearch.js'])
+@endpush
+
+@push('page_scripts')
     {{-- Imports from the web --}}
 
     {{-- Hand written ones --}}
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+    <script type="module">
+        import setupDeleteJob from "{{ Vite::appjs('utils/jobsSearch.js') }}";
+        $(function(){
+            setupDeleteJob();
         });
     </script>
-
-    {{-- Imports from the project --}}
-    <script type="text/javascript" src="{!! URL::asset('js/jobsSearch.js') !!}?131"></script>
-@endsection
+@endpush

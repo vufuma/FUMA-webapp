@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container" style="padding-top: 50px;">
+    <div class="col-md-8 offset-md-2" style="padding-top: 50px;">
         <strong> Please click the download symbol in the third column to download the data files.</strong>
         <table class="table table-bordered" style="width:auto">
             <thead>
@@ -163,11 +163,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EUR_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 808M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EUR_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 2.94G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EUR_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 12K
                         </div>
@@ -180,11 +180,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AFR_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 1.37G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AFR_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 6.75G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AFR_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 16K
                         </div>
@@ -197,11 +197,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EAS_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 789M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EAS_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 2.87G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_EAS_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 12K
                         </div>
@@ -214,11 +214,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_SAS_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 891M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_SAS_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 3.17G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_SAS_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 12K
                         </div>
@@ -231,11 +231,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AMR_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 951M
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AMR_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 2.38G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_AMR_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 8K
                         </div>
@@ -248,11 +248,11 @@
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_ALL_bim")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bim) 2.65G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_ALL_bed")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.bed) 49.4G
                         </div>
-                    </br>
+                    <br>
                         <div class="clickable" onclick='tutorialDownloadVariant("MAGMA_ALL_fam")'>
                             <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" /> (.fam) 61K
                         </div>
@@ -322,15 +322,15 @@
         </form>
     </div>
 @endsection
+@push('vite')
+    @vite(['resources/js/utils/tutorial_utils.js'])
+@endpush
 
-@section('scripts')
-    {{-- Imports from the web --}}
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    {{-- Imports from the project --}}
-    <script type="text/javascript" src="{!! URL::asset('js/tutorial_utils.js') !!}"></script>
-    {{-- Hand written ones --}}
-    <script type="text/javascript">
-        var loggedin = "{{ Auth::check() }}";
+@push('page_scripts')
+    {{-- Imports from the project and local script --}}
+    <script type="module">
+        import tutorialDownloadVariant from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
+        window.tutorialDownloadVariant = tutorialDownloadVariant;
+        window.loggedin = "{{ Auth::check() }}";
     </script>
-@endsection
+@endpush

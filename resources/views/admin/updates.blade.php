@@ -26,14 +26,15 @@
 @endsection
 
 @section('content')
-    <div class="container" style="padding-top: 50px;">
+<div class ="col">
+    <div class="container-xxl" style="padding-top: 50px;">
         <div class="table-title">
             <div class="row">
                 <div class="col-sm-10">
                     <h2>Recent <b>Updates</b></h2>
                 </div>
                 <div class="col-sm-1">
-                    <a href="{{ url('admin/updates/create') }}" type="button" class="btn btn-info add-new"><i
+                    <a href="{{ url('admin/updates/create') }}" type="button" class="btn btn-primary btn-sm add-new"><i
                             class="fa fa-plus"></i> Add New</a>
                 </div>
             </div>
@@ -79,16 +80,16 @@
                         <td>{{ $update['writer'] }}</td>
                         <td style="text-align:center;">
                             <a href="updates/{{ $update['id'] }}/edit" class="edit" title="Edit"
-                                data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                data-bs-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                             @if ($update['is_visible'] == 1)
-                                <a class="visibility" title="Visible" data-toggle="tooltip"><i
+                                <a class="visibility" title="Visible" data-bs-toggle="tooltip"><i
                                         class="material-icons">&#xe8f4;</i></a>
                             @else
-                                <a class="visibility" title="Invisible" data-toggle="tooltip"><i
+                                <a class="visibility" title="Invisible" data-bs-toggle="tooltip"><i
                                         class="material-icons">&#xe8f5;</i></a>
                             @endif
                             {{ html()->form('DELETE', url('admin/updates', $update['id']))->open() }}
-                            <button class="delete" title="Delete" data-toggle="tooltip"><i
+                            <button class="delete" title="Delete" data-bs-toggle="tooltip"><i
                                     class="material-icons">&#xE872;</i></button>
                             {{ html()->form()->close() }}
                         </td>
@@ -97,6 +98,7 @@
             </tbody>
         </table>
     </div>
+</div>
 @endsection
 
 @section('scripts')
