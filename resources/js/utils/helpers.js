@@ -433,9 +433,11 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 }
 
 export function deleteJobs(subdir, page, onComplete) {
+    var span = document.createElement("span");
+		span.innerHTML = "Do you really want to remove selected jobs?<br><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>";
     swal({
-        title: "Are you 100% sure????",
-        text: "Do you really want to remove selected jobs?",
+        title: "Are you sure?",
+        content: span,
         icon: "warning",
         buttons: true,
         closeModal: true,

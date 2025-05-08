@@ -59,46 +59,11 @@ export const CellTypeSetup = function(){
 		}
 	})
 
-	// Delete jobs
-	// $('#deleteJob').on('click', function(){
-	// 	swal({
-	// 		title: "Are you sure?",
-	// 		text: "Do you really want to remove selected jobs?",
-	// 		icon: "warning",
-	// 		buttons: true,
-	// 		closeModal: true,
-	// 	}).then((isConfirm) => {
-	// 		if (isConfirm){
-	// 			$('.deleteJobCheck').each(function(){
-	// 				if($(this).is(":checked")){
-	// 					$.ajax({
-	// 						url: pageState.get("subdir")+'/'+pageState.get("page")+'/deleteJob',
-	// 						type: "POST",
-	// 						data: {
-	// 							jobID: $(this).val()
-	// 						},
-	// 						error: function(){
-	// 							alert("error at deleteJob");
-	// 						},
-	// 						success: function (resdata) {
-	// 							// chech if resdata is null
-	// 							if (resdata != "") {
-	// 								alert(resdata);
-	// 							}
-	// 						},
-	// 						complete: function(){
-	// 							getJobList();
-	// 						}
-	// 					});
-	// 				}
-	// 			});
-	// 		}
-	// 	});
-	// });
+
 	$('#deleteJob').on('click', function(){
 		deleteJobs(pageState.get("subdir"), pageState.get("page"), getJobList)
 	}
-)
+	)
 	
 
 	if(pageState.get("status").length>0){

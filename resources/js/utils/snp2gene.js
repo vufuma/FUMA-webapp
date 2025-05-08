@@ -161,49 +161,7 @@ export const Snp2GeneSetup = function(){
 		getJobList();
 	});
 
-	// $('#deleteJob').on('click', async() =>  {
-	// 	var span = document.createElement("span");
-	// 	span.innerHTML = "Do you really want to remove selected jobs?<br><div class='alert alert-danger'>If you have selected a public job, it will be permanently deleted from the public list.</div>";
-	// 	let confirm = await swal({
-	// 		title: "Are you sure?",
-	// 		content: span,
-	// 		icon: "warning",
-	// 		buttons: {
-	// 			cancel: true,
-	// 			confirm: true,
-	// 		}
-	// 	});
-	// 	if (confirm) {
-	// 		$('.deleteJobCheck').each(function () {
-	// 			if ($(this).is(":checked")) {
-	// 				$.ajax({
-	// 					url: pageState.get('subdir') + '/' + pageState.get('page') + '/deleteJob',
-	// 					type: "POST",
-	// 					data: {
-	// 						jobID: $(this).val()
-	// 					},
-	// 					error: function () {
-	// 						alert("error at deleteJob");
-	// 					},
-	// 					success: function (resdata) {
-	// 						// chech if resdata is null
-	// 						if (resdata != "") {
-	// 							alert(resdata);
-	// 						}
-	// 					},
-	// 					complete: function () {
-	// 						getJobList();
-	// 						getjobIDs();
-	// 						getGeneMapIDs(pageState.get('subdir'));
-	// 					}
-	// 				});
-	// 			}
-	// 		});
-	// 	}
-
-	// });
-
-		$('#deleteJob').on('click', function(){
+	$('#deleteJob').on('click', function(){
 			deleteJobs(pageState.get("subdir"), pageState.get("page"), getJobList)
 		}
 	)

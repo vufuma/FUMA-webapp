@@ -75,43 +75,6 @@ export const Gene2FuncSetup = function(){
 		+'<input type="hidden" class="gsFileID" id="gsFileID'+n+'" name="gsFileID'+n+'" value="'+n+'"></span>');
 	})
 
-	// $('#deleteJob').on('click', function(){
-	// 	swal({
-	// 		title: "Are you sure?",
-	// 		text: "Do you really want to remove selected jobs?",
-	// 		icon: "warning",
-	// 		buttons: true,
-	// 		closeModal: true,
-	// 	}).then((isConfirm) => {
-	// 		if (isConfirm){
-	// 			$('.deleteJobCheck').each(function(){
-	// 				if($(this).is(":checked")){
-	// 					$.ajax({
-	// 						url: subdir+"/gene2func/deleteJob",
-	// 						type: "POST",
-	// 						timeout: 120000,
-	// 						data: {
-	// 							jobID: $(this).val()
-	// 						},
-	// 						error: function(){
-	// 							alert("error at deleteJob");
-	// 						},
-	// 						success: function (resdata) {
-	// 							// chech if resdata is null
-	// 							if (resdata != "") {
-	// 								alert(resdata);
-	// 							}
-	// 						},
-	// 						complete: function(){
-	// 							updateList();
-	// 						}
-	// 					});
-	// 				}
-	// 			});
-	// 		}
-	// 	});
-	// });
-
 	$('#deleteJob').on('click', function(){
 		deleteJobs(pageState.get("subdir"), pageState.get("page"), updateList)
 		}
