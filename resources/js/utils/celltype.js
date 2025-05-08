@@ -1,6 +1,8 @@
 import swal from 'sweetalert';
 import { loadResults, DownloadFiles } from './cell_results.js';
 import { CellTypeState as pageState}  from "../pages/pageStateComponents.js";
+import { deleteJobs } from './helpers.js';
+
 
 export const CellTypeSetup = function(){
 	// hide submit buttons for imgDown
@@ -58,41 +60,46 @@ export const CellTypeSetup = function(){
 	})
 
 	// Delete jobs
+	// $('#deleteJob').on('click', function(){
+	// 	swal({
+	// 		title: "Are you sure?",
+	// 		text: "Do you really want to remove selected jobs?",
+	// 		icon: "warning",
+	// 		buttons: true,
+	// 		closeModal: true,
+	// 	}).then((isConfirm) => {
+	// 		if (isConfirm){
+	// 			$('.deleteJobCheck').each(function(){
+	// 				if($(this).is(":checked")){
+	// 					$.ajax({
+	// 						url: pageState.get("subdir")+'/'+pageState.get("page")+'/deleteJob',
+	// 						type: "POST",
+	// 						data: {
+	// 							jobID: $(this).val()
+	// 						},
+	// 						error: function(){
+	// 							alert("error at deleteJob");
+	// 						},
+	// 						success: function (resdata) {
+	// 							// chech if resdata is null
+	// 							if (resdata != "") {
+	// 								alert(resdata);
+	// 							}
+	// 						},
+	// 						complete: function(){
+	// 							getJobList();
+	// 						}
+	// 					});
+	// 				}
+	// 			});
+	// 		}
+	// 	});
+	// });
 	$('#deleteJob').on('click', function(){
-		swal({
-			title: "Are you sure?",
-			text: "Do you really want to remove selected jobs?",
-			icon: "warning",
-			buttons: true,
-			closeModal: true,
-		}).then((isConfirm) => {
-			if (isConfirm){
-				$('.deleteJobCheck').each(function(){
-					if($(this).is(":checked")){
-						$.ajax({
-							url: pageState.get("subdir")+'/'+pageState.get("page")+'/deleteJob',
-							type: "POST",
-							data: {
-								jobID: $(this).val()
-							},
-							error: function(){
-								alert("error at deleteJob");
-							},
-							success: function (resdata) {
-								// chech if resdata is null
-								if (resdata != "") {
-									alert(resdata);
-								}
-							},
-							complete: function(){
-								getJobList();
-							}
-						});
-					}
-				});
-			}
-		});
-	});
+		deleteJobs(pageState.get("subdir"), pageState.get("page"), getJobList)
+	}
+)
+	
 
 	if(pageState.get("status").length>0){
 		var jobStatus;

@@ -1,4 +1,6 @@
 import { Chr15Select, locusPlot } from './s2g_results.js';
+import swal from 'sweetalert'; 
+
 export function paramTable(subdir, page, prefix, id) {
     $.ajax({
         url: subdir + '/' + page + '/paramTable',
@@ -427,5 +429,39 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
             + rowData[8] + "</td></tr><tr><td>GWAS SNPs within LD</td><td>" + rowData[9] + "</td></tr>";
 
         $('#selectedLeadSNP').html(out);
+    });
+}
+
+export function deleteJobs(subdir, page, onComplete) {
+    swal({
+        title: "Are you 100% sure????",
+        text: "Do you really want to remove selected jobs?",
+        icon: "warning",
+        buttons: true,
+        closeModal: true,
+    }).then((isConfirm) => {
+        if (isConfirm){
+            $('.deleteJobCheck').each(function(){
+                if($(this).is(":checked")){
+                    $.ajax({
+                        url: subdir + '/' + page + '/deleteJob',
+                        type: "POST",
+                        data: {
+                            jobID: $(this).val()
+                        },
+                        error: function(){
+                            alert("error at deleteJob");
+                        },
+                        success: function (resdata) {
+                            // chech if resdata is null
+                            if (resdata != "") {
+                                alert(resdata);
+                            }
+                        },
+                        complete: onComplete
+                    });
+                }
+            });
+        }
     });
 }
