@@ -1,8 +1,8 @@
+// This bootstrap is not the the bootstrap5 layout
+// it is merely a place to do som common setup
 import './bootstrap.js';
-// Setup some common globals
+import $ from './shims/shims.js'
 window.$ = $;
-window.jQuery = jQuery;
-window.bootstrap = bootstrap;
 
 import 'tree-multiselect';
 
