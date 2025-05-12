@@ -73,7 +73,7 @@ tab {
 }
 
 .table thead{
-  text-align: center !important;
+  text-align: left;
 }
 
 .table{
