@@ -1,9 +1,6 @@
 @extends('layouts.master')
 
 @section('stylesheets')
-    <!--link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css"-->
     <link href="{{ asset('/css/tree_multiselect.css') }}" rel="stylesheet">
 @endsection
 
