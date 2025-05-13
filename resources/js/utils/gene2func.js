@@ -14,6 +14,7 @@ import {
 
 import swal from 'sweetalert';
 import { G2FPageState as pageState}  from "../pages/pageStateComponents.js";
+import { deleteJobs } from './helpers.js';
 
 export const Gene2FuncSetup = function(){
 	const page = pageState.get("page");
@@ -75,41 +76,9 @@ export const Gene2FuncSetup = function(){
 	})
 
 	$('#deleteJob').on('click', function(){
-		swal({
-			title: "Are you sure?",
-			text: "Do you really want to remove selected jobs?",
-			icon: "warning",
-			buttons: true,
-			closeModal: true,
-		}).then((isConfirm) => {
-			if (isConfirm){
-				$('.deleteJobCheck').each(function(){
-					if($(this).is(":checked")){
-						$.ajax({
-							url: subdir+"/gene2func/deleteJob",
-							type: "POST",
-							timeout: 120000,
-							data: {
-								jobID: $(this).val()
-							},
-							error: function(){
-								alert("error at deleteJob");
-							},
-							success: function (resdata) {
-								// chech if resdata is null
-								if (resdata != "") {
-									alert(resdata);
-								}
-							},
-							complete: function(){
-								updateList();
-							}
-						});
-					}
-				});
-			}
-		});
-	});
+		deleteJobs(pageState.get("subdir"), pageState.get("page"), updateList)
+		}
+	)
 
 	if(status.length==0 || status=="new") {
 		window.checkInput();
