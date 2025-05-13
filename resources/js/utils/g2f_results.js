@@ -547,8 +547,8 @@ export function GeneSet(subdir, page, prefix, id){
 					var gs = d3.set(tdata.map(function(d){return d.GeneSet})).values();
 					var ngs = gs.length;
 					var barplotwidth = 150;
-
-					var margin = {top: 40, right: 10, bottom: 80, left: Math.max(gs_max*7, 80)},
+					const extraLabelPadding = 25
+					var margin = {top: 40, right: 10, bottom: 80, left: Math.max(gs_max*7, 80) + extraLabelPadding},
 						width = barplotwidth*2+10+(Math.max(genes.length,6)*15),
 						height = 15*ngs;
 					var svg = d3.select('#'+category[i]).append('svg')
