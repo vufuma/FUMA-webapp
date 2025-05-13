@@ -71,7 +71,7 @@ header('X-Frame-Options: GOFORIT');
                                 <p class="info"><i class="fa fa-info"></i>
                                     Specify background gene-set. This will be used in the hypergeometric test.
                                 </p>
-                                1. Select background genes by gene-type <a id="bkgeneSelectClear">Clear</a><br>
+                                1. Select background genes by gene-type <a id="bkgeneSelectClear" class="clear">Clear</a><br>
                                 <span class="info"><i class="fa fa-info"></i>
                                     Multiple gene-types can be selected.
                                 </span>
