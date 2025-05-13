@@ -112,7 +112,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="d-none"> <!-- Hide this for now as it is still a work in progress -->
                             <td>Input is build GRCh38
                                 <a class="infoPop" data-bs-toggle="popover" title="GRCh38 Input"
                                     data-bs-content="The input file has chromosome and position columns on build GRCh38. The column names for the chromosome, position, effect allele, and non-effect allele must be specified above.">
