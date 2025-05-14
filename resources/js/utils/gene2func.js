@@ -12,7 +12,6 @@ import {
 	expHeatPlot 
 } from "./g2f_results.js";
 
-import swal from 'sweetalert';
 import { G2FPageState as pageState}  from "../pages/pageStateComponents.js";
 import { deleteJobs } from './helpers.js';
 

@@ -55,8 +55,7 @@ header('X-Frame-Options: GOFORIT');
                                 2. Upload file
                                 <a class="infoPop" data-bs-toggle="popover" title="Gene of interest file formatting"
                                     data-bs-content="The first column should be the genes without header. Extra columns will be ignored. ENSG ID, entrez ID or gene symbols are accepted.">
-                                    <i class="fa-regular fa-circle-question"></i>
-                                </a>
+                                    <i class="fa-regular fa-circle-question"></i></a>
                                 <input class="form-control-file" type="file" name="genesfile" id="genesfile"
                                     onchange="window.checkInput()" />
                                 <br>
@@ -72,7 +71,7 @@ header('X-Frame-Options: GOFORIT');
                                 <p class="info"><i class="fa fa-info"></i>
                                     Specify background gene-set. This will be used in the hypergeometric test.
                                 </p>
-                                1. Select background genes by gene-type <a id="bkgeneSelectClear">Clear</a><br>
+                                1. Select background genes by gene-type <a id="bkgeneSelectClear" class="clear">Clear</a><br>
                                 <span class="info"><i class="fa fa-info"></i>
                                     Multiple gene-types can be selected.
                                 </span>
@@ -94,7 +93,7 @@ header('X-Frame-Options: GOFORIT');
                                     <option value="TR_C_gene:TR_D_gene:TR_V_gene:TR_J_gene">TR genes</option>
                                 </select>
                                 <br>
-                                2. Paste custom list of backbround genes
+                                2. Paste custom list of background genes
                                 <a class="infoPop" data-bs-toggle="popover" title="Background gene input"
                                     data-bs-content="Please paste one gene per line. ENSG ID, entrez ID and gene symbol are acceptable.">
                                     <i class="fa-regular fa-circle-question"></i>

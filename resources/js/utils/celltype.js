@@ -1,4 +1,3 @@
-import swal from 'sweetalert';
 import { loadResults, DownloadFiles } from './cell_results.js';
 import { CellTypeState as pageState}  from "../pages/pageStateComponents.js";
 import { deleteJobs } from './helpers.js';
