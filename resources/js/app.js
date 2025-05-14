@@ -39,17 +39,12 @@ window.setBrowsePageState = setBrowsePageState;
 
 
 
-// Enable all popovers on the current page
-var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-popoverTriggerList.map(function (popoverTriggerEl) {
-    new bootstrap.Popover(popoverTriggerEl);
-    popoverTriggerEl.setAttribute('tabindex', 0); // tabindex popover in the default order.
-})
-
-import { FumaSetup } from "./utils/fuma.js";
+import { FumaSetup, PopoverSetup } from "./utils/fuma.js";
 $(function(){
     FumaSetup();
+    PopoverSetup();
 });
+
 //console.log('Completed app side effects');
 
 

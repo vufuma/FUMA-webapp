@@ -36,18 +36,6 @@ function InactivityTimer(path, delay){
 }
 
 export const FumaSetup = function(loggedin){
-	// popover
-    //console.log(`setup FUMA - logged in ${loggedin}`);
-	//var cnt = 10;
-	//$('.infoPop')
-	//	.each(function(){
-	//		$(this)
-	//			.attr('data-trigger', 'focus')
-	//			.attr('role', 'button')
-	//			.attr('tabindex', cnt)
-	//			.popover();
-	//		cnt = cnt + 1;
-	//	});
 
 	if(loggedin==1){
 		var timer = new InactivityTimer("/logout", 7200000); // 2 hour timeout 7200000
@@ -76,6 +64,23 @@ export const FumaSetup = function(loggedin){
 		})
 	})
 };
+
+export function PopoverSetup() {
+	// 1. Enable all popovers on the current page to dismiss on click elsewhere
+	// Have to append correct trigger and role, and a tabindex is also needed.
+	$('.infoPop')
+		.each(function(){
+			$(this)
+				.attr('data-bs-trigger', 'focus')
+				.attr('role', 'button')
+				.attr('tabindex', 0)
+		});
+	// 2. And then perform initialization of Bootstrap popover
+	var popoverTriggerList = [].slice.call(document.querySelectorAll('.infoPop'))
+	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+		const popover = new bootstrap.Popover(popoverTriggerEl);
+	})	
+}
 
 
 
