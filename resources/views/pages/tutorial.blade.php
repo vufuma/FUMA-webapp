@@ -68,7 +68,7 @@
 
 				@include('tutorial.quickstart')
 
-				<div id="snp2gene" class="sidePanel container" style="padding-top:50;">
+				<div id="snp2gene" class="sidePanel container" style="padding-top:50px;">
 					<h2>SNP2GENE</h2>
 					<div style="margin-left: 40px;">
 						@include('tutorial.snp2gene.inputfiles')
@@ -95,7 +95,7 @@
 					</div>
 				</div>
 
-				<div id="gene2func" class="sidePanel container" style="padding-top:50;">
+				<div id="gene2func" class="sidePanel container" style="padding-top:50px;">
 					<h2>GENE2FUNC</h2>
 					<p>The main goal of GENE2FUNC is to provide information on expression of prioritized genes and test for enrichment of the set of genes in pre-defined pathways.
 						You can use the genes prioritized with SNP2GENE or use a separate list of genes.
