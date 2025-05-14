@@ -265,7 +265,7 @@ def geteQTLs(filedir, snps, eqtlplot):
 				out = []
 				for e in temp:
 					out.append(":".join(e.astype(str)[[1,2,10,5,7]]))
-				snps[l, len(snps[0])-1] = "</br>".join(out)
+				snps[l, len(snps[0])-1] = "<br>".join(out)
 		return [snps, eqtl]
 	else:
 		return [snps, []]

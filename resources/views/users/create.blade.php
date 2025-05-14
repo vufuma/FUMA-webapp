@@ -6,7 +6,7 @@
 
 @section('content')
     <div id="page-content-wrapper">
-        <div class='col-lg-4 col-lg-offset-4' style="padding-top:50px;">
+        <div class='col-lg-12 offset-lg-2' style="padding-top:50px;">
 
             <h1><i class='fa fa-user-plus'></i> Add User</h1>
             <hr>

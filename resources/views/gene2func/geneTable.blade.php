@@ -8,8 +8,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			
+
 		</tbody>
 	</table>
-  	<br/>
+  	<br>
 </div>

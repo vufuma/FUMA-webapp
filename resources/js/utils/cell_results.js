@@ -1,7 +1,8 @@
-function loadResults(id){
+import { CellTypeState as pageState}  from "../pages/pageStateComponents.js";
+export function loadResults(id){
 	// Check files
 	$.ajax({
-		url: subdir+'/'+page+'/checkFileList',
+		url: pageState.get("subdir") +'/'+pageState.get("page") + '/checkFileList',
 		type: 'POST',
 		data: {
 			jobID: id
@@ -18,7 +19,7 @@ function loadResults(id){
 
 	// Get list of datasets
 	$.ajax({
-		url: subdir+'/'+page+'/getDataList',
+		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getDataList',
 		type: 'POST',
 		data: {
 			jobID: id
@@ -26,7 +27,7 @@ function loadResults(id){
 		error: function(){alert("getDataList error")},
 		success: function(data){
 			data = JSON.parse(data);
-			i = 0;
+			let i = 0;
 			data.forEach(function(d){
 				if(i==0){
 					$('#dataset_select').append('<option value="'+d+'" selected>'+d+'</option>');
@@ -42,7 +43,7 @@ function loadResults(id){
 
 	// Get plot data for step 1-3
 	$.ajax({
-		url: subdir+'/'+page+'/getStepPlotData',
+		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getStepPlotData',
 		type: 'POST',
 		data: {
 			jobID: id
@@ -58,18 +59,20 @@ function loadResults(id){
 
 }
 
-function updatePerDatasetPlot(){
-	ds = $('#dataset_select').val();
+export function updatePerDatasetPlot(){
+	let ds = $('#dataset_select').val();
 	$('#perDatasetPlot').html('<center><i class="fa fa-spinner fa-spin fa-5x"></i></center>')
 	$.ajax({
-		url: subdir+'/'+page+'/getPerDatasetData',
+		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getPerDatasetData',
 		type: 'POST',
 		data: {
-			jobID: id,
+			jobID: pageState.get("id"),
 			ds: ds
 		},
 		error: function(){alert("getPlotData error")},
 		success: function(data){
+			// TODO - why do we get NaN values here?
+			data = data.replaceAll('NaN', '0.0');
 			data = JSON.parse(data);
 			PlotPerDataset(data);
 		}
@@ -77,8 +80,6 @@ function updatePerDatasetPlot(){
 }
 
 function PlotPerDataset(data){
-	var bars = [];
-	var xLabels = [];
 	var cellwidths = []
 	var margin = {top:30, right: 30, bottom:100, left:80},
 		height = 150;
@@ -87,7 +88,7 @@ function PlotPerDataset(data){
 
 	if(data.length==0){
 		$('#perDatasetPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' No data found for the selected dataset.</span><br/></div>');
+		+' No data found for the selected dataset.</span><br></div>');
 	}else{
 		$('#perDatasetPlot').html("")
 		var max_label = 0;
@@ -103,7 +104,7 @@ function PlotPerDataset(data){
 		var cellwidth = 1000/data.length;
 		if(cellwidth>15){cellwidth=15;}
 		else if(cellwidth<4){cellwidth=4;}
-		xLabelSize = "11px";
+		let xLabelSize = "11px";
 		if(cellwidth<11){
 			xLabelSize = parseInt(cellwidth)+"px";
 			margin.bottom = Math.max(max_label*cellwidth*0.5, 100);
@@ -116,11 +117,11 @@ function PlotPerDataset(data){
 				.append("g")
 				.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-		var x = d3.scale.ordinal().rangeBands([0,width]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var x = d3.scaleBand().range([0,width]);
+		var xAxis = d3.axisBottom(x);
 		x.domain(data.map(function(d){return d[0];}));
-		var y = d3.scale.linear().range([height, 0]);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var y = d3.scaleLinear().range([height, 0]);
+		var yAxis = d3.axisLeft(y);
 		y.domain([0, d3.max(data, function(d){return -Math.log10(d[1]);})]);
 
 		var bar = svg.selectAll("rect.expgeneral").data(data).enter()
@@ -219,9 +220,7 @@ function PlotPerDataset(data){
 }
 
 function PlotStep1(data){
-	var bars = [];
-	var xLabels = [];
-	var cellwidths = []
+	var cellwidths = [];
 	var margin = {top:30, right: 250, bottom:100, left:80},
 		height = 150;
 	var order_i = 5;
@@ -229,7 +228,7 @@ function PlotStep1(data){
 
 	if(data.length==0){
 		$('#step1Plot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' Either there was no significant cell type or no data was available.</span><br/></div>');
+		+' Either there was no significant cell type or no data was available.</span><br></div>');
 	}else{
 		$('#step1Plot').html("")
 		var max_label = 0;
@@ -248,7 +247,7 @@ function PlotStep1(data){
 		var cellwidth = 1000/data.length;
 		if(cellwidth>15){cellwidth=15;}
 		else if(cellwidth<4){cellwidth=4;}
-		xLabelSize = "11px";
+		let xLabelSize = "11px";
 		if(cellwidth<11){
 			xLabelSize = parseInt(cellwidth)+"px";
 			margin.bottom = Math.max(max_label*cellwidth*0.5, 100);
@@ -263,11 +262,11 @@ function PlotStep1(data){
 				.append("g")
 				.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-		var x = d3.scale.ordinal().rangeBands([0,width]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var x = d3.scaleBand([0,width]);
+		var xAxis = d3.axisBottom(x);
 		x.domain(data.map(function(d){return d[1];}));
-		var y = d3.scale.linear().range([height, 0]);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var y = d3.scaleLinear().range([height, 0]);
+		var yAxis = d3.axisLeft(y);
 		y.domain([0, d3.max(data, function(d){return -Math.log10(d[2]);})]);
 
 		// legend
@@ -345,9 +344,7 @@ function PlotStep1(data){
 }
 
 function PlotStep2(data){
-	var bars = [];
-	var xLabels = [];
-	var cellwidths = []
+	var cellwidths = [];
 	var margin = {top:30, right: 250, bottom:100, left:80},
 		height = 150;
 	var order_i = 5;
@@ -355,7 +352,7 @@ function PlotStep2(data){
 
 	if(data.length==0){
 		$('#step2Plot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' Either there was no significant cell type or step 2 was not performed.</span><br/></div>');
+		+' Either there was no significant cell type or step 2 was not performed.</span><br></div>');
 	}else{
 		$('#step2Plot').html("")
 		var max_label = 0;
@@ -374,7 +371,7 @@ function PlotStep2(data){
 		var cellwidth = 1000/data.length;
 		if(cellwidth>15){cellwidth=15;}
 		else if(cellwidth<4){cellwidth=4;}
-		xLabelSize = "11px";
+		let xLabelSize = "11px";
 		if(cellwidth<11){
 			xLabelSize = parseInt(cellwidth)+"px";
 			margin.bottom = Math.max(max_label*cellwidth*0.5, 100);
@@ -389,11 +386,11 @@ function PlotStep2(data){
 				.append("g")
 				.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-		var x = d3.scale.ordinal().rangeBands([0,width]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var x = d3.scaleBand([0,width]);
+		var xAxis = d3.axisBottom(x);
 		x.domain(data.map(function(d){return d[1];}));
-		var y = d3.scale.linear().range([height, 0]);
-		var yAxis = d3.svg.axis().scale(y).orient("left");
+		var y = d3.scaleLinear().range([height, 0]);
+		var yAxis = d3.axisLeft(y);
 		y.domain([0, d3.max(data, function(d){return -Math.log10(d[2]);})]);
 
 		// legend
@@ -477,7 +474,7 @@ function PlotStep3(data, step2){
 
 	if(data.length==0){
 		$('#step3Plot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-		+' Either there was no significant cell type or step 3 was not performed.</span><br/></div>');
+		+' Either there was no significant cell type or step 3 was not performed.</span><br></div>');
 	}else{
 		$('#step3Plot').html("")
 		var max_label = 0;
@@ -501,7 +498,7 @@ function PlotStep3(data, step2){
 		var cellsize = 1000/step2.length;
 		if(cellsize>20){cellsize=20;}
 		else if(cellsize<4){cellsize=4;}
-		xLabelSize = "11px";
+		let xLabelSize = "11px";
 		if(cellsize<11){
 			xLabelSize = parseInt(cellsize)+"px";
 			margin.bottom = Math.max(max_label*cellsize*0.5, 100);
@@ -515,7 +512,7 @@ function PlotStep3(data, step2){
 				.attr("height", height+margin.top+margin.bottom)
 				.append("g")
 				.attr("transform", "translate("+margin.left+","+margin.top+")");
-		var colorScale = d3.scale.linear().domain([0, 0.5, 1]).range(["#000099", "#fff", "#b30000"]);
+		var colorScale = d3.scaleLinear().domain([0, 0.5, 1]).range(["#000099", "#fff", "#b30000"]);
 		var bar_height = 75;
 		var heatmap_top = 80;
 
@@ -568,11 +565,11 @@ function PlotStep3(data, step2){
 			.style("font-size", "11px");
 
 		// bar plot
-		var x = d3.scale.ordinal().rangeBands([0,width]);
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
+		var x = d3.scaleBand([0,width]);
+		var xAxis = d3.axisBottom(x);
 		x.domain(step2.map(function(d){return d[1];}));
-		var y = d3.scale.linear().range([bar_height, 0]);
-		var yAxis = d3.svg.axis().scale(y).orient("left").ticks(4);
+		var y = d3.scaleLinear().range([bar_height, 0]);
+		var yAxis = d3.axisLeft(y).ticks(4);
 		y.domain([0, d3.max(step2, function(d){return -Math.log10(d[2]);})]);
 		var bar = svg.selectAll("rect.expgeneral").data(step2).enter()
 			.append("rect")
@@ -682,7 +679,7 @@ function PlotStep3(data, step2){
 
 }
 
-function DownloadFiles(){
+export function DownloadFiles(){
 	var check = false;
 	$('#downFileCheck input').each(function(){
 		if($(this).is(":checked")==true){check=true;}
@@ -691,20 +688,22 @@ function DownloadFiles(){
 	else{$('#download').prop('disabled', true)}
 }
 
-function ImgDown(plot, name, type){
+export function ImgDown(plot, name, type){
 	$('#celltypeData').val($('#'+plot).html());
 	$('#celltypeType').val(type);
-	$('#celltypeID').val(id);
+	$('#celltypeID').val(pageState.get("id"));
 	$('#celltypeFileName').val(name);
-	$('#celltypeDir').val(prefix);
+	$('#celltypeDir').val(pageState.get("prefix"));
 	$('#celltypeSubmit').trigger('click');
 }
 
-function ImgDownDS(plot, type){
+export function ImgDownDS(plot, type){
 	$('#celltypeData').val($('#'+plot).html());
 	$('#celltypeType').val(type);
-	$('#celltypeID').val(id);
+	$('#celltypeID').val(pageState.get("id"));
 	$('#celltypeFileName').val($('#dataset_select').val());
-	$('#celltypeDir').val(prefix);
+	$('#celltypeDir').val(pageState.get("prefix"));
 	$('#celltypeSubmit').trigger('click');
 }
+
+export default updatePerDatasetPlot;

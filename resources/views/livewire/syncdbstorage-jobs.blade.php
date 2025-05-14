@@ -1,13 +1,13 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="panel-title">Running Jobs <tab>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Running Jobs <tab>
                 <a id="refreshTable" wire:click="getJobs">
                     <i class="fa fa-refresh"></i>
                 </a>
         </div>
     </div>
 
-    <div class="panel-body">
+    <div class="card-body">
         <div>
             @error('selected_jobs')
                 {{ $message }}
@@ -60,7 +60,7 @@
             </table>
         @endif
         @if (!is_null($shown_job))
-            <div class="panel-title">Selected Jobs: {{ $shown_job }}</div>
+            <div class="card-title">Selected Jobs: {{ $shown_job }}</div>
 
             {{ html()->form('POST', url('admin/db-tools/sync-db-storage/del'))->open() }}
             <input type="hidden" name="selected_listing_jobID" value={{ $shown_job }}>
