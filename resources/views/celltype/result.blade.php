@@ -17,8 +17,8 @@
 				<br>
 				<span class="form-inline">
 					<input class="btn btn-default btn-sm" type="submit" name="download" id="download" value="Download files"/>
-					<a class="allfiles"> Select All </a>
-					<a class="clearfiles"> Clear</a>
+					&nbsp;<a class="allfiles">Select All</a>
+					&nbsp;<a class="clearfiles">Clear</a>
 				</span><br>
 			</form>
 		</div>
