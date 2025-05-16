@@ -519,7 +519,7 @@ export function GeneSet(subdir, page, prefix, id){
 				if(tdata.length==0){
 					let panel = $('<div class="card" style="padding-top:0;"><div class="card-header" style="height: 35px;"><a href="#'
 						+category[i]+'Panel" data-bs-toggle="collapse" style="color: black;">'
-						+title+'(0)</div><div class="panel-body collapse" id="'
+						+title+'&nbsp;(0)</div><div class="panel-body collapse" id="'
 						+category[i]+'Panel"><div id="'+category[i]+'" style="text-align: center;">No significant results</div><div id="'
 						+category[i]+'Table"></div></div></div>');
 					$('#GeneSet').append(panel);
@@ -528,7 +528,7 @@ export function GeneSet(subdir, page, prefix, id){
 					// add div
 					let panel = '<div class="card" style="padding-top:0;"><div class="card-header" style="height: 35px;"><a href="#'
 						+category[i]+'Panel" data-bs-toggle="collapse" style="color: black;">'
-						+title+'('+tdata.length+')</div><div class="panel-body collapse" id="'
+						+title+'&nbsp;('+tdata.length+')</div><div class="panel-body collapse" id="'
 						+category[i]+'Panel"><p><a class="link-opacity-75-hover" href="#" onclick="GeneSetPlot('+"'"+category[i]+"'"+');">Plot</a> / <a class="link-opacity-75-hover" href="#" onclick="GeneSetTable('+
 						"'"+category[i]+"'"+');">Table</a></p></div></div>';
 					$('#GeneSet').append(panel);
