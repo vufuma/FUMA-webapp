@@ -27,7 +27,7 @@
 			<div id="manhattan"></div>
 		</div>
 		<br><br>
-		<h4 style="color: #00004d">Mahattan Plot (gene-based test)</h4>
+		<h4 style="color: #00004d">Manhattan Plot (gene-based test)</h4>
 		<span class="info"><i class="fa fa-info"></i>
 			This is a manhattan plot of the gene-based test as computed by MAGMA based on your input GWAS summary statistics.<br>
 			The gene-based P-value is downloadable from 'Download' tab from the left side bar.
