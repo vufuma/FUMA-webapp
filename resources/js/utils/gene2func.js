@@ -1,16 +1,25 @@
-var geneTable;
 var prefix = "gene2func";
-var exp_data_title = {
-	'gtex_v8_ts_avg_log2TPM': 'GTEx v8 54 tissue types',
-	'gtex_v8_ts_general_avg_log2TPM': 'GTEx v8 30 general tissue types',
-	'gtex_v7_ts_avg_log2TPM': 'GTEx v7 53 tissue types',
-	'gtex_v7_ts_general_avg_log2TPM': 'GTEx v7 30 general tissue types',
-	'gtex_v6_ts_avg_log2RPKM': 'GTEx v6 53 tissue types',
-	'gtex_v6_ts_general_avg_log2RPKM': 'GTEx v6 30 general tissue types',
-	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
-	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
-}
-$(document).ready(function(){
+var id = ""
+
+// Import all the helper functions from g2f_results 
+import { 
+	summaryTable, 
+	parametersTable, 
+	expHeatMap, 
+	tsEnrich, 
+	GeneSet, 
+	GeneTable, 
+	expHeatPlot 
+} from "./g2f_results.js";
+
+import { G2FPageState as pageState}  from "../pages/pageStateComponents.js";
+import { deleteJobs } from './helpers.js';
+
+export const Gene2FuncSetup = function(){
+	const page = pageState.get("page");
+	id = pageState.get("id");
+	const subdir = pageState.get("subdir");
+	var status  = pageState.get("status");
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
 
@@ -25,13 +34,16 @@ $(document).ready(function(){
 	}
 
 	updateList();
+	$('#refreshTable').on('click', function(){
+		updateList();
+	});
 
 	// gene type clear
 	$('#bkgeneSelectClear').on('click', function(){
 		$("#genetype option").each(function(){
 			$(this).prop('selected', false);
 		});
-		checkInput();
+		window.checkInput();
 	});
 
 	// download file selection
@@ -54,7 +66,7 @@ $(document).ready(function(){
 			}
 		})
 		n += 1;
-		$('#gsFiles').append('<br/><span class="form-inline gsFile" style="padding-left: 40px;">'
+		$('#gsFiles').append('<br><span class="form-inline gsFile" style="padding-left: 40px;">'
 		+'File '+n
 		+': '+'<button type="button" class="btn btn-default btn-xs gsFileDel" onclick="gsFileDel(this)">delete</button>'
 		+'<input type="file" class="form-control-file gsMapFile" style="padding-left: 40px;" name="gsFile'+n+'" id="gsFile'+n
@@ -63,127 +75,32 @@ $(document).ready(function(){
 	})
 
 	$('#deleteJob').on('click', function(){
-		swal({
-			title: "Are you sure?",
-			text: "Do you really want to remove selected jobs?",
-			type: "warning",
-			showCancelButton: true,
-			closeOnConfirm: true,
-		}, function(isConfirm){
-			if (isConfirm){
-				$('.deleteJobCheck').each(function(){
-					if($(this).is(":checked")){
-						$.ajax({
-							url: subdir+"/gene2func/deleteJob",
-							type: "POST",
-							data: {
-								jobID: $(this).val()
-							},
-							error: function(){
-								alert("error at deleteJob");
-							},
-							success: function (resdata) {
-								// chech if resdata is null
-								if (resdata != "") {
-									alert(resdata);
-								}
-							},
-							complete: function(){
-								updateList();
-							}
-						});
-					}
-				});
-			}
-		});
-	});
+		deleteJobs(pageState.get("subdir"), pageState.get("page"), updateList)
+		}
+	)
 
-	if(status.length==0 || status=="new"){
-		checkInput();
+	if(status.length==0 || status=="new") {
+		window.checkInput();
 		$('#resultSide').hide();
-	}else if(status=="getJob"){
+	} else if(status=="getJob") {
 		// var id = jobID;
 
-		checkInput();
-		summaryTable(id);
-		parametersTable(id);
-		expHeatMap(id);
-		tsEnrich(id);
-		GeneSet(id);
-		GeneTable(id);
+		window.checkInput();
+		summaryTable(subdir, page, prefix, id);
+		parametersTable(subdir, page, prefix, id);
+		expHeatMap(subdir, page, prefix, id);
+		tsEnrich(subdir, page, prefix, id);
+		GeneSet(subdir, page, prefix, id);
+		GeneTable(subdir, page, prefix, id);
 		$('#gene_exp_data').on('change', function(){
-			expHeatPlot(id, $('#gene_exp_data').val())
+			expHeatPlot(subdir, prefix, page, id, $('#gene_exp_data').val())
 		})
-	}else if(status=="query"){
-		$('#geneSubmit').attr("disabled", true);
-		id = fumaJS.id;
-		var filedir = fumaJS.filedir;
-		var gtype = fumaJS.gtype;
-		var gval = fumaJS.gval;
-		var bkgtype = fumaJS.bkgtype;
-		var bkgval = fumaJS.bkgval;
-		var ensembl = fumaJS.ensembl;
-		var gene_exp = fumaJS.gene_exp;
-		var MHC = fumaJS.MHC;
-		var adjPmeth = fumaJS.adjPmeth;
-		var adjPcut = fumaJS.adjPcut;
-		var minOverlap = fumaJS.minOverlap;
-
-		if(gtype=="text"){
-			$('#genes').val(gval.replace(/:/g, '\n'));
-		}
-
-		if(bkgtype == "select"){
-			var tmp = document.getElementById('genetype');
-			for(var i=0; i<tmp.options.length; i++){
-				if(bkgval.indexOf(tmp.options[i].value)>=0){
-					tmp.options[i].selected=true;
-				}
-			}
-		}else if(bkgtype == "text"){
-			$('#bkgenes').val(bkgval.replace(/:/g, '\n'));
-		}
-
-		$('#ensembl option').each(function(){
-			if($(this).val()==ensembl){$(this).prop("selected", true)}
-			else{$(this).prop("selected", false)}
-		})
-
-		gene_exp = gene_exp.split(":");
-		$('#gene_exp option').each(function(){
-			if(gene_exp.indexOf($(this).val())>=0){$(this).prop("selected", true)}
-			else{$(this).prop("selected", false)}
-		})
-
-		if(MHC==1){
-			$('#MHC').attr('checked', true);
-		}
-
-		d3.select('#expHeat').select('svg').remove();
-		d3.select('#tsEnrichBar').select('svg').remove();
-		$.ajax({
-			url: "geneQuery",
-			type: "POST",
-			data: {
-				jobID: id
-			},
-			beforeSend: function(){
-				var options = {
-					theme: "sk-circle",
-					message: 'Running GENE2FUNC process. Please wait for a moment..'
-				}
-				HoldOn.open(options)
-				$('#resultSide').hide()
-			},
-			success: function(){
-				HoldOn.close()
-			},
-			complete: function(){
-				window.location.href=subdir+'/gene2func/'+id;
-			}
-		});
+	} else if(status=="query") {
+		window.checkInput();
+		$('#resultSide').hide();
+		window.location.href=subdir+'/gene2func/#queryhistory';
 	}
-});
+};
 
 function gsFileCheck(){
 	var nFiles = 0;
@@ -194,13 +111,13 @@ function gsFileCheck(){
 	})
 	$('#gsFileN').val(nFiles);
 }
-function gsFileDel(del){
+export function gsFileDel(del){
 	$(del).parent().remove();
 	gsFileCheck();
 }
 
 // Plot donwload
-function ImgDown(name, type){
+export function ImgDown(name, type){
 	$('#'+name+'Data').val($('#'+name).html());
 	$('#'+name+'Type').val(type);
 	$('#'+name+'JobID').val(id);
@@ -209,7 +126,7 @@ function ImgDown(name, type){
 	$('#'+name+'Submit').trigger('click');
 }
 
-function checkInput(){
+export function checkInput(){
 	var g = document.getElementById('genes').value;
 	var gfile = $('#genesfile').val().length;
 	if(g.length==0 && gfile==0){
@@ -255,6 +172,7 @@ function checkInput(){
 };
 
 function updateList(){
+	const subdir = pageState.get("subdir");
 	$.getJSON( subdir + "/gene2func/getG2FJobList", function( data ){
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){
@@ -269,7 +187,7 @@ function updateList(){
 					var status = '<a href="'+subdir+'/gene2func/'+val.jobID+'">load results</a>';
 				}
 				else {
-					var status = val.status;
+					status = val.status;
 				}
 
 				items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title+"</td><td>"
@@ -294,3 +212,5 @@ function DownloadFiles(){
 	if(check){$('#download').prop('disabled', false)}
 	else{$('#download').prop('disabled', true)}
 }
+
+export default Gene2FuncSetup;

@@ -6,7 +6,7 @@
 
 @section('content')
     <div id="page-content-wrapper">
-        <div class="col-lg-10 col-lg-offset-1" style="padding-top:50px;">
+        <div class="col-lg-12 offset-lg-2" style="padding-top:50px;">
             <h1><i class="fa fa-users"></i> User Role Administration <a href="{{ route('roles.index') }}"
                     class="btn btn-default pull-right">Roles</a>
                 <a href="{{ route('permissions.index') }}" class="btn btn-default pull-right">Permissions</a>
@@ -50,36 +50,33 @@
                     </tbody>
 
                 </table>
-                <script>
-                    var params = {
-                        sortable: true
-                    };
-                    $(document).ready(function() {
-                        $("#userRoleSearch").on("keyup", function() {
-                            var value = $(this).val().toLowerCase();
-                            $("#userRoleTable tr").filter(function() {
-                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                            });
-                        });
-                    });
-                </script>
             </div>
 
-            <a href="{{ route('users.create') }}" class="btn btn-success" data-toggle="tooltip"
+            <a href="{{ route('users.create') }}" class="btn btn-success" data-bs-toggle="tooltip"
                 title="Usually users are added by registration but can be also be added here.">Add User</a>
 
         </div>
     </div>
 @endsection
 
-@section('scripts')
+@push('page_scripts')
     {{-- Imports from the web --}}
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
     {{-- Hand written ones --}}
-    <script type="text/javascript">
+    <script type="module">
         var loggedin = "{{ Auth::check() }}";
+        var params = {
+            sortable: true
+        };
+        $(function() {
+            $("#userRoleSearch").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#userRoleTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
     </script>
     {{-- Imports from the project --}}
-@endsection
+@endpush

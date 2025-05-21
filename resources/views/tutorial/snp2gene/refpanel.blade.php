@@ -10,7 +10,7 @@ In this section, each reference panel is described details.
 <div style="padding-left: 40px;">
 	<h4><strong>1. 1000 Genome Phase3</strong></h4>
 	Genotype data for chromosome 1-22 and X was downloaded from
-	<a target="_blank" href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/</a>.<br/>
+	<a target="_blank" href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/</a>.<br>
 	Multi allelic SNPs were first split into separate columns using vcfmulti2oneallele.jar from JVARKIT
 	(<a target="_blank" href="http://lindenb.github.io/jvarkit/">http://lindenb.github.io/jvarkit/</a>).
 	VCF files were then converted to PLINK bfile (PLINK v1.9).
@@ -19,16 +19,16 @@ In this section, each reference panel is described details.
 	duplicated SNPs (with identical unique ID) were excluded.
 	Genotype data were split into 5 (super) populations based on panel file
 	(<a target="_blank" href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel</a>)
-	using PLINK.<br/>
+	using PLINK.<br>
 	MAF and pairwise LD were computed by PLINK (--r2 --ld-window 99999 --ld-window-r2 0.05) for each population and all samples together (ALL),
 	and SNPs with MAF=0 were excluded for each population.
-	<br/>
+	<br>
 	<span class="info"><i class="fa fa-info"></i>
 		Reference panel ALL covers most number of SNPs.
 		To avoid missing SNPs from FUMA annotations, reference panel ALL might be preferred.
 		However, the LD is not population specific and need caution for the definition of independent significant SNPs and lead SNPs.
 	</span>
-	<br/><br/>
+	<br><br>
 	Number of samples and SNPs in the reference panels (click on a row to download the corresponding variant file):
 	<table class="table table-bordered table-hover" style="width:auto">
 		<thead>
@@ -91,11 +91,11 @@ In this section, each reference panel is described details.
 	For white British, 10,000 unrelated individuals were randomly selected.
 	For European, each individuals were first assigned to one of the 5 1000G populations
 	based on the minimum Mahalanobis distance.
-	Then randomly selected 10,000 unrelated EUR individuals were used.<br/>
+	Then randomly selected 10,000 unrelated EUR individuals were used.<br>
 	SNPs were filtered on INFO score > 0.9.
 	MAF and pairwise LD were computed by PLINK (--r2 --ld-window 99999 --ld-window-r2 0.05)
 	and SNPs with MAF=0 were excluded.
-	<br/>
+	<br>
 	In both reference panels, 16,972,700 SNPs are available.
-	<br/>
+	<br>
 </div>

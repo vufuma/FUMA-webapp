@@ -11,10 +11,10 @@ by duplicating the selected job, which reduce a large amount of time.
 	Once a jobID is selected, the previous parameters are automatically loaded.
 	Modify parameters before submitting, otherwise the results will be same as the selected job.
 	For chromatin interaction mapping, user custom files need to be re-uploaded.
-	<br/>
+	<br>
 	Users are allowed to provide new title and suffix "_copied_(jobID)" will be automatically
 	added to the title.
-	<br/>
+	<br>
 	<span class="info"><i class="fa fa-info"></i>
 		Users are only allowed to modify gene mapping parameters.
 		Other parameters such as P-value or r2 threshold for defining independent significant SNPs

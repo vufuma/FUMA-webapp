@@ -2,7 +2,7 @@
 Since integration of scRNA-seq across datasets is highly challenging due to
 complex batch effects, the 3-step workflow is aimed to bypass this problem by
 systematically compare cell type associations across datasets using conditional analyses.
-<br/><br/>
+<br><br>
 
 <div style="padding-left: 40px;">
 	<div class="row">
@@ -11,13 +11,13 @@ systematically compare cell type associations across datasets using conditional 
 			<p>
 				In the first step, MAGMA cell specificity analyses are performed for
 				each of the user selected datasets separately using the regression model
-				described in the previous section.<br/>
+				described in the previous section.<br>
 				Multiple testing correction is applied to the results for all tested
 				cell type across datasets and significant cell types are retained for the
 				next step.
 				For example, when dataset A with 5 cell types and B with 10 cell types
 				are selected, then multiple test correction is performed for 15 tested cell types.
-				<br/>
+				<br>
 				Note that outputs (both plots in result page and output files) also include
 				adjusted P-value per dataset.
 			</p>
@@ -30,12 +30,12 @@ systematically compare cell type associations across datasets using conditional 
 				correlate with each other, and when a cell type is strongly associated
 				with a trait it is therefore not clear whether that reflects a genuine
 				involvement of that cell type or whether there is confounding due to
-				expression in another cell type correlated with it. <br/>
+				expression in another cell type correlated with it. <br>
 				In step 2, a systematical step-wise conditional analysis per dataset
 				is performed, by setting thresholds for proportional significance (\(PS\))
 				of the conditional P-value of a cell type relative to the marginal P-value as
-				described in the table. <br/>
-				\(PS\) is defined as<br/>
+				described in the table. <br>
+				\(PS\) is defined as<br>
 
 				$$PS_{a,b}=-log10(p_{a,b})/-log10(p_a)$$
 
@@ -55,17 +55,17 @@ systematically compare cell type associations across datasets using conditional 
 				or \(PS_{a,b}\)&ge;0.8 and \(PS_{b,a}\)&lt;0.5).
 				In the case of partially joint associations (\(PS_{a,b}\)&ge;0.5 and \(PS_{b,a}\)&ge;0.5) or
 				independent (\(PS_{a,b}\)&ge;0.8 and \(PS_{b,a}\)&ge;0.8), both cell types were retained.
-				<br/>
+				<br>
 
 			</p>
 		</div>
 		<div class="col-md-6 col-sm-6 col-xs-6">
-			<img src="{!! URL::asset('/image/cellWorkflow.png') !!}" style="width:80%"/>
+			<img src="{!! URL::asset('/image/celltype_pipeline.png') !!}" style="width:80%"/>
 		</div>
 	</div>
 
 	Forward selection criteria when cell type \(a\) showed lower marginal P-value than cell type \(b\)
-	<br/>
+	<br>
 	(scenarios are ordered by the priority)
 	<table class="table table-bordered">
 		<thead>
@@ -199,13 +199,13 @@ systematically compare cell type associations across datasets using conditional 
 		However, this does not mean the discarded cell type is less important
 		than the retained cell type, but the result suggests that the associations
 		of these two cell types cannot be distinguished.
-		<br/>
+		<br>
 		Although conditional P-values are often proportional to marginal P-values,
 		it is possible that cell type with higher marginal P-value results in
 		less conditional P-value for a pair of cell types (i.e. \(p_{b,a}\)&lt;\(p_{a,b}\)).
 		Therefore, when \(PS_{a,b}\)&lt;0.2 and \(PS_{b,a}\)&ge;0.2,
 		the order of cell types was flipped for forward selection.
-		<br/>
+		<br>
 		Although only retained cell types were used for the third step, the
 		results of within dataset conditional analyses for any pair of cell
 		types were further breakdown into 8 categories as described in the table.
@@ -218,7 +218,7 @@ systematically compare cell type associations across datasets using conditional 
 		cell type B is still &lt;0.05. Therefore, there might still be a unique
 		signal to cell type B, however, as large amount of significance is dropped,
 		the cell type B is not retained for the further step.
-		<br/>
+		<br>
 		<span class="info"><i class="fa fa-info"></i>
 			Note that step 2 is only performed for dataset where more than one cell types
 			reached significance after multiple testing correction across datasets.
@@ -237,11 +237,11 @@ systematically compare cell type associations across datasets using conditional 
 		significant cell types retained from the second step.
 		Then the \(PS\) of the cross-datasets (CD) conditional P-value of a cell type
 		relative to the CD marginal P-value is computed for each cell type of all possible pairs.
-		<br/>
+		<br>
 		For each pair of cell types from different datasets, the following
 		three regression models were tested to incorporate the effect of
 		the average expression from the other dataset:
-		<br/>
+		<br>
 
 		$$Z=\beta_0 + E_c1\beta_{E_{c1}} + A_1\beta_{A_1} + A_2\beta_{A_2} + B\beta_B + \epsilon$$
 		$$Z=\beta_0 + E_c2\beta_{E_{c2}} + A_1\beta_{A_1} + A_2\beta_{A_2} + B\beta_B + \epsilon$$
@@ -253,19 +253,19 @@ systematically compare cell type associations across datasets using conditional 
 		from 1st and 2nd models as CD marginal P-value,
 		and \(\beta_{E_{cx}}\)&gt;0 from 3rd model as CD conditional P-value for a cell type \(c\)
 		from a dataset \(x\).
-		<br/>
+		<br>
 		Note that, when associations of two cell types from
 		different datasets with a trait are largely disappeared by conditioning
 		on each other, it suggests that associations of those cell types were
 		driven by similar genetic signals but this does not measure the similarity
 		of two cell types (i.e. it cannot be concluded that the cell types from
 		the different datasets are the same).
-		<br/>
+		<br>
 		<span class="info"><i class="fa fa-info"></i>
 			Note that step 3 is only performed where there are significant cell types from
 			more than one datasets.
 		</span>
-		<br/>
+		<br>
 		<span class="info"><i class="fa fa-info"></i>
 			Please be aware that, some of scRNA-seq, there are multiple datasets
 			available from a single scRNA-seq data resource.

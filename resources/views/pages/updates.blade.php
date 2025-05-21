@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container" style="padding-top: 50px;">
+    <div class="col-md-8 offset-md-2" style="padding-top: 50px;">
         <table class="table table-bordered" style="table-layout: fixed;">
             <thead>
                 <tr>
@@ -27,7 +27,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('page_scripts')
     {{-- Imports from the web --}}
 
     {{-- Imports from the project --}}
@@ -36,4 +36,4 @@
     <script type="text/javascript">
         var loggedin = "{{ Auth::check() }}";
     </script>
-@endsection
+@endpush

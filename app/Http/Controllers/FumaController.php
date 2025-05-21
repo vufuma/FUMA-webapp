@@ -8,6 +8,11 @@ use App\CustomClasses\DockerApi\DockerNamesBuilder;
 use App\CustomClasses\myFile;
 use App\Models\SubmitJob;
 use App\Models\User;
+use Jcupitt\Vips\Image as VipsImage;
+use Jcupitt\Vips\Target as VipsTarget;
+use PDF;
+
+use Illuminate\Support\Facades\Log;
 use App\Models\Update;
 
 use Helper;
@@ -294,7 +299,10 @@ class FumaController extends Controller
         return response()->download(Storage::path($filedir . $zipfile))->deleteFileAfterSend(true);
     }
 
-    public function imgdown(Request $request)
+    // The use of this function is deprecated.
+    // Raster conversion can be donw using libvips via jcupitt/vips
+    // PDF conversion using TCPDF via elibyy/tcpdf-laravel
+    public function imgdown_imagick(Request $request)
     {
         $svg = $request->input('data');
         $jobID = $request->input('jobID');
@@ -314,12 +322,104 @@ class FumaController extends Controller
             $fileName = $fileName . '.' . $type;
             $image = new \Imagick();
             $image->setResolution(300, 300);
+            $image->setBackgroundColor(new \ImagickPixel('white'));
             $image->readImageBlob('<?xml version="1.0"?>' . $svg);
             $image->setImageFormat($type);
             return response()->streamDownload(function () use ($image) {
                 echo $image;
             }, $fileName);
         }
+    }
+
+    // PDF conversion using TCPDF via elibyy/tcpdf-laravel
+    private function svgToPdf($svg, $jobID, $abs_path)
+    {
+        PDF::SetCreator('FUMA + tc-lib-pdf');
+        PDF::SetTitle('FUMA Job ', $jobID);
+        PDF::AddPage();
+        PDF::ImageSVG('@' . $svg, $x=null, $y=null, $w=0, $h=0, $link='', $align='', $palign='', $border=0, $fitonpage=true); 
+        PDF::Output($abs_path);
+
+        PDF::reset();
+    }
+
+    // Raster conversion can be donw using libvips via jcupitt/vips
+    private function svgToRasterFormat($svg, $jobID, $type, $abs_path)
+    {
+        // Why we are not using jcupitt/vips 2.*
+        // For libvips FFI preload does not work
+        // because vips.h is too complex.
+        // Therefore there is no easy way to address
+        // the security issues of a completely open FFI.
+        // Instead this is using the (JCupitt) php-vips 1.* interface and
+        // vips php extension which does not rely on FFI. 
+        if (!extension_loaded('vips')) {
+            throw new Exception("The vips extension is not loaded");
+        }
+
+        $bufferData = '<?xml version="1.0"?>' . $svg;
+        // These options are passed to the loader
+        // The options per image type are documents in the
+        // corresponding libvips commandline tool:
+        // jpeg -> jpegsave
+        // png -> pngsave
+        // webp -> webpsave
+        // For available options refer to 
+        // https://raw.githubusercontent.com/libvips/libvips/refs/tags/v8.16.0/cplusplus/include/vips/VImage8.h
+        $image = VipsImage::newFromBuffer($bufferData, 'dpi=300');
+        // Overlay the image onto a white background 
+        // also works for png whereas targetOptions 'background' => '255'
+        // does not. 
+        $background = $image->newFromImage([255, 255, 255, 255]);
+        $image = $background->composite($image, 'over');
+        // These options are passed to the saver
+        // Each image type supports different options but
+        // a few are common.
+        $targetOptions = [
+            'Q' => 100,
+        ];
+
+        $image->writeToFile(
+            $abs_path, 
+            $targetOptions
+        );
+    }
+
+    // This version of the imgdown uses libvips for the
+    // rendering step. This correctly renders even complex
+    // svg images. Imagick is still used but only for pdf
+    // output.  
+    public function imgdown(Request $request)
+    {
+        try {
+            $svg = $request->input('data');
+            $jobID = $request->input('jobID');
+            $type = $request->input('type');
+            $dir = $request->input('dir');
+            $fileName = $request->input('fileName') . "_FUMA_" . $dir . $jobID;
+
+            if ($type == "svg") {
+                $filename = $fileName . '.svg';
+                return response()->streamDownload(function () use ($svg) {
+                    echo $svg;
+                }, $filename);
+            } else {
+                $type;
+                $filedir = config('app.jobdir') . '/' . $dir . '/' . $jobID . '/';
+                $abs_path = Storage::path($filedir . $fileName . '.' . $type);
+
+                if (strcmp($type, "pdf") == 0) {
+                    $this->svgToPdf($svg, $jobID, $abs_path);
+                } else {
+                    $this->svgToRasterFormat($svg, $jobID, $type, $abs_path);
+                }
+                return response()->download($abs_path)->deleteFileAfterSend(true);
+            }
+        } catch (Exception $e) {
+            Log::error('Error in svg image conversion FumaController::imgdown: ' . $e-getMessage());
+            return abort(500, 'Internal Server Error, please contact support.');
+        }
+
     }
 
     public function d3text($prefix, $id, $file)
@@ -565,10 +665,17 @@ class FumaController extends Controller
             default:
                 return redirect()->back();
         }
-        $path = config("app.downloadsDir") . "/$name";
+        // Try direct download from reference data
+        $ref_data_path_on_host = config('app.ref_data_on_host_path');
+        $downloadDir = config("app.downloadsDir");
+        $downloadPath = $ref_data_path_on_host . '/' . $downloadDir . "/$name";
+        if (!file_exists($downloadPath)) {
+            // Or failing that download from storage
+            $downloadPath = Storage::path(config("app.downloadsDir") . "/$name");
+        }
         # Log::error("Variant path $path");
         $headers = array('Content-Type: application/gzip');
-        return response()->download(Storage::path($path), $name, $headers);
+        return response()->download($downloadPath, $name, $headers);
     }
 
     public function g2f_d3text($prefix, $id, $file)

@@ -1,9 +1,6 @@
 @extends('layouts.master')
 
 @section('stylesheets')
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
     <link href="{{ asset('/css/tree_multiselect.css') }}" rel="stylesheet">
 @endsection
 
@@ -29,43 +26,49 @@
         <div id="page-content-wrapper">
             <div class="page-content inset">
                 <div id="newJob" class="sidePanel container" style="padding-top:50px;">
-                    {{ html()->form('POST', 'celltype/submit')->acceptsFiles()->novalidate()->open() }}
-                    <div class="panel panel-default">
-                        <div class="panel-body" style="padding-bottom: 10;">
+                    {{ html()->form('POST', '/celltype/submit')->acceptsFiles()->novalidate()->open() }}
+                    <div class="card">
+                        <div class="card-body">
                             <h4>MAGMA gene analysis result</h4>
-                            1. Select from existing SNP2GENE job<br />
-                            <span class="info"><i class="fa fa-info"></i>
-                                You can only select one of the succeeded SNP2GENE jobs in your account.<br />
+                            1. Select from existing SNP2GENE job<br>
+                            <span class="info"><i class="fa fa-info fa-sm"></i>
+                                You can only select one of the succeeded SNP2GENE jobs in your account.<br>
                                 When you select a job ID, FUMA will automatically check if MAGMA was performed in the
                                 selected job.
                             </span>
-                            <select class="form-control" id="s2gID" name="s2gID" onchange="CheckInput();">
+                            <select class="form-select" id="s2gID" name="s2gID" onchange="window.CheckInput();">
                             </select>
-                            <br />
-                            2. Upload your own genes.raw file<br />
-                            <span class="info"><i class="fa fa-info"></i>
+                            <br>
+                            2. Upload your own genes.raw file<br>
+                            <span class="info"><i class="fa fa-info fa-sm"></i>
                                 You can only upload a file with extension "genes.raw"
                                 which is an output of MAGMA gene analysis.
                             </span>
-                            <input type="file" class="form-control-file" name="genes_raw" id="genes_raw"
-                                onchange="CheckInput();" />
-                            <span class="form-inline">
-                                <input type="checkbox" checked class="form-check-input" name="ensg_id" i="ensg_id" />
-                                : Ensembl gene ID is used in the provided file.
-                                <a class="infoPop" data-toggle="popover"
-                                    data-content="Please UNCHECK this option if you used different gene ID than Ensembl gene ID
+                            <div class="row mb-1">
+                                <div class="col-sm-1">
+                                    <input type="file" class="form-control-file" name="genes_raw" id="genes_raw"
+                                        onchange="window.CheckInput();" />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-sm-5">
+                                    <input type="checkbox" checked class="form-check-input" name="ensg_id" i="ensg_id">
+                                    &nbsp;: Ensembl gene ID is used in the provided file. &nbsp;
+                                    <a class="infoPop" data-bs-toggle="popover" title="Ensembl dene ID"
+                                        data-bs-content="Please UNCHECK this option if you used different gene ID than Ensembl gene ID
 								in your uploaded MAGMA output. In that case, provided genes will be mapped to Ensembl gene ID.">
-                                    <i class="fa fa-question-circle-o fa-lg"></i>
-                                </a>
-                            </span>
-                            <br />
+                                        <i class="fa-regular fa-circle-question"></i>
+                                    </a>
+                                    </input>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-body" style="padding-bottom: 10;">
+                    <div class="card mt-2">
+                        <div class="card-body" style="padding-bottom: 10;">
                             <h4>Single-cell expression data sets</h4>
-                            Select single-cell expression data sets to perform MAGMA gene-property analysis<br />
-                            <span class="info"><i class="fa fa-info"></i>
+                            Select single-cell expression data sets to perform MAGMA gene-property analysis<br>
+                            <span class="info"><i class="fa fa-info fa-sm"></i>
                                 You should not select all datasets if you want to perform step 2 and 3 of the workflow
                                 due to the duplicated cell types in multiple datasets from the same data resource.
                                 For example, Tabula Muris FACS data have one dataset with all cell types from all tissues
@@ -83,7 +86,7 @@
 
                             <div>
                                 <select multiple="multiple" class="form-control" style="display: none;" id="cellDataSets"
-                                    name="cellDataSets[]" onchange="CheckInput();">
+                                    name="cellDataSets[]" onchange="window.CheckInput();">
                                     <option value="TabulaMuris_FACS_Aorta" data-section="Aorta/Mouse" data-key="0">
                                         TabulaMuris_FACS_Aorta</option>
                                     <option value="MouseCellAtlas_Bladder" data-section="Bladder/Mouse" data-key="0">
@@ -95,11 +98,12 @@
                                     <option value="GSE89232_Human_Blood" data-section="Blood/Human" data-key="0">
                                         GSE89232_Human_Blood</option>
                                     <option value="MouseCellAtlas_Peripheral_Blood" data-section="Blood/Mouse"
-                                        data-key="0">MouseCellAtlas_Peripheral_Blood</option>
+                                        data-key="0">
+                                        MouseCellAtlas_Peripheral_Blood</option>
                                     <option value="MouseCellAtlas_Bone_Marrow" data-section="Bone Marrow/Mouse"
                                         data-key="0">MouseCellAtlas_Bone_Marrow</option>
-                                    <option value="TabulaMuris_FACS_Marrow" data-section="Bone Marrow/Mouse"
-                                        data-key="1">TabulaMuris_FACS_Marrow</option>
+                                    <option value="TabulaMuris_FACS_Marrow" data-section="Bone Marrow/Mouse" data-key="1">
+                                        TabulaMuris_FACS_Marrow</option>
                                     <option value="TabulaMuris_droplet_Marrow" data-section="Bone Marrow/Mouse"
                                         data-key="2">TabulaMuris_droplet_Marrow</option>
                                     <option value="Allen_Human_LGN_level1" data-section="Brain/Human/Regions_Not_Specified" data-key="0">
@@ -2317,17 +2321,22 @@
                                     <option value="GSE82187_Mouse_Striatum" data-section="Brain/Mouse" data-key="37">
                                         GSE82187_Mouse_Striatum</option>
                                     <option value="GSE87544_Mouse_Hypothalamus" data-section="Brain/Mouse"
-                                        data-key="38">GSE87544_Mouse_Hypothalamus</option>
+                                        data-key="38">
+                                        GSE87544_Mouse_Hypothalamus</option>
                                     <option value="GSE89164_Mouse_Hindbrain" data-section="Brain/Mouse" data-key="39">
                                         GSE89164_Mouse_Hindbrain</option>
                                     <option value="GSE93374_Mouse_Arc_ME_level1" data-section="Brain/Mouse"
-                                        data-key="40">GSE93374_Mouse_Arc_ME_level1</option>
+                                        data-key="40">
+                                        GSE93374_Mouse_Arc_ME_level1</option>
                                     <option value="GSE93374_Mouse_Arc_ME_level2" data-section="Brain/Mouse"
-                                        data-key="41">GSE93374_Mouse_Arc_ME_level2</option>
+                                        data-key="41">
+                                        GSE93374_Mouse_Arc_ME_level2</option>
                                     <option value="GSE93374_Mouse_Arc_ME_neurons" data-section="Brain/Mouse"
-                                        data-key="42">GSE93374_Mouse_Arc_ME_neurons</option>
+                                        data-key="42">
+                                        GSE93374_Mouse_Arc_ME_neurons</option>
                                     <option value="GSE98816_Mouse_Brain_Vascular" data-section="Brain/Mouse"
-                                        data-key="43">GSE98816_Mouse_Brain_Vascular</option>
+                                        data-key="43">
+                                        GSE98816_Mouse_Brain_Vascular</option>
                                     <option value="Linnarsson_GSE101601_Mouse_Somatosensory_cortex"
                                         data-section="Brain/Mouse" data-key="44">
                                         Linnarsson_GSE101601_Mouse_Somatosensory_cortex</option>
@@ -2375,13 +2384,15 @@
                                     <option value="TabulaMuris_FACS_Brain" data-section="Brain/Mouse" data-key="62">
                                         TabulaMuris_FACS_Brain</option>
                                     <option value="TabulaMuris_FACS_Brain_Myeloid" data-section="Brain/Mouse"
-                                        data-key="63">TabulaMuris_FACS_Brain_Myeloid</option>
+                                        data-key="63">
+                                        TabulaMuris_FACS_Brain_Myeloid</option>
                                     <option value="TabulaMuris_FACS_Brain_Non-Myeloid" data-section="Brain/Mouse"
                                         data-key="64">TabulaMuris_FACS_Brain_Non-Myeloid</option>
                                     <option value="GSE106707_Mouse_Striatum_Cortex" data-section="Brain/Mouse"
                                         data-key="65">GSE106707_Mouse_Striatum_Cortex</option>
                                     <option value="GSE97478_Mouse_Striatum_Cortex" data-section="Brain/Mouse"
-                                        data-key="66">GSE97478_Mouse_Striatum_Cortex</option>
+                                        data-key="66">
+                                        GSE97478_Mouse_Striatum_Cortex</option>
                                     <option value="Linnarsson_MouseBrainAtlas_level5" data-section="Brain/Mouse"
                                         data-key="67">Linnarsson_MouseBrainAtlas_level5</option>
                                     <option value="Linnarsson_MouseBrainAtlas_level6_rank1" data-section="Brain/Mouse"
@@ -2393,11 +2404,14 @@
                                     <option value="Linnarsson_MouseBrainAtlas_level6_rank4" data-section="Brain/Mouse"
                                         data-key="71">Linnarsson_MouseBrainAtlas_level6_rank4</option>
                                     <option value="MouseCellAtlas_Mammary_Gland" data-section="Breast/Mouse"
-                                        data-key="0">MouseCellAtlas_Mammary_Gland</option>
+                                        data-key="0">
+                                        MouseCellAtlas_Mammary_Gland</option>
                                     <option value="TabulaMuris_FACS_Mammary_Gland" data-section="Breast/Mouse"
-                                        data-key="1">TabulaMuris_FACS_Mammary_Gland</option>
+                                        data-key="1">
+                                        TabulaMuris_FACS_Mammary_Gland</option>
                                     <option value="TabulaMuris_droplet_Mammary" data-section="Breast/Mouse"
-                                        data-key="2">TabulaMuris_droplet_Mammary</option>
+                                        data-key="2">
+                                        TabulaMuris_droplet_Mammary</option>
                                     <option value="GSE100597_Mouse_Embryo" data-section="Embryo/Mouse" data-key="0">
                                         GSE100597_Mouse_Embryo</option>
                                     <option value="MouseCellAtlas_Embryo_all" data-section="Embryo/Mouse" data-key="1">
@@ -2407,11 +2421,13 @@
                                     <option value="GSE92332_Mouse_Epithelium_droplet" data-section="Epithelial/Mouse"
                                         data-key="1">GSE92332_Mouse_Epithelium_droplet</option>
                                     <option value="TabulaMuris_FACS_Diaphragm" data-section="Diaphram/Mouse"
-                                        data-key="0">TabulaMuris_FACS_Diaphragm</option>
+                                        data-key="0">
+                                        TabulaMuris_FACS_Diaphragm</option>
                                     <option value="TabulaMuris_FACS_Fat" data-section="Fat/Mouse" data-key="0">
                                         TabulaMuris_FACS_Fat</option>
                                     <option value="MouseCellAtlas_Neonatal_Heart" data-section="Heart/Mouse"
-                                        data-key="0">MouseCellAtlas_Neonatal_Heart</option>
+                                        data-key="0">
+                                        MouseCellAtlas_Neonatal_Heart</option>
                                     <option value="TabulaMuris_FACS_Heart" data-section="Heart/Mouse" data-key="1">
                                         TabulaMuris_FACS_Heart</option>
                                     <option value="TabulaMuris_droplet_Heart" data-section="Heart/Mouse" data-key="2">
@@ -2421,7 +2437,8 @@
                                     <option value="TabulaMuris_FACS_Kidney" data-section="Kidney/Mouse" data-key="1">
                                         TabulaMuris_FACS_Kidney</option>
                                     <option value="TabulaMuris_droplet_Kidney" data-section="Kidney/Mouse"
-                                        data-key="2">TabulaMuris_droplet_Kidney</option>
+                                        data-key="2">
+                                        TabulaMuris_droplet_Kidney</option>
                                     <option value="TabulaMuris_FACS_Large_Intestine" data-section="Large Intestine/Mouse"
                                         data-key="0">TabulaMuris_FACS_Large_Intestine</option>
                                     <option value="MouseCellAtlas_Fetal_Liver" data-section="Liver/Mouse" data-key="0">
@@ -2433,7 +2450,8 @@
                                     <option value="TabulaMuris_droplet_Liver" data-section="Liver/Mouse" data-key="3">
                                         TabulaMuris_droplet_Liver</option>
                                     <option value="GSE99235_Mouse_Lung_Vascular" data-section="Lung/Mouse"
-                                        data-key="0">GSE99235_Mouse_Lung_Vascular</option>
+                                        data-key="0">
+                                        GSE99235_Mouse_Lung_Vascular</option>
                                     <option value="MouseCellAtlas_Fetal_Lung" data-section="Lung/Mouse" data-key="1">
                                         MouseCellAtlas_Fetal_Lung</option>
                                     <option value="MouseCellAtlas_Lung" data-section="Lung/Mouse" data-key="2">
@@ -2445,11 +2463,14 @@
                                     <option value="MouseCellAtlas_Muscle" data-section="Muscle/Mouse" data-key="0">
                                         MouseCellAtlas_Muscle</option>
                                     <option value="TabulaMuris_FACS_Limb_Muscle" data-section="Muscle/Mouse"
-                                        data-key="1">TabulaMuris_FACS_Limb_Muscle</option>
+                                        data-key="1">
+                                        TabulaMuris_FACS_Limb_Muscle</option>
                                     <option value="MouseCellAtlas_Neonatal_Muscle" data-section="Muscle/Mouse"
-                                        data-key="2">MouseCellAtlas_Neonatal_Muscle</option>
+                                        data-key="2">
+                                        MouseCellAtlas_Neonatal_Muscle</option>
                                     <option value="TabulaMuris_droplet_Muscle" data-section="Muscle/Mouse"
-                                        data-key="3">TabulaMuris_droplet_Muscle</option>
+                                        data-key="3">
+                                        TabulaMuris_droplet_Muscle</option>
                                     <option value="MouseCellAtlas_Ovary" data-section="Ovary/Mouse" data-key="0">
                                         MouseCellAtlas_Ovary</option>
                                     <option value="GSE81547_Human_Pancreas" data-section="Pancreas/Human" data-key="0">
@@ -2461,7 +2482,8 @@
                                     <option value="MouseCellAtlas_Pancreas" data-section="Pancreas/Mouse" data-key="1">
                                         MouseCellAtlas_Pancreas</option>
                                     <option value="TabulaMuris_FACS_Pancreas" data-section="Pancreas/Mouse"
-                                        data-key="2">TabulaMuris_FACS_Pancreas</option>
+                                        data-key="2">
+                                        TabulaMuris_FACS_Pancreas</option>
                                     <option value="MouseCellAtlas_Placenta" data-section="Placenta/Mouse" data-key="0">
                                         MouseCellAtlas_Placenta</option>
                                     <option value="MouseCellAtlas_Prostate" data-section="Prostate/Mouse" data-key="0">
@@ -2473,7 +2495,8 @@
                                     <option value="TabulaMuris_FACS_Skin" data-section="Skin/Mouse" data-key="1">
                                         TabulaMuris_FACS_Skin</option>
                                     <option value="MouseCellAtlas_Neonatal_Skin" data-section="Skin/Mouse"
-                                        data-key="2">MouseCellAtlas_Neonatal_Skin</option>
+                                        data-key="2">
+                                        MouseCellAtlas_Neonatal_Skin</option>
                                     <option value="MouseCellAtlas_Fetal_Intestine" data-section="Intestine/Mouse"
                                         data-key="0">MouseCellAtlas_Fetal_Intestine</option>
                                     <option value="MouseCellAtlas_Small_Intestine" data-section="Small Intestine/Mouse"
@@ -2483,7 +2506,8 @@
                                     <option value="TabulaMuris_FACS_Spleen" data-section="Spleen/Mouse" data-key="1">
                                         TabulaMuris_FACS_Spleen</option>
                                     <option value="TabulaMuris_droplet_Spleen" data-section="Spleen/Mouse"
-                                        data-key="2">TabulaMuris_droplet_Spleen</option>
+                                        data-key="2">
+                                        TabulaMuris_droplet_Spleen</option>
                                     <option value="MouseCellAtlas_Mesenchymal_Stem_Cell_Cultured"
                                         data-section="Stem Cell/Mouse" data-key="0">
                                         MouseCellAtlas_Mesenchymal_Stem_Cell_Cultured</option>
@@ -2494,7 +2518,8 @@
                                     <option value="MouseCellAtlas_Embryonic_Stem_Cell" data-section="Stem Cell/Mouse"
                                         data-key="3">MouseCellAtlas_Embryonic_Stem_Cell</option>
                                     <option value="MouseCellAtlas_Fetal_Stomache" data-section="Stomach/Mouse"
-                                        data-key="0">MouseCellAtlas_Fetal_Stomache</option>
+                                        data-key="0">
+                                        MouseCellAtlas_Fetal_Stomache</option>
                                     <option value="MouseCellAtlas_Stomach" data-section="Stomach/Mouse" data-key="1">
                                         MouseCellAtlas_Stomach</option>
                                     <option value="MouseCellAtlas_Testis" data-section="Testis/Mouse" data-key="0">
@@ -2504,15 +2529,18 @@
                                     <option value="TabulaMuris_FACS_Thymus" data-section="Thymus/Mouse" data-key="1">
                                         TabulaMuris_FACS_Thymus</option>
                                     <option value="TabulaMuris_droplet_Thymus" data-section="Thymus/Mouse"
-                                        data-key="2">TabulaMuris_droplet_Thymus</option>
+                                        data-key="2">
+                                        TabulaMuris_droplet_Thymus</option>
                                     <option value="TabulaMuris_FACS_Tongue" data-section="Tongue/Mouse" data-key="0">
                                         TabulaMuris_FACS_Tongue</option>
                                     <option value="TabulaMuris_droplet_Tongue" data-section="Tongue/Mouse"
-                                        data-key="1">TabulaMuris_droplet_Tongue</option>
+                                        data-key="1">
+                                        TabulaMuris_droplet_Tongue</option>
                                     <option value="TabulaMuris_FACS_Trachea" data-section="Trachea/Mouse" data-key="0">
                                         TabulaMuris_FACS_Trachea</option>
                                     <option value="TabulaMuris_droplet_Trachea" data-section="Trachea/Mouse"
-                                        data-key="1">TabulaMuris_droplet_Trachea</option>
+                                        data-key="1">
+                                        TabulaMuris_droplet_Trachea</option>
                                     <option value="MouseCellAtlas_Uterus" data-section="Uterus/Mouse" data-key="0">
                                         MouseCellAtlas_Uterus</option>
                                     <option value="MouseCellAtlas_all" data-section="Other/Mouse" data-key="0">
@@ -2520,7 +2548,8 @@
                                     <option value="MouseCellAtlas_Adult_all" data-section="Other/Mouse" data-key="1">
                                         MouseCellAtlas_Adult_all</option>
                                     <option value="MouseCellAtlas_Neonatal_all" data-section="Other/Mouse"
-                                        data-key="2">MouseCellAtlas_Neonatal_all</option>
+                                        data-key="2">
+                                        MouseCellAtlas_Neonatal_all</option>
                                     <option value="PBMC_10x_68k" data-section="Other/Human" data-key="3">PBMC_10x_68k
                                     </option>
                                     <option value="TabulaMuris_FACS_all" data-section="Other/Mouse" data-key="4">
@@ -2531,111 +2560,135 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-body" style="padding-bottom: 10;">
+                    <div class="card mt-2">
+                        <div class="card-body" style="padding-bottom: 10;">
                             <h4>Other options</h4>
-                            <div class="form-inline">
-                                Multiple test correction method:
-                                <select class="form-control" id="adjPmeth" name="adjPmeth" style="width:auto;">
-                                    <option selected value="bonferroni">Bonferroni</option>
-                                    <option value="BH">Benjamini-Hochberg (FDR)</option>
-                                    <option value="BY">Benjamini-Yekutieli</option>
-                                    <option value="holm">Holm</option>
-                                    <option value="hochberg">Hochberg</option>
-                                    <option value="hommel">Hommel</option>
-                                </select>
+                            <div class="row mb-1">
+                                <label for="adjPmeth" class="col-sm-5 col-form-label">
+                                    Multiple test correction method:</label>
+                                <div class="col-sm-1">
+                                    <select class="form-select" id="adjPmeth" name="adjPmeth" style="width:auto;">
+                                        <option selected value="bonferroni">Bonferroni</option>
+                                        <option value="BH">Benjamini-Hochberg (FDR)</option>
+                                        <option value="BY">Benjamini-Yekutieli</option>
+                                        <option value="holm">Holm</option>
+                                        <option value="hochberg">Hochberg</option>
+                                        <option value="hommel">Hommel</option>
+                                    </select>
+                                </div>
                             </div>
-                            <br />
+                            <br>
                             <input type="checkbox" id="step2" name="step2"> Perform step 2 (per dataset conditional
                             analysis)
                             if there is more then one significant cell type per dataset.
-                            <a class="infoPop" data-toggle="popover"
-                                data-content="Step 2 in the workflow is per dataset conditional analysis.
+                            <a class="infoPop" data-bs-toggle="popover"
+                                data-bs-content="Step 2 in the workflow is per dataset conditional analysis.
 							When there are more than one significant cell types from the same dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
 							significant cell types within the dataset. Based on this, forward selection will be performed to identify independent signals.
 							See tutorial for details.">
-                                <i class="fa fa-question-circle-o fa-lg"></i>
+                                <i class="fa-regular fa-circle-question"></i>
                             </a>
-                            <br />
+                            <br>
                             <input type="checkbox" id="step3" name="step3"> Perform step 3 (cross-datasets
                             conditional analysis)
                             if there is significant cell types from more than one dataset.
-                            <a class="infoPop" data-toggle="popover"
-                                data-content="Step 3 in the workflow is cross-datasets conditional analysis.
+                            <a class="infoPop" data-bs-toggle="popover"
+                                data-bs-content="Step 3 in the workflow is cross-datasets conditional analysis.
 							When there are significant cell types from more than one dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
 							significant cell types across datasets. See tutorial for details.">
-                                <i class="fa fa-question-circle-o fa-lg"></i>
+                                <i class="fa-regular fa-circle-question"></i>
                             </a>
-                            <br />
-                            <span class="info"><i class="fa fa-info"></i>
+                            <br>
+                            <span class="info"><i class="fa fa-info fa-sm"></i>
                                 Step 2 and 3 options are disabled when all scRNA datasets are selected.
                             </span>
-                            <br />
-                            <br />
-                            <div class="form-inline">
-                                Title:
-                                <input type="text" class="form-control" id="title" name="title" />
-                                <span class="info"><i class="fa fa-info"></i> Optional</span>
+                            <br>
+                            <div class="row mb-1">
+                                <label for="title" class="col-sm-5 col-form-label">
+                                    Title:
+                                </label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="title" name="title" />
+                                </div>
+                                <div class="col-sm-1">
+                                    <span class="info"><i class="fa fa-info fa-sm"></i> Optional</span>
+                                    <div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <br />
-                    <div id="CheckInput"></div>
-                    <input type="submit" value="Submit" class="btn btn-default" id="cellSubmit"
-                        name="cellSubmit" /><br /><br />
+                    <div id="CheckInput" class="mt-2"></div>
+                    <input type="submit" value="Submit" class="btn btn-primary" id="cellSubmit"
+                        name="cellSubmit" /><br><br>
                     {{ html()->form()->close() }}
                 </div>
-                @include('celltype.joblist')
-                <div id="DIY" class="sidePanel container" style="padding-top:50px;">
-                    <h4>Do It Yourself</h4>
+                <div>
+                    @include('celltype.joblist')
+                    <div id="DIY" class="sidePanel container" style="padding-top:50px;">
+                        <h4>Do It Yourself</h4>
+                    </div>
+                    @include('celltype.result')
                 </div>
-                @include('celltype.result')
             </div>
-        </div>
-    </div>
-@endsection
+        @endsection
 
-@section('scripts')
-    {{-- Imports from the web --}}
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.0/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
-    <script src="//labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <script type="text/javascript" src="//d3js.org/queue.v1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tree-multiselect@2.6.3/dist/jquery.tree-multiselect.min.js"></script>
+        {{-- Vite imports from the project --}}
+        @push('vite')
+            @vite(['resources/js/utils/cell_results.js', 'resources/js/utils/celltype.js', 'resources/js/utils/sidebar.js'])
+        @endpush
 
-    {{-- Hand written ones --}}
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        var id = "{{ $id }}";
-        var status = "{{ $status }}";
-        var page = "{{ $page }}";
-        var prefix = "{{ $prefix }}";
-        var subdir = "{{ Config::get('app.subdir') }}";
-        var loggedin = "{{ Auth::check() }}";
-    </script>
+        @push('page_scripts')
+            {{-- Web (via npm) resources --}}
+            {{-- Hand written ones --}}
+            <script type="module">
+                window.loggedin = "{{ Auth::check() }}";
+                console.log(`Page {{ $page }} LoggedIn ${window.loggedin}`)
+                window.setCelltypePageState(
+                    "{{ $status }}",
+                    "{{ $id }}",
+                    "{{ $prefix }}",
+                    "{{ $page }}",
+                    "",
+                    "{{ Auth::check() }}"
+                );
+            </script>
+            {{-- Imports from the project using Vite alias macro --}}
+            <script type="module">
+                import {
+                    CheckAll
+                } from "{{ Vite::appjs('utils/NewJobParameters.js') }}";
+                window.CheckAll = CheckAll;
+                import {
+                    CellTypeSetup
+                } from "{{ Vite::appjs('utils/celltype.js') }}";
+                import {
+                    CheckInput
+                } from "{{ Vite::appjs('utils/celltype.js') }}";
+                window.CheckInput = CheckInput;
+                import {
+                    SidebarSetup
+                } from "{{ Vite::appjs('utils/sidebar.js') }}";
+                import {
+                    ImgDownDS,
+                    ImgDown,
+                    updatePerDatasetPlot
+                } from "{{ Vite::appjs('utils/cell_results.js') }}";
+                window.ImgDownDS = ImgDownDS;
+                window.ImgDown = ImgDown;
+                window.updatePerDatasetPlot = updatePerDatasetPlot;
+                $(function() {
+                    SidebarSetup();
+                    CellTypeSetup();
+                });
+            </script>
 
-    {{-- Imports from the project --}}
-    <script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}?131"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/cell_results.js') !!}?135"></script>
-    <script type="text/javascript" src="{!! URL::asset('js/celltype.js') !!}?134"></script>
-
-    <script>
-        var params = {
-            sortable: true
-        };
-        $("select#cellDataSets").treeMultiselect({
-            searchable: true,
-            searchParams: ['section', 'text'],
-            hideSidePanel: true,
-            startCollapsed: true
-        });
-    </script>
-@endsection
+            <script type="module">
+                $("select#cellDataSets").treeMultiselect({
+                    searchable: true,
+                    searchParams: ['section', 'text'],
+                    hideSidePanel: true,
+                    startCollapsed: true
+                });
+            </script>
+        @endpush

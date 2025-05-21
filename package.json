@@ -1,12 +1,64 @@
 {
     "private": true,
+    "sideEffects": [
+        "./resources/js/utils/annotPlot.js",
+        "./resources/js/utils/NewJobParameters.js",
+        "./resources/js/utils/snp2gene.js",
+        "./resources/js/utils/browse.js",
+        "./resources/js/utils/celltype.js",
+        "./resources/js/utils/sidebar.js",
+        "./resources/js/utils/geneMapParameters.js",
+        "./resources/js/utils/s2g_results.js",
+        "./resources/js/utils/g2f_results.js",
+        "./resources/js/utils/cell_results.js",
+        "./resources/js/pages/pageStateComponents",
+        "./resources/js/pages/page_annotPlot.js",
+        "./resources/js/pages/page_s2g.js",
+        "./resources/js/utils/gene2func.js",
+        "./resources/js/utils/tutorial_utils.js"
+    ],
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build --debug"
     },
     "devDependencies": {
+        "@eslint/js": "^9.13.0",
+        "@rollup/plugin-commonjs": "^26.0.1",
+        "@rollup/plugin-inject": "^5.0.5",
+        "@rollup/plugin-node-resolve": "^15.3.0",
         "axios": "^1.1.2",
+        "eslint": "^9.13.0",
+        "fast-glob": "^3.3.2",
+        "globals": "^15.11.0",
         "laravel-vite-plugin": "^0.7.2",
-        "vite": "^4.0.0"
+        "rollup-plugin-cleanup": "^3.2.1",
+        "rollup-plugin-visualizer": "^5.12.0",
+        "vite": "^4.5.3",
+        "vite-plugin-commonjs": "^0.10.3",
+        "vite-plugin-inspect": "^0.8.6",
+        "vite-plugin-node-polyfills": "^0.22.0",
+        "vite-plugin-remove-console": "^2.2.0",
+        "vite-plugin-resolve": "^2.5.2"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.6.0",
+        "bootstrap": "^5.3.3",
+        "bootstrap-select": "^1.14.0-beta3",
+        "d3": "^4.13.0",
+        "d3-queue": "^1.2.3",
+        "d3-v6-tip": "^1.0.9",
+        "datatables.net-bs5": "^2.1.8",
+        "datatables.net-buttons": "^3.1.1",
+        "datatables.net-buttons-bs5": "^3.2.0",
+        "datatables.net-select": "^2.0.5",
+        "holdon.js": "^1.0.1",
+        "jquery": "^3.7.1",
+        "jquery-migrate": "^3.5.2",
+        "jquery-ui": "^1.14.0",
+        "js-loading-overlay": "^1.2.0",
+        "mathjax": "^3.2.2",
+        "popper.js": "^1.16.1",
+        "sweetalert": "^2.1.2",
+        "tree-multiselect": "^2.6.3"
     }
 }

@@ -26,7 +26,7 @@ def getGWAScatSNPs(snps, snpshead, gwascat_file):
 	min_pos = min(snps[:,3].astype(int))
 	max_pos = max(snps[:,3].astype(int))
 	chrom = int(snps[0,2])
-
+	print("GWAS cat file: ", gwascat_file)
 	tb = tabix.open(gwascat_file)
 	tmp = tb.querys(str(chrom)+":"+str(min_pos)+"-"+str(max_pos))
 	out = []
@@ -54,6 +54,7 @@ def main ():
 	cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
 	gwascat_file = cfg.get("data", "GWAScat")
+	print("GWAS cat file: ", gwascat_file)
 
 	##### read SNPs #####
 	snps = pd.read_table(filedir+"snps.txt", sep="\t")

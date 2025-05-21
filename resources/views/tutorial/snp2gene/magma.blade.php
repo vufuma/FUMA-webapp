@@ -7,25 +7,25 @@ In this section, reference panels and gene expression data sets are described de
 	To avoid mismatch of rsID, unique ID (chr:pos:allele1:allele2) is used for MAGMA.
 	<h4><strong>1. 1000 Genome Phase3</strong></h4>
 	Same as described in <a href="{{ Config::get('app.subdir') }}/tutorial#refpanel">Reference panel</a> section.
-	<br/>
+	<br>
 
 	<h4><strong>2. UK Biobank release2</strong></h4>
 	Same as described in <a href="{{ Config::get('app.subdir') }}/tutorial#refpanel">Reference panel</a> section,
 	<span style="color:red;">except further 1,000 individuals were randomly selected</span>
 	to reduce runtime of MAGMA (it takes >3 hours with 10,000 individuals).
-	<br/>
+	<br>
 
 </div>
 
 <h4>Gene analysis</h4>
 <div style="padding-left: 40px;">
-	Gene analysis is performed with default parameters (SNP-wide mean model) with the user selected reference panel.<br/>
-	The command FUMA uses is the following.<br/>
+	Gene analysis is performed with default parameters (SNP-wide mean model) with the user selected reference panel.<br>
+	The command FUMA uses is the following.<br>
 	<code class="codebox">
-		magma --bfile [path to the selected reference panel] \<br/>
-		<tab>--pval [magma input file] ncol=3 (or N=[total sample size]) \<br/>
-		<tab>--gene-annot [path to the annotation file with use selected window size] \<br/>
-		<tab>--out [output file]
+		magma --bfile [path to the selected reference panel] \<br>
+		--pval [magma input file] ncol=3 (or N=[total sample size]) \<br>
+		--gene-annot [path to the annotation file with use selected window size] \<br>
+		--out [output file]
 	</code>
 
 </div>
@@ -40,16 +40,16 @@ In this section, reference panels and gene expression data sets are described de
 	For FUMA &ge; v1.5.6, 17023 gene sets (curated gene sets: 6494, GO terms: 10529) from MsigDB v2023.1Hs are used. <br/>
 	Bonferroni correction was performed for the all tested gene sets. <br/>
 	To customise, you can download the output file and select a specific gene sets.
-	<br/>
-	<br/>
+	<br>
+	<br>
 	The MSigDB v7.0 gene-set file used in FUMA from version 1.3.5d to 1.5.5 can be downloaded here:
 	<div class="clickable" onclick='tutorialDownloadVariant("MSigDB7")'>
-		MSigDB v7.0 
+		MSigDB v7.0
 		<img class="fontsvg" src="{{URL::asset('/image/download.svg')}}"/> 22M
 	</div>
 	The MSigDB v2023.1Hs gene-set file used in FUMA from version 1.5.6+ can be downloaded here:
 	<div class="clickable" onclick='tutorialDownloadVariant("MSigDB20231Hs")'>
-		MSigDB v2023.1Hs 
+		MSigDB v2023.1Hs
 		<img class="fontsvg" src="{{URL::asset('/image/download.svg')}}"/> 24M
 	</div>
 	<form method="post" target="_blank" action="/tutorial/download_variants">
@@ -58,13 +58,13 @@ In this section, reference panels and gene expression data sets are described de
 		<input type="submit" id="tutorialDownloadVariantSubmit" class="ImgDownSubmit" style="display: none;"/>
 	</form>
 	The gene-sets were downloaded from MSigDB with Entrez gene IDs and then converted to Ensembl gene IDs using biomaRt. When one Entrez gene ID matched multiple Ensembl gene IDs, all of the matching Ensembl gene IDs were included.
-	<br/>
-	<br/>
-	Gene set analysis is performed by the following command.<br/>
+	<br>
+	<br>
+	Gene set analysis is performed by the following command.<br>
 	<code class="codebox">
-		magma --gene-results [path to]/magma.genes.raw \</br>
-		<tab>--set-annot [path to gene set file] \</br>
-		<tab>--out [output file]
+		magma --gene-results [path to]/magma.genes.raw \<br>
+		--set-annot [path to gene set file] \<br>
+		--out [output file]
 	</code>
 </div>
 
@@ -91,25 +91,25 @@ In this section, reference panels and gene expression data sets are described de
 	and \(T = \{tissue\ type\ 1, tissue\ type\ 2, ..., tissue\ type\ N\}\).
 	We performed a one-sided test (\(\beta_E>0\)) which is essentially testing
 	the positive relationship between tissue specificity and genetic association
-	of genes.<br/>
-	<br/>
-	MAGMA gene-property analysis is run with the following command, <br/>
+	of genes.<br>
+	<br>
+	MAGMA gene-property analysis is run with the following command, <br>
 	<code class="codebox">
-		magma --gene-results [input file name].genes.raw \<br/>
-		<tab>--gene-covar [file name of selected RNA-seq data set] \ <br/>
-		<tab>--model direction-covar=greater condition-hide=Average \<br/>
-		<tab>--out [output file name]
+		magma --gene-results [input file name].genes.raw \<br>
+		--gene-covar [file name of selected RNA-seq data set] \ <br>
+		--model direction-covar=greater condition-hide=Average \<br>
+		--out [output file name]
 	</code>
 </div>
 
 <h4>Gene expression data sets</h4>
 <div style="padding-left: 40px;">
 	<h4><strong>1. GTEx v6</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		RNAseq data set was downloaded from <a href="http://www.gtexportal.org/home/datasets">http://www.gtexportal.org/home/datasets</a>.
 		Gene level RPKM was used (<span style="color: blue;">GTEx_Analysis_v6_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz</span>).
 	</p>
-	<p><strong>Pre-process</strong><br/>
+	<p><strong>Pre-process</strong><br>
 		Primary gene ID was Ensemble ID.
 		In total, 8,555 samples were available.
 		From 56,318 annotated genes, genes were filtered on such that average RPKM per tissue is >1 in at least on of the 53 tissues.
@@ -119,11 +119,11 @@ In this section, reference panels and gene expression data sets are described de
 		was used as the covariates conditioning on the average across all the tissues.
 	</p>
 	<h4><strong>2. GTEx v7</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		RNAseq data set was downloaded from <a href="http://www.gtexportal.org/home/datasets">http://www.gtexportal.org/home/datasets</a>.
 		Gene level TPM was used (<span style="color: blue;">GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_rpm.gct.gz</span>).
 	</p>
-	<p><strong>Pre-process</strong><br/>
+	<p><strong>Pre-process</strong><br>
 		Primary gene ID was Ensemble ID.
 		In total, 11,688 samples were available.
 		From 56,203 annotated genes, genes were filtered on such that average TPM per tissue is >1 in at least on of the 53 tissues.
@@ -133,11 +133,11 @@ In this section, reference panels and gene expression data sets are described de
 		was used as the covariates conditioning on the average across all the tissues.
 	</p>
 	<h4><strong>3. BrainSpan</strong></h4>
-	<p><strong>Data source</strong><br/>
+	<p><strong>Data source</strong><br>
 		RNAseq data set was downloaded from <a href="http://www.brainspan.org/static/download" target="_blank">http://www.brainspan.org/static/download</a>.
 		Gene level RPKM was used (<span style="color: blue;">genes_matrix_csv.zip</span>).
 	</p>
-	<p><strong>Pre-process</strong><br/>
+	<p><strong>Pre-process</strong><br>
 		Primary gene ID was Ensemble ID.
 		In total, 524 samples were available.
 		General developmental stages were annotated for each sample based on the age.
