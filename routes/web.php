@@ -219,7 +219,6 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
             Route::get('/{jobID}', [G2FController::class, 'viewJob']);
-            Route::post('/geneQuery', [G2FController::class, 'geneQuery']);
             Route::post('/geneSubmit', [G2FController::class, 'snp2geneGeneQuery']);
             Route::post('/deleteJob', [G2FController::class, 'deleteJob']);
             Route::post('/g2f_filedown', [FumaController::class, 'g2f_filedown']);

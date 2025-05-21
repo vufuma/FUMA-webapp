@@ -7,8 +7,8 @@
 		The method for multiple testing correction (FDR BH), adjusted P-value cutoff (0.05) and minimum number of overlapped genes (2) are set at default values.
 		These options can be adjusted by resubmitting your query (click "Submit" button in New Query tab).
 	</p>
-	<img src="{!! URL::asset('/image/snp2genejump.png') !!}" style="width:70%"/><br/>
-	<br/>
+	<img src="{!! URL::asset('/image/snp2genejump.png') !!}" style="width:70%"/><br>
+	<br>
 	<h4><strong>Option 2. Use a list of genes of interest</strong></h4>
 	<p>To analyze a custom list of genes, you have to prepare a list of genes as either ENSG ID, entrez ID or gene symbol.
 		Genes can be provided in the text are (one gene per line) or by uploading a file in the left panel. When you upload a file, genes have to be in the first column with a header.

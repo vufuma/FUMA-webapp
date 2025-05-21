@@ -25,7 +25,8 @@ img.footerimg{
   clear: both;
   background-color: #222222;
   width: 100%;
-  height: 100px;
+  min-height: 100px;
+  height: 100%;
   bottom: 0;
   left: 0;
   right: 0;
@@ -51,12 +52,20 @@ img.footerimg{
     display: inline-block;
 }
 
-.btn-default{
-	background-color: #ECF0F1 !important;
-}
-
-.btn-default:active{
-  background-color: #B3B6B7 !important;
+/* In bootstrap V5 restore the old mid-gray outline buttons 
+which are compatible with HTML input controls */
+.btn-default {
+  --bs-btn-font-weight: 400;
+  --bs-btn-color: #333;
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: #ccc;
+  --bs-btn-hover-color: #333;
+  --bs-btn-hover-bg: #e6e6e6;
+  --bs-btn-hover-border-color: #adadad;
+  --bs-btn-focus-shadow-rgb: #8c8c8c;
+  --bs-btn-active-color: #333;
+  --bs-btn-active-bg: #d4d4d4;
+  --bs-btn-active-border-color: #8c8c8c;
 }
 
 tab {
@@ -64,17 +73,16 @@ tab {
 }
 
 .table thead{
-  text-align: center !important;
+  text-align: left;
 }
 
 .table{
-  font-size: 14px;
+  font-size: 1rem;
 }
 
 table.display{
-  font-size: 16px;
+  font-size: 1rem;
 }
-
 
 .table.inputTable td{
   padding: 2px;
@@ -86,22 +94,40 @@ table.display{
   vertical-align: middle;
 }
 
+.table.inputTable td select{
+    font-size: calc(14rem/15);
+}
+
 .info{
   font-size: 14px;
   color: #000099;
 }
 
-input[type=number]{
+/*input[type=number]{
   width: 200px;
   height: 30px;
 }
 input[type=text]{
   width: 200px;
   height: 30px;
-}
+}*/
 
 table.smallTable{
   width: 300px;
+}
+
+/* spans with input controls*/
+.inputSpan {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%; /* Adjust as needed */
+    white-space: nowrap;
+}
+.inputSpan input {
+    width: 200px;
+    height: 30px;
+    margin-left: auto;
 }
 
 /* accordion button*/
@@ -120,10 +146,6 @@ button.accordion{
 button.accordion.active, button.accordion:hover {
   background-color: #ddd;
 }
-
-/*.panel-default > .panel-heading{
-  background-color: #c6d9ec;
-}*/
 
 .alert{
   padding: 10px 10px 10px 10px;
@@ -224,3 +246,78 @@ div.tooltip{
   width: 1em;
 }
 
+td.sorting_1,
+th.dt-ordering-desc,
+th.dt-ordering-asc {
+  background-color: whitesmoke !important;
+}
+
+/* This section is used in the Update editor denoted by class .editupdate  */
+
+.editupdate .options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+}
+
+.editupdate button {
+  height: 28px;
+  width: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  border: none;
+  background-color: #ffffff;
+  outline: none;
+  color: #020929;
+}
+
+.editupdate select {
+  padding: 7px;
+  border: 1px solid #020929;
+  border-radius: 3px;
+}
+
+.editupdate .options label,
+.editupdate .options select {
+  font-family: "Poppins", sans-serif;
+}
+
+.editupdate .input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editupdate input[type="color"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 40px;
+  height: 28px;
+  border: none;
+  cursor: pointer;
+}
+
+.editupdate input[type="color"]::-webkit-color-swatch {
+  border-radius: 15px;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #020929;
+}
+
+.editupdate input[type="color"]::-moz-color-swatch {
+  border-radius: 15px;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #020929;
+}
+
+.editupdate #text-input {
+  margin-top: 10px;
+  border: 1px solid #dddddd;
+  padding: 20px;
+  height: 50vh;
+}
+
+.editupdate .active {
+  background-color: #e0e9ff;
+}

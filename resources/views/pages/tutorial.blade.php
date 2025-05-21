@@ -7,14 +7,14 @@
 				<li class="sidebar-brand"><a id="menu-toggle"><tab><i id="main_icon" class="fa fa-chevron-left"></i></a></li>
 			</ul>
 			<ul class="sidebar-nav" id="sidebar">
-				<li class="active"><a href="#overview">Overview<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
-				<li><a href="#quick-start">Quick Start<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li class="active"><a href="#overview">Overview<span class="sub_icon fa fa-circle-info"></span></a></li>
+				<li><a href="#quick-start">Quick Start<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="quick-startsub">
 					<a href="#generalInfo">General Info</a>
 					<a href="#getCandidate">Prioritize genes</a>
 					<a href="#geneQuery">Gene functions</a>
 				</div>
-				<li><a href="#snp2gene">SNP2GENE<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li><a href="#snp2gene">SNP2GENE<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="snp2genesub">
 					<a href="#prepare-input-files">Input files</a>
 					<a href="#parameters">Parameters</a>
@@ -29,12 +29,12 @@
 					<a href="#chromatin-interactions">Chromatin interactions</a>
 					<!-- <a href="#examples">Example senarios</a> -->
 				</div>
-				<li><a href="#gene2func">GENE2FUNC<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li><a href="#gene2func">GENE2FUNC<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="gene2funcsub">
 					<a href="#submit-genes">Submit genes</a>
 					<a href="#g2fOutputs">Outputs</a>
 				</div>
-				<li><a href="#celltype">Cell type<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li><a href="#celltype">Cell type<span class="sub_icon fa fa-circle-info"></span></a></li>
 				<div class="subside" id="celltypesub">
 					<a href="#cell_submit">Submit jobs</a>
 					<a href="#basemodel">Base model</a>
@@ -42,8 +42,8 @@
 					<!-- <a href="#cell_outputs">Outputs</a> -->
 					<a href="#datasets">scRNA data sets</a>
 				</div>
-				<li class="active"><a href="#publish">Publish results<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
-				<li class="active"><a href="#data-security">Data security<span class="sub_icon glyphicon glyphicon-info-sign"></span></a></li>
+				<li class="active"><a href="#publish">Publish results<span class="sub_icon fa fa-circle-info"></span></a></li>
+				<li class="active"><a href="#data-security">Data security<span class="sub_icon fa fa-circle-info"></span></a></li>
 			</ul>
 		</div>
 
@@ -68,41 +68,41 @@
 
 				@include('tutorial.quickstart')
 
-				<div id="snp2gene" class="sidePanel container" style="padding-top:50;">
+				<div id="snp2gene" class="sidePanel container" style="padding-top:50px;">
 					<h2>SNP2GENE</h2>
 					<div style="margin-left: 40px;">
 						@include('tutorial.snp2gene.inputfiles')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.parameters')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.outputs')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.tables')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.geneMap')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.refpanel')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.annov')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.magma')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.riskloci')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.eqtl')
-						<br/>
+						<br>
 						@include('tutorial.snp2gene.ci')
 					</div>
 				</div>
 
-				<div id="gene2func" class="sidePanel container" style="padding-top:50;">
+				<div id="gene2func" class="sidePanel container" style="padding-top:50px;">
 					<h2>GENE2FUNC</h2>
 					<p>The main goal of GENE2FUNC is to provide information on expression of prioritized genes and test for enrichment of the set of genes in pre-defined pathways.
 						You can use the genes prioritized with SNP2GENE or use a separate list of genes.
 					</p>
 					<div style="padding-left: 40px;">
 						@include('tutorial.gene2func.submit-genes')
-						<br/>
+						<br>
 						@include('tutorial.gene2func.outputs')
 					</div>
 				</div>
@@ -110,13 +110,13 @@
 					<h2>Cell type specificity analyses with scRNA-seq</h2>
 					<div style="margin-left: 40px;">
 						@include('tutorial.celltype.submit')
-						<br/>
+						<br>
 						@include('tutorial.celltype.basemodel')
-						<br/>
+						<br>
 						@include('tutorial.celltype.workflow')
-						<br/>
+						<br>
 						<!-- @include('tutorial.celltype.output') -->
-						<br/>
+						<br>
 						@include('tutorial.celltype.datasets')
 					</div>
 				</div>
@@ -128,19 +128,26 @@
 	</div>
 @endsection
 
-@section('scripts')
-	{{-- Imports from the web --}}
-	<script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
-	
-	{{-- Imports from the project --}}
-	<script type="text/javascript" src="{!! URL::asset('js/sidebar.js') !!}"></script>
-	<script type="text/javascript" src="{!! URL::asset('js/tutorial_utils.js') !!}"></script>
+@push('vite')
+    @vite([
+        'resources/js/utils/sidebar.js',
+        'resources/js/utils/tutorial_utils.js'])
+@endpush
 
-	{{-- Hand written ones --}}
-	<script type="text/javascript">
-		var page = "tutorial";
-		var loggedin = "{{ Auth::check() }}";
-		$(document).ready(function(){
+@push('page_scripts')
+	{{-- Imports from the web mathjax will be available as es6 at v4 --}}
+
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    {{-- Hand written ones --}}
+	<script type="module">
+		window.page = "tutorial";
+		window.loggedin = "{{ Auth::check() }}";
+        import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}"
+        import { tutorialDownloadVariant } from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
+
+        window.tutorialDownloadVariant = tutorialDownloadVariant;
+		$(function(){
+            SidebarSetup();
 			var hashid = window.location.hash;
 			var side = [];
 			$('.sidebar-nav li a').each(function(){
@@ -163,7 +170,7 @@
 					});
 				}
 			}
-		
+
 			$('.inpage').on('click', function(){
 				var hashid = $(this).attr('href');
 				hashid = hashid.replace(/\/\w+#/, "#");
@@ -191,5 +198,5 @@
 			})
 		});
 	</script>
-	
-@endsection
+
+@endpush

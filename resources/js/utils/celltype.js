@@ -1,13 +1,17 @@
-var prefix = "celltype";
-$(document).ready(function(){
+import { loadResults, DownloadFiles } from './cell_results.js';
+import { CellTypeState as pageState}  from "../pages/pageStateComponents.js";
+import { deleteJobs } from './helpers.js';
+
+
+export const CellTypeSetup = function(){
 	// hide submit buttons for imgDown
 	$('.ImgDownSubmit').hide();
 	$('#cellSubmit').attr("disabled", true);
 	$('#resultSide').hide();
 
-	// hash activate
+    // hash activate
 	var hashid = window.location.hash;
-	if(hashid=="" && status.length==0){
+	if(hashid=="" && pageState.get("status").length==0){
 		$('a[href="#newJob"]').trigger('click');
 	}else if(hashid==""){
 		$('a[href="#result"]').trigger('click');
@@ -38,7 +42,7 @@ $(document).ready(function(){
 
 	// Get SNP2GENE job IDs
 	$.ajax({
-		url: subdir+"/celltype/getS2GIDs",
+		url: pageState.get("subdir")+"/celltype/getS2GIDs",
 		type: "POST",
 		error: function(){
 			alert("error for getS2GIDs");
@@ -54,48 +58,17 @@ $(document).ready(function(){
 		}
 	})
 
-	// Delete jobs
-	$('#deleteJob').on('click', function(){
-		swal({
-			title: "Are you sure?",
-			text: "Do you really want to remove selected jobs?",
-			type: "warning",
-			showCancelButton: true,
-			closeOnConfirm: true,
-		}, function(isConfirm){
-			if (isConfirm){
-				$('.deleteJobCheck').each(function(){
-					if($(this).is(":checked")){
-						$.ajax({
-							url: subdir+'/'+page+'/deleteJob',
-							type: "POST",
-							data: {
-								jobID: $(this).val()
-							},
-							error: function(){
-								alert("error at deleteJob");
-							},
-							success: function (resdata) {
-								// chech if resdata is null
-								if (resdata != "") {
-									alert(resdata);
-								}
-							},
-							complete: function(){
-								getJobList();
-							}
-						});
-					}
-				});
-			}
-		});
-	});
 
-	if(status.length==0){
-	}else{
+	$('#deleteJob').on('click', function(){
+		deleteJobs(pageState.get("subdir"), pageState.get("page"), getJobList)
+	}
+	)
+	
+
+	if(pageState.get("status").length>0){
 		var jobStatus;
 		$.get({
-			url: subdir+'/'+page+'/checkJobStatus/'+id,
+			url: pageState.get("subdir")+'/'+pageState.get("page")+'/checkJobStatus/'+pageState.get("id"),
 			error: function(){
 				alert("ERROR: checkJobStatus")
 			},
@@ -105,14 +78,14 @@ $(document).ready(function(){
 			complete: function(){
 				if(jobStatus=="OK"){
 					$('#resultSide').show();
-					loadResults(id);
+					loadResults(pageState.get("id"));
 				}
 			}
 		});
 	}
-});
+};
 
-function CheckInput(){
+export function CheckInput(){
 	var check = true;
 	var s2gID = $('#s2gID').val();
 	var fileName = $('#genes_raw').val();
@@ -138,7 +111,7 @@ function CheckInput(){
 		}else if(s2gID>0){
 			var filecheck = false;
 			$.ajax({
-				url: subdir+"/celltype/checkMagmaFile",
+				url: pageState.get("subdir")+"/celltype/checkMagmaFile",
 				type: 'POST',
 				data: { jobID: s2gID },
 				error: function(){alert("error from checkMagmaFile")},
@@ -174,7 +147,7 @@ function getJobList(){
 	$('#joblist table tbody')
 		.empty()
 		.append('<tr><td colspan="7" style="text-align:center;">Retrieving data</td></tr>');
-	$.getJSON( subdir+'/'+page+'/getJobList', function( data ){
+	$.getJSON( pageState.get("subdir")+'/'+ pageState.get("page") +'/getJobList', function( data ){
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){
 			items = '';
@@ -183,9 +156,9 @@ function getJobList(){
 				if (val.parent != null && val.parent.removed_at != null) {
 					val.parent = null;
 				}
-				
+
 				if(val.status == 'OK'){
-					val.status = '<a href="'+subdir+'/'+page+'/'+val.jobID+'">Go to results</a>';
+					val.status = '<a href="'+pageState.get("subdir")+'/'+ pageState.get("page") +'/'+val.jobID+'">Go to results</a>';
 				}
 				items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title
 					+"</td><td>"+(val.parent != null ? val.parent.jobID : '-')+"</td><td>"+(val.parent != null ? val.parent.title : '-')
@@ -199,5 +172,10 @@ function getJobList(){
 		$('#joblist table tbody')
 			.empty()
 			.append(items);
-	});
+	})
+    .fail(function() {
+        console.log("Celltype getJobList error");
+    });
 }
+
+export default CellTypeSetup;

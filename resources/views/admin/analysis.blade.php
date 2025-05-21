@@ -1,10 +1,13 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container" style="padding-top:50px;">
+<div class ="col">
+    <div class="container-xl style="padding-top:50px;">
         <div style="text-align: center;">
             <h2>Analysis Dashboard</h2>
             <h2>This is a test analysis page</h2>
+
+            
 
             <table class="table table-bordered table-sm table-striped">
                 <tr>
@@ -56,6 +59,7 @@
 
         </div>
     </div>
+</div>
 @endsection
 
 @section('scripts')

@@ -15,12 +15,12 @@
 		When adjusted P-value threshold is set to > 0.05, all results passed threshold are included in the GS.txt field
 		downloadable from "Summary" tab.
 	</span>
-	<br/>
+	<br>
 	<span class="info"><i class="fa fa-info"></i>
 		If there is no significant gene sets (adjusted P-value < 0.05) in user provided custom gene sets,
 		they are not displayed in this page, but all results passed threshold are included in the GS.txt field
 		downloadable from "Summary" tab.
 	</span>
-	<br/>
+	<br>
 	<div id="GeneSet"></div>
 </div>

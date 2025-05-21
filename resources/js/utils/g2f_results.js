@@ -1,6 +1,18 @@
-function summaryTable(id){
+import { G2FPageState as pageState}  from "../pages/pageStateComponents.js";
+
+var exp_data_title = {
+	'gtex_v8_ts_avg_log2TPM': 'GTEx v8 54 tissue types',
+	'gtex_v8_ts_general_avg_log2TPM': 'GTEx v8 30 general tissue types',
+	'gtex_v7_ts_avg_log2TPM': 'GTEx v7 53 tissue types',
+	'gtex_v7_ts_general_avg_log2TPM': 'GTEx v7 30 general tissue types',
+	'gtex_v6_ts_avg_log2RPKM': 'GTEx v6 53 tissue types',
+	'gtex_v6_ts_general_avg_log2RPKM': 'GTEx v6 30 general tissue types',
+	'bs_age_avg_log2RPKM': "BrainSpan 29 different ages of brain samples",
+	"bs_dev_avg_log2RPKM": "BrainSpan 11 general developmental stages of brain samples"
+} 
+export function summaryTable(subdir, page, prefix, id){
 	$.ajax({
-		url: subdir+'/'+page+'/g2f_sumTable',
+		url: subdir + '/' + page + '/g2f_sumTable',
 		type: "POST",
 		data: {
 			jobID: id,
@@ -22,9 +34,9 @@ function summaryTable(id){
 	});
 }
 
-function parametersTable(id){
+export function parametersTable(subdir, page, prefix, id){
 	$.ajax({
-		url: subdir+"/"+page+"/g2f_paramTable",
+		url: subdir + "/" + page + "/g2f_paramTable",
 		type: "POST",
 		data: {
 			jobID: id,
@@ -49,9 +61,9 @@ function parametersTable(id){
 	});
 }
 
-function expHeatMap(id){
+export function expHeatMap(subdir, page, prefix, id){
 	$.ajax({
-		url: subdir+'/'+page+'/expDataOption',
+		url: subdir + '/' + page + '/expDataOption',
 		type: "POST",
 		data: {
 			jobID: id,
@@ -69,12 +81,12 @@ function expHeatMap(id){
 			})
 		},
 		complete: function(){
-			expHeatPlot(id, $("#gene_exp_data").val());
+			expHeatPlot(subdir, prefix, page, id, $("#gene_exp_data").val());
 		}
 	})
 }
 
-function expHeatPlot(id, dataset){
+export function expHeatPlot(subdir, prefix, page, id, dataset){
 	d3.select('#expHeat').select("svg").remove();
 	var itemSizeRow = 15, cellSize=itemSizeRow-1, itemSizeCol=10;
 	var val = $('#expval').val("log2");
@@ -84,8 +96,8 @@ function expHeatPlot(id, dataset){
 	d3.json(subdir+'/'+page+'/expPlot/'+prefix+'/'+id+'/'+dataset, function(data){
 		if(data==null || data==undefined || data.length==0){
 			$('#expHeat').html('<div style="text-align:center; padding-top:100px; padding-bottom:100px;"><span style="color: red; font-size: 24px;"><i class="fa fa-ban"></i> '
-				+'None of your input genes exists in the selected expression data.</span></br>'
-				+'This might also be because of the mismatch of input gene ID or symbol.<br/></div>');
+				+'None of your input genes exists in the selected expression data.</span><br>'
+				+'This might also be because of the mismatch of input gene ID or symbol.<br></div>');
 			$('#expHeat').parent().children('.ImgDown').each(function(){$(this).prop("disabled", true)});
 		}else{
 			// data = JSON.parse(data);
@@ -106,7 +118,7 @@ function expHeatPlot(id, dataset){
 
 			var expMax = d3.max(data.data,function(d){return d[2]});
 			var expMin = d3.min(data.data, function(d){return d[2];});
-			var colorScale = d3.scale.linear().domain([0, expMax/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+			var colorScale = d3.scaleLinear().domain([0, expMax/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 
 			// legened
 			var t = [];
@@ -166,7 +178,7 @@ function expHeatPlot(id, dataset){
 				if(val=="log2"){
 					expMax = d3.max(data.data,function(d){return d[2]});
 					expMin = d3.min(data.data, function(d){return d[2]});
-					col = d3.scale.linear().domain([0, (expMax+expMin)/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+					col = d3.scaleLinear().domain([0, (expMax+expMin)/2, expMax]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 					legendRect.attr("fill", function(d){return col(d*expMax/(t.length-1))});
 					legendText.text(function(d){return Math.round(100*d*expMax/(t.length-1))/100})
 					if(gsort=="clst"){gi = 1;}
@@ -175,7 +187,7 @@ function expHeatPlot(id, dataset){
 					expMax = d3.max(data.data,function(d){return d[3]});
 					expMin = d3.min(data.data, function(d){return d[3];});
 					var m = Math.max(expMax, Math.abs(expMin));
-					col = d3.scale.linear().domain([-m, 0, m]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
+					col = d3.scaleLinear().domain([-m, 0, m]).range(["#2c7bb6", "#ffffbf", "#d7191c"]).interpolate(d3.interpolateHcl);
 					legendRect.attr("fill", function(d){return col(d*2*m/(t.length-1)-m)});
 					legendText.text(function(d){return Math.round(d*2*m/(t.length-1)-m)});
 					gcol = 3;
@@ -219,7 +231,7 @@ function expHeatPlot(id, dataset){
 	})
 }
 
-function tsEnrich(id){
+export function tsEnrich(subdir, page, prefix, id){
 	var data_title = {
 		'gtex_v8_ts': 'GTEx v8 54 tissue types',
 		'gtex_v8_ts_general': 'GTEx v8 30 general tissue types',
@@ -233,7 +245,7 @@ function tsEnrich(id){
 	d3.json(subdir+'/'+page+'/DEGPlot/'+prefix+"/"+id, function(data){
 		if(data==null || data==undefined || data.lenght==0){
 			$('#magmaPlot').html('<div style="text-align:center; padding-top:50px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
-			+' MAGMA was not able to perform.</span><br/></div>');
+			+' MAGMA was not able to perform.</span><br></div>');
 		}else{
 			data.forEach(function(d){
 				d[3] = +d[3]; //P-value
@@ -254,10 +266,10 @@ function tsEnrich(id){
 
 				// img download buttons
 				$('#'+ds+'Panel').append('<div id="'+ds+'Plot">Download the plot as '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","png");'+"'"+'>PNG</button> '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","jpeg");'+"'"+'>JPG</button> '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","svg");'+"'"+'>SVG</button> '
-					+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","pdf");'+"'"+'>PDF</button></div>'
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'("'+ds+'","png");'+"'"+'>PNG</button> '
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","jpeg");'+"'"+'>JPG</button> '
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","svg");'+"'"+'>SVG</button> '
+					+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'DEGImgDown("'+ds+'","pdf");'+"'"+'>PDF</button></div>'
 				);
 
 				// plot
@@ -277,15 +289,15 @@ function tsEnrich(id){
 						.attr("height", height+margin.top+margin.bottom)
 						.append("g")
 						.attr("transform", "translate("+margin.left+","+margin.top+")");
-				var x = d3.scale.ordinal().rangeBands([0,width]);
-				var xAxis = d3.svg.axis().scale(x).orient("bottom");
+				var x = d3.scaleOrdinal().range([0,width]);
+				var xAxis = d3.axisBottom(x);
 				var label = d3.set(tdata.map(function(d){return d[2]})).values();
 				x.domain(label);
 				var currentHeight = 0;
 
 				//up-regulated
-				var yup = d3.scale.linear().range([currentHeight+span, currentHeight]);
-				var yAxisup = d3.svg.axis().scale(yup).orient("left").ticks(4);
+				var yup = d3.scaleLinear().range([currentHeight+span, currentHeight]);
+				var yAxisup = d3.axisLeft(yup).ticks(4);
 				yup.domain([0, d3.max(tdata, function(d){return -Math.log10(d[3])})]);
 				var xLabel = svg.append("g").selectAll(".xLabel")
 					.data(tdata.filter(function(d){if(d[1]=="DEG.up"){return d;}})).enter().append("text")
@@ -324,8 +336,8 @@ function tsEnrich(id){
 				currentHeight += span+10;
 
 				//down regulated
-				var ydown = d3.scale.linear().range([currentHeight+span, currentHeight]);
-				var yAxisdown = d3.svg.axis().scale(ydown).orient("left").ticks(4);
+				var ydown = d3.scaleLinear().range([currentHeight+span, currentHeight]);
+				var yAxisdown = d3.axisLeft(ydown).ticks(4);
 				ydown.domain([0, d3.max(tdata, function(d){return -Math.log10(d[3])})]);
 
 				var bardown = svg.selectAll('rect.down')
@@ -354,8 +366,8 @@ function tsEnrich(id){
 				currentHeight += span+10;
 
 				//twoside
-				var y = d3.scale.linear().range([currentHeight+span, currentHeight]);
-				var yAxis = d3.svg.axis().scale(y).orient("left").ticks(4);
+				var y = d3.scaleLinear().range([currentHeight+span, currentHeight]);
+				var yAxis = d3.axisLeft(y).ticks(4);
 				y.domain([0, d3.max(tdata, function(d){return -Math.log10(d[3])})]);
 
 				var bartwo = svg.selectAll('rect.two')
@@ -402,11 +414,11 @@ function tsEnrich(id){
 				}else if(type=="two"){
 					idx = 7;
 				}
-				for(var i=0; i<bars.length; i++){
+				for(let i=0; i<bars.length; i++){
 					bars[i].transition().duration(1000)
 						.attr("x", function(d){return d[idx]*cellsize;})
 				}
-				for(var i=0; i<xLabels.length; i++){
+				for(let i=0; i<xLabels.length; i++){
 					xLabels[i].transition().duration(1000)
 						.attr("transform", function(d){
 							return "translate("+((d[idx]+1)*cellsize)+","+(height+10)+")rotate(-70)";
@@ -420,17 +432,17 @@ function tsEnrich(id){
 	})
 }
 
-function GeneSetPlot(category){
+export function GeneSetPlot(category){
 	$('#'+category+'Plot').show();
 	$('#'+category+'Table').hide();
 }
 
-function GeneSetTable(category){
+export function GeneSetTable(category){
 	$('#'+category+'Plot').hide();
 	$('#'+category+'Table').show();
 }
 
-function GeneSet(id){
+export function GeneSet(subdir, page, prefix, id){
 	$('#GeneSet').html("");
 	var category = ['Hallmark_gene_sets', 'Positional_gene_sets', 'Curated_gene_sets',
 			'Chemical_and_Genetic_pertubation', 'Canonical_Pathways', 'BioCarta', 'KEGG', 'Reactome',
@@ -464,14 +476,14 @@ function GeneSet(id){
 	d3.json(subdir+'/'+page+'/g2f_d3text/'+prefix+'/'+id+'/GS.txt', function(data){
 		data = data['GS.txt'];
 		if(data == undefined || data == null){
-			$('#GeneSet').html('<div style="text-align:center; padding-top:100px; padding-bottom:100px;"><span style="color: red; font-size: 24px;"><i class="fa fa-ban"></i> The number of input genes exist in selected background genes was 0 or 1.</span></br>'
+			$('#GeneSet').html('<div style="text-align:center; padding-top:100px; padding-bottom:100px;"><span style="color: red; font-size: 24px;"><i class="fa fa-ban"></i> The number of input genes exist in selected background genes was 0 or 1.</span><br>'
 			+'The hypergeometric test is only performed if more than 2 genes are available.</div>');
 			$('#GSdown').attr("disabled", true);
 		}else{
 			data.forEach(function(d){
 				d.adjP = +d.adjP;
 			});
-			tmp_category = d3.set(data.map(function(d){return d.Category})).values();
+			let tmp_category = d3.set(data.map(function(d){return d.Category})).values();
 			tmp_category.forEach(function(d){
 				if(category.indexOf(d)<0){category.push(d)}
 			})
@@ -502,30 +514,30 @@ function GeneSet(id){
 					}
 					if(d.GeneSet.length>gs_max){gs_max = d.GeneSet.length;}
 				});
-				genes = d3.set(genesplot.map(function(d){return d.gene;})).values();
+				var genes = d3.set(genesplot.map(function(d){return d.gene;})).values();
 
 				if(tdata.length==0){
-					var panel = $('<div class="panel panel-default" style="padding-top:0;"><div class="panel-heading" style="height: 35px;"><a href="#'
-						+category[i]+'Panel" data-toggle="collapse" style="color: black;">'
-						+title+'<tab>(0)</div><div class="panel-body collapse" id="'
+					let panel = $('<div class="card" style="padding-top:0;"><div class="card-header" style="height: 35px;"><a href="#'
+						+category[i]+'Panel" data-bs-toggle="collapse" style="color: black;">'
+						+title+'&nbsp;(0)</div><div class="panel-body collapse" id="'
 						+category[i]+'Panel"><div id="'+category[i]+'" style="text-align: center;">No significant results</div><div id="'
 						+category[i]+'Table"></div></div></div>');
 					$('#GeneSet').append(panel);
 				}else{
-					// $('#test').append("<p>"+category[i]+"<br/>gs_max: "+gs_max+'<br/>genes: '+genes.length+'</p>');
+					// $('#test').append("<p>"+category[i]+"<br>gs_max: "+gs_max+'<br>genes: '+genes.length+'</p>');
 					// add div
-					var panel = '<div class="panel panel-default" style="padding-top:0;"><div class="panel-heading" style="height: 35px;"><a href="#'
-						+category[i]+'Panel" data-toggle="collapse" style="color: black;">'
-						+title+'<tab>('+tdata.length+')</div><div class="panel-body collapse" id="'
-						+category[i]+'Panel"><p><a onclick="GeneSetPlot('+"'"+category[i]+"'"+');">Plot</a> / <a onclick="GeneSetTable('+
+					let panel = '<div class="card" style="padding-top:0;"><div class="card-header" style="height: 35px;"><a href="#'
+						+category[i]+'Panel" data-bs-toggle="collapse" style="color: black;">'
+						+title+'&nbsp;('+tdata.length+')</div><div class="panel-body collapse" id="'
+						+category[i]+'Panel"><p><a class="link-opacity-75-hover" href="#" onclick="GeneSetPlot('+"'"+category[i]+"'"+');">Plot</a> / <a class="link-opacity-75-hover" href="#" onclick="GeneSetTable('+
 						"'"+category[i]+"'"+');">Table</a></p></div></div>';
 					$('#GeneSet').append(panel);
 					// $('#'+category[i]+"Panel").append('<button class="btn btn-default btn-xs ImgDown" id="'+category[i]+'Img" style="float:right; margin-right:100px;">Download PNG</button>');
 					$('#'+category[i]+"Panel").append('<div id="'+category[i]+'Plot">Download the plot as '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","png");'+"'"+'>PNG</button> '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","jpeg");'+"'"+'>JPG</button> '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","svg");'+"'"+'>SVG</button> '
-						+'<button class="btn btn-default btn-xs ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","pdf");'+"'"+'>PDF</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","png");'+"'"+'>PNG</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","jpeg");'+"'"+'>JPG</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","svg");'+"'"+'>SVG</button> '
+						+'<button class="btn btn-default btn-sm ImgDown" onclick='+"'"+'GSImgDown("'+category[i]+'","pdf");'+"'"+'>PDF</button> '
 						+'<div id="'+category[i]+'" style="overflow: auto; width: 100%;"></div></div>'
 						+'<div id="'+category[i]+'Table"></div>');
 
@@ -535,8 +547,8 @@ function GeneSet(id){
 					var gs = d3.set(tdata.map(function(d){return d.GeneSet})).values();
 					var ngs = gs.length;
 					var barplotwidth = 150;
-
-					var margin = {top: 40, right: 10, bottom: 80, left: Math.max(gs_max*7, 80)},
+					const extraLabelPadding = 25
+					var margin = {top: 40, right: 10, bottom: 80, left: Math.max(gs_max*7, 80) + extraLabelPadding},
 						width = barplotwidth*2+10+(Math.max(genes.length,6)*15),
 						height = 15*ngs;
 					var svg = d3.select('#'+category[i]).append('svg')
@@ -545,11 +557,11 @@ function GeneSet(id){
 						.append('g').attr("transform", "translate("+margin.left+","+margin.top+")");
 
 					// bar plot (overlap proportion)
-					var xprop = d3.scale.linear().range([0, barplotwidth]);
-					var xpropAxis = d3.svg.axis().scale(xprop).orient("bottom");
+					var xprop = d3.scaleLinear().range([0, barplotwidth]);
+					var xpropAxis = d3.axisBottom(xprop);
 					xprop.domain([d3.max(tdata,function(d){return d.N_overlap/d.N_genes})+0.1,0]);
-					var y = d3.scale.ordinal().rangeBands([0,height]);
-					var yAxis = d3.svg.axis().scale(y).orient("left");
+					var y = d3.scaleBand().range([0,height]); // test
+					var yAxis = d3.axisLeft(y);
 					y.domain(tdata.map(function(d){return d.GeneSet;}));
 					svg.selectAll('rect.prop').data(tdata).enter()
 						.append("rect").attr("class", "bar")
@@ -571,19 +583,19 @@ function GeneSet(id){
 						})
 						.selectAll('text').attr('font-weight', 'normal')
 						.style("text-anchor", "end")
-						.attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+						.attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 						.style('font-size', '11px');
 
 					// bar plot (enrichment P-value)
-					var xbar = d3.scale.linear().range([barplotwidth, barplotwidth*2]);
-					var xbarAxis = d3.svg.axis().scale(xbar).orient("bottom");
+					var xbar = d3.scaleLinear().range([barplotwidth, barplotwidth*2]);
+					var xbarAxis = d3.axisBottom(xbar);
 					if(d3.min(tdata, function(d){return d.adjP})==0){
 						if(tdata.length==1){
 							xbar.domain([0, 1]);
 							svg.selectAll('rect.p').data(tdata).enter()
 								.append("rect").attr("class", "bar")
 								.attr("x", xbar(0))
-								.attr("width", function(d){return xbar(1)-barplotwidth})
+								.attr("width", function(){return xbar(1)-barplotwidth})
 								.attr("y", function(d){return y(d.GeneSet)})
 								.attr("height", 15)
 								.style("fill", "#4d4dff")
@@ -630,7 +642,7 @@ function GeneSet(id){
 									}
 								})
 								.selectAll('text').attr('font-weight', 'normal')
-								.style("text-anchor", "end").attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+								.style("text-anchor", "end").attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 								.style('font-size', '11px');
 							svg.append('text').attr('font-weight', 'normal')
 								.style("text-anchor", "end")
@@ -654,16 +666,16 @@ function GeneSet(id){
 						svg.append('g').attr("class", "x axis")
 							.attr("transform", "translate(0,"+height+")")
 							.call(xbarAxis).selectAll('text').attr('font-weight', 'normal')
-							.style("text-anchor", "end").attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+							.style("text-anchor", "end").attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 							.style('font-size', '11px');
 					}
 					svg.append('g').attr("class", "y axis")
 						.call(yAxis).selectAll('text').style('font-size', '11px');
 
 					// gene plot
-					var xgenes = d3.scale.ordinal().rangeBands([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]);
+					var xgenes = d3.scaleBand().range([barplotwidth*2+10,barplotwidth*2+10+15*genes.length]); // test
 					xgenes.domain(genesplot.map(function(d){return d.gene}));
-					var xgenesAxis = d3.svg.axis().scale(xgenes).orient("bottom");
+					var xgenesAxis = d3.axisBottom(xgenes);
 					svg.selectAll('rect.genes').data(genesplot).enter()
 						.append("rect")
 						.attr("x", function(d){return xgenes(d.gene)})
@@ -679,7 +691,7 @@ function GeneSet(id){
 					svg.append('g').attr("class", "x axis")
 						.attr("transform", "translate(0,"+height+")")
 						.call(xgenesAxis).selectAll('text').attr('font-weight', 'normal')
-						.style("text-anchor", "end").attr("transform", function (d) {return "translate(-10,3)rotate(-65)";})
+						.style("text-anchor", "end").attr("transform", function () {return "translate(-10,3)rotate(-65)";})
 						.style('font-size', '11px');
 
 					svg.append("text").attr("text-anchor", "middle")
@@ -726,8 +738,8 @@ function GeneSet(id){
 	});
 }
 
-function GeneTable(id){
-	geneTable = $('#GeneTable').DataTable({
+export function GeneTable(subdir, page, prefix, id){
+	$('#GeneTable').DataTable({
 		"processing": true,
 		serverSide: false,
 		select: false,
@@ -756,7 +768,9 @@ function GeneTable(id){
 	});
 }
 
-function DEGImgDown(name, type){
+export function DEGImgDown(name, type){
+	let prefix = pageState.get("prefix");
+	let id = pageState.get("id");
 	$('#DEGData').val($('#'+name).html());
 	$('#DEGType').val(type);
 	$('#DEGJobID').val(id);
@@ -765,11 +779,13 @@ function DEGImgDown(name, type){
 	$('#DEGSubmit').trigger('click');
 }
 
-function GSImgDown(name, type){
+export function GSImgDown(name, type){
 	$('#GSData').val($('#'+name).html());
 	$('#GSType').val(type);
-	$('#GSJobID').val(id);
+	$('#GSJobID').val(pageState.get('id'));
 	$('#GSFileName').val(name);
-	$('#GSDir').val(prefix);
+	$('#GSDir').val(pageState.get('prefix'));
 	$('#GSSubmit').trigger('click');
 }
+
+export default summaryTable;
