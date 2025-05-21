@@ -1,4 +1,4 @@
-String optimization_command = "composer install --optimize-autoloader \\&\\& php artisan config:cache \\&\\& php artisan event:cache \\&\\& php artisan route:cache \\&\\& php artisan view:cache"
+String optimization_command = "composer install --ignore-platform-req=ext-vips --optimize-autoloader \\&\\& php artisan config:cache \\&\\& php artisan event:cache \\&\\& php artisan route:cache \\&\\& php artisan view:cache"
 // Using the package-lock.json file to install the exact versions of the dependencies
 String npm_install_command = "npm ci \\&\\& npm run build"
 String abs_path_of_jenkins_home_on_host = "/var/www/.laradock/data/jenkins/jenkins_home"
