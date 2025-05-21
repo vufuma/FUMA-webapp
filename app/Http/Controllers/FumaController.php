@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use RuntimeException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\CustomClasses\DockerApi\DockerNamesBuilder;
@@ -354,7 +354,7 @@ class FumaController extends Controller
         // Instead this is using the (JCupitt) php-vips 1.* interface and
         // vips php extension which does not rely on FFI. 
         if (!extension_loaded('vips')) {
-            throw new Exception("The vips extension is not loaded");
+            throw new RuntimeException("The vips extension is not loaded");
         }
 
         $bufferData = '<?xml version="1.0"?>' . $svg;
