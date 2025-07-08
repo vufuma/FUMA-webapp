@@ -57,22 +57,36 @@ export const Gene2FuncSetup = function(){
 			$(this).prop("checked", false);
 		});
 	});
+	
+	$('#gsFileAdd').on('click', function () {
+	var n = 0;
 
-	$('#gsFileAdd').on('click',function(){
-		var n = 0;
-		$('.gsFileID').each(function(){
-			if(parseInt($(this).val()) > n){
-				n = parseInt($(this).val());
-			}
-		})
-		n += 1;
-		$('#gsFiles').append('<br><span class="form-inline gsFile" style="padding-left: 40px;">'
-		+'File '+n
-		+': '+'<button type="button" class="btn btn-default btn-xs gsFileDel" onclick="gsFileDel(this)">delete</button>'
-		+'<input type="file" class="form-control-file gsMapFile" style="padding-left: 40px;" name="gsFile'+n+'" id="gsFile'+n
-		+'" onchange="gsFileCheck()">'
-		+'<input type="hidden" class="gsFileID" id="gsFileID'+n+'" name="gsFileID'+n+'" value="'+n+'"></span>');
-	})
+	$('.gsFileID').each(function () {
+		if (parseInt($(this).val()) > n) {
+			n = parseInt($(this).val());
+		}
+	});
+
+	n += 1;
+
+	var $newInput = $(
+		'<br><span class="form-inline gsFile" style="padding-left: 40px;">' +
+			'File ' + n + ': ' +
+			'<button type="button" class="btn btn-default btn-xs gsFileDel">delete</button>' +
+			'<input type="file" class="form-control gsMapFile" style="padding-left: 40px;" name="gsFile' + n + '" id="gsFile' + n + '">' +
+			'<input type="hidden" class="gsFileID" id="gsFileID' + n + '" name="gsFileID' + n + '" value="' + n + '">' +
+		'</span>'
+	);
+
+	$('#gsFiles').append($newInput);
+
+	$newInput.find('.gsMapFile').on('change', gsFileCheck);
+
+	$newInput.find('.gsFileDel').on('click', function () {
+		$(this).closest('.gsFile').remove();
+		gsFileCheck();
+	});
+});
 
 	$('#deleteJob').on('click', function(){
 		deleteJobs(pageState.get("subdir"), pageState.get("page"), updateList)
