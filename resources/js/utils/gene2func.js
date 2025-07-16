@@ -116,7 +116,7 @@ export const Gene2FuncSetup = function(){
 	}
 };
 
-function gsFileCheck(){
+export function gsFileCheck(){
 	var nFiles = 0;
 	$('.gsMapFile').each(function(){
 		if($(this).val().length>0){
