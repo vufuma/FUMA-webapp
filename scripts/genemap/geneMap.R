@@ -207,7 +207,7 @@ if(eqtlMap==1){
 				eqtl <- eqtl[eqtl$uniqID %in% annot$uniqID[annot$CADD>=eqtlMapCADDth],]
 			}
 			if(eqtlMapRDBth!="NA"){
-				eqtl <- eqtl[eqtl$uniqID %in% eqtl$uniqID[annot$RDB<=eqtlMapRDBth],]
+				eqtl <- eqtl[eqtl$uniqID %in% annot$uniqID[annot$RDB<=eqtlMapRDBth],]
 			}
 			if(eqtlMapChr15!="NA"){
 				if(grepl("all", eqtlMapChr15)){
