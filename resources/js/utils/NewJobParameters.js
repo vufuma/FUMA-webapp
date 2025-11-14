@@ -433,10 +433,10 @@ export const CheckAll = function() {
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		let ts = 0;
-		$('#eqtlMapTs option').each(function(){
+		$('#eqtlGtexv8Ts option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
-		$('#eqtlMapGts option').each(function(){
+		$('#eqtlCatalogTs option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
 		if(ts>0){

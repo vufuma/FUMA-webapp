@@ -297,6 +297,30 @@ class S2GController extends Controller
         return config('queue.jobLimits.queue_cap', 10);
     }
 
+    private function joinQTLdatasets(...$qtlArrays) 
+    {
+        $parts = [];
+
+        foreach ($qtlArrays as $array) {
+            if (!empty($array) && is_array($array)) {
+                $parts[] = implode(":", $array);
+            }
+        }
+
+        return !empty($parts) ? implode(":", $parts) : "NA";
+    }
+
+    private function parseQtl($temp) {
+    $qtlMapTs = [];
+    // $temp = $request->input($id);
+    foreach ($temp as $ts) {
+        if ($ts != "null") {
+            $qtlMapTs[] = $ts;
+        }
+    }
+    return $qtlMapTs;
+    }
+
     public function newJob(Request $request)
     {
         $acceptable_mime_types = array(
@@ -563,28 +587,33 @@ class S2GController extends Controller
         // eqtl mapping
         if ($request->filled('eqtlMap')) {
             $eqtlMap = 1;
-            $temp = $request->input('eqtlMapTs');
-            // $eqtlMapGts = $request -> input('eqtlMapGts');
-            $eqtlMapTs = [];
-            $eqtlMapGts = [];
-            foreach ($temp as $ts) {
-                if ($ts != "null") {
-                    $eqtlMapTs[] = $ts;
-                }
-            }
-            if (!empty($eqtlMapTs) && !empty($eqtlMapGts)) {
-                $eqtlMapTs = implode(":", $eqtlMapTs);
-                $eqtlMapGts = implode(":", $eqtlMapGts);
-                $eqtlMaptss = implode(":", array($eqtlMapTs, $eqtlMapGts));
-            } else if (!empty($eqtlMapTs)) {
-                $eqtlMaptss = implode(":", $eqtlMapTs);
-            } else {
-                $eqtlMaptss = implode(":", $eqtlMapGts);
-            }
+
+            // $eqtlGtexv8Ts = [];
+            // $temp = $request->input('eqtlGtexv8Ts');
+            // foreach ($temp as $ts) {
+            //     if ($ts != "null") {
+            //         $eqtlGtexv8Ts[] = $ts;
+            //     }
+            // }
+
+            // $eqtlCatalogTs = [];
+            // $temp = $request->input('eqtlCatalogTs');
+            // foreach ($temp as $ts) {
+            //     if ($ts != "null") {
+            //         $eqtlCatalogTs[] = $ts;
+            //     }
+            // }
+
+            $eqtlMaptss = $this->joinQTLdatasets(
+                $this->parseQtl($request->input('eqtlGtexv8Ts')),
+                $this->parseQtl($request->input('eqtlCatalogTs'))
+            );
+
         } else {
             $eqtlMap = 0;
             $eqtlMaptss = "NA";
         }
+
         if ($request->filled('sigeqtlCheck')) {
             $sigeqtl = 1;
             $eqtlP = 1;
