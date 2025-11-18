@@ -92,12 +92,12 @@ border-color: rgba(0,0,0,0.1);
                     <td class="table-active"></td>
                 </tr>
                 <tr class="eqtlMapOptions">
-                    <td>eQTL P-value threshold
+                    <th class="align-middle">eQTL P-value threshold
                         <a class="infoPop" data-bs-toggle="popover" title="eQTL P-value threshold"
                             data-bs-content="By default, only significant eQTLs are used (FDR &lt; 0.05). Please UNCHECK 'Use only significant snp-gene pair' to filter eQTLs based on raw P-value.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
                         </a>
-                    </td>
+                    </th>
                     <td>
                         <div class="input-group mb-1">
                             <span class="input-group-text">Use only significant snp-gene pairs: </span>
@@ -191,7 +191,7 @@ border-color: rgba(0,0,0,0.1);
                         <td></td>
                     </tr>
                     <tr>
-                        <th rowspan="4">15-core chromatin state</th>
+                        <th rowspan="4" class="align-middle">15-core chromatin state</th>
                         <td>Perform SNPs filtering based on chromatin state
                             <a class="infoPop" data-bs-toggle="popover" title="15-core chromatin state filtering"
                                 data-bs-content="Please check this option to filter SNPs based on chromatin state and specify the following options.">
@@ -250,7 +250,7 @@ border-color: rgba(0,0,0,0.1);
                         <td></td>
                     </tr>
                     <tr>
-                        <th rowspan="2" class="table-active">Additional annotations</th>
+                        <th rowspan="2" class="table-active align-middle">Additional annotations</th>
                         <td class="table-active">Annotation datasets<br>
                             <span class="info"><i class="fa fa-info"></i> Multiple datasets can be
                                 selected.</span><br>
