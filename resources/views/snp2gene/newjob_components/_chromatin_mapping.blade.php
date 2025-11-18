@@ -1,123 +1,148 @@
-<div class="accordion-item" style="padding:0px;">
-    <h2 class="accordion-header" id="heading32">
-        <button class="accordion-button fs-5 collapsed " type="button" data-bs-target="#NewJobEqtlMapPanel"
-            data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobEqtlMapPanel">
-            3-2. Gene Mapping (eQTL mapping)
+<div class="accordion-item" style="padding: 0px;">
+    <h2 class="accordion-header" id="heading33">
+        <button class="accordion-button fs-5 collapsed" type="button" data-bs-target="#NewJobCiMapPanel"
+            data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobCiMapPanel">
+            3-3. Gene Mapping (3D Chromatin Interaction mapping)
         </button>
     </h2>
-    <div class="accordion-collapse collapse" id="NewJobEqtlMapPanel" aria-labelledby="heading32">
+    <div class="accordion-collapse collapse" id="NewJobCiMapPanel" aria-labelledby="heading33">
         <div class="accordion-body">
-            <h5>eQTL mapping</h5>
-            <table class="table table-bordered inputTable" id="NewJobEqtlMap" style="width: auto;">
+            <h5>chromatin interaction mapping</h5>
+            <table class="table table-bordered inputTable" id="NewJobCiMap" style="width: auto;">
                 <tr>
-                    <td>Perform eQTL mapping
-                        <a class="infoPop" data-bs-toggle="popover" title="eQTL mapping"
-                            data-bs-content="eQTL mapping maps SNPs to genes based on eQTL information. This maps SNPs to genes up to 1 Mb part (cis-eQTL). Please check this option to perform eQTL mapping.">
+                    <td>Perform chromatin interaction mapping
+                        <a class="infoPop" data-bs-toggle="popover" title="3D chromatin interaction mapping"
+                            data-bs-content="3D chromatin interaction mapping maps SNPs to genes based on chromatin interactions such as Hi-C and ChIA-PET. Please check to perform this mapping.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
                         </a>
                     </td>
-                    <td><input type="checkbox" class="form-check-inline" name="eqtlMap" id="eqtlMap"
+                    <td><input type="checkbox" class="form-check-inline" name="ciMap" id="ciMap"
                             onchange="window.CheckAll();"></td>
                     <td></td>
                 </tr>
-                <tr class="eqtlMapOptions">
-                    <td>Tissue types
-                        <a class="infoPop" data-bs-toggle="popover" title="Tissue types of eQTLs"
-                            data-bs-content="This is mandatory parameter for eQTL mapping. Currently 44 tissue types from GTEx and two large scale eQTL study of blood cell are available.">
-                            <i class="fa-regular fa-circle-question fa-lg"></i>
-                        </a>
-                    </td>
-                    <td> Available datasets
-                        <!-- <span class="multiSelect">
-                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                            <select multiple class="form-select" id="eqtlMapTs" name="eqtlMapTs[]"
-                                size="10" onchange="window.CheckAll();">
-                                @include('snp2gene.eqtl_options')
-                            </select>
-                        </span> -->
-                        <div class="accordion-item" style="padding:0px;">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlGtexv8">
-                                    eQTL GTEx v8
-                                </button>
-                            </h5>
-                            <div class="accordion-collapse collapse" id="eqtlGtexv8">
-                                <div class="accordion-body">
-                                    <span class="multiSelect">
-                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                        <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
-                                            size="10" onchange="window.CheckAll();">
-                                            @include('snp2gene.eqtl_gtexv8_options')
-                                        </select>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item" style="padding:0px; accordion-bg:gray;">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button fs-5 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlCatalog">
-                                    eQTL Catalog
-                                </button>
-                            </h5>
-                            <div class="accordion-collapse collapse" id="eqtlCatalog">
-                                <div class="accordion-body">
-                                    <span class="multiSelect">
-                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                        <select multiple class="form-select" id="eqtlCatalogTs" name="eqtlCatalogTs[]"
-                                            size="10" onchange="window.CheckAll();">
-                                            @include('snp2gene.eqtl_eqtlcatalog_options')
-                                        </select>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <span class="info"><i class="fa fa-info"></i>
-                            From FUMA v1.3.0 GTEx v7, and from FUMA v1.3.5c GTEx v8 have been added.<br>
-                            When the "all" option is selected, both GTEx v6, v7 and v8 will be used.<br>
-                            To avoid this, please manually select the specific version to use.
-                        </span>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr class="eqtlMapOptions">
-                    <td>eQTL P-value threshold
-                        <a class="infoPop" data-bs-toggle="popover" title="eQTL P-value threshold"
-                            data-bs-content="By default, only significant eQTLs are used (FDR &lt; 0.05). Please UNCHECK 'Use only significant snp-gene pair' to filter eQTLs based on raw P-value.">
+                <tr class="ciMapOptions">
+                    <td>Builtin chromatin interaction data
+                        <a class="infoPop" data-bs-toggle="popover" title="Build-in Hi-C data"
+                            data-bs-content="Hi-C datasets of 21 tissue and cell types from GSE87112 are selectabe as build-in data. Multiple tissue and cell types can be selected.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
                         </a>
                     </td>
                     <td>
-                        <div class="input-group mb-1">
-                            <span class="input-group-text">Use only significant snp-gene pairs: </span>
-                            <input type="checkbox" class="form-control" name="sigeqtlCheck" id="sigeqtlCheck"
-                                checked onchange="window.CheckAll();">
-                            <span class="input-group-text">(FDR&lt;0.05)</span>
-                        </div>
-                        OR
-                        <div class="input-group mt-1">
-                            <span class="input-group-text">(nominal) P-value cutoff (&lt;): </span>
-                            <input type="number" class="form-control" name="eqtlP" id="eqtlP"
-                                value="1e-3" onchange="window.CheckAll();">
+                        <span class="multiSelect">
+                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                            <select multiple class="form-select" id="ciMapBuiltin" name="ciMapBuiltin[]"
+                                size="10" onchange="window.CheckAll();">
+                                @include('snp2gene.ci_options')
+                            </select>
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="ciMapOptions">
+                    <td>Custom chromatin interactions
+                        <a class="infoPop" data-bs-toggle="popover" title="Custom chromatin interaction matrices"
+                            data-bs-content="Please upload files of custom chromatin interaction matrices (significant loops). The input files have to follow the specific format. Please refer the tutorial for details. The file name should be '(Name_of_the_data).txt.gz' in which (Name_of_the_data) will be used in the results table.">
+                            <i class="fa-regular fa-circle-question fa-lg"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <span id="ciFiles"></span><br>
+                        <button type="button" class="btn btn-default btn-xs" id="ciFileAdd">add
+                            file</button>
+                        <input type="hidden" value="0" id="ciFileN" name="ciFileN">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="ciMapOptions">
+                    <td>FDR threshold
+                        <a class="infoPop" data-bs-toggle="popover"
+                            title="FDR threshold for significant interaction"
+                            data-bs-content="Significance of interaction for build-in Hi-C datasets are computed by Fit-Hi-C (see tutorial for details). The default threshold is FDR &le; 1e-6 as suggested by Schmit et al. (2016).">
+                            <i class="fa-regular fa-circle-question fa-lg"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-text">FDR cutoff (&lt;): </span>
+                            <input type="number" class="form-control" name="ciMapFDR" id="ciMapFDR"
+                                value="1e-6" onchange="window.CheckAll();">
                         </div>
                     </td>
                     <td></td>
                 </tr>
+                <tr class="ciMapOptions">
+                    <td>Promoter region window
+                        <a class="infoPop" data-bs-toggle="popover" title="Promoter region window"
+                            data-bs-content="The window of promoter regions are used to overlap TSS of genes with significantly interacted regions with risk loci.
+                                By default, promoter region is defined as 250bp upstream and 500bp downsteram of TSS. Genes whose promoter regions are overlapped with the interacted region are used for gene mapping.">
+                            <i class="fa-regular fa-circle-question fa-lg"></i>
+                        </a>
+                    </td>
+                    <td><input type="text" class="form-control" name="ciMapPromWindow" id="ciMapPromWindow"
+                            value="250-500" onchange="window.CheckAll();">
+                        <span class="info"><i class="fa fa-info"></i>
+                            Please specify both upstream and downstream from TSS. For example, "250-500"
+                            means 250bp upstream and 500bp downstream from TSS.
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="ciMapOptions">
+                    <td>Annotate enhancer/promoter regions (Roadmap 111 epigenomes)
+                        <a class="infoPop" data-bs-toggle="popover" title="Enhancer/promoter regions"
+                            data-bs-content="Enhancers are annotated to overlapped candidate SNPs which are also overlapped with significant chromatin interactions (region 1).
+                                Promoters are annotated to regions which are significantly interacted with risk loci (region 2). Dyadic enhancer/promoter regions are annotated for both. Please refer the tutorial for details.">
+                            <i class="fa-regular fa-circle-question fa-lg"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <span class="multiSelect">
+                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                            <select multiple class="form-select" id="ciMapRoadmap" name="ciMapRoadmap[]"
+                                size="10" onchange="window.CheckAll();">
+                                @include('snp2gene.PE_options')
+                            </select>
+                        </span>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr class="ciMapOptions">
+                    <td>Filter SNPs by enhancers
+                        <a class="infoPop" data-bs-toggle="popover" title="Filter SNPs by enhancers"
+                            data-bs-content="Only map SNPs which are overlapped with enhancers of selected epigenomes. Please select at least one epigenome to enable this option.
+                                If this option is not checked, all SNPs overlapped with chromatin interaction are used for mapping.">
+                            <i class="fa-regular fa-circle-question fa-lg"></i>
+                        </a>
+                    </td>
+                    <td><input type="checkbox" class="form-check" name="ciMapEnhFilt" id="ciMapEnhFilt"
+                            onchange="window.CheckAll();"></td>
+                    <td></td>
+                </tr>
+                <tr class="ciMapOptions">
+                    <td>Filter genes by promoters
+                        <a class="infoPop" data-bs-toggle="popover" title="Filter genes by promoters"
+                            data-bs-content="Only map to genes whose promoter regions are overlap with promoters of selected epigenomes. Please select at least one epigenome to enable this option.
+                                If this option is not checked, all genes whose promoter regions are overlapped with the interacted regions are mapped.">
+                            <i class="fa-regular fa-circle-question fa-lg"></i>
+                        </a>
+                    </td>
+                    <td><input type="checkbox" class="form-check" name="ciMapPromFilt" id="ciMapPromFilt"
+                            onchange="window.CheckAll();"></td>
+                    <td></td>
+                </tr>
+                <!-- </div> -->
             </table>
 
-            <div id="eqtlMapOptFilt">
-                Optional SNP filtering by functional annotation for eQTL mapping<br>
+            <div id="ciMapOptFilt">
+                Optional SNP filtering by functional annotation for chromatin interaction mapping<br>
                 <span class="info"><i class="fa fa-info"></i> This filtering only applies to SNPs mapped by
-                    eQTL mapping criterion.<br>
+                    chromatin interaction mapping criterion.<br>
                     All these annotations will be available for all SNPs within LD of identified lead SNPs
                     in the result tables, but this filtering affect gene prioritization.
                 </span>
-                <table class="table table-bordered inputTable" id="eqtlMapOptFiltTable">
+                <table class="table table-bordered inputTable" id="ciMapOptFiltTable">
                     <tr>
                         <td rowspan="2">CADD</td>
                         <td>Perform SNPs filtering based on CADD score.
@@ -126,8 +151,8 @@
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                         </td>
-                        <td><input type="checkbox" class="form-check-inline" name="eqtlMapCADDcheck"
-                                id="eqtlMapCADDcheck" onchange="window.CheckAll();"></td>
+                        <td><input type="checkbox" class="form-check" name="ciMapCADDcheck" id="ciMapCADDcheck"
+                                onchange="window.CheckAll();"></td>
                         <td></td>
                     </tr>
                     <tr>
@@ -137,7 +162,7 @@
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                         </td>
-                        <td><input type="number" class="form-control" id="eqtlMapCADDth" name="eqtlMapCADDth"
+                        <td><input type="number" class="form-control" id="ciMapCADDth" name="ciMapCADDth"
                                 value="12.37" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
                                 oninput="window.CheckAll();"></td>
                         <td></td>
@@ -150,8 +175,8 @@
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                         </td>
-                        <td><input type="checkbox" class="form-check-inline" name="eqtlMapRDBcheck"
-                                id="eqtlMapRDBcheck" onchange="window.CheckAll();"></td>
+                        <td><input type="checkbox" class="form-check" name="ciMapRDBcheck" id="ciMapRDBcheck"
+                                onchange="window.CheckAll();"></td>
                         <td></td>
                     </tr>
                     <tr>
@@ -162,8 +187,7 @@
                             </a>
                         </td>
                         <td>
-                            <!-- <input type="text" class="form-control" id="eqtlMapRDBth" name="eqtlMapRDBth" value="7"> -->
-                            <select class="form-select" id="eqtlMapRDBth" name="eqtlMapRDBth"
+                            <select class="form-select" id="ciMapRDBth" name="ciMapRDBth"
                                 onchange="window.CheckAll();">
                                 <option>1a</option>
                                 <option>1b</option>
@@ -192,8 +216,8 @@
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                         </td>
-                        <td><input type="checkbox" class="form-check-inline" name="eqtlMapChr15check"
-                                id="eqtlMapChr15check" onchange="window.CheckAll();"></td>
+                        <td><input type="checkbox" class="form-check" name="ciMapChr15check"
+                                id="ciMapChr15check" onchange="window.CheckAll();"></td>
                         <td></td>
                     </tr>
                     <tr>
@@ -205,8 +229,8 @@
                             <span class="multiSelect">
                                 <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                 <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                <select multiple class="form-select" size="10" id="eqtlMapChr15Ts"
-                                    name="eqtlMapChr15Ts[]" onchange="window.CheckAll();">
+                                <select multiple class="form-select" size="10" id="ciMapChr15Ts"
+                                    name="ciMapChr15Ts[]" onchange="window.CheckAll();">
                                     @include('snp2gene.epi_options')
                                 </select>
                             </span>
@@ -220,9 +244,9 @@
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                         </td>
-                        <td><input type="number" class="form-control" id="eqtlMapChr15Max"
-                                name="eqtlMapChr15Max" value="7" onkeyup="window.CheckAll();"
-                                onpaste="window.CheckAll();" oninput="window.CheckAll();" /></td>
+                        <td><input type="number" class="form-control" id="ciMapChr15Max" name="ciMapChr15Max"
+                                value="7" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
+                                oninput="window.CheckAll();" /></td>
                         <td></td>
                     </tr>
                     <tr>
@@ -234,7 +258,7 @@
                             </a>
                         </td>
                         <td>
-                            <select class="form-select" id="eqtlMapChr15Meth" name="eqtlMapChr15Meth"
+                            <select class="form-select" id="ciMapChr15Meth" name="ciMapChr15Meth"
                                 onchange="window.CheckAll();">
                                 <option selected value="any">any</option>
                                 <option value="majority">majority</option>
@@ -255,8 +279,8 @@
                             <span class="multiSelect">
                                 <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                 <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                <select multiple class="form-select" size="10" id="eqtlMapAnnoDs"
-                                    name="eqtlMapAnnoDs[]">
+                                <select multiple class="form-select" size="10" id="ciMapAnnoDs"
+                                    name="ciMapAnnoDs[]">
                                     @include('snp2gene.bed_annot')
                                 </select>
                             </span>
@@ -278,7 +302,7 @@
                             </a>
                         </td>
                         <td>
-                            <select class="form-select" id="eqtlMapAnnoMeth" name="eqtlMapAnnoMeth">
+                            <select class="form-select" id="ciMapAnnoMeth" name="ciMapAnnoMeth">
                                 <option selected value="NA">No filtering (only annotate SNPs)</option>
                                 <option value="any">any</option>
                                 <option value="majority">majority</option>
@@ -293,6 +317,8 @@
                         </td>
                     </tr>
                 </table>
+            </div>
+            <div>
             </div>
         </div>
     </div>
