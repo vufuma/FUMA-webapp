@@ -45,7 +45,7 @@
     @include('snp2gene.newjob_components._positional_mapping')
 
     <!-- eqtl mapping -->
-     @include('snp2gene.newjob_components._eqtls_mapping')
+     @include('snp2gene.newjob_components._xqtls_mapping')
                             
     <!-- chromatin interaction mapping -->
     @include('snp2gene.newjob_components._chromatin_mapping')

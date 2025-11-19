@@ -429,7 +429,7 @@ export const CheckAll = function() {
 	table = $('#NewJobEqtlMap')[0];
 	if($('#eqtlMap').is(":checked")==true){
 		$('.eqtlMapOptions').show();
-		$('#eqtlMapOptFilt').show();
+		// $('#eqtlMapOptFilt').show();
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		let ts = 0;
@@ -474,7 +474,38 @@ export const CheckAll = function() {
 		}
 	}else{
 		$('.eqtlMapOptions').hide();
-		$('#eqtlMapOptFilt').hide();
+		// $('#eqtlMapOptFilt').hide();
+		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
+			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
+		}else{
+			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+			submit=false;
+			tablecheck=false;
+		}
+	}
+	tablecheck=true;
+	table = $('#NewJobPqtlMap')[0];
+	if($('#pqtlMap').is(":checked")==true){
+		$('.pqtlMapOptions').show();
+		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			+'<i class="fa fa-check"></i> OK.</div></td>');
+		let ds = 0;
+		$('#pqtlPlasmaDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+		if(ds>0){
+			$(table.rows[1].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-check"></i> OK.</div></td>');
+		}else{
+			$(table.rows[1].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-ban"></i> Please select at least one dataset.</div></td>');
+			submit=false;
+			tablecheck=false;
+		}
+	} else {
+		$('.pqtlMapOptions').hide();
 		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
