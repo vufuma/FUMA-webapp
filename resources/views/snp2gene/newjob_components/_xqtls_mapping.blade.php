@@ -7,13 +7,13 @@ border-color: rgba(0,0,0,0.1);
 <div class="accordion-item" style="padding:0px;">
 
     <h2 class="accordion-header" id="heading32">
-        <button class="accordion-button fs-5 collapsed " type="button" data-bs-target="#NewJobEqtlMapPanel"
-            data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobEqtlMapPanel">
+        <button class="accordion-button fs-5 collapsed " type="button" data-bs-target="#NewJobXqtlMapPanel"
+            data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobXqtlMapPanel">
             3-2. Gene Mapping (xQTLs mapping)
         </button>
     </h2>
 
-    <div class="accordion-collapse collapse" id="NewJobEqtlMapPanel" aria-labelledby="heading32">
+    <div class="accordion-collapse collapse" id="NewJobXqtlMapPanel" aria-labelledby="heading32">
         <div class="accordion-body">
             <table class="table table-bordered inputTable" id="NewJobEqtlMap" style="width: auto; border: 1px solid black;">
                 <tr>
@@ -28,21 +28,13 @@ border-color: rgba(0,0,0,0.1);
                     <td></td>
                 </tr>
                 <tr class="eqtlMapOptions">
-                    <th class="table-active align-middle">Tissue types
+                    <th class="align-middle">Available datasets
                         <a class="infoPop" data-bs-toggle="popover" title="Tissue types of eQTLs"
-                            data-bs-content="This is mandatory parameter for eQTL mapping. Currently 44 tissue types from GTEx and two large scale eQTL study of blood cell are available.">
+                            data-bs-content="This is mandatory parameter for eQTL mapping. Please select one or more datasets from the available pQTL datasets.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
                         </a>
                     </th>
-                    <td class="table-active"> Available datasets
-                        <!-- <span class="multiSelect">
-                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                            <select multiple class="form-select" id="eqtlMapTs" name="eqtlMapTs[]"
-                                size="10" onchange="window.CheckAll();">
-                                @include('snp2gene.eqtl_options')
-                            </select>
-                        </span> -->
+                    <td> Available datasets
                         <div class="accordion-item" style="padding:0px;">
                             <h5 class="accordion-header">
                                 <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlGtexv8">
@@ -56,7 +48,7 @@ border-color: rgba(0,0,0,0.1);
                                         <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
                                         <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
                                             size="10" onchange="window.CheckAll();">
-                                            @include('snp2gene.eqtl_gtexv8_options')
+                                            @include('snp2gene.xqtls_options.eqtls.eqtls_gtexv8_options')
                                         </select>
                                     </span>
                                 </div>
@@ -76,7 +68,27 @@ border-color: rgba(0,0,0,0.1);
                                         <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
                                         <select multiple class="form-select" id="eqtlCatalogTs" name="eqtlCatalogTs[]"
                                             size="10" onchange="window.CheckAll();">
-                                            @include('snp2gene.eqtl_eqtlcatalog_options')
+                                            @include('snp2gene.xqtls_options.eqtls.eqtls_eqtlcatalog_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" style="padding:0px; accordion-bg:gray;">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlTiger">
+                                    TIGER
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="eqtlTiger">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="eqtlTigerTs" name="eqtlTigerTs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options.eqtls.eqtls_tiger_options')
                                         </select>
                                     </span>
                                 </div>
@@ -90,7 +102,7 @@ border-color: rgba(0,0,0,0.1);
                             To avoid this, please manually select the specific version to use.
                         </span>
                     </td>
-                    <td class="table-active"></td>
+                    <td></td>
                 </tr>
                 <tr class="eqtlMapOptions">
                     <th class="align-middle">eQTL P-value threshold
@@ -132,21 +144,13 @@ border-color: rgba(0,0,0,0.1);
                     <td></td>
                 </tr>
                 <tr class="pqtlMapOptions">
-                    <th class="table-active align-middle">Available datasets
+                    <th class="align-middle">Available datasets
                         <a class="infoPop" data-bs-toggle="popover" title="Available pQTL datasets"
                             data-bs-content="This is mandatory parameter for pQTL mapping. Please select one or more datasets from the available pQTL studies.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
                         </a>
                     </th>
-                    <td class="table-active"> 
-                        <!-- <span class="multiSelect">
-                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                            <select multiple class="form-select" id="eqtlMapTs" name="eqtlMapTs[]"
-                                size="10" onchange="window.CheckAll();">
-                                @include('snp2gene.eqtl_options')
-                            </select>
-                        </span> -->
+                    <td> 
                         <div class="accordion-item" style="padding:0px;">
                             <h5 class="accordion-header">
                                 <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#plasma">
@@ -167,29 +171,6 @@ border-color: rgba(0,0,0,0.1);
                             </div>
                         </div>
 
-                    </td>
-                    <td class="table-active"></td>
-                </tr>
-                <tr class="eqtlMapOptions">
-                    <th class="align-middle">eQTL P-value threshold
-                        <a class="infoPop" data-bs-toggle="popover" title="eQTL P-value threshold"
-                            data-bs-content="By default, only significant eQTLs are used (FDR &lt; 0.05). Please UNCHECK 'Use only significant snp-gene pair' to filter eQTLs based on raw P-value.">
-                            <i class="fa-regular fa-circle-question fa-lg"></i>
-                        </a>
-                    </th>
-                    <td>
-                        <div class="input-group mb-1">
-                            <span class="input-group-text">Use only significant snp-gene pairs: </span>
-                            <input type="checkbox" class="form-control" name="sigeqtlCheck" id="sigeqtlCheck"
-                                checked onchange="window.CheckAll();">
-                            <span class="input-group-text">(FDR&lt;0.05)</span>
-                        </div>
-                        OR
-                        <div class="input-group mt-1">
-                            <span class="input-group-text">(nominal) P-value cutoff (&lt;): </span>
-                            <input type="number" class="form-control" name="eqtlP" id="eqtlP"
-                                value="1e-3" onchange="window.CheckAll();">
-                        </div>
                     </td>
                     <td></td>
                 </tr>

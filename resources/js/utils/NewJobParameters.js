@@ -436,7 +436,7 @@ export const CheckAll = function() {
 		$('#eqtlGtexv8Ts option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
-		$('#eqtlCatalogTs option').each(function(){
+		$('#eqtlTigerTs option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
 		if(ts>0){
@@ -485,6 +485,7 @@ export const CheckAll = function() {
 			tablecheck=false;
 		}
 	}
+
 	tablecheck=true;
 	table = $('#NewJobPqtlMap')[0];
 	if($('#pqtlMap').is(":checked")==true){

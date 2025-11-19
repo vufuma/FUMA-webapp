@@ -44,4 +44,3 @@
 <option class="level2" value="eQTLcatalogue/TwinsUK_ge_LCL.txt.gz">TwinsUK LCL</option>
 <option class="level2" value="eQTLcatalogue/TwinsUK_ge_skin.txt.gz">TwinsUK skin</option>
 <option class="level2" value="eQTLcatalogue/van_de_Bunt_2015_ge_pancreatic_islet.txt.gz">van de Bunt 2015 pancreatic islet</option>
-<option class="level1" value="null">PsychENCODE (1)</option>
