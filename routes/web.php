@@ -5,6 +5,7 @@ use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\FumaController;
 use App\Http\Controllers\LoggingController;
 use App\Http\Controllers\S2GController;
+use App\Http\Controllers\XQTLSController;
 use App\Http\Controllers\G2FController;
 use App\Http\Controllers\CellController;
 use App\Http\Controllers\AdminController;
@@ -235,6 +236,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/g2f_d3text/{prefix}/{jobID}/{file}', [FumaController::class, 'g2f_d3text']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
         });
+    });
+
+    // ********************** XQTLS ************************
+    Route::prefix('xqtls')->group(function () {
+        Route::get('/getQTLSHistory', [XQTLSController::class, 'getQTLSHistory']);
     });
 
     // ********************** Cell Type ************************

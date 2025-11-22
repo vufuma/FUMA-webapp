@@ -13,9 +13,9 @@
         </ul>
         <ul class="sidebar-nav" id="sidebar">
             <li class="active"><a href="#newquery">New Query<i class="sub_icon fa fa-upload"></i></a></li>
-            <li class="active"><a href="#queryhistory">Query History<i class="sub_icon fa fa-history"></i></a></li>
+            <li ><a href="#queryhistory">Query History<i class="sub_icon fa fa-history"></i></a></li>
             <div id="resultSide">
-                <li><a href="#xqtlsResultsTable">Summary<i class="sub_icon fa fa-table"></i></a></li>
+                <li><a href="#xqtlTables">Summary<i class="sub_icon fa fa-table"></i></a></li>
             </div>
         </ul>
     </div>
@@ -124,7 +124,7 @@
                 </div>
             </div>
 
-            <div id="queryhistory" class="sidePanel container" style="padding-top:50px;">
+            <div id="queryhistory" class="sidePanel container" style="padding-top:50px; display: none">
                 <div class ="col">
                     <div class="container" style="padding-top:50px;">
                         <div style="text-align: center;">
@@ -143,7 +143,7 @@
                                     </thead>
                                     <tbody id="historyBody">
                                         <tr>
-                                            <td colspan="7" style="Text-align:center;">Retrieving data</td>
+                                            <td colspan="5" style="Text-align:center;">Retrieving data</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -153,9 +153,7 @@
                 </div>
             </div>
 
-            <div id="results">
-                @include('xqtls.result')
-            </div>
+            @include('xqtls.result')
 
         </div>
 
@@ -170,6 +168,7 @@
 @push('vite')
     @vite([
         'resources/js/utils/sidebar.js',
+        'resoures/js/utils/xqtls.js',
         'resources/js/utils/browse.js'])
 @endpush
 
@@ -178,9 +177,11 @@
     <script type="module">
         import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
         import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
+        import { XQTLSSetup } from "{{ Vite::appjs('utils/xqtls.js') }}";
         $(function(){
             SidebarSetup();
             BrowseSetup();
+            XQTLSSetup();
         })
     </script>
 
