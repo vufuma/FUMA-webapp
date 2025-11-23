@@ -173,6 +173,17 @@
 @endpush
 
 @push('page_scripts')
+    <script type="module">
+        window.loggedin = "{{ Auth::check() }}";
+            window.setXqtlsPageState(
+                "{{ $status }}",
+                "{{ $id }}",
+                "xqtls",
+                "{{ $page }}",
+                "",
+                "{{ Auth::check() }}"
+            );
+    </script>
 
     <script type="module">
         import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";

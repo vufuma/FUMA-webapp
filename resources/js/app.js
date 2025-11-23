@@ -29,13 +29,15 @@ import {
     setG2FPageState, 
     setCelltypePageState, 
     setAnnotPlotPageState, 
-    setBrowsePageState} from "./pages/pageStateComponents.js";
+    setBrowsePageState,
+    setXqtlsPageState} from "./pages/pageStateComponents.js";
 
 window.setS2GPageState = setS2GPageState;
 window.setG2FPageState = setG2FPageState;
 window.setCelltypePageState = setCelltypePageState;
 window.setAnnotPlotPageState = setAnnotPlotPageState;
 window.setBrowsePageState = setBrowsePageState;
+window.setXqtlsPageState = setXqtlsPageState;
 
 
 

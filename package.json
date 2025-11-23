@@ -10,7 +10,7 @@
         "./resources/js/utils/geneMapParameters.js",
         "./resources/js/utils/s2g_results.js",
         "./resources/js/utils/g2f_results.js",
-        "./resoures/js/utils/xqtls.js",
+        "./resources/js/utils/xqtls.js",
         "./resources/js/utils/cell_results.js",
         "./resources/js/pages/pageStateComponents",
         "./resources/js/pages/page_annotPlot.js",

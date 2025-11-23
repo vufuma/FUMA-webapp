@@ -1,9 +1,21 @@
+var prefix = "xqtls";
+var id = ""
+
 import { XqtlsState as pageState}  from "../pages/pageStateComponents.js";
 export const XQTLSSetup = function(){
+    const page = pageState.get("page");
+    id = pageState.get("id");
+    const subdir = pageState.get("subdir");
+    var status  = pageState.get("status");
     updateQueryHistory();
 	$('#refreshTable').on('click', function(){
 		updateQueryHistory();
 	});
+
+    if(status.length==0 || status=="getJob") {
+        // var id = jobID;
+        summaryTable(subdir, page, prefix, id);
+    };
 }
 
 const updateQueryHistory = function(){
@@ -19,7 +31,7 @@ const updateQueryHistory = function(){
                 }
 
                 if (val.status == "OK") {
-                    var status = '<a href="'+subdir+'/xqtls/'+val.jobID+'">load results</a>';
+                    var status = '<a href="'+subdir+'/xqtls/'+val.jobID+'#xqtlTables">load results</a>';
                 }
                 else {
                     status = val.status;
@@ -36,6 +48,26 @@ const updateQueryHistory = function(){
         $('#queryhistory table tbody')
             .empty()
             .append(items);
+    });
+}
+
+const summaryTable = function(){
+        const subdir = pageState.get("subdir");
+        const page = pageState.get("page");
+        id = pageState.get("id");
+    	$.ajax({
+		url: subdir + '/' + page + '/xqtls_sumTable',
+		type: "POST",
+		data: {
+			jobID: id,
+			prefix: prefix
+		},
+		error: function(){
+			alert("summary table error");
+		},
+		success: function(data){
+			$('#xqtlTable').append(data);
+	}
     });
 }
 

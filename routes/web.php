@@ -240,7 +240,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     // ********************** XQTLS ************************
     Route::prefix('xqtls')->group(function () {
+        Route::get('/', [XQTLSController::class, 'index']);
         Route::get('/getQTLSHistory', [XQTLSController::class, 'getQTLSHistory']);
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::get('/{jobID}', [XQTLSController::class, 'viewJob']); 
+            Route::post('/xqtls_sumTable', [XQTLSController::class, 'xqtls_sumTable']);
+        });
     });
 
     // ********************** Cell Type ************************

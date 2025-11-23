@@ -40,7 +40,7 @@ export default defineConfig({
                 'resources/js/utils/geneMapParameters.js',
                 'resources/js/utils/s2g_results.js',
                 'resources/js/utils/g2f_results.js',
-                'resoures/js/utils/xqtls.js',
+                'resources/js/utils/xqtls.js',
                 'resources/js/utils/cell_results.js',
                 'resources/js/utils/gene2func.js',
                 'resources/js/utils/tutorial_utils.js',
