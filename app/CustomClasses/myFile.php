@@ -170,7 +170,8 @@ class myFile
             $out = [];
             foreach ($lines as $l) {
                 $l = preg_split("/\t/", chop($l));
-                $out[] = [$l[0], $l[1]];
+                // $out[] = [$l[0], $l[1]];
+                $out[] = $l;
             }
             return json_encode($out);
         } else {
@@ -178,21 +179,21 @@ class myFile
         }
     }
 
-    public static function summary_table_in_html(string $file_path)
-    {
-        if (Storage::exists($file_path)) {
-            $table = '<table class="table table-bordered" style="width:auto;margin-right:auto; margin-left:auto; text-align: right;"><tbody>';
-            $lines = file(Storage::path($file_path));
-            foreach ($lines as $l) {
-                $line = preg_split("/[\t]/", chop($l));
-                $table .= "<tr><td>" . $line[0] . "</td><td>" . $line[1] . "</td></tr>";
-            }
-            $table .= "</tbody></table>";
-            return $table;
-        } else {
-            return '<p>No summary table found.</p>';
-        }
-    }
+    // public static function summary_table_in_html(string $file_path)
+    // {
+    //     if (Storage::exists($file_path)) {
+    //         $table = '<table class="table table-bordered" style="width:auto;margin-right:auto; margin-left:auto; text-align: right;"><tbody>';
+    //         $lines = file(Storage::path($file_path));
+    //         foreach ($lines as $l) {
+    //             $line = preg_split("/[\t]/", chop($l));
+    //             $table .= "<tr><td>" . $line[0] . "</td><td>" . $line[1] . "</td></tr>";
+    //         }
+    //         $table .= "</tbody></table>";
+    //         return $table;
+    //     } else {
+    //         return '<p>No summary table found.</p>';
+    //     }
+    // }
 
     public static function parse_ini_file(string $file_path)
     {

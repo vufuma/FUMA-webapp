@@ -38,7 +38,6 @@ const updateQueryHistory = function(){
                 }
 
                 items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title+"</td><td>"
-                    +(val.parent != null ? val.parent.jobID : '-')+"</td><td>"+(val.parent != null ? val.parent.title : '-')+"</td><td>"
                     +val.created_at+"</td><td>"+status+"</td>"
                     +'<td style="text-align: center;"><input type="checkbox" class="deleteJobCheck" value="'
                     +val.jobID+'"/></td></tr>';
@@ -66,7 +65,19 @@ const summaryTable = function(){
 			alert("summary table error");
 		},
 		success: function(data){
-			$('#xqtlTable').append(data);
+
+            data = JSON.parse(data);
+			var table = '<table class="table table-condensed table-bordered" style="width:auto;text-align:right;"><tbody>'
+			data.forEach(function(d){
+				// if(d[0]!="created_at"){d[1] = d[1].replace(/:/g, ', ');}
+				table += '<tr><td>'+d[0]+'</td><td>'+d[1]+'</td><td>'+d[2]+'</td></tr>'
+			})
+			table += '</tbody></table>'
+			$('#xqtlTable').html(table);
+
+
+
+			// $('#xqtlTable').append(data);
 	}
     });
 }

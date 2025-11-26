@@ -2,7 +2,7 @@
 <div class="sidePanel container" style="padding-top:50px;" id="summaryTable">
 	<div class="row">
 		<div class="col-md-5 col-xs-5 col-sm-5" id="sumTable" style="text-align:center;">
-			<h4 style="color: #00004d">Summary of SNPs and mapped genes</h4>
+			<!-- <h4 style="color: #00004d">Summary of SNPs and mapped genes</h4> -->
 		</div>
 
 		<div class="col-md-7 col-xs-7 col-sm-7" style="text-align:center;">

@@ -634,7 +634,14 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 			jobID: id
 		},
 		success: function (data) {
-			$('#sumTable').append(data);
+			data = JSON.parse(data);
+			var table = '<table class="table table-condensed table-bordered" style="width:auto;text-align:right;">"<h4 style="color: #00004d">Summary of SNPs and mapped genes</h4><tbody>'
+			data.forEach(function(d){
+				// if(d[0]!="created_at"){d[1] = d[1].replace(/:/g, ', ');}
+				table += '<tr><td>'+d[0]+'</td><td>'+d[1]+'</td></tr>'
+			})
+			table += '</tbody></table>'
+			$('#sumTable').html(table);
 		},
 		complete: function () {
 			$.ajax({
