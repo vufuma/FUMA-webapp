@@ -76,4 +76,16 @@ class XQTLSController extends Controller
 
         return myFile::summary_table_in_json($filedir . "xqtls_results.csv");
     }
+
+    public function DTfile(Request $request)
+    {
+        $id = $request->input('jobID');
+        $prefix = $request->input('prefix');
+        $fin = $request->input('infile');
+        $cols = $request->input('header');
+
+        $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . $fin;
+
+        return myFile::processCsvDataWithHeaders($file_path, $cols);
+    }
 }

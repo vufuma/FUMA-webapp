@@ -244,7 +244,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/getQTLSHistory', [XQTLSController::class, 'getQTLSHistory']);
         Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
             Route::get('/{jobID}', [XQTLSController::class, 'viewJob']); 
-            Route::post('/xqtls_sumTable', [XQTLSController::class, 'xqtls_sumTable']);
+            Route::post('/DTfile', [XQTLSController::class, 'DTfile']);
         });
     });
 

@@ -3,7 +3,15 @@
 @section('stylesheets')
 @endsection
 
+
 @section('content')
+<style> 
+.accordion-button.accordion-highlight {
+background-color: #efeff8ff;
+border-color: rgba(0,0,0,0.1);
+}
+</style>
+
 <div id="wrapper" class="active">
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav" id="sidebar-menu">
@@ -25,17 +33,39 @@
             <div id="newquery" class="sidePanel container" style="padding-top:50px;">
                 <div class ="col">
                     <div class="container" style="padding-top:50px;">
-                        <div style="text-align: center;">
+                        <div style="text-align: left;">
                             <h3>xQTLs Analysis</h3>
-                            <p> Compute genetic correlation for a genomic region of interest (for example, a genomic risk loci) with various QTLs datasets. </p>
+                            <h5 style="color: #00004d"> Compute genetic correlation for a genomic region of interest (for example, a genomic risk loci) with various QTLs datasets. </h5>
                             <div id="uploadData">
                                 <table class="table table-bordered inputTable" id="xqtlsAnalysis" style="width: auto;">
                                     <tr>
-                                        <td> GWAS summary statistics file: </td>
+                                        <td> GWAS summary statistics file: 
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Upload a tab-delimited text file with header containing GWAS summary statistics with the following columns in this specific order: CHR, POS, REF, ALT, BETA, P. The position can be in GRCh37 or GRCh38 coordinates. If in GRCh38 coordinates, please check the box below.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                        </td>
                                         <td><input type="file" class="form-control-file" name="GWASsummary" id="GWASsummary" /></td>
                                     </tr>
                                     <tr>
-                                        <td> Information about the genomic region of interest: </td>
+                                        <td>Genome Build
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Select the genome build of your GWAS summary statistics file.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div><input type="radio" name="build", value="grch37"><label>GRCh37</label></div>
+                                            <div><input type="radio" name="build", value="grch38"><label>GRCh38</label></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Information about the genomic region of interest: 
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Provide the chromosome number, start and end position of the genomic region of interest.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                        </td>
                                         <td>
                                             <span class="inputSpan">Chromosome: <input type="text" class="form-control"
                                                         id="chrcol" name="chr"></span>
@@ -47,63 +77,100 @@
                                     <tr>
                                         <td>Available datasets:</td>
                                         <td>
-                                            <!-- eQTLs GTEx v8 -->
+                                            <h2 style="color: #00004d; font-size:16px;">eQTLs Datasets</h2>
+
+                                            <!-- GTEx v10 -->
                                             <div class="accordion-item" style="padding:0px;">
-                                                <h5 class="accordion-header">
-                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlGtexv8">
-                                                        eQTLs GTEx v8
+                                                <h3 class="accordion-header">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlGtexv10">
+                                                        GTEx v10
                                                     </button>
-                                                </h5>
-                                                <div class="accordion-collapse collapse" id="eqtlGtexv8">
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="eqtlGtexv10">
                                                     <div class="accordion-body">
                                                         <span class="multiSelect">
                                                             <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                                             <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
                                                             <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
                                                                 size="10" onchange="window.CheckAll();">
-                                                                @include('snp2gene.xqtls_options.eqtls.eqtls_gtexv8_options')
-                                                            </select>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- eQTL Catalog -->
-                                            <div class="accordion-item" style="padding:0px; accordion-bg:gray;">
-                                                <h5 class="accordion-header">
-                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlCatalog">
-                                                        eQTLs Catalog
-                                                    </button>
-                                                </h5>
-                                                <div class="accordion-collapse collapse" id="eqtlCatalog">
-                                                    <div class="accordion-body">
-                                                        <span class="multiSelect">
-                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="eqtlCatalogTs" name="eqtlCatalogTs[]"
-                                                                size="10" onchange="window.CheckAll();">
-                                                                @include('snp2gene.xqtls_options.eqtls.eqtls_eqtlcatalog_options')
+                                                                @include('xqtls.xqtls_options.eqtls.gtex_v10_options')
                                                             </select>
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <!-- pQTLs Plasma -->
+                                            <p></p>
+
+                                            <!-- eQTL catalog -->
                                             <div class="accordion-item" style="padding:0px;">
-                                                <h5 class="accordion-header">
-                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#plasma">
-                                                        pQTLs Plasma
+                                                <h3 class="accordion-header">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlCatalog">
+                                                        eQTL Catalog
                                                     </button>
-                                                </h5>
-                                                <div class="accordion-collapse collapse" id="plasma">
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="eqtlCatalog">
                                                     <div class="accordion-body">
                                                         <span class="multiSelect">
                                                             <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                                             <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="pqtlPlasmaDs" name="pqtlPlasmaDs[]"
+                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
                                                                 size="10" onchange="window.CheckAll();">
-                                                                @include('snp2gene.xqtls_options._pqtl_plasma_options')
+                                                                @include('xqtls.xqtls_options.eqtls.eqtl_catalog_options')
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <h2 style="color: #00004d; font-size:16px;">sQTLs Datasets</h2>
+
+                                            <!-- GTEx v10 -->
+                                            <div class="accordion-item" style="padding:0px;">
+                                                <h3 class="accordion-header">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#sqtlGtexv10">
+                                                        GTEx v10
+                                                    </button>
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="sqtlGtexv10">
+                                                    <div class="accordion-body">
+                                                        <span class="multiSelect">
+                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
+                                                                size="10" onchange="window.CheckAll();">
+                                                                @include('xqtls.xqtls_options.sqtls.gtex_v10_options')
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <h2 style="color: #00004d; font-size:16px;">apaQTLs Datasets</h2>
+
+                                            <!-- GTEx v10 -->
+                                            <div class="accordion-item" style="padding:0px;">
+                                                <h3 class="accordion-header">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#apaqtlGtexv10">
+                                                        GTEx v10
+                                                    </button>
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="apaqtlGtexv10">
+                                                    <div class="accordion-body">
+                                                        <span class="multiSelect">
+                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
+                                                                size="10" onchange="window.CheckAll();">
+                                                                @include('xqtls.xqtls_options.apaqtls.gtex_v10_options')
                                                             </select>
                                                         </span>
                                                     </div>
@@ -129,7 +196,7 @@
                     <div class="container" style="padding-top:50px;">
                         <div style="text-align: center;">
                             <h3>Query History</h3>
-                            <p> Review your past xQTLs analysis queries. </p>
+                            <h5 style="color: #00004d"> Review your past xQTLs analysis queries. </h5>
                             <div id="historyData">
                                 <table class="table table-bordered inputTable" id="xqtlsHistory" style="width: auto;">
                                     <thead>

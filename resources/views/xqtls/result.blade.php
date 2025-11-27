@@ -13,7 +13,7 @@
 				<table id="xqtlTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>Locus</th><th>Type</th><th>Tissue</th><th>rho</th><th>Nominal p</th>
+							<th>Phenotype</th><th>Genomic Region</th><th>QTL Type</th><th>Tissue</th><th>Locus</th><th>Rho</th><th>Rho lower</th><th>Rho upper</th><th>P</th><th>P Adj</th><th>Bonferroni Significance</th><th>GENE</th>
 						</tr>
 					</thead>
 					<tbody></tbody>

@@ -51,35 +51,28 @@ const updateQueryHistory = function(){
 }
 
 const summaryTable = function(){
-        const subdir = pageState.get("subdir");
-        const page = pageState.get("page");
-        id = pageState.get("id");
-    	$.ajax({
-		url: subdir + '/' + page + '/xqtls_sumTable',
-		type: "POST",
-		data: {
-			jobID: id,
-			prefix: prefix
+    const file = "xqtls_results.csv";
+    id = pageState.get("id");
+	$('#xqtlTable').DataTable({
+		"processing": true,
+		serverSide: false,
+		select: true,
+		"ajax": {
+			url: "DTfile",
+			type: "POST",
+			data: {
+				jobID: id,
+				prefix: prefix,
+				infile: file,
+				header: "phenotype:region:type:tissue:locus:rho:rhoLower:rhoUpper:p:pAdj:bonSig:GENE"
+			}
 		},
-		error: function(){
-			alert("summary table error");
+		error: function () {
+			alert("GenomicRiskLoci table error");
 		},
-		success: function(data){
-
-            data = JSON.parse(data);
-			var table = '<table class="table table-condensed table-bordered" style="width:auto;text-align:right;"><tbody>'
-			data.forEach(function(d){
-				// if(d[0]!="created_at"){d[1] = d[1].replace(/:/g, ', ');}
-				table += '<tr><td>'+d[0]+'</td><td>'+d[1]+'</td><td>'+d[2]+'</td></tr>'
-			})
-			table += '</tbody></table>'
-			$('#xqtlTable').html(table);
-
-
-
-			// $('#xqtlTable').append(data);
-	}
-    });
+		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		"iDisplayLength": 10
+	});
 }
 
 export default XQTLSSetup;
