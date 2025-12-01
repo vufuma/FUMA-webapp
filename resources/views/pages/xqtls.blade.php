@@ -177,6 +177,30 @@ border-color: rgba(0,0,0,0.1);
                                                 </div>
                                             </div>
 
+                                            <br>
+
+                                            <h2 style="color: #00004d; font-size:16px;">pQTLs Datasets</h2>
+                                            <div class="accordion-item" style="padding:0px;">
+                                                <h3 class="accordion-header">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#pqtls">
+                                                        pQTLs 
+                                                    </button>
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="pqtls">
+                                                    <div class="accordion-body">
+                                                        <span class="multiSelect">
+                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
+                                                                size="10" onchange="window.CheckAll();">
+                                                                @include('xqtls.xqtls_options.pqtls.pqtls_options')
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </td>
                                     </tr>
 
