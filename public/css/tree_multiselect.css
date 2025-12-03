@@ -1,7 +1,7 @@
 /* jQuery Tree Multiselect v2.5.2 | (c) Patrick Tsai | MIT Licensed */
 div.tree-multiselect {
-    border: 2px solid #d8d8d8;
-    border-radius: 5px;
+    /* border: 2px solid black;
+    border-radius: 5px; */
     display: table;
     height: inherit;
     width: 100%;
@@ -13,7 +13,7 @@ div.tree-multiselect {
     overflow: auto;
     padding: 1%;
     vertical-align: top;
-    width: 50%;
+    width: 100%;
   }
   div.tree-multiselect > div.selections {
     border-right: solid 2px #d8d8d8;
@@ -62,8 +62,8 @@ div.tree-multiselect {
     margin-bottom: 2px;
   }
   div.tree-multiselect div.title {
-    background: #777;
-    color: white;
+    background: #efeff8ff;
+    color: black;
     padding: 2px;
   }
   div.tree-multiselect div.title > * {
@@ -102,7 +102,7 @@ div.tree-multiselect {
   }
   div.tree-multiselect div.temp-description-popup {
     background: #eaeaea;
-    border: 2px solid #676767;
+    border: 2px solid #777;
     border-radius: 3px;
     padding: 5px;
   }
