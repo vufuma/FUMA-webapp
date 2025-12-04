@@ -259,6 +259,7 @@
                     </td>
                 </tr>
 
+                <tr>
                 <td> <strong> GRCh38 to rsID </strong> </td>
                 </tr>
                 <tr>
@@ -268,7 +269,6 @@
                     <td class="clickable" onclick='tutorialDownloadVariant("GRCh382rsID")'><img class="fontsvg"
                             src="{{ URL::asset('/image/download.svg') }}" /> 708M</td>
                 </tr>
-            </tbody>
             <td> <strong> Reference panel data </strong> </td>
             </tr>
             <tr>
@@ -312,6 +312,15 @@
                     analysis.</td>
                 <td class="clickable" onclick='tutorialDownloadVariant("SAS")'><img class="fontsvg"
                         src="{{ URL::asset('/image/download.svg') }}" /> 287M</td>
+            </tr>
+            <tr>
+                <td> <strong> FUMA Cell Type </strong> </td>
+            </tr>
+            <tr>
+                    <td> Pre-processed scRNAseq datasets for FUMA Cell Type</td>
+                    <td> This is a tar zip folder containing pre-processed scRNAseq datasets for the FUMA Cell Type module. After download, use the command "tar -xzvf" to untar.</td>
+                    <td class="clickable" onclick='tutorialDownloadVariant("scrnaseqDatasets")'><img class="fontsvg"
+                            src="{{ URL::asset('/image/download.svg') }}" /> 1.9G</td>
             </tr>
             </tbody>
         </table>

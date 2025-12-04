@@ -662,6 +662,11 @@ class FumaController extends Controller
                 $name = "ALL.fam";
                 break;
 
+            // Pre-processed scRNAseq
+            case "scrnaseqDatasets";
+                $name = "preprocessed_scrnaseq.tar.gz";
+                break;
+
             default:
                 return redirect()->back();
         }
