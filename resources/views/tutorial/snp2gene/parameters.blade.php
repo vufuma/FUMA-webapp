@@ -456,8 +456,8 @@
 			<td>Check this if you want to perform filtering of SNPs by CADD score.
 				This applies to selected SNPs in LD with independent significant SNPs that are used to prioritize genes.
 				CADD score is the score of deleteriousness of SNPs predicted by 63 functional annotations.
-				12.37 is the threshold to be deleterious suggested by Kicher et al (2014).
-				Please refer to the original publication for details from <a href="{{ Config::get('app.subdir') }}/links">links</a>.
+				12.37 is the threshold to be deleterious suggested by Amendola et al. (2015).
+				Please refer to <a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/25637381/">https://pubmed.ncbi.nlm.nih.gov/25637381/</a> for details.
 			</td>
 			<td>Check</td>
 			<td>Unchecked</td>
