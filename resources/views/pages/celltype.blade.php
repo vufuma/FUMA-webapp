@@ -32,7 +32,7 @@
                             <h4>MAGMA gene analysis result</h4>
                             1. Select from existing SNP2GENE job<br>
                             <span class="info"><i class="fa fa-info fa-sm"></i>
-                                You can only select one of the succeeded SNP2GENE jobs in your account.<br>
+                                You can only select one of the successful SNP2GENE jobs in your account.<br>
                                 When you select a job ID, FUMA will automatically check if MAGMA was performed in the
                                 selected job.
                             </span>
@@ -72,17 +72,23 @@
                                 You should not select all datasets if you want to perform step 2 and 3 of the workflow
                                 due to the duplicated cell types in multiple datasets from the same data resource.
                                 For example, Tabula Muris FACS data have one dataset with all cell types from all tissues
-                                and
-                                other datasets for each tissue separately.
-                                Therefore, "endothelial cell" in Lung sample in the dataset with all tissues is
-                                exactly the same as "endothelial cell" in Lung dataset.
-                                This applies to data resource with multiple levels, where level 1 cell types include level 2
+                                and other datasets for each tissue separately. Therefore, "endothelial cell" in Lung sample in the dataset with all tissues is
+                                exactly the same as "endothelial cell" in Lung dataset. This applies to data resource with multiple levels, where level 1 cell types include level 2
                                 cell types.
                                 In addition, step 2 is only performed after multiple testing correction across all the cell
                                 types tested in the step 1
                                 regardless of duplications of the cell types.
                                 It is strongly recommended to carefully select datasets to test beforehand.
                             </span> <br>
+                            <div class="alert alert-info">
+			                    <strong>Data structure:</strong> 
+                                <br> 
+                                The data are organized by tissue types in alphabetical order. Species are separated out within each tisseue (currently data for human and mouse are available). Within the human brain,
+                                the data are further categorized spatially (different regions of the brain) and temporally (different developmental timepoint). 
+                                <br>
+                                If you would like to add a new scRNAseq dataset that is not currently available here, please email us. 
+                                
+                            </div>
 
                             <div>
                                 <select multiple="multiple" class="form-control" style="display: none;" id="cellDataSets"
