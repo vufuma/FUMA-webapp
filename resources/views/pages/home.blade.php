@@ -28,7 +28,7 @@
 			Please post any questions, suggestions and bug reports on Google Forum: <a target="_blank" href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a>.<br>
 		</p>
 		<div class="alert alert-danger">
-			<p><strong>If you encounter an error with your FUMA job, please check this troubleshooting guide prior to posting on the Google Forum: <a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw/m/utS6HxWoAAAJ">Troubleshooting List</a></strong></p>
+			<strong>If you encounter an error with your FUMA job, please check this troubleshooting guide prior to posting on the Google Forum: <a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw/m/utS6HxWoAAAJ">Troubleshooting List</a></strong>
 		</div>
 		<p>
 			<strong style="font-size: large;">Citation</strong><br>

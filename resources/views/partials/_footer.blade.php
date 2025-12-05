@@ -2,7 +2,7 @@
     <div class="row" style="color: #818588;">
         <div class="col-md-3 offset-md-1">
             <p style="font-size:16px">
-                Update/maintenance: FUMA team<br>
+                Updated and maintained by: Tanya Phung<br>
                 (fuma.ctglab@gmail.com)<br>
                 Dept. Complex Trait Genetics, <br>VU University Amsterdam
             </p>
