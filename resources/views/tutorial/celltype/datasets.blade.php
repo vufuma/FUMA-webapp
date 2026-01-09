@@ -1,4 +1,14 @@
 <h3 id="datasets">Data sets</h3>
+Starting from FUMA version 1.7.0 with the update of new datasets to FUMA Cell type, note the following changes: 
+<ol>
+	<li>
+		Scripts for pre-processing the batch of  scRNAseq datasets in Phung et al. 202x is hosted at <a target="_blank" href="https://github.com/tanyaphung/scrnaseq_viewer">https://github.com/tanyaphung/scrnaseq_viewer</a>.
+	</li>
+	<li>
+		The pre-processed scRNAseq data within FUMA can be downloaded in the <a href="{{ url('/downloadPage') }}">Download page</a> (scroll to the section <strong>FUMA Cell Type</strong>).<br/>
+	</li>
+
+</ol>
 Each data set available on FUMA is described details.
 Scripts for pre-processing are available on github repository at
 <a target="_blank" href="https://github.com/Kyoko-wtnb/FUMA_scRNA_data">https://github.com/Kyoko-wtnb/FUMA_scRNA_data</a>.
