@@ -1,0 +1,153 @@
+# this script prepares the QTLs for LAVA and coloc format
+import tabix
+import os
+import argparse
+import sys
+import configparser
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--filedir', required=True, help="Path to input directory.")
+args = parser.parse_args()
+
+
+filedir = args.filedir
+
+cfg = configparser.ConfigParser()
+cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
+
+param = configparser.RawConfigParser()
+param.optionxform = str
+param.read(filedir+'params.config')
+
+qtl_dir = cfg.get('data', 'QTL')
+
+chrom=param.get('params','chrom')
+start=param.getint('params','start')
+end=param.getint('params','end')
+
+datasets=param.get('params','datasets').split(":")
+
+for dataset in datasets:
+    qtl_type = dataset.split("-")[0]
+    dataset_origin = dataset.split("-")[1]
+    tissue = dataset.split("-")[2]
+    infile = os.path.join(qtl_dir, qtl_type, dataset_origin, "processed_files", tissue + ".v10.allpairs.chr" + chrom + ".txt.gz")
+    
+    outfile_fn = os.path.join(filedir, qtl_type + "_" + dataset + "_" + str(chrom) + "-" + str(start) + "-" + str(end) + ".sumstats.txt")
+    outfile = open(outfile_fn, "w")
+    
+    if not os.path.exists(infile):
+        sys.exit("Input file " + infile + " not found.")
+    tb = tabix.open(infile)
+    
+    query_region = str(chrom)+":"+str(start)+"-"+str(end)
+
+    querried_results = tb.querys(query_region)
+
+    for querry in querried_results:
+        print("\t".join(querry), file=outfile)
+    
+    
+    
+
+# parser.add_argument('--infile', required=True, help="Input file, e.g. GTEx_v10_apaQTL_Brain_Hippocampus_chr17_hg19_fmt.txt.gz")
+# parser.add_argument('--type', required=True, help="Type of QTLs: eQTL, sQTL, apaQTL")
+# parser.add_argument('--dataset', required=True, help="Dataset name, e.g. gtex_v10_brain_hippocampus")
+# parser.add_argument('--chrom', required=True, help="Chromosome number, e.g. 17")
+# parser.add_argument('--start', type=int, required=True, help="Start position of the locus, e.g. 42180244")
+# parser.add_argument('--end', type=int, required=True, help="End position of the locus, e.g. 42874404")
+# parser.add_argument('--tissue', required=True, help="tissue, e.g. Brain_Hippocampus")
+# parser.add_argument('--rsid_infer', required=True, help="yes if inference of rsid is required.")
+# parser.add_argument('--out_dir', required=True, help="Path to output directory.")
+# args = parser.parse_args()
+
+# infile = args.infile
+# type = args.type
+# dataset = args.dataset
+# chrom = args.chrom
+# start = args.start
+# end = args.end
+# rsid_infer = args.rsid_infer
+# out_dir = args.out_dir
+# tissue=args.tissue
+
+# tissue_sample_sizes = {"Brain_Amygdala":181,
+#                        "Brain_Anterior_cingulate_cortex_BA24":233,
+#                        "Brain_Caudate_basal_ganglia":300,
+#                        "Brain_Cerebellar_Hemisphere":277,
+#                        "Brain_Cerebellum":266,
+#                        "Brain_Cortex":270,
+#                        "Brain_Frontal_Cortex_BA9":269,
+#                        "Brain_Hippocampus":255,
+#                        "Brain_Hypothalamus":257,
+#                        "Brain_Nucleus_accumbens_basal_ganglia":285,
+#                        "Brain_Putamen_basal_ganglia":254,
+#                        "Brain_Spinal_cord_cervical_c-1":204,
+#                        "Brain_Substantia_nigra":183}
+
+# sample_size = tissue_sample_sizes[tissue]
+
+# query_region = str(chrom)+":"+str(start)+"-"+str(end)
+
+# if rsid_infer == 'yes':
+#     print("rsid inference is enabled.")
+#     id_rsid_map = {}
+#     if not os.path.exists("/gpfs/work5/0/vusr0480/Reference_Data/fuma_reference_data/dbSNP157/dbSNP157.chr" + chrom + ".vcf.gz"):
+#         sys.exit("dbSNP file for chromosome " + chrom + " not found.")
+#     rsid_tb = tabix.open("/gpfs/work5/0/vusr0480/Reference_Data/fuma_reference_data/dbSNP157/dbSNP157.chr" + chrom + ".vcf.gz")
+#     rsid_querried_results = rsid_tb.querys(query_region)
+#     for querry in rsid_querried_results:
+#         chrom = querry[0]
+#         pos = querry[1]
+#         rsid = querry[2]
+#         ref = querry[3]
+#         if ',' not in querry[4]:
+#             alt = querry[4]
+#             id_key = chrom + ":" + pos + ":" + ref + ":" + alt
+#             id_rsid_map[id_key] = rsid
+#         else:
+#             alt_alleles = querry[4].split(',')
+#             for alt in alt_alleles:
+#                 id_key = chrom + ":" + pos + ":" + ref + ":" + alt
+#                 id_rsid_map[id_key] = rsid
+
+# outfile_fn = os.path.join(out_dir, type + "_" + dataset + "_" + str(chrom) + "-" + str(start) + "-" + str(end) + ".sumstats.txt")
+# outfile = open(outfile_fn, "w")
+# header = ["RSID", "ALT", "REF", "N", "BETA", "P", "GENE", "MAF"]
+# print("\t".join(header), file=outfile)
+
+# if not os.path.exists(infile):
+#     sys.exit("Input file " + infile + " not found.")
+# tb = tabix.open(infile)
+
+# querried_results = tb.querys(query_region)
+
+# n_snps = 0
+# n_snps_with_rsid = 0
+
+# for querry in querried_results:
+#     n_snps += 1
+#     chrom = querry[0]
+#     pos = querry[1]
+#     ref = querry[2]
+#     alt = querry[3]
+#     beta = querry[6]
+#     p = querry[5]
+#     n = str(sample_size)
+#     geneid = querry[4]
+#     maf = querry[7]
+    
+#     id_key = chrom + ":" + pos + ":" + ref + ":" + alt
+#     if id_key in id_rsid_map:
+#         rsid = id_rsid_map[id_key]
+#         n_snps_with_rsid += 1
+#         # continue
+#     else:
+#         print("rsid not found for " + id_key)
+    
+#     print("\t".join([rsid, alt, ref, n, beta, p, geneid, maf]), file=outfile)
+
+# outfile.close()
+# print(n_snps, " SNPs processed.")
+# print(n_snps_with_rsid, " SNPs have rsid inferred.")

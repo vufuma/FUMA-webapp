@@ -53,9 +53,8 @@ class XqtlsProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'xqtls');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'xqtls');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript test.R $job_location/'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python format_for_lava_coloc.py --filedir $job_location/'";
         $process = Process::forever()->run($cmd);
-        Log::info("job_location: " . $job_location);
         Log::info("Full Docker command: " . $cmd);
         $error = $process->exitCode();
         if ($error != 0) {

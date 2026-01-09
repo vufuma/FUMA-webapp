@@ -149,6 +149,7 @@ class XQTLSController extends Controller
         Storage::append($paramfile, "\n[version]");
         Storage::append($paramfile, "FUMA=" . $app_config['FUMA']);
 
+        Storage::append($paramfile, "\n[params]");
         Storage::append($paramfile, "chrom=$chrom");
         Storage::append($paramfile, "start=$locusStart");
         Storage::append($paramfile, "end=$locusEnd");
