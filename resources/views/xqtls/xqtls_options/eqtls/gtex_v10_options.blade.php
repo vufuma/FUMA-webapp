@@ -1,5 +1,5 @@
 <option class="level1" value="null">GTEx v10 Brain (13)</option>
-<option class="level2" value="">Brain Amygdala</option>
+<option class="level2" value="Brain_Amygdala.txt.gz">Brain Amygdala</option>
 <option class="level2" value="">Brain Anterior cingulate cortex BA24</option>
 <option class="level2" value="">Brain Caudate basal ganglia</option>
 <option class="level2" value="">Brain Cerebellar Hemisphere</option>

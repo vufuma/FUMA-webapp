@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\CustomClasses\DockerApi\DockerNamesBuilder;
-use App\Jobs\Gene2FuncJob;
+use App\Jobs\XqtlsProcess;
 use App\CustomClasses\myFile;
 
 use App\Models\SubmitJob;
@@ -87,5 +87,120 @@ class XQTLSController extends Controller
         $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . $fin;
 
         return myFile::processCsvDataWithHeaders($file_path, $cols);
+    }
+
+    public function newJob(Request $request)
+    {
+        $date = date('Y-m-d H:i:s');
+        $email = Auth::user()->email;
+        $user_id = Auth::user()->id;
+
+        // get xQTLs datasets
+        $xqtlsDatasets = $this->joinQTLdatasets(
+            $this->parseQtl($request->input('eqtlGtexv10Ts'))
+            // $this->parseQtl($request->input('eqtlCatalog')),
+            // $this->parseQtl($request->input('sqtlGtexv10')),
+            // $this->parseQtl($request->input('apaqtlGtexv10')),
+            // $this->parseQtl($request->input('pqtls'))
+        );
+
+
+
+        if ($request->filled("title")) {
+            $title = $request->input('title');
+        } else {
+            $title = "None";
+        }
+
+        // Create new job in database
+        $submitJob = new SubmitJob;
+        $submitJob->email = $email;
+        $submitJob->user_id = $user_id;
+        $submitJob->type = 'xqtls';
+        $submitJob->title = $title;
+        $submitJob->status = 'NEW';
+        $submitJob->save();
+        $jobID = $submitJob->jobID;
+
+        // Create new job on server
+
+        $filedir = config('app.jobdir') . '/xqtls/' . $jobID;
+        Storage::makeDirectory($filedir);
+        Storage::putFileAs($filedir, $request->file('locusSumstat'), 'locus.input');
+
+        // if ($s2gID == 0) {
+        //     $s2gID = "NA";
+        // }
+        // $inputfile = "NA";
+        // if ($request->hasFile('genes_raw')) {
+        //     $inputfile = $_FILES["genes_raw"]["name"];
+        // }
+        $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
+        $paramfile = $filedir . '/params.config';
+
+        $chrom = $request->input('chrom');
+        $locusStart = $request->input('locusStart');
+        $locusEnd = $request->input('locusEnd');
+
+        Storage::put($paramfile, "[jobinfo]");
+        Storage::append($paramfile, "created_at=$date");
+        Storage::append($paramfile, "title=$title");
+
+        Storage::append($paramfile, "\n[version]");
+        Storage::append($paramfile, "FUMA=" . $app_config['FUMA']);
+
+        Storage::append($paramfile, "chrom=$chrom");
+        Storage::append($paramfile, "start=$locusStart");
+        Storage::append($paramfile, "end=$locusEnd");
+        Storage::append($paramfile, "datasets=$xqtlsDatasets");
+
+        $this->queueNewJobs();
+
+        return redirect("/xqtls#queryhistory");
+    }
+
+    private function joinQTLdatasets(...$qtlArrays) 
+    {
+        $parts = [];
+
+        foreach ($qtlArrays as $array) {
+            if (!empty($array) && is_array($array)) {
+                $parts[] = implode(":", $array);
+            }
+        }
+
+        return !empty($parts) ? implode(":", $parts) : "NA";
+    }
+
+    private function parseQtl($temp) {
+    $qtlMapTs = [];
+    // $temp = $request->input($id);
+    foreach ($temp as $ts) {
+        if ($ts != "null") {
+        $qtlMapTs[] = $ts;
+        }
+    }
+    return $qtlMapTs;
+    }
+
+    public function queueNewJobs()
+    {
+        $user = Auth::user();
+        $newJobs = (new SubmitJob)->getNewJobs_xqtls_only($user->id);
+
+        $queue = 'default';
+        if ($user->can('Access Priority Queue')) {
+            $queue = 'high';
+        }
+
+        if (count($newJobs) > 0) {
+            foreach ($newJobs as $job) {
+                (new SubmitJob)->updateStatus($job->jobID, 'QUEUED');
+                XqtlsProcess::dispatch($user, $job->jobID)
+                    ->onQueue($queue)
+                    ->afterCommit();
+            }
+        }
+        return;
     }
 }

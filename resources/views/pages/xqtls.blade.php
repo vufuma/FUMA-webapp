@@ -37,15 +37,16 @@ border-color: rgba(0,0,0,0.1);
                             <h3>xQTLs Analysis</h3>
                             <h5 style="color: #00004d"> Compute genetic correlation for a genomic region of interest (for example, a genomic risk loci) with various QTLs datasets. </h5>
                             <div id="uploadData">
+                                {{ html()->form('POST', '/xqtls/submit')->attribute('enctype', 'multipart/form-data')->open() }}
                                 <table class="table table-bordered inputTable" id="xqtlsAnalysis" style="width: auto;">
                                     <tr>
-                                        <td> GWAS summary statistics file: 
+                                        <td> Summary statistics file for a locus: 
                                             <a class="infoPop" data-bs-toggle="popover"
                                                 data-bs-content="Upload a tab-delimited text file with header containing GWAS summary statistics with the following columns in this specific order: CHR, POS, REF, ALT, BETA, P. The position can be in GRCh37 or GRCh38 coordinates. If in GRCh38 coordinates, please check the box below.">
                                                 <i class="fa-regular fa-circle-question"></i>
                                             </a>
                                         </td>
-                                        <td><input type="file" class="form-control-file" name="GWASsummary" id="GWASsummary" /></td>
+                                        <td><input type="file" class="form-control-file" name="locusSumstat" id="locusSumstat" /></td>
                                     </tr>
                                     <tr>
                                         <td>Genome Build
@@ -68,11 +69,11 @@ border-color: rgba(0,0,0,0.1);
                                         </td>
                                         <td>
                                             <span class="inputSpan">Chromosome: <input type="text" class="form-control"
-                                                        id="chrcol" name="chr"></span>
+                                                        id="chrom" name="chrom"></span>
                                             <span class="inputSpan">Start: <input type="text" class="form-control"
-                                                        id="startpos" name="start"></span>
+                                                        id="locusStart" name="locusStart"></span>
                                             <span class="inputSpan">End: <input type="text" class="form-control"
-                                                        id="endpos" name="end"></span>
+                                                        id="locusEnd" name="locusEnd"></span>
                                         </td>
                                     <tr>
                                         <td>Available datasets:</td>
@@ -92,7 +93,7 @@ border-color: rgba(0,0,0,0.1);
                                                         <span class="multiSelect">
                                                             <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                                             <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
+                                                            <select multiple class="form-select" id="eqtlGtexv10Ts" name="eqtlGtexv10Ts[]"
                                                                 size="10" onchange="window.CheckAll();">
                                                                 @include('xqtls.xqtls_options.eqtls.gtex_v10_options')
                                                             </select>
@@ -202,6 +203,22 @@ border-color: rgba(0,0,0,0.1);
                                             </div>
 
                                         </td>
+                                    </tr>
+
+                                    <tr>
+                                        <div class="row mb-1">
+                                            <label for="title" class="col-sm-5 col-form-label">
+                                                Title:
+                                            </label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control" id="title" name="title" />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <span class="info"><i class="fa fa-info fa-sm"></i> Optional</span>
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
 
                                 </table>
