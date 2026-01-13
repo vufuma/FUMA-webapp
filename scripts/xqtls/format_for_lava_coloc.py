@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--filedir', required=True, help="Path to input directory.")
 args = parser.parse_args()
 
-
+# Setting up parameters
 filedir = args.filedir
 
 cfg = configparser.ConfigParser()
@@ -18,9 +18,10 @@ cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
 param = configparser.RawConfigParser()
 param.optionxform = str
-param.read(filedir+'params.config')
+param.read(os.path.join(filedir, 'params.config'))
 
 qtl_dir = cfg.get('data', 'QTL')
+dbsnp_dir = cfg.get('data', 'dbSNP')
 
 chrom=param.get('params','chrom')
 start=param.getint('params','start')
@@ -28,14 +29,33 @@ end=param.getint('params','end')
 
 datasets=param.get('params','datasets').split(":")
 
+# Setting up
+tissue_sample_sizes = {"Brain_Amygdala":181,
+                       "Brain_Anterior_cingulate_cortex_BA24":233,
+                       "Brain_Caudate_basal_ganglia":300,
+                       "Brain_Cerebellar_Hemisphere":277,
+                       "Brain_Cerebellum":266,
+                       "Brain_Cortex":270,
+                       "Brain_Frontal_Cortex_BA9":269,
+                       "Brain_Hippocampus":255,
+                       "Brain_Hypothalamus":257,
+                       "Brain_Nucleus_accumbens_basal_ganglia":285,
+                       "Brain_Putamen_basal_ganglia":254,
+                       "Brain_Spinal_cord_cervical_c-1":204,
+                       "Brain_Substantia_nigra":183}  #TODO: add more tissues
+
 for dataset in datasets:
     qtl_type = dataset.split("-")[0]
     dataset_origin = dataset.split("-")[1]
     tissue = dataset.split("-")[2]
-    infile = os.path.join(qtl_dir, qtl_type, dataset_origin, "processed_files", tissue + ".v10.allpairs.chr" + chrom + ".txt.gz")
+    sample_size = tissue_sample_sizes[tissue]
+    infile = os.path.join(qtl_dir, qtl_type, dataset_origin, "processed_files", tissue + ".v10.allpairs.chr" + chrom + ".txt.gz") #TODO: modify the path to have the same naming convention
     
-    outfile_fn = os.path.join(filedir, qtl_type + "_" + dataset + "_" + str(chrom) + "-" + str(start) + "-" + str(end) + ".sumstats.txt")
+    #setting up output file
+    outfile_fn = os.path.join(filedir, dataset + "_" + str(chrom) + "-" + str(start) + "-" + str(end) + ".sumstats.txt")
     outfile = open(outfile_fn, "w")
+    header = ["RSID", "ALT", "REF", "N", "BETA", "P", "GENE", "MAF"]
+    print("\t".join(header), file=outfile)
     
     if not os.path.exists(infile):
         sys.exit("Input file " + infile + " not found.")
@@ -44,9 +64,56 @@ for dataset in datasets:
     query_region = str(chrom)+":"+str(start)+"-"+str(end)
 
     querried_results = tb.querys(query_region)
+    
+    # setting up rsid dict
+    id_rsid_map = {}
+    if not os.path.exists(os.path.join(dbsnp_dir, "dbSNP_v157", "dbSNP157.chr" + chrom + ".vcf.gz")):
+        sys.exit("dbSNP file for chromosome " + chrom + " not found.")
+    rsid_tb = tabix.open(os.path.join(dbsnp_dir, "dbSNP_v157", "dbSNP157.chr" + chrom + ".vcf.gz"))
+    rsid_querried_results = rsid_tb.querys(query_region)
+    for querry in rsid_querried_results:
+        chrom = querry[0]
+        pos = querry[1]
+        rsid = querry[2]
+        ref = querry[3]
+        if ',' not in querry[4]:
+            alt = querry[4]
+            id_key = chrom + ":" + pos + ":" + ref + ":" + alt
+            id_rsid_map[id_key] = rsid
+        else:
+            alt_alleles = querry[4].split(',')
+            for alt in alt_alleles:
+                id_key = chrom + ":" + pos + ":" + ref + ":" + alt
+                id_rsid_map[id_key] = rsid
+
+    n_snps = 0
+    n_snps_with_rsid = 0
 
     for querry in querried_results:
-        print("\t".join(querry), file=outfile)
+        n_snps += 1
+        chrom = querry[0]
+        pos = querry[1]
+        ref = querry[2]
+        alt = querry[3]
+        beta = querry[6]
+        p = querry[5]
+        n = str(sample_size)
+        geneid = querry[4]
+        maf = querry[7]
+        
+        id_key = chrom + ":" + pos + ":" + ref + ":" + alt
+        if id_key in id_rsid_map:
+            rsid = id_rsid_map[id_key]
+            n_snps_with_rsid += 1
+            # continue
+        else:
+            print("rsid not found for " + id_key)
+        
+        print("\t".join([rsid, alt, ref, n, beta, p, geneid, maf]), file=outfile)
+
+    outfile.close()
+    print(n_snps, " SNPs processed.")
+    print(n_snps_with_rsid, " SNPs have rsid inferred.")
     
     
     

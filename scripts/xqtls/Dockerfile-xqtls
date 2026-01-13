@@ -1,18 +1,36 @@
-FROM python:3
+FROM rocker/r-ver:4.3.2
 
-# Set default work directory
-WORKDIR /app
+ENV DEBIAN_FRONTEND=noninteractive
 
-COPY xqtls/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
+# System dependencies (R + Python)
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    build-essential \
+    gfortran \
+    libblas-dev \
+    liblapack-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'R.utils'))"
+# R packages
+RUN R -e "install.packages(c('Rcpp','data.table','irlba','coloc', 'rprojroot', 'whereami', 'data.table', 'kimisc', 'R.utils', 'dplyr', 'argparse'), \
+    repos='https://cloud.r-project.org', Ncpus=parallel::detectCores())"
+
+# Python deps
+WORKDIR /app
+COPY xqtls/requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+CMD ["bash"]
 
 COPY app.config ./
+COPY ConfigParser.R ./
 COPY xqtls/format_for_lava_coloc.py ./
+COPY xqtls/run_coloc.R ./
+
 
 # Configure non-root user.
 ARG USERNAME

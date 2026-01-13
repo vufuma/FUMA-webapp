@@ -35,35 +35,23 @@ border-color: rgba(0,0,0,0.1);
                     <div class="container" style="padding-top:50px;">
                         <div style="text-align: left;">
                             <h3>xQTLs Analysis</h3>
-                            <h5 style="color: #00004d"> Compute genetic correlation for a genomic region of interest (for example, a genomic risk loci) with various QTLs datasets. </h5>
+                            <h5 style="color: #00004d"> Prioritizing genes within a genomic risk locus by integrating with QTLs datasets. </h5>
                             <div id="uploadData">
                                 {{ html()->form('POST', '/xqtls/submit')->attribute('enctype', 'multipart/form-data')->open() }}
                                 <table class="table table-bordered inputTable" id="xqtlsAnalysis" style="width: auto;">
                                     <tr>
                                         <td> Summary statistics file for a locus: 
                                             <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Upload a tab-delimited text file with header containing GWAS summary statistics with the following columns in this specific order: CHR, POS, REF, ALT, BETA, P. The position can be in GRCh37 or GRCh38 coordinates. If in GRCh38 coordinates, please check the box below.">
+                                                data-bs-content="Upload a tab-delimited text file with header containing GWAS summary statistics with the following columns in this specific order: RSID, ATL, REF, N, BETA, P, MAF. Check the documentation on how to prepare the summary statistics file.">
                                                 <i class="fa-regular fa-circle-question"></i>
                                             </a>
                                         </td>
                                         <td><input type="file" class="form-control-file" name="locusSumstat" id="locusSumstat" /></td>
                                     </tr>
                                     <tr>
-                                        <td>Genome Build
+                                        <td> Genomic Locus Information: 
                                             <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Select the genome build of your GWAS summary statistics file.">
-                                                <i class="fa-regular fa-circle-question"></i>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div><input type="radio" name="build", value="grch37"><label>GRCh37</label></div>
-                                            <div><input type="radio" name="build", value="grch38"><label>GRCh38</label></div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Information about the genomic region of interest: 
-                                            <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Provide the chromosome number, start and end position of the genomic region of interest.">
+                                                data-bs-content="Provide the chromosome number, start and end position of the genomic region of interest. Coordinates have to be based on the GRCh38 human genome assembly.">
                                                 <i class="fa-regular fa-circle-question"></i>
                                             </a>
                                         </td>
@@ -75,6 +63,19 @@ border-color: rgba(0,0,0,0.1);
                                             <span class="inputSpan">End: <input type="text" class="form-control"
                                                         id="locusEnd" name="locusEnd"></span>
                                         </td>
+                                    <tr>
+                                        <td>Analysis type
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Select the type of analysis to perform.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div><input type="radio" name="analysisType", value="lava"><label>LAVA</label></div>
+                                            <div><input type="radio" name="analysisType", value="coloc"><label>Colocalization</label></div>
+                                            <div><input type="radio" name="analysisType", value="both"><label>Both</label></div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>Available datasets:</td>
                                         <td>
