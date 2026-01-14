@@ -46,7 +46,12 @@ border-color: rgba(0,0,0,0.1);
                                                 <i class="fa-regular fa-circle-question"></i>
                                             </a>
                                         </td>
-                                        <td><input type="file" class="form-control-file" name="locusSumstat" id="locusSumstat" /></td>
+                                        <td><input type="file" class="form-control-file" name="locusSumstat" id="locusSumstat" onchange="window.CheckAll()" />
+                                        </td>
+                                        <td>
+                                        <div id="locusInputCheck" class="mt-2" style="padding-bottom: 0;"></div>
+                                        </td>
+                                        
                                     </tr>
                                     <tr>
                                         <td> Genomic Locus Information: 
@@ -57,11 +62,14 @@ border-color: rgba(0,0,0,0.1);
                                         </td>
                                         <td>
                                             <span class="inputSpan">Chromosome: <input type="text" class="form-control"
-                                                        id="chrom" name="chrom"></span>
+                                                        id="chrom" name="chrom" onchange="window.CheckAll()"></span>
                                             <span class="inputSpan">Start: <input type="text" class="form-control"
-                                                        id="locusStart" name="locusStart"></span>
+                                                        id="locusStart" name="locusStart" onchange="window.CheckAll()"></span>
                                             <span class="inputSpan">End: <input type="text" class="form-control"
-                                                        id="locusEnd" name="locusEnd"></span>
+                                                        id="locusEnd" name="locusEnd" onchange="window.CheckAll()"></span>
+                                        </td>
+                                        <td>
+                                        <div id="locusInputCheck" class="mt-2" style="padding-bottom: 0;"></div>
                                         </td>
                                     <tr>
                                         <td>Perform colocalization
@@ -298,7 +306,8 @@ border-color: rgba(0,0,0,0.1);
     <script type="module">
         import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
         import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
-        import { XQTLSSetup } from "{{ Vite::appjs('utils/xqtls.js') }}";
+        import { XQTLSSetup, CheckAll } from "{{ Vite::appjs('utils/xqtls.js') }}";
+        window.CheckAll = CheckAll;
         $(function(){
             SidebarSetup();
             BrowseSetup();
