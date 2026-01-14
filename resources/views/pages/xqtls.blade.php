@@ -64,17 +64,18 @@ border-color: rgba(0,0,0,0.1);
                                                         id="locusEnd" name="locusEnd"></span>
                                         </td>
                                     <tr>
-                                        <td>Analysis type
-                                            <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Select the type of analysis to perform.">
-                                                <i class="fa-regular fa-circle-question"></i>
+                                        <td>Perform colocalization
+                                            <a class="infoPop" data-bs-toggle="popover" title="colocalization"
+                                                data-bs-content="Check this option to perform colocalization analysis.">
+                                                <i class="fa-regular fa-circle-question fa-lg"></i>
                                             </a>
                                         </td>
-                                        <td>
-                                            <div><input type="radio" name="analysisType", value="lava"><label>LAVA</label></div>
-                                            <div><input type="radio" name="analysisType", value="coloc"><label>Colocalization</label></div>
-                                            <div><input type="radio" name="analysisType", value="both"><label>Both</label></div>
-                                        </td>
+                                        <td><input type="checkbox" class="form-check-inline" name="coloc" id="coloc"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Colocalization PP4 threshold</td>
+                                        <td><input type="number" class="form-control" id="pp4" name="pp4"
+                                                value="0.8"></td>
                                     </tr>
                                     <tr>
                                         <td>Available datasets:</td>

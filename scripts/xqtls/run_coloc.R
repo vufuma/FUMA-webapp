@@ -39,10 +39,16 @@ names(sample_sizes) = c("Brain_Amygdala",
 
 #
 chrom = params$params$chrom
-print(chrom)
 start = params$params$start
 end = params$params$end
 datasets = params$params$datasets
+pp4 = params$params$pp4
+
+out_fn = paste0(filedir, "coloc_results.txt")
+filtered_out_fn = paste0(filedir, "coloc_results_filtered.txt")
+
+results <- data.frame(matrix(ncol = 8, nrow = 0))
+colnames(results) = c("tissue", "gene", "nsnps", "PP.H0.abf", "PP.H1.abf", "PP.H2.abf", "PP.H3.abf", "PP.H4.abf")
 
 for (dataset in unlist(strsplit(datasets, ":"))) {
   qtl_type = unlist(strsplit(dataset, "-"))[1]
@@ -52,7 +58,7 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
 
   snps_fn = paste0(filedir, "locus.input")
   qtl_fn = paste0(filedir, dataset, "_", chrom, "-", start, "-", end, ".sumstats.txt")
-  out_fn = paste0(filedir, "coloc_results_", dataset, ".txt")
+
 
   # analysis
   snps_orig = fread(snps_fn)
@@ -60,8 +66,7 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     filter(!is.na(RSID))
   colnames(snps) = c("RSID", "ALT_SNP", "REF_SNP", "N_SNP", "BETA_SNP", "P_SNP", "MAF_SNP")
 
-  results <- data.frame(matrix(ncol = 8, nrow = 0))
-  colnames(results) = c("tissue", "gene", "nsnps", "PP.H0.abf", "PP.H1.abf", "PP.H2.abf", "PP.H3.abf", "PP.H4.abf")
+
 
   qtls_full = fread(qtl_fn)
   colnames(qtls_full) = c("RSID", "ALT_QTL", "REF_QTL", "N_QTL", "BETA_QTL", "P_QTL", "GENE_QTL", "MAF_QTL")
@@ -83,9 +88,14 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     result = data.frame("tissue" = tissue, "gene" = i, "nsnps" = coloc_results$summary[[1]], "PP.H0.abf" = coloc_results$summary[[2]], "PP.H1.abf" = coloc_results$summary[[3]], "PP.H2.abf" = coloc_results$summary[[4]], "PP.H3.abf" = coloc_results$summary[[5]], "PP.H4.abf" = coloc_results$summary[[6]])
     results = rbind(results, result)
   }
-
-  write.table(results, file=out_fn, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
 }
+
+write.table(results, file=out_fn, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
+
+# filter results based on PP4 threshold
+filtered_results = results %>%
+  filter(PP.H4.abf >= as.numeric(pp4))
+write.table(filtered_results, file=filtered_out_fn, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
 
 
 
