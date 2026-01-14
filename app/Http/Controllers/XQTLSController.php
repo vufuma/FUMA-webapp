@@ -141,7 +141,14 @@ class XQTLSController extends Controller
         $chrom = $request->input('chrom');
         $locusStart = $request->input('locusStart');
         $locusEnd = $request->input('locusEnd');
+        $pp4 = $request->input('pp4');
 
+        if ($request->filled('coloc')) {
+            $coloc = 1;
+        } else {
+            $coloc = 0;
+        }
+ 
         Storage::put($paramfile, "[jobinfo]");
         Storage::append($paramfile, "created_at=$date");
         Storage::append($paramfile, "title=$title");
@@ -153,7 +160,10 @@ class XQTLSController extends Controller
         Storage::append($paramfile, "chrom=$chrom");
         Storage::append($paramfile, "start=$locusStart");
         Storage::append($paramfile, "end=$locusEnd");
+        Storage::append($paramfile, "pp4=$pp4");
         Storage::append($paramfile, "datasets=$xqtlsDatasets");
+        // Storage::append($paramfile, "lava=$lava");
+        Storage::append($paramfile, "coloc=$coloc");
 
         $this->queueNewJobs();
 
