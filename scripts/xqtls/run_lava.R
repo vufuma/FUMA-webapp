@@ -40,8 +40,8 @@ names(sample_sizes) = c("Brain_Amygdala",
 
 # create the input info file for LAVA
 phenotype = params$params$phenotype
-cases = params$params$cases
-controls = params$params$controls
+cases = as.numeric(params$params$cases)
+controls = as.numeric(params$params$controls)
 filename="input.info.txt"
 input_info = data.frame("phenotype" = phenotype,
                         "cases" = cases,
@@ -51,6 +51,8 @@ write.table(input_info, file=paste0(filedir, filename), row.names=F, quote=F, co
 
 #
 chrom = params$params$chrom
+start = params$params$start
+end = params$params$end
 datasets = params$params$datasets
 out.fname="lava_results"
 
@@ -65,7 +67,7 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
   dataset_origin = unlist(strsplit(dataset, "-"))[2]
   tissue = unlist(strsplit(dataset, "-"))[3]
   sample_size = sample_sizes[[tissue]]
-  qtl_fn = paste0(filedir, dataset, "_", chrom, "-", start, "-", end, ".sumstats.txt")
+  qtl_fn = paste0(filedir, dataset, "_", "[CHR]", "-", start, "-", end, ".sumstats.txt")
   process.eqtl.input(input, qtl_fn, chromosomes=chrom, sample.size=sample_size)
 
   ### Set univariate pvalue threshold

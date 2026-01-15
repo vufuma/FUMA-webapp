@@ -85,6 +85,33 @@ border-color: rgba(0,0,0,0.1);
                                         <td><input type="number" class="form-control" id="pp4" name="pp4"
                                                 value="0.8"></td>
                                     </tr>
+
+                                    <tr>
+                                        <td>Perform LAVA
+                                            <a class="infoPop" data-bs-toggle="popover" title="LAVA"
+                                                data-bs-content="Check this option to perform LAVA analysis.">
+                                                <i class="fa-regular fa-circle-question fa-lg"></i>
+                                            </a>
+                                        </td>
+                                        <td><input type="checkbox" class="form-check-inline" name="lava" id="lava"></td>
+                                    </tr>
+                                    <tr>
+                                        <td> LAVA parameterization: 
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Provide the chromosome number, start and end position of the genomic region of interest. Coordinates have to be based on the GRCh38 human genome assembly.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="inputSpan">Phenotype: <input type="text" class="form-control"
+                                                        id="phenotype" name="phenotype"></span>
+                                            <span class="inputSpan">Cases: <input type="text" class="form-control"
+                                                        id="cases" name="cases"></span>
+                                            <span class="inputSpan">Controls: <input type="text" class="form-control"
+                                                        id="controls" name="controls"></span>
+                                        </td>
+                                    </tr>
+
                                     <tr>
                                         <td>Available datasets:</td>
                                         <td>
