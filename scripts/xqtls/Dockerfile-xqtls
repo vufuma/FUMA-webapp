@@ -16,8 +16,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # R packages
-RUN R -e "install.packages(c('Rcpp','data.table','irlba','coloc', 'rprojroot', 'whereami', 'data.table', 'kimisc', 'R.utils', 'dplyr', 'argparse'), \
+RUN R -e "install.packages(c('Rcpp','data.table','irlba','coloc', 'rprojroot', 'whereami', 'data.table', 'kimisc', 'R.utils', 'dplyr', 'argparse', 'remotes'), \
     repos='https://cloud.r-project.org', Ncpus=parallel::detectCores())"
+
+# R package from GitHub
+RUN R -e "remotes::install_github('josefin-werme/LAVA')"
 
 # Python deps
 WORKDIR /app
@@ -30,6 +33,7 @@ COPY app.config ./
 COPY ConfigParser.R ./
 COPY xqtls/format_for_lava_coloc.py ./
 COPY xqtls/run_coloc.R ./
+COPY xqtls/run_lava.R ./
 
 
 # Configure non-root user.
