@@ -81,9 +81,16 @@ border-color: rgba(0,0,0,0.1);
                                         <td><input type="checkbox" class="form-check-inline" name="coloc" id="coloc"></td>
                                     </tr>
                                     <tr>
-                                        <td>Colocalization PP4 threshold</td>
-                                        <td><input type="number" class="form-control" id="pp4" name="pp4"
-                                                value="0.8"></td>
+                                        <td> Coloc parameterization: 
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Select parameters for colocalization analysis.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="inputSpan">PP4 threshold: <input type="number" class="form-control"
+                                                        id="pp4" name="pp4" value="0.8"></span>
+                                        </td>
                                     </tr>
 
                                     <tr>
@@ -98,7 +105,7 @@ border-color: rgba(0,0,0,0.1);
                                     <tr>
                                         <td> LAVA parameterization: 
                                             <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Provide the chromosome number, start and end position of the genomic region of interest. Coordinates have to be based on the GRCh38 human genome assembly.">
+                                                data-bs-content="Select parameters for LAVA analysis. Put in NA for cases and controls if not binary trait.">
                                                 <i class="fa-regular fa-circle-question"></i>
                                             </a>
                                         </td>

@@ -64,6 +64,7 @@ class XqtlsProcess implements ShouldQueue
         Storage::append($this->logfile, $cmd_format . "\n");
 
         if ($params['coloc'] == 1) {
+            Storage::append($this->logfile, "Colocalization analysis started.\n");
             $cmd_coloc = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript run_coloc.R --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
             $process_coloc = Process::forever()->run($cmd_coloc);
             Log::info("Full Docker command: " . $cmd_coloc);
@@ -74,11 +75,18 @@ class XqtlsProcess implements ShouldQueue
             Storage::append($this->logfile, "Colocalization analysis not selected.\n");
         }
 
-        $cmd_lava = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript run_lava.R --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
-        $process_lava = Process::forever()->run($cmd_lava);
-        Log::info("Full Docker command: " . $cmd_lava);
-        Storage::append($this->logfile, "Command to be executed:");
-        Storage::append($this->logfile, $cmd_lava . "\n");
+        if ($params['lava'] == 1) {
+            Storage::append($this->logfile, "LAVA analysis started.\n");
+            $cmd_lava = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript run_lava.R --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
+            $process_lava = Process::forever()->run($cmd_lava);
+            Log::info("Full Docker command: " . $cmd_lava);
+            Storage::append($this->logfile, "Command to be executed:");
+            Storage::append($this->logfile, $cmd_lava . "\n");
+        } else
+        {
+            Storage::append($this->logfile, "LAVA analysis not selected.\n");
+        }
+
 
         $error = $process_format->exitCode();
         if ($error != 0) {

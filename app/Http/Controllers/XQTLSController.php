@@ -128,36 +128,42 @@ class XQTLSController extends Controller
         Storage::makeDirectory($filedir);
         Storage::putFileAs($filedir, $request->file('locusSumstat'), 'locus.input');
 
-        // if ($s2gID == 0) {
-        //     $s2gID = "NA";
-        // }
-        // $inputfile = "NA";
-        // if ($request->hasFile('genes_raw')) {
-        //     $inputfile = $_FILES["genes_raw"]["name"];
-        // }
         $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
         $paramfile = $filedir . '/params.config';
 
         $chrom = $request->input('chrom');
         $locusStart = $request->input('locusStart');
         $locusEnd = $request->input('locusEnd');
-        $pp4 = $request->input('pp4');
-
+        
         if ($request->filled('coloc')) {
             $coloc = 1;
+            $pp4 = $request->input('pp4');
         } else {
             $coloc = 0;
+            $pp4 = "NA";
         }
+
+        
 
         if ($request->filled('lava')) {
             $lava = 1;
+            $phenotype = $request->input('phenotype');
+            $cases = "NA";
+            $controls = "NA";
+            if ($request->filled('cases')) {
+                $cases = $request->input('cases');
+            }
+            if ($request->filled('controls')) { 
+                $controls = $request->input('controls');
+            }
         } else {
             $lava = 0;
+            $phenotype = "NA";
+            $cases = "NA";
+            $controls = "NA";
         }
 
-        $phenotype = $request->input('phenotype');
-        $cases = $request->input('cases');
-        $controls = $request->input('controls');
+
 
         
  
@@ -172,13 +178,13 @@ class XQTLSController extends Controller
         Storage::append($paramfile, "chrom=$chrom");
         Storage::append($paramfile, "start=$locusStart");
         Storage::append($paramfile, "end=$locusEnd");
-        Storage::append($paramfile, "pp4=$pp4");
-        Storage::append($paramfile, "datasets=$xqtlsDatasets");
-        Storage::append($paramfile, "lava=$lava");
         Storage::append($paramfile, "coloc=$coloc");
+        Storage::append($paramfile, "pp4=$pp4");
+        Storage::append($paramfile, "lava=$lava");
         Storage::append($paramfile, "phenotype=$phenotype");
         Storage::append($paramfile, "cases=$cases");
         Storage::append($paramfile, "controls=$controls");
+        Storage::append($paramfile, "datasets=$xqtlsDatasets");
 
         $this->queueNewJobs();
 
