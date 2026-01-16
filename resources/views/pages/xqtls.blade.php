@@ -78,7 +78,21 @@ border-color: rgba(0,0,0,0.1);
                                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                                             </a>
                                         </td>
-                                        <td><input type="checkbox" class="form-check-inline" name="coloc" id="coloc"></td>
+                                        <td>
+                                            <div class="accordion-item" style="padding:0px;">
+                                                <h3 class="accordion-header">
+                                                    <input class="accordion-button collapsed accordion-highlight" data-bs-toggle="collapse" data-bs-target="#colocParams" type="checkbox" class="form-check-inline" name="coloc" id="coloc">
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="colocParams">
+                                                    <div class="accordion-body">
+                                                        <span class="inputSpan">PP4 threshold: <input type="number" class="form-control"
+                                                        id="pp4" name="pp4" value="0.8"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td> Coloc parameterization: 
