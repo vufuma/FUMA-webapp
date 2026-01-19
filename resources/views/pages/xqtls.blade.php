@@ -38,7 +38,7 @@ border-color: rgba(0,0,0,0.1);
                             <h5 style="color: #00004d"> Prioritizing genes within a genomic risk locus by integrating with QTLs datasets. </h5>
                             <div id="uploadData">
                                 {{ html()->form('POST', '/xqtls/submit')->attribute('enctype', 'multipart/form-data')->open() }}
-                                <table class="table table-bordered inputTable" id="xqtlsAnalysis" style="width: auto;">
+                                <table class="table table-bordered inputTable" id="xqtlsAnalysis" style="width: auto; border: 1px solid black;">
                                     <tr>
                                         <td> Summary statistics file for a locus: 
                                             <a class="infoPop" data-bs-toggle="popover"
@@ -80,30 +80,21 @@ border-color: rgba(0,0,0,0.1);
                                         </td>
                                         <td>
                                             <div class="accordion-item" style="padding:0px;">
-                                                <h3 class="accordion-header">
-                                                    <input class="accordion-button collapsed accordion-highlight" data-bs-toggle="collapse" data-bs-target="#colocParams" type="checkbox" class="form-check-inline" name="coloc" id="coloc">
-                                                </h3>
+                                                <div class="accordion-header">
+                                                    <input class="accordion-button collapsed accordion-highlight" data-bs-toggle="collapse" data-bs-target="#colocParams" type="checkbox" class="form-check-inline" name="coloc" id="coloc" onchange="window.CheckAll()">
+                                                </div>
 
                                                 <div class="accordion-collapse collapse" id="colocParams">
                                                     <div class="accordion-body">
+                                                        <i>Parameters for colocalization:</i><br> 
                                                         <span class="inputSpan">PP4 threshold: <input type="number" class="form-control"
-                                                        id="pp4" name="pp4" value="0.8"></span>
+                                                        id="pp4" name="pp4" value="0.8" onchange="window.CheckAll()"></span>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Coloc parameterization: 
-                                            <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Select parameters for colocalization analysis.">
-                                                <i class="fa-regular fa-circle-question"></i>
-                                            </a>
                                         </td>
                                         <td>
-                                            <span class="inputSpan">PP4 threshold: <input type="number" class="form-control"
-                                                        id="pp4" name="pp4" value="0.8"></span>
+                                        <div id="colocParamsCheck" class="mt-2" style="padding-bottom: 0;"></div>
                                         </td>
                                     </tr>
 
@@ -114,22 +105,28 @@ border-color: rgba(0,0,0,0.1);
                                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                                             </a>
                                         </td>
-                                        <td><input type="checkbox" class="form-check-inline" name="lava" id="lava"></td>
-                                    </tr>
-                                    <tr>
-                                        <td> LAVA parameterization: 
-                                            <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Select parameters for LAVA analysis. Put in NA for cases and controls if not binary trait.">
-                                                <i class="fa-regular fa-circle-question"></i>
-                                            </a>
-                                        </td>
                                         <td>
-                                            <span class="inputSpan">Phenotype: <input type="text" class="form-control"
-                                                        id="phenotype" name="phenotype"></span>
-                                            <span class="inputSpan">Cases: <input type="text" class="form-control"
-                                                        id="cases" name="cases"></span>
-                                            <span class="inputSpan">Controls: <input type="text" class="form-control"
-                                                        id="controls" name="controls"></span>
+                                            <div class="accordion-item">
+                                                <div class="accordion-header">
+                                                    <input class="accordion-button collapsed accordion-highlight" data-bs-toggle="collapse" data-bs-target="#lavaParams" type="checkbox" class="form-check-inline" name="lava" id="lava" onchange="window.CheckAll()">
+                                                </div>
+
+                                                <div class="accordion-collapse collapse" id="lavaParams">
+                                                    <div class="accordion-body">
+                                                        <i>Parameters for LAVA:</i><br>
+                                                        <span class="inputSpan">Phenotype: <input type="text" class="form-control"
+                                                        id="phenotype" name="phenotype" onchange="window.CheckAll()"></span>
+                                                        <span class="inputSpan">Cases: <input type="text" class="form-control"
+                                                        id="cases" name="cases" onchange="window.CheckAll()"></span>
+                                                        <span class="inputSpan">Controls: <input type="text" class="form-control"
+                                                        id="controls" name="controls" onchange="window.CheckAll()"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                        <div id="lavaParamsCheck" class="mt-2" style="padding-bottom: 0;"></div>
                                         </td>
                                     </tr>
 
@@ -151,33 +148,9 @@ border-color: rgba(0,0,0,0.1);
                                                         <span class="multiSelect">
                                                             <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                                             <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="eqtlGtexv10Ts" name="eqtlGtexv10Ts[]"
+                                                            <select multiple class="form-select" id="eqtlGtexv10Ds" name="eqtlGtexv10Ds[]"
                                                                 size="10" onchange="window.CheckAll();">
                                                                 @include('xqtls.xqtls_options.eqtls.gtex_v10_options')
-                                                            </select>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <p></p>
-
-                                            <!-- eQTL catalog -->
-                                            <div class="accordion-item" style="padding:0px;">
-                                                <h3 class="accordion-header">
-                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlCatalog">
-                                                        eQTL Catalog
-                                                    </button>
-                                                </h3>
-
-                                                <div class="accordion-collapse collapse" id="eqtlCatalog">
-                                                    <div class="accordion-body">
-                                                        <span class="multiSelect">
-                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
-                                                                size="10" onchange="window.CheckAll();">
-                                                                @include('xqtls.xqtls_options.eqtls.eqtl_catalog_options')
                                                             </select>
                                                         </span>
                                                     </div>
@@ -201,7 +174,7 @@ border-color: rgba(0,0,0,0.1);
                                                         <span class="multiSelect">
                                                             <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                                             <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
+                                                            <select multiple class="form-select" id="sqtlGtexv10Ds" name="sqtlGtexv10Ds[]"
                                                                 size="10" onchange="window.CheckAll();">
                                                                 @include('xqtls.xqtls_options.sqtls.gtex_v10_options')
                                                             </select>
@@ -236,30 +209,9 @@ border-color: rgba(0,0,0,0.1);
                                                 </div>
                                             </div>
 
-                                            <br>
-
-                                            <h2 style="color: #00004d; font-size:16px;">pQTLs Datasets</h2>
-                                            <div class="accordion-item" style="padding:0px;">
-                                                <h3 class="accordion-header">
-                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#pqtls">
-                                                        pQTLs 
-                                                    </button>
-                                                </h3>
-
-                                                <div class="accordion-collapse collapse" id="pqtls">
-                                                    <div class="accordion-body">
-                                                        <span class="multiSelect">
-                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
-                                                                size="10" onchange="window.CheckAll();">
-                                                                @include('xqtls.xqtls_options.pqtls.pqtls_options')
-                                                            </select>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                        </td>
+                                        <td>
+                                        <div id="datasetCheck" class="mt-2" style="padding-bottom: 0;"></div>
                                         </td>
                                     </tr>
 

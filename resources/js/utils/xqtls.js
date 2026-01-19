@@ -19,6 +19,20 @@ export const XQTLSSetup = function(){
     };
 
 	CheckAll();
+
+	$('.multiSelect a').on('click',function(){
+		var selection = $(this).siblings("select").attr("id");
+		if($(this).hasClass('all')){
+			$("#"+selection+" option").each(function(){
+				$(this).prop('selected', true);
+			});
+		}else if($(this).hasClass('clear')){
+			$("#"+selection+" option").each(function(){
+				$(this).prop('selected', false);
+			});
+		}
+		CheckAll();
+	});
 }
 
 const updateQueryHistory = function(){
@@ -56,6 +70,7 @@ const updateQueryHistory = function(){
 const lavaSummaryTable = function(){
     const file = "xqtls_results.csv";
     id = pageState.get("id");
+
 	$('#lavaTable').DataTable({
 		"processing": true,
 		serverSide: false,
@@ -125,6 +140,42 @@ export const CheckAll = function() {
 		$(table.rows[1].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 		submit = true;
 	}
+
+	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0){
+		submit = false;
+		$(table.rows[4].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one dataset.</div>');
+		$('#xqtlsSubmit').attr("disabled", true);
+	} else {
+		$(table.rows[4].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+		submit = true;
+	}
+
+	if($('#coloc').is(':checked')){
+		if($('#pp4').val().length==0 ){
+			submit = false;
+			$(table.rows[2].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide the threshold for PP4 cutoff. </div>');
+			$('#xqtlsSubmit').attr("disabled", true); 
+		} else {
+			$(table.rows[2].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+		}
+	} else {
+		$(table.rows[2].cells[2]).html('<div class="alert alert-info" style="padding-bottom: 10; padding-top: 10;">Colocalization is not selected.</div>');
+	}
+
+	if($('#lava').is(':checked')){
+		if($('#phenotype').val().length==0 || $('#cases').val().length==0 || $('#controls').val().length==0){
+			submit = false;
+			$(table.rows[3].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide phenotype, number of cases and number of controls for LAVA analysis.</div>');
+			$('#xqtlsSubmit').attr("disabled", true); 
+		} else {
+			$(table.rows[3].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+		}
+			
+	} else {
+		$(table.rows[3].cells[2]).html('<div class="alert alert-info" style="padding-bottom: 10; padding-top: 10;">LAVA is not selected.</div>');
+	}
+
+
 
 	if(submit){$('#xqtlsSubmit').attr("disabled", false);}
 	else{$('#xqtlsSubmit').attr("disabled", true);}
