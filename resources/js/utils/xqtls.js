@@ -107,7 +107,7 @@ const colocSummaryTable = function(){
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "tissue:gene:nsnps:PP.H0.abf:PP.H1.abf:PP.H2.abf:PP.H3.abf:PP.H4.abf"
+				header: "tissue:gene:nsnps:PP.H0.abf:PP.H1.abf:PP.H2.abf:PP.H3.abf:PP.H4.abf:symbol"
 			}
 		},
 		error: function () {

@@ -19,6 +19,8 @@ config <- ConfigParser(file=paste0(dirname(curfile),'/app.config'))
 
 params <- ConfigParser(file=paste0(filedir, 'params.config'))
 
+gene_conversion_dir = config$data$geneConversion
+
 # Set up look up dictionary for sample sizes
 # sample_size_vector (for GTEx datasets)
 sample_sizes = c(181, 233, 300, 277, 266, 270, 269, 255, 257, 285, 254, 204, 183)
@@ -47,8 +49,8 @@ pp4 = params$params$pp4
 out_fn = paste0(filedir, "coloc_results.txt")
 filtered_out_fn = paste0(filedir, "coloc_results_filtered.txt")
 
-results <- data.frame(matrix(ncol = 8, nrow = 0))
-colnames(results) = c("tissue", "gene", "nsnps", "PP.H0.abf", "PP.H1.abf", "PP.H2.abf", "PP.H3.abf", "PP.H4.abf")
+results <- data.frame(matrix(ncol = 9, nrow = 0))
+colnames(results) = c("tissue", "gene", "nsnps", "PP.H0.abf", "PP.H1.abf", "PP.H2.abf", "PP.H3.abf", "PP.H4.abf", "symbol")
 
 for (dataset in unlist(strsplit(datasets, ":"))) {
   qtl_type = unlist(strsplit(dataset, "-"))[1]
@@ -73,7 +75,8 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
 
   for (i in unique(qtls_full$GENE)) {
     qtls = qtls_full %>%
-      filter(GENE_QTL == i)
+      filter(GENE_QTL == i) %>%
+      filter(!is.na(P_QTL))
     
     merged_data = merge(snps, qtls, by="RSID")
     
@@ -89,6 +92,14 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     results = rbind(results, result)
   }
 }
+
+# add gene symbol column
+gene_conversion_orig = fread(paste0(gene_conversion_dir, "/gencode.v39.gene_name_conversion.tsv")) #TODO: make this dynamic
+gene_conversion = gene_conversion_orig %>%
+  select("gene_id", "gene_name") %>% unique()
+colnames(gene_conversion) = c("gene", "symbol")
+results = results %>%
+  left_join(gene_conversion, by="gene")
 
 write.table(results, file=out_fn, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
 

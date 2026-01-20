@@ -49,7 +49,7 @@ for dataset in datasets:
     dataset_origin = dataset.split("-")[1]
     tissue = dataset.split("-")[2]
     sample_size = tissue_sample_sizes[tissue]
-    infile = os.path.join(qtl_dir, qtl_type, dataset_origin, "processed_files", tissue + ".v10.allpairs.chr" + chrom + ".txt.gz") #TODO: modify the path to have the same naming convention
+    infile = os.path.join(qtl_dir, qtl_type, dataset_origin, "processed_files", qtl_type + "_" + dataset_origin + "_" + tissue + ".chr" + chrom + ".txt.gz") #TODO: modify the path to have the same naming convention
     
     #setting up output file
     outfile_fn = os.path.join(filedir, dataset + "_" + str(chrom) + "-" + str(start) + "-" + str(end) + ".sumstats.txt")
