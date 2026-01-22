@@ -246,6 +246,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
             Route::get('/{jobID}', [XQTLSController::class, 'viewJob']); 
             Route::post('/DTfile', [XQTLSController::class, 'DTfile']);
+            Route::post('/deleteJob', [XQTLSController::class, 'deleteJob']);
         });
     });
 

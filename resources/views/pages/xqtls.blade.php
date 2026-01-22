@@ -248,6 +248,12 @@ border-color: rgba(0,0,0,0.1);
                         <div style="text-align: center;">
                             <h3>Query History</h3>
                             <h5 style="color: #00004d"> Review your past xQTLs analysis queries. </h5>
+                            <div>
+                            <button type="button" class="btn btn-primary" id="refreshTable" name="refreshTable"
+                            style="margin-right:20px;">Refresh query table</button>
+                            <button  type="button" class="btn btn-danger" id="deleteJob" name="deleteJob"
+                            style="margin-right:20px;">Delete selected jobs</button>
+                            </div>
                             <div id="historyData">
                                 <table class="table table-bordered inputTable" id="xqtlsHistory" style="width: auto;">
                                     <thead>

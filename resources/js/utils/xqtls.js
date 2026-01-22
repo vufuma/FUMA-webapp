@@ -2,6 +2,7 @@ var prefix = "xqtls";
 var id = ""
 
 import { XqtlsState as pageState}  from "../pages/pageStateComponents.js";
+import { deleteJobs } from './helpers.js';
 export const XQTLSSetup = function(){
     const page = pageState.get("page");
     id = pageState.get("id");
@@ -33,6 +34,10 @@ export const XQTLSSetup = function(){
 		}
 		CheckAll();
 	});
+    
+    $('#deleteJob').on('click', function(){
+        deleteJobs(pageState.get("subdir"), pageState.get("page"), updateQueryHistory)
+    });
 }
 
 const updateQueryHistory = function(){
