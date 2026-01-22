@@ -83,7 +83,7 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     merged_data = merged_data %>%
       distinct(RSID, .keep_all = TRUE)
     
-    dataset1 = list(snp=merged_data$RSID, pvalues=merged_data$P_SNP, type='cc', s=0.07617393, N=2205852, MAF = merged_data$MAF_SNP)
+    dataset1 = list(snp=merged_data$RSID, pvalues=merged_data$P_SNP, type='cc', s=0.07617393, N=2205852, MAF = merged_data$MAF_SNP) #TODO: make this dynamic
     dataset2 = list(snp=merged_data$RSID, pvalues=merged_data$P_QTL, type='quant', N=sample_size, MAF = merged_data$MAF_QTL)
     
     coloc_results <- coloc.abf(dataset1, dataset2)

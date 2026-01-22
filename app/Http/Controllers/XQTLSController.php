@@ -67,15 +67,15 @@ class XQTLSController extends Controller
         return view('pages.xqtls', ['status' => 'getJob', 'id' => $jobID, 'page' => 'xqtls', 'prefix' => 'xqtls']);
     }
 
-    public function xqtls_sumTable(Request $request)
-    {
-        $id = $request->input('jobID');
-        $prefix = $request->input('prefix');
-        $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
-        // return Storage::exists($filedir . "xqtls_results.csv");
+    // public function xqtls_sumTable(Request $request)
+    // {
+    //     $id = $request->input('jobID');
+    //     $prefix = $request->input('prefix');
+    //     $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
+    //     // return Storage::exists($filedir . "xqtls_results.csv");
 
-        return myFile::summary_table_in_json($filedir . "xqtls_results.csv");
-    }
+    //     return myFile::summary_table_in_json($filedir . "xqtls_results.csv");
+    // }
 
     public function DTfile(Request $request)
     {
@@ -234,5 +234,11 @@ class XQTLSController extends Controller
             }
         }
         return;
+    }
+
+    public function deleteJob(Request $request)
+    {
+        $jobID = $request->input('jobID');
+        return Helper::deleteJob(config('app.jobdir') . '/xqtls/', $jobID);
     }
 }

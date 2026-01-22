@@ -68,7 +68,7 @@ const updateQueryHistory = function(){
 }
 
 const lavaSummaryTable = function(){
-    const file = "xqtls_results.csv";
+    const file = "lava_bivar_results_all_datasets_significant.txt";
     id = pageState.get("id");
 
 	$('#lavaTable').DataTable({
@@ -82,7 +82,7 @@ const lavaSummaryTable = function(){
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "phenotype:region:type:tissue:locus:rho:rhoLower:rhoUpper:p:pAdj:bonSig:GENE"
+				header: "locus:chr:phen1:rho:rho.lower:rho.upper:r2:r2.lower:r2.upper:p:dataset:p.adjust:symbol"
 			}
 		},
 		error: function () {

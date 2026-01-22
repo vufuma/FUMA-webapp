@@ -82,6 +82,14 @@ class XqtlsProcess implements ShouldQueue
             Log::info("Full Docker command: " . $cmd_lava);
             Storage::append($this->logfile, "Command to be executed:");
             Storage::append($this->logfile, $cmd_lava . "\n");
+
+
+            $lavaError = $process_lava->exitCode();
+            if ($lavaError != 0) {
+                JobHelper::JobTerminationHandling($jobID, 1, 'xqtls error occured');
+                return;
+            }
+
         } else
         {
             Storage::append($this->logfile, "LAVA analysis not selected.\n");

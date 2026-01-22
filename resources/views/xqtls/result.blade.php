@@ -32,7 +32,7 @@
 				<table id="lavaTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>Phenotype</th><th>Genomic Region</th><th>QTL Type</th><th>Tissue</th><th>Locus</th><th>Rho</th><th>Rho lower</th><th>Rho upper</th><th>P</th><th>P Adj</th><th>Bonferroni Significance</th><th>GENE</th>
+							<th>Gene</th><th>Chromosome</th><th>Phenotype</th><th>Rho</th><th>Rho lower</th><th>Rho upper</th><th>r2</th><th>r2.lower</th><th>r2.upper</th><th>p</th><th>Dataset</th><th>p.adjust</th><th>Symbol</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
