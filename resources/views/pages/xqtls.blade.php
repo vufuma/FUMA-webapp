@@ -36,6 +36,7 @@ border-color: rgba(0,0,0,0.1);
                         <div style="text-align: left;">
                             <h3>xQTLs Analysis</h3>
                             <h5 style="color: #00004d"> Prioritizing genes within a genomic risk locus by integrating with QTLs datasets. </h5>
+                            <p> Use the xQTLs analysis to investigate the potential functional mechanisms underlying GWAS associations by integrating with various xQTLs datasets including eQTLs, sQTLs and apaQTLs. Upload your GWAS summary statistics for a specific genomic locus and select the xQTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the documentation for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
                             <div id="uploadData">
                                 {{ html()->form('POST', '/xqtls/submit')->attribute('enctype', 'multipart/form-data')->open() }}
                                 <table class="table table-bordered inputTable" id="xqtlsAnalysis" style="width: auto; border: 1px solid black;">
@@ -116,10 +117,6 @@ border-color: rgba(0,0,0,0.1);
                                                         <i>Parameters for LAVA:</i><br>
                                                         <span class="inputSpan">Phenotype: <input type="text" class="form-control"
                                                         id="phenotype" name="phenotype" onchange="window.CheckAll()"></span>
-                                                        <span class="inputSpan">Cases: <input type="text" class="form-control"
-                                                        id="cases" name="cases" onchange="window.CheckAll()"></span>
-                                                        <span class="inputSpan">Controls: <input type="text" class="form-control"
-                                                        id="controls" name="controls" onchange="window.CheckAll()"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,6 +124,25 @@ border-color: rgba(0,0,0,0.1);
 
                                         <td>
                                         <div id="lavaParamsCheck" class="mt-2" style="padding-bottom: 0;"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Other parameters:
+                                            <a class="infoPop" data-bs-toggle="popover" title="otherParams"
+                                                data-bs-content="Input other parameters for the analysis.">
+                                                <i class="fa-regular fa-circle-question fa-lg"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="inputSpan">Cases: <input type="text" class="form-control"
+                                            id="cases" name="cases" onchange="window.CheckAll()"></span>
+                                            <span class="inputSpan">Sample size: <input type="text" class="form-control"
+                                            id="totalN" name="totalN" onchange="window.CheckAll()"></span>
+                                        </td>
+
+                                        <td>
+                                        <div id="otherParamsCheck" class="mt-2" style="padding-bottom: 0;"></div>
                                         </td>
                                     </tr>
 

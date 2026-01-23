@@ -91,7 +91,7 @@ const lavaSummaryTable = function(){
 			}
 		},
 		error: function () {
-			alert("GenomicRiskLoci table error");
+			alert("LAVA table error");
 		},
 		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"iDisplayLength": 10
@@ -148,10 +148,10 @@ export const CheckAll = function() {
 
 	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0){
 		submit = false;
-		$(table.rows[4].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one dataset.</div>');
+		$(table.rows[5].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one dataset.</div>');
 		$('#xqtlsSubmit').attr("disabled", true);
 	} else {
-		$(table.rows[4].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+		$(table.rows[5].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 		submit = true;
 	}
 
@@ -168,9 +168,9 @@ export const CheckAll = function() {
 	}
 
 	if($('#lava').is(':checked')){
-		if($('#phenotype').val().length==0 || $('#cases').val().length==0 || $('#controls').val().length==0){
+		if($('#phenotype').val().length==0){
 			submit = false;
-			$(table.rows[3].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide phenotype, number of cases and number of controls for LAVA analysis.</div>');
+			$(table.rows[3].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide phenotype for LAVA analysis.</div>');
 			$('#xqtlsSubmit').attr("disabled", true); 
 		} else {
 			$(table.rows[3].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
@@ -178,6 +178,14 @@ export const CheckAll = function() {
 			
 	} else {
 		$(table.rows[3].cells[2]).html('<div class="alert alert-info" style="padding-bottom: 10; padding-top: 10;">LAVA is not selected.</div>');
+	}
+
+	if ($('#cases').val().length==0 || $('#totalN').val().length==0){
+		submit = false;
+		$(table.rows[4].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide number of cases and number of totalN.</div>');
+		$('#xqtlsSubmit').attr("disabled", true); 
+	} else {
+		$(table.rows[4].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
 
 

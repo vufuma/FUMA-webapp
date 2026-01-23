@@ -70,6 +70,13 @@ class XqtlsProcess implements ShouldQueue
             Log::info("Full Docker command: " . $cmd_coloc);
             Storage::append($this->logfile, "Command to be executed:");
             Storage::append($this->logfile, $cmd_coloc . "\n");
+
+            $colocError = $process_coloc->exitCode();
+            if ($colocError != 0) {
+                JobHelper::JobTerminationHandling($jobID, 19, 'xqtls error occured');
+                return;
+            }
+
         } else
         {
             Storage::append($this->logfile, "Colocalization analysis not selected.\n");
@@ -86,7 +93,7 @@ class XqtlsProcess implements ShouldQueue
 
             $lavaError = $process_lava->exitCode();
             if ($lavaError != 0) {
-                JobHelper::JobTerminationHandling($jobID, 1, 'xqtls error occured');
+                JobHelper::JobTerminationHandling($jobID, 20, 'xqtls error occured');
                 return;
             }
 

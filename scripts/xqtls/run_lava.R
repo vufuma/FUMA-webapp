@@ -40,8 +40,16 @@ names(sample_sizes) = c("Brain_Amygdala",
 
 # create the input info file for LAVA
 phenotype = params$params$phenotype
-cases = as.numeric(params$params$cases)
-controls = as.numeric(params$params$controls)
+cases = params$params$cases
+totalN = params$params$totalN
+
+if (cases == "NA") {
+  controls = "NA"
+} else {
+  cases = as.numeric(cases)
+  totalN = as.numeric(totalN)
+  controls = totalN - cases
+}
 filename="input.info.txt"
 input_info = data.frame("phenotype" = phenotype,
                         "cases" = cases,

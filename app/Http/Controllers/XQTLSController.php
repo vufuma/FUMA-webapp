@@ -67,16 +67,6 @@ class XQTLSController extends Controller
         return view('pages.xqtls', ['status' => 'getJob', 'id' => $jobID, 'page' => 'xqtls', 'prefix' => 'xqtls']);
     }
 
-    // public function xqtls_sumTable(Request $request)
-    // {
-    //     $id = $request->input('jobID');
-    //     $prefix = $request->input('prefix');
-    //     $filedir = config('app.jobdir') . '/' . $prefix . '/' . $id . '/';
-    //     // return Storage::exists($filedir . "xqtls_results.csv");
-
-    //     return myFile::summary_table_in_json($filedir . "xqtls_results.csv");
-    // }
-
     public function DTfile(Request $request)
     {
         $id = $request->input('jobID');
@@ -148,23 +138,13 @@ class XQTLSController extends Controller
         if ($request->filled('lava')) {
             $lava = 1;
             $phenotype = $request->input('phenotype');
-            $cases = "NA";
-            $controls = "NA";
-            if ($request->filled('cases')) {
-                $cases = $request->input('cases');
-            }
-            if ($request->filled('controls')) { 
-                $controls = $request->input('controls');
-            }
         } else {
             $lava = 0;
             $phenotype = "NA";
-            $cases = "NA";
-            $controls = "NA";
         }
-
-
-
+            
+        $cases = $request->input('cases');
+        $totalN = $request->input('totalN');
         
  
         Storage::put($paramfile, "[jobinfo]");
@@ -183,7 +163,7 @@ class XQTLSController extends Controller
         Storage::append($paramfile, "lava=$lava");
         Storage::append($paramfile, "phenotype=$phenotype");
         Storage::append($paramfile, "cases=$cases");
-        Storage::append($paramfile, "controls=$controls");
+        Storage::append($paramfile, "totalN=$totalN");
         Storage::append($paramfile, "datasets=$xqtlsDatasets");
 
         $this->queueNewJobs();

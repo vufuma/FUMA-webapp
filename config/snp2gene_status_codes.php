@@ -253,4 +253,18 @@ return [
                             ",
         'type' => 'err',
     ],
+    19 => [
+        'short_name' => 'ERROR:coloc',
+        'long_name' => 'Error code coloc',
+        'description' => 'An error occurred during colocalization analysis',
+        'email_message' => '<p>An error occurred during colocalization analysis.</p>',
+        'type' => 'err',
+    ],
+    20 => [
+        'short_name' => 'ERROR:lava',
+        'long_name' => 'Error code lava',
+        'description' => 'An error occurred during LAVA analysis',
+        'email_message' => '<p>An error occurred during LAVA analysis.</p>',
+        'type' => 'err',
+    ],
 ];

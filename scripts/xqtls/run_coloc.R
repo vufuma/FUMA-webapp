@@ -45,6 +45,21 @@ start = params$params$start
 end = params$params$end
 datasets = params$params$datasets
 pp4 = params$params$pp4
+cases = params$params$cases
+totalN = params$params$totalN
+if (cases == "NA" && totalN == "NA") {
+  stop("The total sample size (totalN) must be provided for GWAS summary statistics and cannot be NA")
+} else if (cases == "NA") {
+  print("Cases were set to NA, treat this as a quantitative trait")
+  type_gwas = "quant"
+} else {
+  type_gwas = "cc"
+  cases = as.numeric(cases)
+  totalN = as.numeric(totalN)
+  cases_prop = cases / totalN
+}
+
+
 
 out_fn = paste0(filedir, "coloc_results.txt")
 filtered_out_fn = paste0(filedir, "coloc_results_filtered.txt")
@@ -83,7 +98,11 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     merged_data = merged_data %>%
       distinct(RSID, .keep_all = TRUE)
     
-    dataset1 = list(snp=merged_data$RSID, pvalues=merged_data$P_SNP, type='cc', s=0.07617393, N=2205852, MAF = merged_data$MAF_SNP) #TODO: make this dynamic
+    if (type_gwas == "cc") {
+      dataset1 = list(snp=merged_data$RSID, pvalues=merged_data$P_SNP, type='cc', s=cases_prop, N=as.numeric(totalN), MAF = merged_data$MAF_SNP)
+    } else {
+      dataset1 = list(snp=merged_data$RSID, pvalues=merged_data$P_SNP, type='quant', N=as.numeric(totalN), MAF = merged_data$MAF_SNP)
+    }
     dataset2 = list(snp=merged_data$RSID, pvalues=merged_data$P_QTL, type='quant', N=sample_size, MAF = merged_data$MAF_QTL)
     
     coloc_results <- coloc.abf(dataset1, dataset2)
