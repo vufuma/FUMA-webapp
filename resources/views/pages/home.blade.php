@@ -10,7 +10,7 @@
 
 		</p>
 		<div class="alert alert-warning">
-			<strong>Announcement January 28 2026: </strong> We are again running out of storage space on the FUMA server. Therefore, please delete old and/or no longer needed jobs. Currently each user is allowed to store at most 200 SNP2GENE jobs on the FUMA server. We will have to reduce this to 100 jobs. What that means is that if you have more than 100 jobs, only the most recent 100 jobs are kept. Thank you for your understanding and cooperation.
+			<strong>Announcement January 28 2026: </strong> Please delete old and/or no longer needed jobs. Currently each user is allowed to store at most 200 SNP2GENE jobs on the FUMA server. We will soon reduce this to 100 jobs. Thank you for your understanding and cooperation.
 		</div>
 		<p>
 
