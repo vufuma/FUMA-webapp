@@ -12,6 +12,7 @@ function getJobList() {
 		.empty()
 		.append('<tr><td colspan="6" style="text-align:center;">Retrieving data</td></tr>');
 	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getJobList', function (data) {
+		$('#jobCount').text(data.length);
 		items = '<tr><td colspan="6" style="text-align: center;">No Jobs Found</td></tr>';
 		if (data.length) {
 			items = '';
@@ -41,12 +42,6 @@ function getJobList() {
 		$('#joblist-panel table tbody')
 			.empty()
 			.append(items);
-	});
-}
-
-function countJobs() {
-	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getJobList', function (data) {
-		$('#jobCount').text(data.length);
 	});
 }
 
@@ -165,10 +160,7 @@ export const Snp2GeneSetup = function(){
 
 	$('#refreshTable').on('click', function () {
 		getJobList();
-		countJobs();
 	});
-
-	$('#jobCount').text(countJobs());
 
 	$('#deleteJob').on('click', function(){
 			deleteJobs(pageState.get("subdir"), pageState.get("page"), getJobList)
