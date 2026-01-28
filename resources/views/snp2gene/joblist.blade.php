@@ -2,7 +2,7 @@
 	<h3>My Jobs</h3>
 	<div class="card">
 	    <div class="card-header">
-	        <div class="card-title">List of Jobs <a id="refreshTable"><i class="fa fa-refresh"></i></a></div>
+	        <div class="card-title">List of Jobs (Total: <span id="jobCount">0</span>) <a id="refreshTable"><i class="fa fa-refresh"></i></a></div>
 	    </div>
 	    <div class="card-body">
 			<button class="btn btn-default btn-sm mb-2" id="deleteJob" name="deleteJob" style="float:right; margin-right:20px;">Delete selected jobs</button>

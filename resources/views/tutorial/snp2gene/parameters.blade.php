@@ -126,8 +126,8 @@
 				</td>
 				<td>numeric</td>
 				<td>0.05</td>
-				<td><span style="color:red;">higher</span>: decrease #candidate SNPs.<br>
-					<span style="color: blue;">lower</span>: increase #candidate SNPs.
+				<td><span style="color:red;">higher</span>: increase #candidate SNPs.<br>
+					<span style="color: blue;">lower</span>: decrease #candidate SNPs.
 				</td>
 			</tr>
 			<tr>
@@ -313,8 +313,8 @@
 				</td>
 				<td>Check / Numeric</td>
 				<td>Checked / 1e-3</td>
-				<td><span style="color: blue;">lower</span>: increase #eQTLs and #mapped genes.<br>
-					<span style="color: red;">higher</span>: decrease #eQTLs and #mapped genes.
+				<td><span style="color: blue;">lower</span>: decrease #eQTLs and #mapped genes.<br>
+					<span style="color: red;">higher</span>: increase #eQTLs and #mapped genes.
 				</td>
 			</tr>
 		</tbody>

@@ -36,7 +36,9 @@ export const Gene2FuncSetup = function(){
 	updateList();
 	$('#refreshTable').on('click', function(){
 		updateList();
+		
 	});
+	
 
 	// gene type clear
 	$('#bkgeneSelectClear').on('click', function(){
@@ -174,6 +176,7 @@ export function checkInput(){
 function updateList(){
 	const subdir = pageState.get("subdir");
 	$.getJSON( subdir + "/gene2func/getG2FJobList", function( data ){
+		$('#jobCount').text(data.length);
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){
 			items = '';
