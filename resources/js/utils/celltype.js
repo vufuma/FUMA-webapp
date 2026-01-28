@@ -148,6 +148,7 @@ function getJobList(){
 		.empty()
 		.append('<tr><td colspan="7" style="text-align:center;">Retrieving data</td></tr>');
 	$.getJSON( pageState.get("subdir")+'/'+ pageState.get("page") +'/getJobList', function( data ){
+		$('#jobCount').text(data.length);
 		var items = '<tr><td colspan="7" style="text-align: center;">No Jobs Found</td></tr>';
 		if(data.length){
 			items = '';
@@ -176,6 +177,12 @@ function getJobList(){
     .fail(function() {
         console.log("Celltype getJobList error");
     });
+}
+
+function countJobs() {
+	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getJobList', function (data) {
+		$('#jobCount').text(data.length);
+	});
 }
 
 export default CellTypeSetup;
