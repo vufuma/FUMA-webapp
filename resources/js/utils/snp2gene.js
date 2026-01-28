@@ -44,6 +44,12 @@ function getJobList() {
 	});
 }
 
+function countJobs() {
+	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getJobList', function (data) {
+		$('#jobCount').text(data.length);
+	});
+}
+
 
 
 export function g2fbtn(id) {
@@ -159,7 +165,10 @@ export const Snp2GeneSetup = function(){
 
 	$('#refreshTable').on('click', function () {
 		getJobList();
+		countJobs();
 	});
+
+	$('#jobCount').text(countJobs());
 
 	$('#deleteJob').on('click', function(){
 			deleteJobs(pageState.get("subdir"), pageState.get("page"), getJobList)
