@@ -36,7 +36,10 @@ export const Gene2FuncSetup = function(){
 	updateList();
 	$('#refreshTable').on('click', function(){
 		updateList();
+	countJobs();
 	});
+
+	$('#jobCount').text(countJobs());
 
 	// gene type clear
 	$('#bkgeneSelectClear').on('click', function(){
@@ -201,6 +204,12 @@ function updateList(){
 		$('#queryhistory table tbody')
 			.empty()
 			.append(items);
+	});
+}
+
+function countJobs() {
+	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getG2FJobList', function (data) {
+		$('#jobCount').text(data.length);
 	});
 }
 
