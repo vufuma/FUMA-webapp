@@ -364,7 +364,7 @@ class Helper
 
         #make this in for loop to get the short names of the error codes
         $err_codes = array_map(function ($index) {
-            return config('snp2gene_status_codes.' . $index . '.short_name');
+            return config('all_status_codes.' . $index . '.short_name');
         }, $err_indices);
 
         array_push(

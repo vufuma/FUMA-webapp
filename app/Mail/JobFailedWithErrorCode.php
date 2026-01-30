@@ -40,7 +40,7 @@ class JobFailedWithErrorCode extends Mailable
      */
     public function content(): Content
     {
-        $err_specific_msg = Helper::searchArrayByKeyValue(config('snp2gene_status_codes'), 'short_name', $this->job->status)['email_message'];
+        $err_specific_msg = Helper::searchArrayByKeyValue(config('all_status_codes'), 'short_name', $this->job->status)['email_message'];
         return new Content(
             view: 'emails.jobError',
             with: [

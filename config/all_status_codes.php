@@ -267,4 +267,19 @@ return [
         'email_message' => '<p>An error occurred during LAVA analysis.</p>',
         'type' => 'err',
     ],
+
+    21 => [
+        'short_name' => 'ERROR:colocTissueLookup',
+        'long_name' => 'Error code tissue name not found in sample size lookup table',
+        'description' => 'Tissue name not found in sample size lookup table',
+        'email_message' => '<p>The tissue name was not found in the sample size lookup table.</p>',
+        'type' => 'err',
+    ],
+    22 => [
+        'short_name' => 'ERROR:colocNoGenesInLocus',
+        'long_name' => 'Error code no genes in locus',
+        'description' => 'No genes found in the locus',
+        'email_message' => '<p>No genes were found in the locus.</p>',
+        'type' => 'err',
+    ],
 ];

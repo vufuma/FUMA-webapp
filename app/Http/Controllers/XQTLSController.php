@@ -128,9 +128,15 @@ class XQTLSController extends Controller
         if ($request->filled('coloc')) {
             $coloc = 1;
             $pp4 = $request->input('pp4');
+            if ($request->filled('colocGene')) {
+                $colocGene = $request->input('colocGene');
+            } else {
+                $colocGene = "all";
+            }
         } else {
             $coloc = 0;
             $pp4 = "NA";
+            $colocGene = "NA";
         }
 
         
@@ -138,9 +144,15 @@ class XQTLSController extends Controller
         if ($request->filled('lava')) {
             $lava = 1;
             $phenotype = $request->input('phenotype');
+            if ($request->filled('lavaGene')) {
+                $lavaGene = $request->input('lavaGene');
+            } else {
+                $lavaGene = "all";
+            }
         } else {
             $lava = 0;
             $phenotype = "NA";
+            $lavaGene = "NA";
         }
             
         $cases = $request->input('cases');
@@ -160,11 +172,14 @@ class XQTLSController extends Controller
         Storage::append($paramfile, "end=$locusEnd");
         Storage::append($paramfile, "coloc=$coloc");
         Storage::append($paramfile, "pp4=$pp4");
+        Storage::append($paramfile, "colocGene=$colocGene");
         Storage::append($paramfile, "lava=$lava");
         Storage::append($paramfile, "phenotype=$phenotype");
+        Storage::append($paramfile, "lavaGene=$lavaGene");
         Storage::append($paramfile, "cases=$cases");
         Storage::append($paramfile, "totalN=$totalN");
         Storage::append($paramfile, "datasets=$xqtlsDatasets");
+        
 
         $this->queueNewJobs();
 

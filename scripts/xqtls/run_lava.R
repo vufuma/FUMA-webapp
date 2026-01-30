@@ -73,11 +73,12 @@ names(sample_sizes) = c("Adipose_Subcutaneous",
                          "Thyroid",
                          "Uterus",
                          "Vagina",
-                         "Whole_Blood")
+                         "Whole_Blood") #TODO: make this into a config file
 
 
 # create the input info file for LAVA
 phenotype = params$params$phenotype
+lavaGene = params$params$lavaGene
 cases = params$params$cases
 totalN = params$params$totalN
 
@@ -133,20 +134,51 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     ### Run LAVA analysis
     u=b=list()
 
-    for (i in 1:length(input$current.genes)) {
-    locus = process.eqtl.locus(i, input)                                      # process locus
+    if (tolower(lavaGene) == "all") {
+      genes_to_test <- input$current.genes
+    } else {
+      genes_to_test <- unlist(strsplit(lavaGene, ","))
+      genes_to_test <- trimws(genes_to_test)
+      genes_to_test <- intersect(genes_to_test, input$current.genes)
+    }
+
+    # ### if a gene is specified, filter the input to only include that gene
+    # if (lavaGene != "NA") {
+    #   i = lavaGene
+    #   locus = process.eqtl.locus(i, input) # process locus
     
-    # It is possible that the locus cannot be defined for various reasons (e.g. too few SNPs), so the !is.null(locus) check is necessary before calling the analysis functions.
-    if (!is.null(locus)) {
-        # extract some general locus info for the output
-        loc.info = data.frame(locus = locus$id, chr = locus$chr)
+    #   # It is possible that the locus cannot be defined for various reasons (e.g. too few SNPs), so the !is.null(locus) check is necessary before calling the analysis functions.
+    #   if (!is.null(locus)) {
+    #       # extract some general locus info for the output
+    #       loc.info = data.frame(locus = locus$id, chr = locus$chr)
+          
+    #       # run the univariate and bivariate tests
+    #       loc.out = run.univ.bivar(locus, univ.thresh = univ.p.thresh)
+    #       u[[i]] = cbind(loc.info, loc.out$univ)
+    #       if(!is.null(loc.out$bivar)) b[[i]] = cbind(loc.info, loc.out$bivar)
+    #   }
+    #   else {
+    #     print(paste0("Locus for gene ", lavaGene, " could not be defined. Skipping LAVA analysis for this gene."))
+    #     quit(status=3) #TODO: check this functionality works as intended
+    #   }
+    # } else {
+      for (i in genes_to_test) {
+        locus = process.eqtl.locus(i, input)                                      # process locus
         
-        # run the univariate and bivariate tests
-        loc.out = run.univ.bivar(locus, univ.thresh = univ.p.thresh)
-        u[[i]] = cbind(loc.info, loc.out$univ)
-        if(!is.null(loc.out$bivar)) b[[i]] = cbind(loc.info, loc.out$bivar)
+        # It is possible that the locus cannot be defined for various reasons (e.g. too few SNPs), so the !is.null(locus) check is necessary before calling the analysis functions.
+        if (!is.null(locus)) {
+            # extract some general locus info for the output
+            loc.info = data.frame(locus = locus$id, chr = locus$chr)
+            
+            # run the univariate and bivariate tests
+            loc.out = run.univ.bivar(locus, univ.thresh = univ.p.thresh)
+            u[[i]] = cbind(loc.info, loc.out$univ)
+            if(!is.null(loc.out$bivar)) b[[i]] = cbind(loc.info, loc.out$bivar)
+        }
     }
-    }
+    # }
+
+    
 
     # save the output
     write.table(do.call(rbind,u), paste0(filedir, out.fname,".univ.lava"), row.names=F,quote=F,col.names=T)

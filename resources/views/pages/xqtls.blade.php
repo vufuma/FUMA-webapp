@@ -90,6 +90,13 @@ border-color: rgba(0,0,0,0.1);
                                                         <i>Parameters for colocalization:</i><br> 
                                                         <span class="inputSpan">PP4 threshold: <input type="number" class="form-control"
                                                         id="pp4" name="pp4" value="0.8" onchange="window.CheckAll()"></span>
+                                                        <span class="inputSpan">Gene symbol (optional): 
+                                                            <a class="infoPop" data-bs-toggle="popover"
+                                                            data-bs-content="Input gene(s) to focus the colocalization analysis on that gene. If there are more than one gene, separate them with commas without space, for example: ENSG00000133805.16,ENSG00000133789.15. If left blank, colocalization will analyze all genes within the locus.">
+                                                            <i class="fa-regular fa-circle-question"></i>
+                                                            </a>
+                                                            <input type="text" class="form-control" id="colocGene" name="colocGene">
+                                                        </span> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,6 +124,13 @@ border-color: rgba(0,0,0,0.1);
                                                         <i>Parameters for LAVA:</i><br>
                                                         <span class="inputSpan">Phenotype: <input type="text" class="form-control"
                                                         id="phenotype" name="phenotype" onchange="window.CheckAll()"></span>
+                                                        <span class="inputSpan">Gene symbol (optional): 
+                                                            <a class="infoPop" data-bs-toggle="popover"
+                                                            data-bs-content="Input a specific gene symbol to focus the LAVA analysis on that gene. If left blank, LAVA will analyze all genes within the locus.">
+                                                            <i class="fa-regular fa-circle-question"></i>
+                                                            </a>
+                                                            <input type="text" class="form-control" id="lavaGene" name="lavaGene">
+                                                        </span> 
                                                     </div>
                                                 </div>
                                             </div>

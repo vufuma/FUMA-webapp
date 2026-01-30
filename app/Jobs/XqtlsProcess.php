@@ -72,7 +72,22 @@ class XqtlsProcess implements ShouldQueue
             Storage::append($this->logfile, $cmd_coloc . "\n");
 
             $colocError = $process_coloc->exitCode();
-            if ($colocError != 0) {
+
+            // Log the exit code
+            Storage::append($this->logfile, "Colocalization process exit code: " . $colocError . "\n");
+    
+
+            if ($colocError == 1) {
+                // Tissue name not found in sample size lookup table
+                JobHelper::JobTerminationHandling($jobID, 21, 'xqtls colocalization could not be performed due to tissue name not found in sample size lookup table.');
+                return;
+            } elseif ($colocError == 2) {
+                // No genes found in the locus
+                JobHelper::JobTerminationHandling($jobID, 22, 'xqtls colocalization could not be performed due to no genes found in the locus.');
+                return;
+            } elseif ($colocError != 0) {
+                // Log error output for debugging
+                Storage::append($this->logfile, "Error output: " . $process_coloc->errorOutput() . "\n");
                 JobHelper::JobTerminationHandling($jobID, 19, 'xqtls error occured');
                 return;
             }
@@ -111,7 +126,7 @@ class XqtlsProcess implements ShouldQueue
 
         SubmitJob::where('jobID', $jobID) 
         ->update([
-            'status' => config('snp2gene_status_codes.15.short_name'),
+            'status' => config('all_status_codes.15.short_name'),
             'completed_at' => date("Y-m-d H:i:s")
         ]);
 

@@ -83,6 +83,7 @@ start = params$params$start
 end = params$params$end
 datasets = params$params$datasets
 pp4 = params$params$pp4
+colocGene = params$params$colocGene
 cases = params$params$cases
 totalN = params$params$totalN
 if (cases == "NA" && totalN == "NA") {
@@ -109,7 +110,13 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
   qtl_type = unlist(strsplit(dataset, "-"))[1]
   dataset_origin = unlist(strsplit(dataset, "-"))[2]
   tissue = unlist(strsplit(dataset, "-"))[3]
-  sample_size = sample_sizes[[tissue]]
+  tryCatch({
+    sample_size = sample_sizes[[tissue]]
+  }, error = function(e) {
+    paste0("Sample size for tissue ", tissue, " not found in the lookup table. Please provide a valid tissue name.")
+    quit(status=1)
+  })
+  
 
   snps_fn = paste0(filedir, "locus.input")
   qtl_fn = paste0(filedir, dataset, "_", chrom, "-", start, "-", end, ".sumstats.txt")
@@ -126,7 +133,20 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
   qtls_full = fread(qtl_fn)
   colnames(qtls_full) = c("RSID", "ALT_QTL", "REF_QTL", "N_QTL", "BETA_QTL", "P_QTL", "GENE_QTL", "MAF_QTL")
 
-  for (i in unique(qtls_full$GENE)) {
+  if (tolower(colocGene) == "all") {
+    genes_to_test <- unique(qtls_full$GENE_QTL)
+  } else {
+    genes_to_test <- unlist(strsplit(colocGene, ","))
+    genes_to_test <- trimws(genes_to_test)
+    genes_to_test <- intersect(genes_to_test, unique(qtls_full$GENE_QTL))
+  }
+
+  if (length(genes_to_test) == 0) {
+    print("No genes found in the locus for colocalization analysis.")
+    quit(status=2)
+  }
+
+  for (i in genes_to_test) {
     qtls = qtls_full %>%
       filter(GENE_QTL == i) %>%
       filter(!is.na(P_QTL))

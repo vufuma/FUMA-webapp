@@ -31,18 +31,18 @@ class JobHelper
     {
         $job = SubmitJob::find($jobID);
 
-        $job->status = config('snp2gene_status_codes.' . $report_code . '.short_name');
+        $job->status = config('all_status_codes.' . $report_code . '.short_name');
         $job->completed_at = date("Y-m-d H:i:s");
         $job->save();
 
         if ($msg == null) {
-            $msg = config('snp2gene_status_codes.' . $report_code . '.email_message');
+            $msg = config('all_status_codes.' . $report_code . '.email_message');
         }
 
-        if (config('snp2gene_status_codes.' . $report_code . '.type') == 'err') {
+        if (config('all_status_codes.' . $report_code . '.type') == 'err') {
             // error occured
             JobHelper::sendJobMail($job, new JobFailedWithErrorCode($job, $msg));
-        } elseif (config('snp2gene_status_codes.' . $report_code . '.type') == 'success') {
+        } elseif (config('all_status_codes.' . $report_code . '.type') == 'success') {
             // success
             JobHelper::sendJobMail($job, new JobCompletedSuccessfully($job, $msg));
         }
