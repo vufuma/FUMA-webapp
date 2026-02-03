@@ -146,7 +146,7 @@ export const CheckAll = function() {
 		submit = true;
 	}
 
-	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0){
+	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='pqtl9Sun2023Ds[]'] option:selected").length==0){
 		submit = false;
 		$(table.rows[5].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one dataset.</div>');
 		$('#xqtlsSubmit').attr("disabled", true);

@@ -239,6 +239,30 @@ border-color: rgba(0,0,0,0.1);
                                                 </div>
                                             </div>
 
+                                            <br>
+
+                                            <h2 style="color: #00004d; font-size:16px;">pQTLs Datasets</h2>
+                                            <div class="accordion-item" style="padding:0px;">
+                                                <h3 class="accordion-header">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#pqtl9Sun2023">
+                                                        9 sun 2023
+                                                    </button>
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="pqtl9Sun2023">
+                                                    <div class="accordion-body">
+                                                        <span class="multiSelect">
+                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                                            <select multiple class="form-select" id="pqtl9Sun2023Ds" name="pqtl9Sun2023Ds[]"
+                                                                size="10" onchange="window.CheckAll();">
+                                                                @include('xqtls.xqtls_options.pqtls.9_sun_2023_options')
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </td>
                                         <td>
                                         <div id="datasetCheck" class="mt-2" style="padding-bottom: 0;"></div>

@@ -23,7 +23,7 @@ params <- ConfigParser(file=paste0(filedir, 'params.config'))
 
 # Set up look up dictionary for sample sizes
 # sample_size_vector (for GTEx datasets)
-sample_sizes = c(714, 587, 295, 472, 268, 691, 77, 181, 233, 300, 277, 266, 270, 269, 255, 257, 285, 254, 204, 183, 514, 652, 327, 419, 479, 403, 614, 561, 461, 452, 104, 262, 604, 181, 818, 670, 193, 362, 313, 282, 651, 754, 207, 277, 407, 414, 684, 153, 170, 803)
+sample_sizes = c(714, 587, 295, 472, 268, 691, 77, 181, 233, 300, 277, 266, 270, 269, 255, 257, 285, 254, 204, 183, 514, 652, 327, 419, 479, 403, 614, 561, 461, 452, 104, 262, 604, 181, 818, 670, 193, 362, 313, 282, 651, 754, 207, 277, 407, 414, 684, 153, 170, 803, 33508)
 names(sample_sizes) = c("Adipose_Subcutaneous",
                          "Adipose_Visceral_Omentum",
                          "Adrenal_Gland",
@@ -73,7 +73,8 @@ names(sample_sizes) = c("Adipose_Subcutaneous",
                          "Thyroid",
                          "Uterus",
                          "Vagina",
-                         "Whole_Blood") #TODO: make this into a config file
+                         "Whole_Blood", 
+                         "Neurology") #TODO: make this into a config file
 
 
 # create the input info file for LAVA
