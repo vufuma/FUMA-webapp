@@ -87,6 +87,7 @@ class XQTLSController extends Controller
 
         // get xQTLs datasets
         $xqtlsDatasets = $this->joinQTLdatasets(
+            $this->parseQtl($request->input('eqtlGtexv10Ds')),
             $this->parseQtl($request->input('pqtl9Sun2023Ds')) #TODO: fix this error
             // $this->parseQtl($request->input('pqtl9Sun2023Ds'))
             // $this->parseQtl($request->input('eqtlCatalog')),
@@ -201,14 +202,18 @@ class XQTLSController extends Controller
     }
 
     private function parseQtl($temp) {
-    $qtlMapTs = [];
-    // $temp = $request->input($id);
-    foreach ($temp as $ts) {
-        if ($ts != "null") {
-        $qtlMapTs[] = $ts;
+        $qtlMapTs = [];
+        
+        if (!is_array($temp)) {
+            return $qtlMapTs;
         }
-    }
-    return $qtlMapTs;
+        
+        foreach ($temp as $ts) {
+            if ($ts != "null") {
+                $qtlMapTs[] = $ts;
+            }
+        }
+        return $qtlMapTs;
     }
 
     public function queueNewJobs()
