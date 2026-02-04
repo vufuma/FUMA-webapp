@@ -282,4 +282,25 @@ return [
         'email_message' => '<p>No genes were found in the locus.</p>',
         'type' => 'err',
     ],
+    23 => [
+        'short_name' => 'ERROR:inputGwasHeader',
+        'long_name' => 'Error code incorrect header format for input gwas summary statistics',
+        'description' => 'Incorrect header format for the input gwas summary statistics for the locus',
+        'email_message' => '<p>Incorrect header format for the input gwas summary statistics for the locus.</p>',
+        'type' => 'err',
+    ],
+    24 => [
+        'short_name' => 'ERROR:inputGwasProcessing',
+        'long_name' => 'Error code error occurs when processing input gwas summary statistics',
+        'description' => 'An error occurs when processing the input gwas summary statistics for the locus',
+        'email_message' => '<p>An error occurs when processing the input gwas summary statistics for the locus.</p>',
+        'type' => 'err',
+    ],
+    25 => [
+        'short_name' => 'ERROR:xQTLFormatting',
+        'long_name' => 'Error code error occurs when formatting xQTL datasets',
+        'description' => 'An error occurs when formatting the xQTL datasets for LAVA and colocalization',
+        'email_message' => '<p>An error occurs when formatting the xQTL datasets for LAVA and colocalization.</p>',
+        'type' => 'err',
+    ],
 ];

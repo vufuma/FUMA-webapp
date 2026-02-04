@@ -57,12 +57,44 @@ class XqtlsProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'xqtls');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'xqtls');
 
-        $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python3 format_for_lava_coloc.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
-        $process_format = Process::forever()->run($cmd_format);
+        # Input checking and formatting of the input gwas sumstat for the locus
+        Storage::append($this->logfile, "INFO: Starting processing of input gwas summary statistics for the locus at " . date("Y-m-d H:i:s") . "\n");
+        $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python3 process_locus.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
+        $process_locus = Process::forever()->run($cmd_format);
         Log::info("Full Docker command: " . $cmd_format);
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd_format . "\n");
 
+        $locusError = $process_locus->exitCode();
+
+        // Log the exit code
+        Storage::append($this->logfile, "Process input gwas sumstat exit code: " . $locusError . "\n");
+        if ($locusError == 1) {
+            JobHelper::JobTerminationHandling($jobID, 23, 'Incorrect header format for the input gwas summary statistics for the locus');
+            return;
+        } elseif ($locusError != 0) {
+            JobHelper::JobTerminationHandling($jobID, 24, 'An error occurs when processing the input gwas summary statistics for the locus');
+            return;
+        } 
+
+        # Format the xQTL datasets for LAVA and colocalization
+        Storage::append($this->logfile, "INFO: Starting formatting of xQTL datasets for LAVA and colocalization at " . date("Y-m-d H:i:s") . "\n");
+        $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python3 format_for_lava_coloc.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
+        $process_qtls = Process::forever()->run($cmd_format);
+        Log::info("Full Docker command: " . $cmd_format);
+        Storage::append($this->logfile, "Command to be executed:");
+        Storage::append($this->logfile, $cmd_format . "\n");
+
+        $processQtlError = $process_qtls->exitCode();
+
+        // Log the exit code
+        Storage::append($this->logfile, "Format xQTL datasets process exit code: " . $processQtlError . "\n");
+        if ($processQtlError != 0) {
+            JobHelper::JobTerminationHandling($jobID, 25, 'An error occurs when formatting the xQTL datasets for LAVA and colocalization');
+            return;
+        }
+
+        # Run colocalization if selected
         if ($params['coloc'] == 1) {
             Storage::append($this->logfile, "Colocalization analysis started.\n");
             $cmd_coloc = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript run_coloc.R --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
@@ -116,14 +148,8 @@ class XqtlsProcess implements ShouldQueue
         {
             Storage::append($this->logfile, "LAVA analysis not selected.\n");
         }
-
-
-        $error = $process_format->exitCode();
-        if ($error != 0) {
-            JobHelper::JobTerminationHandling($jobID, 1, 'xqtls error occured');
-            return;
-        }
-
+        
+        // Completed successfully
         SubmitJob::where('jobID', $jobID) 
         ->update([
             'status' => config('all_status_codes.15.short_name'),

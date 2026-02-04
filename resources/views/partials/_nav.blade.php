@@ -25,7 +25,7 @@
 			<li class="nav-item"><a class="nav-link {{ Request::is('gene2func*') ? 'active' : ''}}"
 					href="/gene2func">GENE2FUNC</a></li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('celltype*') ? 'active' : ''}}" href="/celltype">Cell Type</a></li>
-			<li class="nav-item"><a class="nav-link {{ Request::is('xqtls*') ? 'active' : ''}}" href="/xqtls">xQTLs Analysis</a></li>
+			<li class="nav-item"><a class="nav-link {{ Request::is('xqtls*') ? 'active' : ''}}" href="/xqtls">QTLs Analysis</a></li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('links') ? 'active' : ''}}" href="/links">Links</a>
 			</li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('downloadPage') ? 'active' : ''}}"

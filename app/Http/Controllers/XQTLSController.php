@@ -88,7 +88,7 @@ class XQTLSController extends Controller
         // get xQTLs datasets
         $xqtlsDatasets = $this->joinQTLdatasets(
             $this->parseQtl($request->input('eqtlGtexv10Ds')),
-            $this->parseQtl($request->input('pqtl9Sun2023Ds')) #TODO: fix this error
+            $this->parseQtl($request->input('pqtl9Sun2023Ds')) #TODO: add 
             // $this->parseQtl($request->input('pqtl9Sun2023Ds'))
             // $this->parseQtl($request->input('eqtlCatalog')),
             // $this->parseQtl($request->input('sqtlGtexv10')),
@@ -118,7 +118,9 @@ class XQTLSController extends Controller
 
         $filedir = config('app.jobdir') . '/xqtls/' . $jobID;
         Storage::makeDirectory($filedir);
-        Storage::putFileAs($filedir, $request->file('locusSumstat'), 'locus.input');
+        Storage::putFileAs($filedir, $request->file('locusSumstat'), 'locus.input.orig');
+
+        $build = $request->input('build');
 
         $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
         $paramfile = $filedir . '/params.config';
@@ -142,7 +144,6 @@ class XQTLSController extends Controller
         }
 
         
-
         if ($request->filled('lava')) {
             $lava = 1;
             $phenotype = $request->input('phenotype');
@@ -169,6 +170,7 @@ class XQTLSController extends Controller
         Storage::append($paramfile, "FUMA=" . $app_config['FUMA']);
 
         Storage::append($paramfile, "\n[params]");
+        Storage::append($paramfile, "build=$build");
         Storage::append($paramfile, "chrom=$chrom");
         Storage::append($paramfile, "start=$locusStart");
         Storage::append($paramfile, "end=$locusEnd");

@@ -108,14 +108,23 @@ gene_conversion_dir = config$data$geneConversion
 results <- data.frame(matrix(ncol = 13, nrow = 0))
 colnames(results) = c("locus", "chr", "phen1", "rho", "rho.lower", "rho.upper", "r2", "r2.lower", "r2.upper", "p", "p.adjust", "dataset", "symbol")
 
-
-# ## process input
-for (dataset in unlist(strsplit(datasets, ":"))) {
-  ## process input
-  input = process.input(input.info.file = paste0(filedir, filename),
+input_common = process.input(input.info.file = paste0(filedir, filename),
                       sample.overlap.file=NULL,
                       ref.prefix = paste0(lava_dir, "/g1000_eur"),
                       phenos=c(phenotype))
+
+# ## process input
+for (dataset in unlist(strsplit(datasets, ":"))) {
+  input = new.env()
+  for (var in names(input_common)) input[[var]] = input_common[[var]]
+  ## process input
+  # copy input common
+  # input = process.input(input.info.file = paste0(filedir, filename),
+  #                     sample.overlap.file=NULL,
+  #                     ref.prefix = paste0(lava_dir, "/g1000_eur"),
+  #                     phenos=c(phenotype))
+  # input = input_common
+  
 
   ## set up output file names
   out.fname = paste0("lava_results_", dataset)

@@ -32,6 +32,7 @@ CMD ["bash"]
 COPY app.config ./
 COPY ConfigParser.R ./
 COPY xqtls/format_for_lava_coloc.py ./
+COPY xqtls/process_locus.py ./
 COPY xqtls/run_coloc.R ./
 COPY xqtls/run_lava.R ./
 

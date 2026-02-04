@@ -33,21 +33,47 @@ border-color: rgba(0,0,0,0.1);
             <div id="newquery" class="sidePanel container" style="padding-top:50px;">
                 <div class ="col">
                     <div class="container" style="padding-top:50px;">
-                        <div style="text-align: left;">
-                            <h3>xQTLs Analysis</h3>
+                        <div style="text-align: center;">
+                            <h3>QTLs Analysis</h3>
                             <h5 style="color: #00004d"> Prioritizing genes within a genomic risk locus by integrating with QTLs datasets. </h5>
-                            <p> Use the xQTLs analysis to investigate the potential functional mechanisms underlying GWAS associations by integrating with various xQTLs datasets including eQTLs, sQTLs and apaQTLs. Upload your GWAS summary statistics for a specific genomic locus and select the xQTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the documentation for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
+                            <p> Use the QTLs analysis to investigate the potential functional mechanisms underlying GWAS associations by integrating with various xQTLs datasets including eQTLs, sQTLs and apaQTLs. Upload your GWAS summary statistics for a specific genomic locus and select the xQTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the documentation for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
+                        </div>
+                        <div>
                             <div id="uploadData">
                                 {{ html()->form('POST', '/xqtls/submit')->attribute('enctype', 'multipart/form-data')->open() }}
+
+                                <div class="row">
+                                    <div class="col-sm-2" style="font-weight: bold; padding-top:7px;">
+                                        <b>Job name (optional):</b>
+                                    </div>
+                                    <div class="col-sm">
+                                        <input type="text" class="form-control" style="border: 1px solid black;" id="title" name="title" />
+                                    </div>
+                                </div>
+
+                                <br>
+
                                 <table class="table table-bordered inputTable" id="xqtlsAnalysis" style="width: auto; border: 1px solid black;">
                                     <tr>
                                         <td> Summary statistics file for a locus: 
                                             <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Upload a tab-delimited text file with header containing GWAS summary statistics with the following columns in this specific order: RSID, ATL, REF, N, BETA, P, MAF. Check the documentation on how to prepare the summary statistics file.">
+                                                data-bs-content="Upload a tab-delimited text file with header containing GWAS summary statistics with the following columns in this specific order: CHR, POS, REF, ALT, N, BETA, P, MAF. Check the documentation on how to prepare the summary statistics file.">
                                                 <i class="fa-regular fa-circle-question"></i>
                                             </a>
                                         </td>
                                         <td><input type="file" class="form-control-file" name="locusSumstat" id="locusSumstat" onchange="window.CheckAll()" />
+                                        <br>
+                                        Build:
+                                        <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Please select the human genome assembly version (GRCh37 or GRCh38) on which the genomic coordinates in your summary statistics file are based (mandatory).">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                        </a>
+                                        <br>  
+                                        <input type="radio" id="grch37" name="build" value="GRCh37">
+                                        <label for="grch37">GRCh37</label><br>
+                                        <input type="radio" id="grch38" name="build" value="GRCh38">
+                                        <label for="grch38">GRCh38</label><br>
+                                        </input>
                                         </td>
                                         <td>
                                         <div id="locusInputCheck" class="mt-2" style="padding-bottom: 0;"></div>
@@ -268,23 +294,6 @@ border-color: rgba(0,0,0,0.1);
                                         <div id="datasetCheck" class="mt-2" style="padding-bottom: 0;"></div>
                                         </td>
                                     </tr>
-
-                                    <tr>
-                                        <div class="row mb-1">
-                                            <label for="title" class="col-sm-5 col-form-label">
-                                                Title:
-                                            </label>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="title" name="title" />
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <span class="info"><i class="fa fa-info fa-sm"></i> Optional</span>
-                                                <div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </tr>
-
                                 </table>
 
                                 <input type="submit" value="Submit" class="btn btn-primary mt-3" id="xqtlsSubmit" name="xqtlsSubmit" /><br><br>
