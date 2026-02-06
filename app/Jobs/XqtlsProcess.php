@@ -57,7 +57,9 @@ class XqtlsProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'xqtls');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'xqtls');
 
+        #######################################################################
         # Input checking and formatting of the input gwas sumstat for the locus
+        #######################################################################
         Storage::append($this->logfile, "INFO: Starting processing of input gwas summary statistics for the locus at " . date("Y-m-d H:i:s") . "\n");
         $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python3 process_locus.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
         $process_locus = Process::forever()->run($cmd_format);
@@ -77,7 +79,42 @@ class XqtlsProcess implements ShouldQueue
             return;
         } 
 
+        ############################################################
+        # Convert chrom:start:end from grch37 to grch38 if necessary
+        ############################################################
+        if ($params['build'] == 'GRCh37') {
+            Storage::append($this->logfile, "Coordinates for the locus is in GRCh37. Converting to GRCh38 with liftover.\n");
+            $cmd_convert = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python3 convert_coords.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
+            $process_convert = Process::forever()->run($cmd_convert);
+            Log::info("Full Docker command: " . $cmd_convert);
+            Storage::append($this->logfile, "Command to be executed:");
+            Storage::append($this->logfile, $cmd_convert . "\n");
+
+            $convertError = $process_convert->exitCode();
+
+            // Log the exit code
+            Storage::append($this->logfile, "GRCh38 convert process exit code: " . $convertError . "\n");
+
+            if ($convertError == 1) {
+                JobHelper::JobTerminationHandling($jobID, 26, 'Converted file locus_range_grch38.txt not found');
+                return;
+            } elseif ($convertError == 2) {
+                JobHelper::JobTerminationHandling($jobID, 27, 'GRCh37 to GRCh38 expects one line. More than one line were found.');
+                return;
+            } elseif ($convertError == 3) {
+                JobHelper::JobTerminationHandling($jobID, 28, 'After GRCh37 to GRCh38 conversion, the chromosome does not match.');
+                return;
+            } elseif ($convertError != 0) {
+                // Log error output for debugging
+                Storage::append($this->logfile, "Error output: " . $process_coloc->errorOutput() . "\n");
+                JobHelper::JobTerminationHandling($jobID, 29, 'An error occured when converting locus coordinates from GRCh37 to GRCh38');
+                return;
+            }
+        }
+
+        ######################################################
         # Format the xQTL datasets for LAVA and colocalization
+        ######################################################
         Storage::append($this->logfile, "INFO: Starting formatting of xQTL datasets for LAVA and colocalization at " . date("Y-m-d H:i:s") . "\n");
         $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python3 format_for_lava_coloc.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
         $process_qtls = Process::forever()->run($cmd_format);
@@ -94,7 +131,9 @@ class XqtlsProcess implements ShouldQueue
             return;
         }
 
+        ################################
         # Run colocalization if selected
+        ################################
         if ($params['coloc'] == 1) {
             Storage::append($this->logfile, "Colocalization analysis started.\n");
             $cmd_coloc = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'Rscript run_coloc.R --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
@@ -128,6 +167,10 @@ class XqtlsProcess implements ShouldQueue
         {
             Storage::append($this->logfile, "Colocalization analysis not selected.\n");
         }
+        
+        ######################
+        # Run LAVA if selected
+        ######################
 
         if ($params['lava'] == 1) {
             Storage::append($this->logfile, "LAVA analysis started.\n");
@@ -139,6 +182,8 @@ class XqtlsProcess implements ShouldQueue
 
 
             $lavaError = $process_lava->exitCode();
+            // Log the exit code
+            Storage::append($this->logfile, "LAVA process exit code: " . $lavaError . "\n");
             if ($lavaError != 0) {
                 JobHelper::JobTerminationHandling($jobID, 20, 'xqtls error occured');
                 return;

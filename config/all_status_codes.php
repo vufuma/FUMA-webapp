@@ -303,4 +303,32 @@ return [
         'email_message' => '<p>An error occurs when formatting the xQTL datasets for LAVA and colocalization.</p>',
         'type' => 'err',
     ],
+    26 => [
+        'short_name' => 'ERROR:GRCh38NotFound',
+        'long_name' => 'Error code error occurs when converted file locus_range_grch38.txt not found',
+        'description' => 'An error occurs when converted file locus_range_grch38.txt not found',
+        'email_message' => '<p>An error occurs when converted file locus_range_grch38.txt not found.</p>',
+        'type' => 'err'
+    ],
+    27 => [
+        'short_name' => 'ERROR:GRCh38Morethan1Line',
+        'long_name' => 'Error code error occurs because GRCh37 to GRCh38 expects one line but more than one line were found',
+        'description' => 'An error occurs because GRCh37 to GRCh38 expects one line but more than one line were found ',
+        'email_message' => '<p>An error occurs GRCh37 to GRCh38 expects one line but more than one line were found.</p>',
+        'type' => 'err'
+    ],
+    28 => [
+        'short_name' => 'ERROR:grchr38ChrNotMatch',
+        'long_name' => 'Error code error occurs because after GRCh37 to GRCh38 conversion, the chromosome does not match',
+        'description' => 'An error occurs because after GRCh37 to GRCh38 conversion, the chromosome does not match',
+        'email_message' => '<p>An error occurs because after GRCh37 to GRCh38 conversion, the chromosome does not match.</p>',
+        'type' => 'err'
+    ],
+    29 => [
+        'short_name' => 'ERROR:grchr38Convert',
+        'long_name' => 'Error code error occurs when converting genomic locus from GRCh37 to GRCh38',
+        'description' => 'An error occurs when converting genomic locus from GRCh37 to GRCh38',
+        'email_message' => '<p>An error occurs when converting genomic locus from GRCh37 to GRCh38.</p>',
+        'type' => 'err'
+    ]
 ];

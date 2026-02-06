@@ -24,8 +24,37 @@ qtl_dir = cfg.get('data', 'QTL')
 dbsnp_dir = cfg.get('data', 'dbSNP')
 
 chrom=param.get('params','chrom')
-start=param.getint('params','start')
-end=param.getint('params','end')
+build = param.get('params','build').lower()
+if build == "grch37":
+    with open(os.path.join(filedir, "locus_range_grch38.txt"), "r") as f:
+        for line in f:
+            items = line.rstrip("\n").split("\t")
+            start = int(items[1])
+            end = int(items[2])-1
+            print(f"After conversion of genomic locus from GRCh37 to GRCh38, new start is {start}, new end is {end}")
+            break
+else:
+    start=param.getint('params','start')
+    end=param.getint('params','end')
+    
+# update param file
+param_path = os.path.join(filedir, "params.config")
+updated_lines = []
+
+with open(param_path, "r") as f:
+    for line in f:
+        if line.startswith("start="):
+            updated_lines.append(f"start={start}\n")
+        elif line.startswith("end="):
+            updated_lines.append(f"end={end}\n")
+        else:
+            updated_lines.append(line)
+
+with open(param_path, "w") as f:
+    f.writelines(updated_lines)
+    
+
+
 # lavaGene=param.get('params','lavaGene')
 
 datasets=param.get('params','datasets').split(":")

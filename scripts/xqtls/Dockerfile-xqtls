@@ -31,10 +31,12 @@ CMD ["bash"]
 
 COPY app.config ./
 COPY ConfigParser.R ./
+COPY xqtls/convert_coords.py ./
 COPY xqtls/format_for_lava_coloc.py ./
 COPY xqtls/process_locus.py ./
 COPY xqtls/run_coloc.R ./
 COPY xqtls/run_lava.R ./
+COPY liftOver ./
 
 
 # Configure non-root user.
@@ -52,5 +54,7 @@ RUN groupadd --gid ${PGID} $USERNAME && \
     groupadd --gid ${PGIDUSR} users_data_c && \
     useradd -l --non-unique --uid ${PUID} --gid ${PGID} $USERNAME && \
     usermod -a -G scistor_share_r,reference_data_r,users_data_c $USERNAME
+
+RUN chmod +x ./liftOver
 
 USER $USERNAME

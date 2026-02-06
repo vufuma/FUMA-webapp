@@ -36,7 +36,7 @@ border-color: rgba(0,0,0,0.1);
                         <div style="text-align: center;">
                             <h3>QTLs Analysis</h3>
                             <h5 style="color: #00004d"> Prioritizing genes within a genomic risk locus by integrating with QTLs datasets. </h5>
-                            <p> Use the QTLs analysis to investigate the potential functional mechanisms underlying GWAS associations by integrating with various xQTLs datasets including eQTLs, sQTLs and apaQTLs. Upload your GWAS summary statistics for a specific genomic locus and select the xQTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the documentation for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
+                            <p> Use the QTLs analysis to investigate the potential functional mechanisms underlying GWAS associations by integrating with various xQTLs datasets including eQTLs, sQTLs and apaQTLs. Upload your GWAS summary statistics for a specific genomic locus and select the xQTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/qtl.html">Documentation</a> for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
                         </div>
                         <div>
                             <div id="uploadData">
@@ -69,9 +69,9 @@ border-color: rgba(0,0,0,0.1);
                                                 <i class="fa-regular fa-circle-question"></i>
                                         </a>
                                         <br>  
-                                        <input type="radio" id="grch37" name="build" value="GRCh37">
+                                        <input type="radio" id="grch37" name="build" value="GRCh37" onchange="window.CheckAll()">
                                         <label for="grch37">GRCh37</label><br>
-                                        <input type="radio" id="grch38" name="build" value="GRCh38">
+                                        <input type="radio" id="grch38" name="build" value="GRCh38" onchange="window.CheckAll()">
                                         <label for="grch38">GRCh38</label><br>
                                         </input>
                                         </td>
@@ -83,7 +83,7 @@ border-color: rgba(0,0,0,0.1);
                                     <tr>
                                         <td> Genomic Locus Information: 
                                             <a class="infoPop" data-bs-toggle="popover"
-                                                data-bs-content="Provide the chromosome number, start and end position of the genomic region of interest. Coordinates have to be based on the GRCh38 human genome assembly.">
+                                                data-bs-content="Provide the chromosome number, start and end position of the genomic region of interest. The genome build must be consistent with the selection above.">
                                                 <i class="fa-regular fa-circle-question"></i>
                                             </a>
                                         </td>
@@ -215,6 +215,8 @@ border-color: rgba(0,0,0,0.1);
 
                                             <br>
 
+                                            <?php /*
+
                                             <h2 style="color: #00004d; font-size:16px;">sQTLs Datasets</h2>
 
                                             <!-- GTEx v10 -->
@@ -264,8 +266,10 @@ border-color: rgba(0,0,0,0.1);
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <br>
+                                            */ ?> 
+
+                                            
 
                                             <h2 style="color: #00004d; font-size:16px;">pQTLs Datasets</h2>
                                             <div class="accordion-item" style="padding:0px;">

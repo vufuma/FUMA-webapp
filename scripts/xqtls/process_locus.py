@@ -21,7 +21,7 @@ param.optionxform = str
 param.read(os.path.join(filedir, 'params.config'))
 
 chrom = param.get('params','chrom')
-build = param.get('params','build')
+build = param.get('params','build').lower()
 
 dbsnp_dir = os.path.join(cfg.get('data', 'dbSNP'), "dbSNP_v157", build)
 

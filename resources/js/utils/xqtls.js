@@ -128,9 +128,13 @@ export const CheckAll = function() {
 	var table;
 	// var locusfile = $('#locusSumstat').val().length;
 	table = $('#xqtlsAnalysis')[0];
-	if($('#locusSumstat').val().length==0){
+	if (
+		$('#locusSumstat').val().length === 0 ||
+		(!$('#grch37').is(':checked') && !$('#grch38').is(':checked'))
+		) {
+
 		submit = false;
-		$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload a summary statistics file for the locus of interest.</div>');
+		$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload a summary statistics file for the locus of interest AND select if your input file is in GRCh37 or GRCh38 coordinates.</div>');
 		$('#xqtlsSubmit').attr("disabled", true);
 	} else {
 		$(table.rows[0].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
