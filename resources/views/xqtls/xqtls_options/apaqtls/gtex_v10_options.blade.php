@@ -10,5 +10,5 @@
 <option class="level2" value="">Brain Hypothalamus</option>
 <option class="level2" value="">Brain Nucleus accumbens basal ganglia</option>
 <option class="level2" value="">Brain Putamen basal ganglia</option>
-<option class="level2" value="">Brain Spinal cord cervical c-1</option>
+<option class="level2" value="">Brain Spinal cord cervical c1</option>
 <option class="level2" value="">Brain Substantia nigra</option>
