@@ -21,63 +21,6 @@ params <- ConfigParser(file=paste0(filedir, 'params.config'))
 
 gene_conversion_dir = config$data$geneConversion
 
-# Set up look up dictionary for sample sizes
-# sample_size_vector (for GTEx datasets)
-sample_sizes = c(714, 587, 295, 472, 268, 691, 77, 181, 233, 300, 277, 266, 270, 269, 255, 257, 285, 254, 204, 183, 514, 652, 327, 419, 479, 403, 614, 561, 461, 452, 104, 262, 604, 181, 818, 670, 193, 362, 313, 282, 651, 754, 207, 277, 407, 414, 684, 153, 170, 803, 33508)
-names(sample_sizes) = c("Adipose_Subcutaneous",
-                         "Adipose_Visceral_Omentum",
-                         "Adrenal_Gland",
-                         "Artery_Aorta",
-                         "Artery_Coronary",
-                         "Artery_Tibial",
-                         "Bladder",
-                         "Brain_Amygdala",
-                         "Brain_Anterior_cingulate_cortex_BA24",
-                         "Brain_Caudate_basal_ganglia",
-                         "Brain_Cerebellar_Hemisphere",
-                         "Brain_Cerebellum",
-                         "Brain_Cortex",
-                         "Brain_Frontal_Cortex_BA9",
-                         "Brain_Hippocampus",
-                         "Brain_Hypothalamus",
-                         "Brain_Nucleus_accumbens_basal_ganglia",
-                         "Brain_Putamen_basal_ganglia",
-                         "Brain_Spinal_cord_cervical_c-1",
-                         "Brain_Substantia_nigra",
-                         "Breast_Mammary_Tissue",
-                         "Cells_Cultured_fibroblasts",
-                         "Cells_EBV-transformed_lymphocytes",
-                         "Colon_Sigmoid",
-                         "Colon_Transverse",
-                         "Esophagus_Gastroesophageal_Junction",
-                         "Esophagus_Mucosa",
-                         "Esophagus_Muscularis",
-                         "Heart_Atrial_Appendage",
-                         "Heart_Left_Ventricle",
-                         "Kidney_Cortex",
-                         "Liver",
-                         "Lung",
-                         "Minor_Salivary_Gland",
-                         "Muscle_Skeletal",
-                         "Nerve_Tibial",
-                         "Ovary",
-                         "Pancreas",
-                         "Pituitary",
-                         "Prostate",
-                         "Skin_Not_Sun_Exposed_Suprapubic",
-                         "Skin_Sun_Exposed_Lower_leg",
-                         "Small_Intestine_Terminal_Ileum",
-                         "Spleen",
-                         "Stomach",
-                         "Testis",
-                         "Thyroid",
-                         "Uterus",
-                         "Vagina",
-                         "Whole_Blood", 
-                         "Neurology")
-
-
-
 #
 chrom = params$params$chrom
 start = params$params$start
@@ -99,8 +42,6 @@ if (cases == "NA" && totalN == "NA") {
   cases_prop = cases / totalN
 }
 
-
-
 out_fn = paste0(filedir, "coloc_results.txt")
 filtered_out_fn = paste0(filedir, "coloc_results_filtered.txt")
 
@@ -111,13 +52,6 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
   qtl_type = unlist(strsplit(dataset, "-"))[1]
   dataset_origin = unlist(strsplit(dataset, "-"))[2]
   tissue = unlist(strsplit(dataset, "-"))[3]
-  tryCatch({
-    sample_size = sample_sizes[[tissue]]
-  }, error = function(e) {
-    paste0("Sample size for tissue ", tissue, " not found in the lookup table. Please provide a valid tissue name.")
-    quit(status=1)
-  })
-  
 
   snps_fn = paste0(filedir, "locus.input")
   qtl_fn = paste0(filedir, dataset, "_", chrom, "-", start, "-", end, ".sumstats.txt")
@@ -129,10 +63,10 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     filter(!is.na(RSID))
   colnames(snps) = c("RSID", "ALT_SNP", "REF_SNP", "N_SNP", "BETA_SNP", "P_SNP", "MAF_SNP")
 
-
-
   qtls_full = fread(qtl_fn)
   colnames(qtls_full) = c("RSID", "ALT_QTL", "REF_QTL", "N_QTL", "BETA_QTL", "P_QTL", "GENE_QTL", "MAF_QTL")
+  sample_size = unique(qtls_full$N_QTL)
+
 
   if (tolower(colocGene) == "all") {
     genes_to_test <- unique(qtls_full$GENE_QTL)
@@ -144,7 +78,7 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
 
   if (length(genes_to_test) == 0) {
     print("No genes found in the locus for colocalization analysis.")
-    quit(status=2)
+    quit(status=1)
   }
 
   for (i in genes_to_test) {

@@ -149,10 +149,6 @@ class XqtlsProcess implements ShouldQueue
     
 
             if ($colocError == 1) {
-                // Tissue name not found in sample size lookup table
-                JobHelper::JobTerminationHandling($jobID, 21, 'xqtls colocalization could not be performed due to tissue name not found in sample size lookup table.');
-                return;
-            } elseif ($colocError == 2) {
                 // No genes found in the locus
                 JobHelper::JobTerminationHandling($jobID, 22, 'xqtls colocalization could not be performed due to no genes found in the locus.');
                 return;
