@@ -80,7 +80,7 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
 
   qtls_full = fread(paste0(filedir, dataset, "_", chrom, "-", start, "-", end, ".sumstats.txt"))
   colnames(qtls_full) = c("RSID", "ALT_QTL", "REF_QTL", "N_QTL", "BETA_QTL", "P_QTL", "GENE_QTL", "MAF_QTL")
-  sample_size = unique(qtls_full$N_QTL)
+  sample_size = as.integer(mean(qtls_full$N_QTL))
 
   process.eqtl.input(input, qtl_fn, chromosomes=chrom, sample.size=sample_size)
 
