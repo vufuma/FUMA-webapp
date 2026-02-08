@@ -129,40 +129,33 @@ export const CheckAll = function() {
 	table = $('#xqtlsAnalysis')[0];
 
 	if (
-		$('#locusSumstat').val().length === 0 &&
-		(!$('#grch37').is(':checked') && !$('#grch38').is(':checked'))
+		$('#locusSumstat').val().length === 0 ||
+		!($('#grch37').is(':checked') || $('#grch38').is(':checked'))
 		) {
 		submit = false;
 		$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload a summary statistics file for the locus of interest AND select if your input file is in GRCh37 or GRCh38 coordinates.</div>');
-		$('#xqtlsSubmit').attr("disabled", true);
 	} else {
 		$(table.rows[0].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
-		submit = true;
 	}
 
 	if($('#chrom').val().length==0 || $('#locusStart').val().length==0 || $('#locusEnd').val().length==0){
 		submit = false;
 		$(table.rows[1].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide chromosome, start and end position for the locus of interest.</div>');
-		$('#xqtlsSubmit').attr("disabled", true);
 	} else {
 		$(table.rows[1].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
-		submit = true;
 	}
 
 	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='pqtl9Sun2023Ds[]'] option:selected").length==0){
 		submit = false;
 		$(table.rows[5].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one dataset.</div>');
-		$('#xqtlsSubmit').attr("disabled", true);
 	} else {
 		$(table.rows[5].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
-		submit = true;
 	}
 
 	if($('#coloc').is(':checked')){
 		if($('#pp4').val().length==0 ){
 			submit = false;
 			$(table.rows[2].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide the threshold for PP4 cutoff. </div>');
-			$('#xqtlsSubmit').attr("disabled", true); 
 		} else {
 			$(table.rows[2].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 		}
@@ -174,7 +167,6 @@ export const CheckAll = function() {
 		if($('#phenotype').val().length==0){
 			submit = false;
 			$(table.rows[3].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide phenotype for LAVA analysis.</div>');
-			$('#xqtlsSubmit').attr("disabled", true); 
 		} else {
 			$(table.rows[3].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 		}
@@ -186,7 +178,6 @@ export const CheckAll = function() {
 	if ($('#cases').val().length==0 || $('#totalN').val().length==0){
 		submit = false;
 		$(table.rows[4].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide number of cases and number of totalN.</div>');
-		$('#xqtlsSubmit').attr("disabled", true); 
 	} else {
 		$(table.rows[4].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
