@@ -395,7 +395,7 @@ class Helper
         $njobs = DB::table('SubmitJobs')
         ->selectRaw('count(*) as total, email')
         ->groupBy('email')
-        ->having('total', '>', 200) #change here to update the maximum number of jobs per user to keep
+        ->having('total', '>', 100) #change here to update the maximum number of jobs per user to keep
         ->where('status', 'OK')
         ->where('type', 'snp2gene')
         ->where('removed_at', null)
@@ -404,7 +404,7 @@ class Helper
         $results = [];
     
         foreach ($njobs as $njob) {
-            $nToRemove = $njob->total - 200; #change here to update the maximum number of jobs per user to keep
+            $nToRemove = $njob->total - 100; #change here to update the maximum number of jobs per user to keep
             $allJobsPerEmail = DB::table('SubmitJobs')
             ->select('jobID', 'created_at', 'type', 'status', 'email')
             ->where('status', 'OK')
