@@ -10,7 +10,7 @@
 
 		</p>
 		<div class="alert alert-warning">
-			<strong>Announcement January 28 2026: </strong> Please delete old and/or no longer needed jobs. Currently each user is allowed to store at most 200 SNP2GENE jobs on the FUMA server. We will soon reduce this to 100 jobs. Thank you for your understanding and cooperation.
+			<strong>Announcement February 9 2026: </strong> New SNP2GENE jobs retention policy: each user can store a maximum of 100 SNP2GENE jobs on the FUMA server. Please keep continuing to delete old jobs that you do not need anymore. You can download all the files and associated images for future use. 
 		</div>
 		<p>
 
