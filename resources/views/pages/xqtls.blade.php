@@ -353,6 +353,13 @@ border-color: rgba(0,0,0,0.1);
 
 </div>
 
+<form method="post" target="_blank" action="/xqtls/downloadResults">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="jobID" value="<?php echo $id;?>"/>
+    <input type="hidden" name="variant_code" id="tutorialDownloadVariantCode" value="" />
+    <input type="submit" id="tutorialDownloadVariantSubmit" class="ImgDownSubmit" style="display: none;" />
+</form>
+
 
 @endsection
 
@@ -360,27 +367,30 @@ border-color: rgba(0,0,0,0.1);
     @vite([
         'resources/js/utils/sidebar.js',
         'resoures/js/utils/xqtls.js',
-        'resources/js/utils/browse.js'])
+        'resources/js/utils/browse.js',
+        'resources/js/utils/tutorial_utils.js'])
 @endpush
 
 @push('page_scripts')
     <script type="module">
         window.loggedin = "{{ Auth::check() }}";
-            window.setXqtlsPageState(
-                "{{ $status }}",
-                "{{ $id }}",
-                "xqtls",
-                "{{ $page }}",
-                "",
-                "{{ Auth::check() }}"
-            );
+        window.setXqtlsPageState(
+            "{{ $status }}",
+            "{{ $id }}",
+            "xqtls",
+            "{{ $page }}",
+            "",
+            "{{ Auth::check() }}"
+        );
     </script>
 
     <script type="module">
         import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
         import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
         import { XQTLSSetup, CheckAll } from "{{ Vite::appjs('utils/xqtls.js') }}";
+        import tutorialDownloadVariant from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
         window.CheckAll = CheckAll;
+        window.tutorialDownloadVariant = tutorialDownloadVariant;
         $(function(){
             SidebarSetup();
             BrowseSetup();

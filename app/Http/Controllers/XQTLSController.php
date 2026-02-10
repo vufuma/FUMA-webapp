@@ -244,4 +244,52 @@ class XQTLSController extends Controller
         $jobID = $request->input('jobID');
         return Helper::deleteJob(config('app.jobdir') . '/xqtls/', $jobID);
     }
+
+    public function downloadResults(Request $request)
+    {
+        $user = Auth::user();
+        $code = $request->input('variant_code');
+        $jobID = $request->input('jobID');
+        $name = null;
+        
+        $job = SubmitJob::where('jobID', $jobID)
+            ->where('type', 'xqtls')
+            ->where('user_id', $user->id)
+            ->whereNull('removed_at')
+            ->first();
+        
+        if ($job == null) {
+            return response()->json(['error' => 'You are not authorized to access this job'], 403);
+        }
+        
+        switch ($code) {
+            case "colocResultsFull":
+                $name = "coloc_results.txt";
+                break;
+            case "colocResultsFiltered":
+                $name = "coloc_results_filtered.txt";
+                break;
+            case "lavaResultsFull":
+                $name = "lava_bivar_results_all_datasets.txt";
+                break;
+            case "lavaResultsFiltered":
+                $name = "lava_bivar_results_all_datasets_significant.txt";
+                break;
+            default:
+                return redirect()->back();
+        }
+        
+        $downloadPath = config('app.abs_path_to_xqtls_jobs_on_host') . '/' . $jobID . '/' . $name;
+        
+        if (!file_exists($downloadPath)) {
+        
+        return response()->json([
+            'error' => 'The requested file is not available.',
+            'message' => 'The download file could not be found. This could be because coloc and/or LAVA was not selected or because there were no results.'
+        ], 404);
+}
+        
+        $headers = array('Content-Type: application');
+        return response()->download($downloadPath, $name, $headers);
+    }
 }
