@@ -150,12 +150,12 @@ class XqtlsProcess implements ShouldQueue
 
             if ($colocError == 1) {
                 // No genes found in the locus
-                JobHelper::JobTerminationHandling($jobID, 22, 'xqtls colocalization could not be performed due to no genes found in the locus.');
+                JobHelper::JobTerminationHandling($jobID, 22, 'Colocalization could not be performed due to no genes found in the locus.');
                 return;
             } elseif ($colocError != 0) {
                 // Log error output for debugging
                 Storage::append($this->logfile, "Error output: " . $process_coloc->errorOutput() . "\n");
-                JobHelper::JobTerminationHandling($jobID, 19, 'xqtls error occured');
+                JobHelper::JobTerminationHandling($jobID, 19, 'An error occurs when running colocalization.');
                 return;
             }
 
@@ -181,7 +181,7 @@ class XqtlsProcess implements ShouldQueue
             // Log the exit code
             Storage::append($this->logfile, "LAVA process exit code: " . $lavaError . "\n");
             if ($lavaError != 0) {
-                JobHelper::JobTerminationHandling($jobID, 20, 'xqtls error occured');
+                JobHelper::JobTerminationHandling($jobID, 20, 'An error occurs when running LAVA.');
                 return;
             }
 

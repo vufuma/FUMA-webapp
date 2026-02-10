@@ -120,26 +120,33 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
   print(paste0("Done! Analysis output written to ",out.fname,".*.lava"))
 
   # add bonferroni corrected p value
-  bivar_results = fread(paste0(filedir, out.fname,".bivar.tmp.lava"))
-  bivar_results = bivar_results %>%
-    select(-c("phen2"))
-  bivar_results$dataset = dataset
-  bivar_results$p.adjust = p.adjust(bivar_results$p, method = "bonferroni")
+  tryCatch({
+    bivar_results = fread(paste0(filedir, out.fname, ".bivar.tmp.lava"))
+    # bivar_results = fread(paste0(filedir, out.fname,".bivar.tmp.lava"))
+    bivar_results = bivar_results %>%
+      select(-c("phen2"))
+    bivar_results$dataset = dataset
+    bivar_results$p.adjust = p.adjust(bivar_results$p, method = "bonferroni")
 
-  # add gene symbol column
-  gene_conversion_orig = fread(paste0(gene_conversion_dir, "/gencode.v39.gene_name_conversion.tsv")) #TODO: make this dynamic
-  gene_conversion = gene_conversion_orig %>%
-    select("gene_id", "gene_name") %>% unique()
-  colnames(gene_conversion) = c("locus", "symbol")
-  bivar_results = bivar_results %>%
-    left_join(gene_conversion, by="locus")
+    # add gene symbol column
+    gene_conversion_orig = fread(paste0(gene_conversion_dir, "/gencode.v39.gene_name_conversion.tsv")) #TODO: make this dynamic
+    gene_conversion = gene_conversion_orig %>%
+      select("gene_id", "gene_name") %>% unique()
+    colnames(gene_conversion) = c("locus", "symbol")
+    bivar_results = bivar_results %>%
+      left_join(gene_conversion, by="locus")
 
-  write.table(bivar_results, paste0(filedir, out.fname,".bivar.lava"), row.names=F, quote=F, col.names=T)
+    write.table(bivar_results, paste0(filedir, out.fname,".bivar.lava"), row.names=F, quote=F, col.names=T)
 
-  # combine results from different datasets
-  results = rbind(results, as.data.frame(bivar_results))
+    # combine results from different datasets
+    results = rbind(results, as.data.frame(bivar_results))
 
-  rm(input)
+    rm(input)
+  },
+  error = function(e) {
+    message("Skipping file due to fread error: ", e$message)
+  }
+  )
 }
 
 write.table(results, file=paste0(filedir, "lava_bivar_results_all_datasets.txt"), row.names=F, quote=F, col.names=T, sep="\t")

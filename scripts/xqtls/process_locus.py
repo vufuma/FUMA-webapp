@@ -93,42 +93,6 @@ with open(os.path.join(filedir, 'locus.input.orig'), 'r') as f:
         if skip_count > 0:
             skipped_snps += 1
             continue  # skip this SNP
-        
-        # # check against dbSNP to confirm alleles
-        # query_region = str(chrom) + ":" + str(pos) + "-" + str(pos)
-        # queried_results = tb.querys(query_region)
-        
-        # skip_counter = 0
-        
-        # for query in queried_results:
-        #     db_chrom = query[0]
-        #     db_pos = query[1]
-        #     if db_pos != pos or db_chrom != chrom:
-        #         continue  # position or chromosome do not match
-            
-            
-        #     db_rsid = query[2]
-        #     db_ref = query[3]
-        #     db_alt_alleles = set(query[4].split(','))
-            
-        #     if ref == db_ref and alt in db_alt_alleles:
-        #         # alleles match
-        #         return ref, alt, rsid, beta, maf, 0
-        #     elif ref in db_alt_alleles and alt == db_ref:
-        #         # alleles are flipped
-        #         # print("Warning: Alleles are flipped for " + chrom + ":" + pos + ". Input REF: " + ref + ", ALT: " + alt + ". Flipping alleles and effect size.")
-        #         ref, alt = alt, ref  # flip alleles
-        #         beta = str(-float(beta))  # flip effect size
-        #         skip_counter = 0
-        #         break
-        #     else: 
-        #         # no match
-        #         print("Warning: Alleles do not match dbSNP for " + chrom + ":" + pos + ". Skipping this SNP.")
-        #         skip_counter += 1
-        #         continue
-            
-        # if skip_counter > 0: 
-        #     skipped_snps += 1
 
         out = [str(db_rsid), str(alt), str(ref), str(n), str(beta), str(p), str(maf)]
         print("\t".join(out), file=outfile)
