@@ -36,7 +36,7 @@ border-color: rgba(0,0,0,0.1);
                         <div style="text-align: center;">
                             <h3>QTLs Analysis</h3>
                             <h5 style="color: #00004d"> Prioritizing genes within a genomic risk locus by integrating with QTLs datasets. </h5>
-                            <p> Use the QTLs analysis to investigate the potential functional mechanisms underlying GWAS associations by integrating with various xQTLs datasets including eQTLs, sQTLs and apaQTLs. Upload your GWAS summary statistics for a specific genomic locus and select the xQTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/qtl.html">Documentation</a> for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
+                            <p> Use the QTLs Analysis module to investigate the potential functional mechanisms underlying GWAS associations by integrating with various QTLs. To get started, upload your GWAS summary statistics for a specific genomic locus and select the QTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/qtl.html">Documentation</a> for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
                         </div>
                         <div>
                             <div id="uploadData">
@@ -314,7 +314,7 @@ border-color: rgba(0,0,0,0.1);
                     <div class="container" style="padding-top:50px;">
                         <div style="text-align: center;">
                             <h3>Query History</h3>
-                            <h5 style="color: #00004d"> Review your past xQTLs analysis queries. </h5>
+                            <h5 style="color: #00004d"> Review your past QTLs analysis queries. </h5>
                             <div>
                             <button type="button" class="btn btn-primary" id="refreshTable" name="refreshTable"
                             style="margin-right:20px;">Refresh query table</button>

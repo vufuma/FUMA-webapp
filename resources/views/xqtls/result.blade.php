@@ -1,6 +1,11 @@
-<div class="sidePanel container" style="padding-top:50px;"  id="xqtlTables">
+<div class="sidePanel container" style="padding-top:50px; display: none"  id="xqtlTables">
 	<div class="card"><div class="card-body">
 		<h4 style="color: #00004d">Result tables</h4>
+		Significant results are displayed in the result tables. In the case of colocalization or LAVA was not selected or there were no significant results, no data will be shown in the table. 
+		<br>
+		<b> Colocalization results: </b> significant results are defined as PP.H4.abf greater than specified threshold (default is 0.8). 
+		<br>
+		<b> LAVA results: </b> significant results are defined as adjusted p values (by Bonferroni correction for the total number of tests) less than alpha value of 0.05. 
 		
 		<!-- Define navigation tabs -->
 		<ul class="nav nav-tabs" role="tablist">

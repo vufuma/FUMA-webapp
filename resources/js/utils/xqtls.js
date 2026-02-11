@@ -133,14 +133,14 @@ export const CheckAll = function() {
 		!($('#grch37').is(':checked') || $('#grch38').is(':checked'))
 		) {
 		submit = false;
-		$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload a summary statistics file for the locus of interest AND select if your input file is in GRCh37 or GRCh38 coordinates.</div>');
+		$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload a summary statistics file for the locus of interest AND indicate if your input file is in GRCh37 or GRCh38 coordinates.</div>');
 	} else {
 		$(table.rows[0].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
 
 	if($('#chrom').val().length==0 || $('#locusStart').val().length==0 || $('#locusEnd').val().length==0){
 		submit = false;
-		$(table.rows[1].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide chromosome, start and end position for the locus of interest.</div>');
+		$(table.rows[1].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide chromosome, start and end position for the locus of interest. The start and end positions need to be in the same genomic build as specified above. </div>');
 	} else {
 		$(table.rows[1].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
@@ -157,10 +157,10 @@ export const CheckAll = function() {
 			submit = false;
 			$(table.rows[2].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide the threshold for PP4 cutoff. </div>');
 		} else {
-			$(table.rows[2].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+			$(table.rows[2].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. Colocalization is selected.</div>');
 		}
 	} else {
-		$(table.rows[2].cells[2]).html('<div class="alert alert-info" style="padding-bottom: 10; padding-top: 10;">Colocalization is not selected.</div>');
+		$(table.rows[2].cells[2]).html('<div class="alert alert-info" style="padding-bottom: 10; padding-top: 10;">Colocalization is not selected. Click the checkbox to select colocalization. </div>');
 	}
 
 	if($('#lava').is(':checked')){
@@ -168,16 +168,16 @@ export const CheckAll = function() {
 			submit = false;
 			$(table.rows[3].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide phenotype for LAVA analysis.</div>');
 		} else {
-			$(table.rows[3].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+			$(table.rows[3].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. LAVA is selected. </div>');
 		}
 			
 	} else {
-		$(table.rows[3].cells[2]).html('<div class="alert alert-info" style="padding-bottom: 10; padding-top: 10;">LAVA is not selected.</div>');
+		$(table.rows[3].cells[2]).html('<div class="alert alert-info" style="padding-bottom: 10; padding-top: 10;">LAVA is not selected. Click the checkbox to select LAVA.</div>');
 	}
 
 	if ($('#cases').val().length==0 || $('#totalN').val().length==0){
 		submit = false;
-		$(table.rows[4].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide number of cases and number of totalN.</div>');
+		$(table.rows[4].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide number of cases and the total number of sample size. If the trait is quantiative, please enter NA for Cases. The total number of sample size has to be an integer..</div>');
 	} else {
 		$(table.rows[4].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
