@@ -679,6 +679,19 @@ class S2GController extends Controller
         }
         $eqtlMapAnnoMeth = $request->input('eqtlMapAnnoMeth');
 
+        // pqtl mapping
+        if ($request->filled('pqtlMap')) {
+            $pqtlMap = 1;
+
+            $pqtlMapdss = $this->joinQTLdatasets(
+                $this->parseQtl($request->input('pqtlPlasmaDs'))
+            );
+
+        } else {
+            $pqtlMap = 0;
+            $pqtlMapdss = "NA";
+        }
+
         // chromatin interaction mapping
         $ciMap = 0;
         $ciMapFileN = 0;
@@ -898,6 +911,10 @@ class S2GController extends Controller
         Storage::append($paramfile, "eqtlMapChr15Meth=$eqtlMapChr15Meth");
         Storage::append($paramfile, "eqtlMapAnnoDs=$eqtlMapAnnoDs");
         Storage::append($paramfile, "eqtlMapAnnoMeth=$eqtlMapAnnoMeth");
+
+        Storage::append($paramfile, "\n[pqtlMap]");
+        Storage::append($paramfile, "pqtlMap=$pqtlMap");
+        Storage::append($paramfile, "pqtlMapdss=$pqtlMapdss");
 
         Storage::append($paramfile, "\n[ciMap]");
         Storage::append($paramfile, "ciMap=$ciMap");

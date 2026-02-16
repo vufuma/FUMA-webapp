@@ -322,5 +322,12 @@ return [
         'description' => 'An error occurs when converting genomic locus from GRCh37 to GRCh38',
         'email_message' => '<p>An error occurs when converting genomic locus from GRCh37 to GRCh38.</p>',
         'type' => 'err'
+    ],
+    30 => [
+        'short_name' => 'ERROR:pQTLMap',
+        'long_name' => 'Error code error occurs in pQTL mapping',
+        'description' => 'An error occurs in pQTL mapping',
+        'email_message' => '<p>An error occurs in pQTL mapping.</p>',
+        'type' => 'err'
     ]
 ];
