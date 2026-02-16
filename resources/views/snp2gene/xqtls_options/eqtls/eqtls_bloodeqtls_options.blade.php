@@ -1,0 +1,2 @@
+<option class="level2" value='BloodeQTL/BloodeQTL.txt.gz'>Westra et al. (2013) Blood eQTL Browser</option>
+<option class="level2" value='BIOSQTL/BIOS_eQTL_geneLevel.txt.gz'>Zhernakova et al. (2017) BIOS QTL Browser</option>

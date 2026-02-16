@@ -311,14 +311,18 @@ class S2GController extends Controller
     }
 
     private function parseQtl($temp) {
-    $qtlMapTs = [];
-    // $temp = $request->input($id);
-    foreach ($temp as $ts) {
-        if ($ts != "null") {
-            $qtlMapTs[] = $ts;
+        $qtlMapTs = [];
+        
+        if (!is_array($temp)) {
+            return $qtlMapTs;
         }
-    }
-    return $qtlMapTs;
+        
+        foreach ($temp as $ts) {
+            if ($ts != "null") {
+                $qtlMapTs[] = $ts;
+            }
+        }
+        return $qtlMapTs;
     }
 
     public function newJob(Request $request)
@@ -605,8 +609,22 @@ class S2GController extends Controller
             // }
 
             $eqtlMaptss = $this->joinQTLdatasets(
+                $this->parseQtl($request->input('eqtlTigerTs')),
+                $this->parseQtl($request->input('eqtlInspireTs')),
+                $this->parseQtl($request->input('eqtlEyeGExTs')),
+                $this->parseQtl($request->input('eqtlCatalogTs')),
+                $this->parseQtl($request->input('eqtlPsychEncodeTs')),
+                $this->parseQtl($request->input('eqtlvanderWijstTs')),
+                $this->parseQtl($request->input('eqtlDiceTs')),
+                $this->parseQtl($request->input('eqtleQTLGenTs')),
+                $this->parseQtl($request->input('eqtlBloodeqtlsTs')),
+                $this->parseQtl($request->input('eqtlMutherTs')),
+                $this->parseQtl($request->input('eqtlxQTLServerTs')),
+                $this->parseQtl($request->input('eqtlCommonMindTs')),
+                $this->parseQtl($request->input('eqtlBraineacTs')),
                 $this->parseQtl($request->input('eqtlGtexv8Ts')),
-                $this->parseQtl($request->input('eqtlCatalogTs'))
+                $this->parseQtl($request->input('eqtlGtexv7Ts')),
+                $this->parseQtl($request->input('eqtlGtexv6Ts'))
             );
 
         } else {
