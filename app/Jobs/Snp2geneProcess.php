@@ -130,8 +130,8 @@ class Snp2geneProcess implements ShouldQueue
                 }
             }
 
-            if ($params['pqtlMap'] == 1) {
-                if (!$this->pqtlMap()) {
+            if ($params['xqtlsMap'] == 1) {
+                if (!$this->xqtlsMap()) {
                     // error handling
                     return;
                 }
@@ -458,7 +458,7 @@ class Snp2geneProcess implements ShouldQueue
         return true;
     }
 
-    private function pqtlMap()
+    private function xqtlsMap()
     {
         $jobID = $this->jobID;
         Storage::append($this->logfile, "----- qtl_map.py -----\n");

@@ -583,7 +583,7 @@ export function ciMapCircosPlot(data) {
 	$('#ciMapCircosPlot').html(images);
 }
 
-export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, pqtlMap, ciMap, orcol, becol, secol) {
+export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtlsMap, ciMap, orcol, becol, secol) {
 	$('#plotClear').hide();
 	$('#download').attr('disabled', false);
 	if (eqtlMap == 0) {
@@ -858,9 +858,9 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, pqtl
 		});
 	}
 
-	if (pqtlMap == 1) {
-		file = "pqtl.txt";
-		var pqtlTable = $('#pqtlTable').DataTable({
+	if (xqtlsMap == 1) {
+		file = "xqtls.txt";
+		var xqtlsTable = $('#xqtlsTable').DataTable({
 			processing: true,
 			serverSide: true,
 			searchDelay: 3000,
@@ -872,7 +872,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, pqtl
 					jobID: id,
 					prefix: prefix,
 					infile: file,
-					header: "uniqID:db:tissue:protein:testedAllele:beta:P:type"
+					header: "uniqID:db:tissue:protein:type:qtl_type"
 				}
 			},
 			"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],

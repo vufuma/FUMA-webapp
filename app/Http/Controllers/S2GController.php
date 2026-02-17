@@ -134,8 +134,8 @@ class S2GController extends Controller
         if (array_key_exists('eqtlMap', $params)) {
             $res['eqtlMap'] = $params['eqtlMap'];
         }
-        if (array_key_exists('pqtlMap', $params)) {
-            $res['pqtlMap'] = $params['pqtlMap'];
+        if (array_key_exists('xqtlsMap', $params)) {
+            $res['xqtlsMap'] = $params['xqtlsMap'];
         }
         if (array_key_exists('orcol', $params)) {
             $res['orcol'] = $params['orcol'];
@@ -682,17 +682,19 @@ class S2GController extends Controller
         }
         $eqtlMapAnnoMeth = $request->input('eqtlMapAnnoMeth');
 
-        // pqtl mapping
-        if ($request->filled('pqtlMap')) {
-            $pqtlMap = 1;
+        // xqtls mapping
+        if ($request->filled('xqtlsMap')) {
+            $xqtlsMap = 1;
 
-            $pqtlMapdss = $this->joinQTLdatasets(
-                $this->parseQtl($request->input('pqtlPlasmaDs'))
+            $xqtlsMapdss = $this->joinQTLdatasets(
+                $this->parseQtl($request->input('pqtlPlasmaDs')),
+                $this->parseQtl($request->input('pqtlBrainDs')),
+                $this->parseQtl($request->input('pqtlCsfDs'))
             );
 
         } else {
-            $pqtlMap = 0;
-            $pqtlMapdss = "NA";
+            $xqtlsMap = 0;
+            $xqtlsMapdss = "NA";
         }
 
         // chromatin interaction mapping
@@ -915,9 +917,9 @@ class S2GController extends Controller
         Storage::append($paramfile, "eqtlMapAnnoDs=$eqtlMapAnnoDs");
         Storage::append($paramfile, "eqtlMapAnnoMeth=$eqtlMapAnnoMeth");
 
-        Storage::append($paramfile, "\n[pqtlMap]");
-        Storage::append($paramfile, "pqtlMap=$pqtlMap");
-        Storage::append($paramfile, "pqtlMapdss=$pqtlMapdss");
+        Storage::append($paramfile, "\n[xqtlsMap]");
+        Storage::append($paramfile, "xqtlsMap=$xqtlsMap");
+        Storage::append($paramfile, "xqtlsMapdss=$xqtlsMapdss");
 
         Storage::append($paramfile, "\n[ciMap]");
         Storage::append($paramfile, "ciMap=$ciMap");
@@ -1361,9 +1363,9 @@ class S2GController extends Controller
                 $files[] = "eqtl.txt";
             }
         }
-        if ($request->filled('pqtlfile')) {
-            if (Storage::exists($filedir . "pqtl.txt")) {
-                $files[] = "pqtl.txt";
+        if ($request->filled('xqtlsfile')) {
+            if (Storage::exists($filedir . "xqtls.txt")) {
+                $files[] = "xqtls.txt";
             }
         }
         if ($request->filled('cifile')) {

@@ -6,7 +6,7 @@ import numpy as np
 # from scripts.helpers import Configuration
 # from scripts.qtl_map.qtl_map_helpers import process_eqtl, do_eqtl_mapping
 from config_helpers import Configuration
-from qtl_map_helpers import process_eqtl, do_eqtl_mapping, process_pqtl, do_pqtl_mapping
+from qtl_map_helpers import process_eqtl, do_eqtl_mapping, process_xqtls, do_xqtls_mapping
 
 def main():
     start = time.time()
@@ -29,20 +29,20 @@ def main():
     #     eqtl = do_eqtl_mapping(config_class, out_fp, snps)
     #     eqtl.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
     
-    if config_class._pqtlMap == 1:
+    if config_class._xqtlsMap == 1:
         out_fp = os.path.join(filedir, "xqtls.txt")
-        fout = open(out_fp, "w")
-        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
-        for fpqtl in config_class._pqtlMapdss:
-            process_pqtl(fqtl=fpqtl, config_class=config_class, loci=loci, snps=snps, fout=fout)
+        fout = open(os.path.join(filedir, "xqtls_tmp.txt"), "w")
+        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type", "RiskIncAllele", "alignedDirection", "qtl_type"]), file=fout)
+        for fxqtl in config_class._xqtlsMapdss:
+            process_xqtls(fqtl=fxqtl, config_class=config_class, loci=loci, snps=snps, fout=fout)
         fout.close()
-        for fpqtl in config_class._pqtlMapdss:
-            pqtl = do_pqtl_mapping(config_class, out_fp, snps)
-            try:
-                pqtl = pqtl[["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type"]]
-                pqtl.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
-            except:
-                print("Nothing to print out.")
+        # for fxqtl in config_class._xqtlsMapdss:
+        xqtls = do_xqtls_mapping(config_class, os.path.join(filedir, "xqtls_tmp.txt"), snps)
+        try:
+            xqtls = xqtls[["uniqID", "db", "tissue", "protein", "type", "qtl_type"]]
+            xqtls.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
+        except:
+            print("Nothing to print out.")
 
     print(f"Processing time: {time.time()-start}")
     

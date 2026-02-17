@@ -30,7 +30,7 @@ border-color: rgba(0,0,0,0.1);
                 <tr class="eqtlMapOptions">
                     <th class="align-middle">Available datasets
                         <a class="infoPop" data-bs-toggle="popover" title="Tissue types of eQTLs"
-                            data-bs-content="This is mandatory parameter for eQTL mapping. Please select one or more datasets from the available pQTL datasets.">
+                            data-bs-content="This is mandatory parameter for eQTL mapping. Please select one or more datasets from the available datasets.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
                         </a>
                     </th>
@@ -407,20 +407,20 @@ border-color: rgba(0,0,0,0.1);
         </div>
 
         <div class="accordion-body">
-            <table class="table table-bordered inputTable" id="NewJobPqtlMap" style="width: auto; ">
+            <table class="table table-bordered inputTable" id="NewJobXqtlsMap" style="width: auto; ">
                 <tr>
-                    <th class="h5">Perform pQTL Mapping
-                        <a class="infoPop" data-bs-toggle="popover" title="pQTL mapping"
-                            data-bs-content="pQTL mapping maps SNPs to genes based on pQTL information. Only significant SNP-protein associations are used. Please check this option to perform pQTL mapping.">
+                    <th class="h5">Perform xQTLs Mapping
+                        <a class="infoPop" data-bs-toggle="popover" title="xQTLs mapping"
+                            data-bs-content="xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. Please check this option to perform xQTLs mapping.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
                         </a>
                     </th>
-                    <td><input type="checkbox" class="form-check-inline" name="pqtlMap" id="pqtlMap"
+                    <td><input type="checkbox" class="form-check-inline" name="xqtlsMap" id="xqtlsMap"
                             onchange="window.CheckAll();"></td>
                     <td></td>
                 </tr>
-                <tr class="pqtlMapOptions">
-                    <th class="align-middle">Available datasets
+                <tr class="xqtlsMapOptions">
+                    <th class="align-middle">pQTLs Datasets
                         <a class="infoPop" data-bs-toggle="popover" title="Available pQTL datasets"
                             data-bs-content="This is mandatory parameter for pQTL mapping. Please select one or more datasets from the available pQTL studies.">
                             <i class="fa-regular fa-circle-question fa-lg"></i>
@@ -429,22 +429,59 @@ border-color: rgba(0,0,0,0.1);
                     <td> 
                         <div class="accordion-item" style="padding:0px;">
                             <h5 class="accordion-header">
-                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#plasma">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#pqtlPlasma">
                                     Plasma
                                 </button>
                             </h5>
-                            <div class="accordion-collapse collapse" id="plasma">
+                            <div class="accordion-collapse collapse" id="pqtlPlasma">
                                 <div class="accordion-body">
                                     <span class="multiSelect">
                                         <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                         <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
                                         <select multiple class="form-select" id="pqtlPlasmaDs" name="pqtlPlasmaDs[]"
                                             size="10" onchange="window.CheckAll();">
-                                            @include('snp2gene.xqtls_options._pqtl_plasma_options')
+                                            @include('snp2gene.xqtls_options..pqtls._pqtl_plasma_options')
                                         </select>
                                     </span>
                                 </div>
                             </div>
+
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#pqtlBrain">
+                                    Brain
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="pqtlBrain">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="pqtlBrainDs" name="pqtlBrainDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options..pqtls._pqtl_brain_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#pqtlCsf">
+                                    Cerebrospinal fluid (CSF)
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="pqtlCsf">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="pqtlCsfDs" name="pqtlCsfDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options..pqtls._pqtl_csf_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
 
                     </td>

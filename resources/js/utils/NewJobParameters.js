@@ -530,13 +530,19 @@ export const CheckAll = function() {
 	}
 
 	tablecheck=true;
-	table = $('#NewJobPqtlMap')[0];
-	if($('#pqtlMap').is(":checked")==true){
-		$('.pqtlMapOptions').show();
+	table = $('#NewJobXqtlsMap')[0];
+	if($('#xqtlsMap').is(":checked")==true){
+		$('.xqtlsMapOptions').show();
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		let ds = 0;
 		$('#pqtlPlasmaDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+		$('#pqtlBrainDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+		$('#pqtlCsfDs option').each(function(){
 			if($(this).is(":checked")==true){ds++;}
 		});
 		if(ds>0){
@@ -549,7 +555,7 @@ export const CheckAll = function() {
 			tablecheck=false;
 		}
 	} else {
-		$('.pqtlMapOptions').hide();
+		$('.xqtlsMapOptions').hide();
 		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');

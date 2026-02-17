@@ -324,10 +324,10 @@ return [
         'type' => 'err'
     ],
     30 => [
-        'short_name' => 'ERROR:pQTLMap',
-        'long_name' => 'Error code error occurs in pQTL mapping',
-        'description' => 'An error occurs in pQTL mapping',
-        'email_message' => '<p>An error occurs in pQTL mapping.</p>',
+        'short_name' => 'ERROR:xQTLsMap',
+        'long_name' => 'Error code error occurs in xQTLs mapping',
+        'description' => 'An error occurs in xQTLs mapping',
+        'email_message' => '<p>An error occurs in xQTLs mapping.</p>',
         'type' => 'err'
     ]
 ];
