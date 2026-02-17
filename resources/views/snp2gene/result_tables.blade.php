@@ -154,7 +154,7 @@
 			<div role="tabpanel" class="tab-pane fade" id="xqtlsTablePane" aria-labelledby="xqtlsTablePane-tab">
 				<br>
 				<span class="info"><i class="fa fa-info"></i>
-					In this table results from xQTLs analysis from FUMA version 2.0.0 are displayed.
+					In this table results from xQTLs analysis from FUMA version 2.0.0 are displayed. The table is empty if there are no results. 
 				</span>
 				<br>
 				<table id="xqtlsTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">

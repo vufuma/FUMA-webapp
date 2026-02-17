@@ -42,6 +42,8 @@ def main():
             xqtls = xqtls[["uniqID", "db", "tissue", "protein", "type", "qtl_type"]]
             xqtls.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
         except:
+            with open(out_fp, 'w') as f:
+                f.write("uniqID\tdb\ttissue\tprotein\ttype\tqtl_type\n")
             print("Nothing to print out.")
 
     print(f"Processing time: {time.time()-start}")

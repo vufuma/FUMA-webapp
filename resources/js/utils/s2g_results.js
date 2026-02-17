@@ -594,6 +594,10 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 		$('#eqtlfile').prop('checked', false);
 	}
 
+	if (xqtlsMap == 0) {
+		$('#xqtlsTableTab').hide();
+	}
+
 	if (ciMap == 0) {
 		$('#ciTableTab').hide();
 		$('#check_ci_annotPlot').hide();
