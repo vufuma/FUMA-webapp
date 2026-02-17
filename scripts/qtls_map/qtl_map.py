@@ -32,14 +32,18 @@ def main():
     if config_class._pqtlMap == 1:
         out_fp = os.path.join(filedir, "pqtl.txt")
         fout = open(out_fp, "w")
-        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "maf", "beta", "se", "P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
+        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
         for fpqtl in config_class._pqtlMapdss:
             process_pqtl(fqtl=fpqtl, config_class=config_class, loci=loci, snps=snps, fout=fout)
         fout.close()
         for fpqtl in config_class._pqtlMapdss:
             pqtl = do_pqtl_mapping(config_class, out_fp, snps)
-            pqtl.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
-    
+            try:
+                pqtl = pqtl[["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type"]]
+                pqtl.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
+            except:
+                print("Nothing to print out.")
+
     print(f"Processing time: {time.time()-start}")
     
 if __name__ == '__main__':

@@ -441,7 +441,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->errorfile, "----- geteQTL.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'geteqtl');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'geteqtl');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python geteQTL.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";

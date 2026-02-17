@@ -204,7 +204,8 @@ def do_pqtl_mapping(config_class, pqtl_fp, snps):
     ENSG = process_ensg(config_class)
     if pqtl.shape[0] > 0: 
         pqtl = pqtl.query("protein.isin(@ENSG['external_gene_name'])")
-        pqtl['chr'] = pqtl['uniqID'].map(snps.set_index('uniqID')['chr'])
-        pqtl['pos'] = pqtl['uniqID'].map(snps.set_index('uniqID')['pos'])
-        pqtl['pqtlMapFilt'] = 1
+        # pqtl['chr'] = pqtl['uniqID'].map(snps.set_index('uniqID')['chr'])
+        # pqtl['pos'] = pqtl['uniqID'].map(snps.set_index('uniqID')['pos'])
+        # pqtl['pqtlMapFilt'] = 1
+        
         return pqtl

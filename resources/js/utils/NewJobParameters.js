@@ -433,12 +433,55 @@ export const CheckAll = function() {
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		let ts = 0;
-		$('#eqtlGtexv8Ts option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
 		$('#eqtlTigerTs option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
+		$('#eqtlInspireTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlEyeGExTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlCatalogTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlPsychEncodeTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlvanderWijstTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlDiceTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtleQTLGenTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlBloodeqtlsTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlMutherTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlxQTLServerTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlCommonMindTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlBraineacTs option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlGtexv8Ts option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlGtexv7Ts option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		$('#eqtlGtexv6Ts option').each(function(){
+			if($(this).is(":checked")==true){ts++;}
+		});
+		
 		if(ts>0){
 			$(table.rows[1].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-check"></i> OK.</div></td>');
