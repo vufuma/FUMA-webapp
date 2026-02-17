@@ -17,11 +17,10 @@ border-color: rgba(0,0,0,0.1);
         <div class="accordion-body">
             <table class="table table-bordered inputTable" id="NewJobEqtlMap" style="width: auto; ">
                 <tr>
+                    <div class="alert alert-info">
+			            Starting from FUMA v.2.0.0, this functionality of eQTL Mapping is kept for backward compatibility. To make adding new QTL datasets easier to FUMA, a new functionality below (<i>Perform xQTLs Mapping</i>) is added. You can still use this functionality to carry out analysis as before but new QTL datasets will be added to the xQTLs Mapping functionality.
+                    </div>
                     <th class="h5">Perform eQTL Mapping
-                        <a class="infoPop" data-bs-toggle="popover" title="eQTL mapping"
-                            data-bs-content="eQTL mapping maps SNPs to genes based on eQTL information. This maps SNPs to genes up to 1 Mb part (cis-eQTL). Please check this option to perform eQTL mapping.">
-                            <i class="fa-regular fa-circle-question fa-lg"></i>
-                        </a>
                     </th>
                     <td><input type="checkbox" class="form-check-inline" name="eqtlMap" id="eqtlMap"
                             onchange="window.CheckAll();"></td>
@@ -602,11 +601,10 @@ border-color: rgba(0,0,0,0.1);
         <div class="accordion-body">
             <table class="table table-bordered inputTable" id="NewJobXqtlsMap" style="width: auto; ">
                 <tr>
+                    <div class="alert alert-info">
+			            Starting from FUMA v.2.0.0, xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. Please check this option to perform xQTLs mapping.
+                    </div>
                     <th class="h5">Perform xQTLs Mapping
-                        <a class="infoPop" data-bs-toggle="popover" title="xQTLs mapping"
-                            data-bs-content="xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. Please check this option to perform xQTLs mapping. This option is available starting FUMA v2.0.0.">
-                            <i class="fa-regular fa-circle-question fa-lg"></i>
-                        </a>
                     </th>
                     <td><input type="checkbox" class="form-check-inline" name="xqtlsMap" id="xqtlsMap"
                             onchange="window.CheckAll();"></td>
