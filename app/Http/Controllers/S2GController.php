@@ -134,6 +134,9 @@ class S2GController extends Controller
         if (array_key_exists('eqtlMap', $params)) {
             $res['eqtlMap'] = $params['eqtlMap'];
         }
+        if (array_key_exists('pqtlMap', $params)) {
+            $res['pqtlMap'] = $params['pqtlMap'];
+        }
         if (array_key_exists('orcol', $params)) {
             $res['orcol'] = $params['orcol'];
         }
@@ -1356,6 +1359,11 @@ class S2GController extends Controller
         if ($request->filled('eqtlfile')) {
             if (Storage::exists($filedir . "eqtl.txt")) {
                 $files[] = "eqtl.txt";
+            }
+        }
+        if ($request->filled('pqtlfile')) {
+            if (Storage::exists($filedir . "pqtl.txt")) {
+                $files[] = "pqtl.txt";
             }
         }
         if ($request->filled('cifile')) {

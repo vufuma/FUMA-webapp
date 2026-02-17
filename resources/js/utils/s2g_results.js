@@ -583,7 +583,7 @@ export function ciMapCircosPlot(data) {
 	$('#ciMapCircosPlot').html(images);
 }
 
-export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
+export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, pqtlMap, ciMap, orcol, becol, secol) {
 	$('#plotClear').hide();
 	$('#download').attr('disabled', false);
 	if (eqtlMap == 0) {
@@ -851,6 +851,28 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 					prefix: prefix,
 					infile: file,
 					header: "uniqID:chr:pos:testedAllele:db:tissue:gene:symbol:p:FDR:signed_stats:RiskIncAllele:alignedDirection"
+				}
+			},
+			"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			"iDisplayLength": 10
+		});
+	}
+
+	if (pqtlMap == 1) {
+		file = "pqtl.txt";
+		var pqtlTable = $('#pqtlTable').DataTable({
+			processing: true,
+			serverSide: true,
+			searchDelay: 3000,
+			select: false,
+			ajax: {
+				url: 'DTfileServerSide',
+				type: "POST",
+				data: {
+					jobID: id,
+					prefix: prefix,
+					infile: file,
+					header: "uniqID:db:tissue:protein:testedAllele:beta:P:type"
 				}
 			},
 			"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],

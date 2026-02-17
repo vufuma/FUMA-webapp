@@ -30,7 +30,7 @@ def main():
     #     eqtl.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
     
     if config_class._pqtlMap == 1:
-        out_fp = os.path.join(filedir, "pqtl.txt")
+        out_fp = os.path.join(filedir, "xqtls.txt")
         fout = open(out_fp, "w")
         print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type", "RiskIncAllele", "alignedDirection"]), file=fout)
         for fpqtl in config_class._pqtlMapdss:
