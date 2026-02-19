@@ -5,6 +5,7 @@ use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\FumaController;
 use App\Http\Controllers\LoggingController;
 use App\Http\Controllers\S2GController;
+use App\Http\Controllers\FLAMESController;
 use App\Http\Controllers\XQTLSController;
 use App\Http\Controllers\G2FController;
 use App\Http\Controllers\CellController;
@@ -61,6 +62,10 @@ Route::get('/faq', function () {
 
 Route::get('/xqtls', function () {
     return view('pages.xqtls');
+});
+
+Route::get('/flames', function () {
+    return view('pages.flames');
 });
 
 Auth::routes();
@@ -235,6 +240,21 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/geneTable', [FumaController::class, 'geneTable']);
             Route::get('/g2f_d3text/{prefix}/{jobID}/{file}', [FumaController::class, 'g2f_d3text']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        });
+    });
+
+    // ********************** FLAMES ************************
+    Route::prefix('flames')->group(function () {
+        Route::get('/', [FLAMESController::class, 'index']);
+        Route::get('/getFLAMESHistory', [FLAMESController::class, 'getFLAMESHistory']);
+        Route::post('/submit', [FLAMESController::class, 'newJob']);
+        
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::get('/{jobID}', [FLAMESController::class, 'viewJob']); 
+            Route::post('/deleteJob', [FLAMESController::class, 'deleteJob']);
+        //     Route::post('/DTfile', [XQTLSController::class, 'DTfile']);
+        //     Route::post('/downloadResults', [XQTLSController::class, 'downloadResults']);
+            
         });
     });
 
