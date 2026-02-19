@@ -8,6 +8,7 @@ return [
     'abs_path_to_cell_jobs_on_host' => env('ABS_PATH_TO_CELL_JOBS_ON_HOST'),
     'abs_path_to_jobs_on_host' => env('ABS_PATH_TO_JOBS_ON_HOST', ''),
     'abs_path_to_xqtls_jobs_on_host' => env('ABS_PATH_TO_XQTLS_JOBS_ON_HOST'),
+    'abs_path_to_flames_jobs_on_host' => env('ABS_PATH_TO_FLAMES_JOBS_ON_HOST'),
 
     /*
     |--------------------------------------------------------------------------

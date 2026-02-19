@@ -329,5 +329,12 @@ return [
         'description' => 'An error occurs in xQTLs mapping',
         'email_message' => '<p>An error occurs in xQTLs mapping.</p>',
         'type' => 'err'
+    ],
+    31 => [
+        'short_name' => 'ERROR:flames',
+        'long_name' => 'Error code error occurs in FLAMES',
+        'description' => 'An error occurs in FLAMES',
+        'email_message' => '<p>An error occurs in FLAMES.</p>',
+        'type' => 'err'
     ]
 ];

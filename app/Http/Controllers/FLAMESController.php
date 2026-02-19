@@ -107,9 +107,11 @@ class FLAMESController extends Controller
 
         $filedir = config('app.jobdir') . '/flames/' . $jobID;
         Storage::makeDirectory($filedir);
+        Storage::putFileAs($filedir, $request->file('gwasSumstat'), 'input.gwas');
         Storage::putFileAs($filedir, $request->file('preds'), 'input.preds');
 
         $snp2geneID = $request->input('snp2geneID');
+        $sampleSize = $request->input('totalN');
 
         $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
         $paramfile = $filedir . '/params.config';
@@ -123,6 +125,7 @@ class FLAMESController extends Controller
 
         Storage::append($paramfile, "\n[params]");
         Storage::append($paramfile, "snp2geneID=$snp2geneID");
+        Storage::append($paramfile, "sampleSize=$sampleSize");
         
 
         $this->queueNewJobs();
@@ -143,9 +146,9 @@ class FLAMESController extends Controller
         if (count($newJobs) > 0) {
             foreach ($newJobs as $job) {
                 (new SubmitJob)->updateStatus($job->jobID, 'QUEUED');
-                // FlamesProcess::dispatch($user, $job->jobID)
-                //     ->onQueue($queue)
-                //     ->afterCommit();
+                FlamesProcess::dispatch($user, $job->jobID)
+                    ->onQueue($queue)
+                    ->afterCommit();
             }
         }
         return;

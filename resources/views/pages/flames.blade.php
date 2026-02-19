@@ -126,6 +126,23 @@ border-color: rgba(0,0,0,0.1);
                                         <td>
                                         </td>
                                     </tr>
+
+                                    <tr>
+                                        <td>Other parameters:
+                                            <a class="infoPop" data-bs-toggle="popover" title="otherParams"
+                                                data-bs-content="Input other parameters for the analysis.">
+                                                <i class="fa-regular fa-circle-question fa-lg"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="inputSpan">Sample size: <input type="text" class="form-control"
+                                            id="totalN" name="totalN" ></span>
+                                        </td>
+
+                                        <td>
+                                        <div id="otherParamsCheck" class="mt-2" style="padding-bottom: 0;"></div>
+                                        </td>
+                                    </tr>
                                     
                                 </table>
 
