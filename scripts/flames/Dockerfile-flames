@@ -45,14 +45,14 @@ COPY flames/environment.yml /tmp/environment.yml
 RUN mamba env create -f /tmp/environment.yml
 
 # Make the environment default
-ENV PATH=/opt/conda/envs/polyfun/bin:$PATH
-SHELL ["conda", "run", "-n", "polyfun", "/bin/bash", "-c"]
+ENV PATH=/opt/conda/envs/flames/bin:$PATH
+SHELL ["conda", "run", "-n", "flames", "/bin/bash", "-c"]
 
 # ===============================
 # Install PolyFun
 # ===============================
 RUN git clone https://github.com/omerwe/polyfun.git /opt/polyfun
-ENV PYTHONPATH="/opt/polyfun/polyfun:$PYTHONPATH"
+ENV PYTHONPATH="/opt/polyfun:$PYTHONPATH"
 
 # ===============================
 # Install FLAMES
@@ -67,9 +67,8 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 # ===============================
 # Copy application scripts
 # ===============================
-COPY flames/ ./flames/
 COPY app.config ./ 
-COPY flames/run_polyfun_FUMA.py ./
+COPY flames/run_flames.py ./
 
 # ===============================
 # Configure non-root user

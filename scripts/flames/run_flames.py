@@ -86,9 +86,9 @@ for index, row in loci.iterrows():
         logger.info(f"locus_{locname}.susie.finemapped already exists, skipping")
         continue
 
-    cmd = f'cat {s2gdir}/{s2g_id}/header.txt > loci/locus_{locname}.txt' #from fuma: chr    bp      A2       A1   rsID    p       beta
-    process = subprocess.Popen([cmd], close_fds=True, shell=True)
-    process.wait()
+    # cmd = f'cat {s2gdir}/{s2g_id}/header.txt > loci/locus_{locname}.txt' #from fuma: chr    bp      A2       A1   rsID    p       beta
+    # process = subprocess.Popen([cmd], close_fds=True, shell=True)
+    # process.wait()
     
     outfp = os.path.join(filedir, "loci", "locus_" + locname + ".txt")
     
@@ -114,19 +114,19 @@ for index, row in loci.iterrows():
         raise
     
     try:
-        cmd = f'python /opt/polyfun/munge_polyfun_sumstats.py --sumstats {filedir}loci/locus_{locname}.txt --out {filedir}loci/locus_{locname}.txt.pq --n {N}'
+        cmd = f'python /opt/polyfun/munge_polyfun_sumstats.py --sumstats {filedir}/loci/locus_{locname}.txt --out {filedir}/loci/locus_{locname}.txt.pq --n {N}'
         print(cmd)
         process = subprocess.Popen([cmd], close_fds=True, shell=True)
         process.wait()
         time.sleep(2.5)
 
-        cmd = f'python /opt/polyfun/finemapper.py --sumstats {filedir}loci/locus_{locname}.txt.pq --method susie --n {N} --out {filedir}loci/locus_{locname}.susie --max-num-causal 1 --chr {chrom} --start {start} --end {end} --non-funct'
+        cmd = f'python /opt/polyfun/finemapper.py --sumstats {filedir}/loci/locus_{locname}.txt.pq --method susie --n {N} --out {filedir}/loci/locus_{locname}.susie --max-num-causal 1 --chr {chrom} --start {start} --end {end} --non-funct'
         process = subprocess.Popen([cmd], close_fds=True, shell=True)
         print(cmd)
         process.wait()
         time.sleep(2.5)
         
-        finemapped = pd.read_csv(f"{filedir}loci/locus_{locname}.susie", sep="\t")
+        finemapped = pd.read_csv(f"{filedir}/loci/locus_{locname}.susie", sep="\t")
         print(finemapped)
         print(max(finemapped['PIP']))
         finemapped = finemapped.sort_values("PIP", ascending=True)
@@ -139,7 +139,7 @@ for index, row in loci.iterrows():
         if len(finemapped) == 0:
             print(f"No finemapped SNPs for locus {locname}, skipping")
             continue
-        finemapped.to_csv(f"{filedir}locus_{locname}.susie.finemapped", sep="\t", index=False)
+        finemapped.to_csv(f"{filedir}/locus_{locname}.susie.finemapped", sep="\t", index=False)
     except:
         print(f"Error in {locname}")
     # cmd = f'rm loci/locus_{locname}*'
@@ -147,9 +147,13 @@ for index, row in loci.iterrows():
     # process.wait(2.5)
     
 # format
+
+indexfile = open(f"{filedir}/indexfile.txt", "w")
+print("\t".join(["Filename", "GenomicLocus", "Annotfiles"]), file=indexfile)
+
 def format(infile, locus_n):
     
-    outfile = open(f"{filedir}locus_{locus_n}.cred1", "w")
+    outfile = open(f"{filedir}/locus_{locus_n}.cred1", "w")
     print("\t".join(["index", "cred1", "prob1"]), file=outfile)
 
     
@@ -160,14 +164,19 @@ def format(infile, locus_n):
                 continue
             items = line.rstrip("\n").split("\t")
             print("\t".join([str(count), items[0], items[1]]), file=outfile)
+            
+            
             count += 1
     outfile.close()
-    
+
+locus_n = 1
 for file in os.listdir(filedir):
-    locus_n = 1
     if file.endswith(".susie.finemapped"):
         format(os.path.join(filedir, file), locus_n)
+        indexfile_row = [f"{filedir}/locus_{locus_n}.cred1", f"{locus_n}", f"{filedir}/annots/annotated_locus_{locus_n}.txt"]
+        print("\t".join(indexfile_row), file=indexfile)
         locus_n += 1
+indexfile.close()
         
 # TODO: add code to make indexfile.txt
         
@@ -175,10 +184,10 @@ for file in os.listdir(filedir):
 cmd = f'python /opt/FLAMES/FLAMES.py annotate \
 -o {filedir} \
 -a {flames}/Annotation_data \
--p {filedir}input.preds \
+-p {filedir}/input.preds \
 -m {s2gdir}/{s2g_id}/magma.genes.out \
 -mt {s2gdir}/{s2g_id}/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out \
--id {filedir}indexfile.txt'
+-id {filedir}/indexfile.txt'
 print(cmd)
 process = subprocess.Popen([cmd], close_fds=True, shell=True)
 process.wait()
@@ -187,7 +196,7 @@ time.sleep(2.5)
 # run flames
 cmd = f'python /opt/FLAMES/FLAMES.py FLAMES \
 -o {filedir} \
--id {filedir}indexfile.txt'
+-id {filedir}/indexfile.txt'
 print(cmd)
 process = subprocess.Popen([cmd], close_fds=True, shell=True)
 process.wait()

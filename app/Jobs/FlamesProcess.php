@@ -64,7 +64,7 @@ class FlamesProcess implements ShouldQueue
         # Fine mapping
         #######################################################################
         Storage::append($this->logfile, "INFO: Starting finemapping " . date("Y-m-d H:i:s") . "\n");
-        $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python run_polyfun_FUMA.py --filedir $job_location/ --s2gdir $s2g_dir >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd_format = "docker run --rm --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python run_flames.py --filedir $job_location --s2gdir $s2g_dir >>$job_location/job.log 2>>$job_location/error.log'";
         $tmp = Process::forever()->run($cmd_format);
         Log::info("Full Docker command: " . $cmd_format);
         Storage::append($this->logfile, "Command to be executed:");

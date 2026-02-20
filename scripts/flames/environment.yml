@@ -1,4 +1,4 @@
-name: polyfun
+name: flames
 channels:
   - conda-forge
   - bioconda
