@@ -1,89 +1,96 @@
-FROM rocker/r-ver:4.3.2
-
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONUNBUFFERED=1
+# ===============================
+# Base image
+# ===============================
+FROM continuumio/miniconda3:latest
 
 # ===============================
-# System dependencies
+# Set working directory
+# ===============================
+WORKDIR /opt
+
+# ===============================
+# Install system dependencies
 # ===============================
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-dev \
     build-essential \
+    python3-dev \
+    gcc \
+    g++ \
     gfortran \
-    libblas-dev \
-    liblapack-dev \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
     zlib1g-dev \
     libbz2-dev \
     liblzma-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
     bedtools \
+    tabix \
     git \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Make python3 default
-RUN ln -s /usr/bin/python3 /usr/bin/python
+# ===============================
+# Install mamba for fast environment solving
+# ===============================
+RUN conda install -y -c conda-forge mamba
 
 # ===============================
-# R packages
+# Copy environment file
 # ===============================
-RUN R -e "install.packages(c( \
-    'Rcpp', 'data.table', 'dplyr', 'argparse', 'remotes', \
-    'rprojroot', 'whereami', 'kimisc', 'R.utils' \
-    ), repos='https://cloud.r-project.org', Ncpus=parallel::detectCores())"
+COPY flames/environment.yml /tmp/environment.yml
 
 # ===============================
-# Python dependencies
+# Create conda environment using mamba
 # ===============================
-WORKDIR /app
+RUN mamba env create -f /tmp/environment.yml
 
-COPY flames/requirements.txt .
-COPY flames/run_polyfun_FUMA.py ./
-
-RUN pip3 install --no-cache-dir --upgrade pip setuptools wheel && \
-    pip3 install --no-cache-dir -r requirements.txt
+# Make the environment default
+ENV PATH=/opt/conda/envs/polyfun/bin:$PATH
+SHELL ["conda", "run", "-n", "polyfun", "/bin/bash", "-c"]
 
 # ===============================
-# Install polyfun
+# Install PolyFun
 # ===============================
-RUN git clone https://github.com/omerwe/polyfun.git
-ENV PYTHONPATH="/opt/polyfun:${PYTHONPATH}"
+RUN git clone https://github.com/omerwe/polyfun.git /opt/polyfun
+ENV PYTHONPATH="/opt/polyfun/polyfun:$PYTHONPATH"
 
 # ===============================
 # Install FLAMES
 # ===============================
-RUN git clone https://github.com/Marijn-Schipper/FLAMES.git
-ENV PYTHONPATH="/opt/FLAMES:${PYTHONPATH}"
+RUN git clone https://github.com/Marijn-Schipper/FLAMES.git /opt/FLAMES
+ENV PYTHONPATH="/opt/FLAMES:$PYTHONPATH"
+
+# Install FLAMES Python dependencies (pip packages)
+COPY flames/requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # ===============================
-# App workspace
+# Copy application scripts
 # ===============================
-WORKDIR /app
-CMD ["bash"]
-
-COPY app.config ./
-COPY ConfigParser.R ./
+COPY flames/ ./flames/
+COPY app.config ./ 
+COPY flames/run_polyfun_FUMA.py ./
 
 # ===============================
-# Non-root user setup
+# Configure non-root user
 # ===============================
-ARG USERNAME
-ARG PUID
-ARG PGID
+ARG USERNAME=user
+ARG PUID=1000
+ARG PGID=1000
+ARG PGIDSCISTOR=1001
+ARG PGIDREF=1002
+ARG PGIDUSR=1003
 
-ARG PGIDSCISTOR
-ARG PGIDREF
-ARG PGIDUSR
-
-RUN groupadd --gid ${PGID} ${USERNAME} && \
+RUN groupadd --gid ${PGID} $USERNAME && \
     groupadd --gid ${PGIDSCISTOR} scistor_share_r && \
     groupadd --gid ${PGIDREF} reference_data_r && \
     groupadd --gid ${PGIDUSR} users_data_c && \
-    useradd -l --non-unique --uid ${PUID} --gid ${PGID} ${USERNAME} && \
-    usermod -a -G scistor_share_r,reference_data_r,users_data_c ${USERNAME}
+    useradd -l --non-unique --uid ${PUID} --gid ${PGID} $USERNAME && \
+    usermod -a -G scistor_share_r,reference_data_r,users_data_c $USERNAME
 
-USER ${USERNAME}
+USER $USERNAME
+
+# ===============================
+# Default command
+# ===============================
+CMD ["bash"]

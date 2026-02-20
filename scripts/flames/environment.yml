@@ -1,0 +1,52 @@
+name: polyfun
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  # -------------------
+  # Python core packages
+  # -------------------
+  - python=3.8
+  - pip=24.0
+  - numpy>=1.20
+  - pandas>=2.0
+  - scipy
+  - scikit-learn>=1.2
+  - tqdm
+  - pyarrow>=3.0
+  - networkx
+  - bitarray
+  - packaging
+
+  # -------------------
+  # R base packages
+  # -------------------
+  - r-base
+  - r
+  - r-lattice
+  - r-ckmeans.1d.dp
+  - r-stringi
+  - r-matrixstats
+  - r-expm
+  - r-devtools
+  - r-wavethresh
+  - r-susier=0.11.92
+
+  # -------------------
+  # Python/R interop
+  # -------------------
+  - rpy2>=3.5.9,<3.6
+
+  # -------------------
+  # FLAMES-specific
+  # -------------------
+  - pyliftover=0.4
+
+  # -------------------
+  # pip packages
+  # -------------------
+  - pip:
+      - xgboost==1.7.5
+      - fastparquet==2023.7.0
+      - bgen==1.2.10

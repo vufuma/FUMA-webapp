@@ -3,6 +3,7 @@ numpy
 scipy
 pandas
 
+
 # Genomics / bioinformatics
 pysam
 pybedtools
@@ -18,7 +19,14 @@ seaborn
 scikit-learn
 statsmodels
 joblib
+pyarrow
+tqdm
+bitarray
+networkx
+pandas-plink
 
 # Misc
 setuptools
 wheel
+
+

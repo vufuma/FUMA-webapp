@@ -107,7 +107,7 @@ class FLAMESController extends Controller
 
         $filedir = config('app.jobdir') . '/flames/' . $jobID;
         Storage::makeDirectory($filedir);
-        Storage::putFileAs($filedir, $request->file('gwasSumstat'), 'input.gwas');
+        Storage::putFileAs($filedir, $request->file('gwasSumstat'), 'input.gwas.gz');
         Storage::putFileAs($filedir, $request->file('preds'), 'input.preds');
 
         $snp2geneID = $request->input('snp2geneID');
