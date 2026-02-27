@@ -331,6 +331,20 @@ return [
         'type' => 'err'
     ],
     31 => [
+        'short_name' => 'ERROR:TabixInputGwas',
+        'long_name' => 'Error code error occurs in FLAMES', #TODO: rewrite these messages
+        'description' => 'An error occurs in FLAMES',
+        'email_message' => '<p>An error occurs in FLAMES.</p>',
+        'type' => 'err'
+    ],
+    32 => [
+        'short_name' => 'ERROR:SubsetVariantPerLocus',
+        'long_name' => 'Error code error occurs in FLAMES',
+        'description' => 'An error occurs in FLAMES',
+        'email_message' => '<p>An error occurs in FLAMES.</p>',
+        'type' => 'err'
+    ],
+    33 => [
         'short_name' => 'ERROR:flames',
         'long_name' => 'Error code error occurs in FLAMES',
         'description' => 'An error occurs in FLAMES',
