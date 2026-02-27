@@ -49,6 +49,12 @@ ENV PATH=/opt/conda/envs/flames/bin:$PATH
 SHELL ["conda", "run", "-n", "flames", "/bin/bash", "-c"]
 
 # ===============================
+# Install PoPS
+# ===============================
+RUN git clone https://github.com/FinucaneLab/pops.git /opt/pops
+ENV PYTHONPATH="/opt/pops:$PYTHONPATH"
+
+# ===============================
 # Install PolyFun
 # ===============================
 RUN git clone https://github.com/omerwe/polyfun.git /opt/polyfun

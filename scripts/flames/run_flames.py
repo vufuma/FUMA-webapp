@@ -7,6 +7,7 @@ import configparser
 import argparse
 import logging
 import sys
+import gzip
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -15,6 +16,25 @@ def parse_args():
     args = parser.parse_args()
     
     return args
+
+def sanitize_gwas(filedir, logger):
+    # check if the file is gzipped
+    with open(os.path.join(filedir, "input.gwas.gz"), 'rb') as f:
+        magic_number = f.read(2)
+        if magic_number != b'\x1f\x8b':  # Check for gzip magic number
+            logger.error("input.gwas.gz is not a valid gzip file.")
+            sys.exit(7)
+    
+    # check if the first line is a header that begins with #
+    with gzip.open(os.path.join(filedir, "input.gwas.gz"), 'rt') as f:
+        first_line = f.readline()
+        if not first_line.startswith("#"):
+            logger.error("input.gwas.gz does not have a valid header line starting with #.")
+            sys.exit(8)
+        else:
+            header = first_line[1:].rstrip("\n").split("\t")
+            print("\t".join(header), file=open(os.path.join(filedir, "header.txt"), 'w'))
+    
     
 def tabix_gwas(filedir, logger):
     # tabix the input.gwas.gz file 
@@ -163,6 +183,100 @@ def make_indexfile(filedir, infile, locus_n):
         outfile.close()
     except:
         sys.exit(6)
+        
+
+def run_pops(flames, logger):
+    try:
+        pops_cmd = [
+            "python",
+            "/opt/pops/pops.py",
+            "--gene_annot_path", f"{flames}/pops_features_full_FUMA_compatible/gene_annots.txt",
+            "--feature_mat_prefix", f"{flames}/pops_features_full_FUMA_compatible/features_munged/pops_features",
+            "--num_feature_chunks", "116",
+            "--magma_prefix", "magma",
+            "--control_features", f"{flames}/pops_features_full_FUMA_compatible/control.features",
+            "--out_prefix", "input",
+        ]
+
+        logger.info("Running PoPS")
+
+        subprocess.run(
+            pops_cmd,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+
+        logger.info("PoPS finished successfully")
+
+    except subprocess.CalledProcessError as e:
+        logger.error(
+            "PoPS failed", e.returncode
+        )
+        logger.error("stderr: %s", e.stderr)
+        sys.exit(11)
+        
+
+def run_flames(filedir, flames, s2gdir, s2g_id, logger, locname):
+    try:
+        annotate_cmd = [
+            "python",
+            "/opt/FLAMES/FLAMES.py",
+            "annotate",
+            "-o", str(filedir),
+            "-a", f"{flames}/Annotation_data",
+            "-p", f"{filedir}/input.preds",
+            "-m", f"{s2gdir}/{s2g_id}/magma.genes.out",
+            "-mt", f"{s2gdir}/{s2g_id}/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out",
+            "-id", f"{filedir}/indexfile.txt",
+        ]
+
+        logger.info("Running FLAMES annotate for locus %s", locname)
+
+        subprocess.run(
+            annotate_cmd,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+
+        logger.info("FLAMES annotate finished successfully for locus %s", locname)
+
+        flames_cmd = [
+            "python",
+            "/opt/FLAMES/FLAMES.py",
+            "FLAMES",
+            "-o", str(filedir),
+            "-id", f"{filedir}/indexfile.txt",
+        ]
+
+        logger.info("Running FLAMES main for locus %s", locname)
+
+        subprocess.run(
+            flames_cmd,
+            check=True,
+            capture_output=True,
+            text=True
+        )
+
+        logger.info("FLAMES main finished successfully for locus %s", locname)
+
+    except subprocess.CalledProcessError as e:
+        logger.error(
+            "FLAMES failed for locus %s (exit code %s)", locname, e.returncode
+        )
+        logger.error("stderr: %s", e.stderr)
+        sys.exit(10)
+        
+def format_pred_output(filedir, logger):
+    try:
+        pred_input = pd.read_csv(os.path.join(filedir, "FLAMES_scores.pred"), sep="\t")
+        pred_input = pred_input[["locus", "symbol", "ensg", "FLAMES_scaled", "FLAMES_raw", "estimated_cumulative_precision"]]
+        pred_input[["locus"]] = pred_input[["locus"]] + 1
+        pred_input.to_csv(os.path.join(filedir, "FLAMES_scores_fmt.pred"), sep="\t", index=False)
+    except Exception as e:
+        logger.error("Error formatting prediction output: %s", str(e))
+        sys.exit(9)
     
 
 def main():
@@ -196,6 +310,9 @@ def main():
     # create the loci directory
     if not os.path.exists(os.path.join(filedir, "loci")):
         os.makedirs(os.path.join(filedir, "loci"))
+        
+    # input gwas sumstat sanitization
+    sanitize_gwas(filedir, logger)
     
     # tabix the input gwas sumstat
     tabix_gwas(filedir=filedir, logger=logger)
@@ -219,10 +336,9 @@ def main():
         
         # add header
         outfp = os.path.join(filedir, "loci", "locus_" + locname + ".txt")
-        # add_header()
         
         # add header 
-        add_header(header_path=os.path.join(s2gdir, s2g_id, "header.txt"), outfp=outfp)
+        add_header(header_path=os.path.join(filedir, "header.txt"), outfp=outfp)
 
         # get the variants per locus with tabix
         subset_variants_per_locus(filedir=filedir, locname=locname, outfp=outfp, logger=logger)
@@ -239,43 +355,8 @@ def main():
         
         # format susie results
         format_susie_results(filedir, locname)
-        
-        
-        
-        # try:
-            # cmd = f'python /opt/polyfun/munge_polyfun_sumstats.py --sumstats {filedir}/loci/locus_{locname}.txt --out {filedir}/loci/locus_{locname}.txt.pq --n {sample_size}'
-            # print(cmd)
-            # process = subprocess.Popen([cmd], close_fds=True, shell=True)
-            # process.wait()
-            # time.sleep(2.5)
 
-            # cmd = f'python /opt/polyfun/finemapper.py --sumstats {filedir}/loci/locus_{locname}.txt.pq --method susie --n {sample_size} --out {filedir}/loci/locus_{locname}.susie --max-num-causal 1 --chr {chrom} --start {start} --end {end} --non-funct'
-            # process = subprocess.Popen([cmd], close_fds=True, shell=True)
-            # print(cmd)
-            # process.wait()
-            # time.sleep(2.5)
-            
-        #     finemapped = pd.read_csv(f"{filedir}/loci/locus_{locname}.susie", sep="\t")
-        #     print(finemapped)
-        #     print(max(finemapped['PIP']))
-        #     finemapped = finemapped.sort_values("PIP", ascending=True)
-        #     if len(finemapped) > 1:
-        #         finemapped['cumsum'] = finemapped['PIP'].cumsum()
-        #         finemapped = finemapped[finemapped['cumsum'] > 0.05]
-        #     finemapped['SNP'] = finemapped.apply(lambda row: f"{row['CHR']}:{row['BP']}:{row['A1']}:{row['A2']}", axis=1)
-        #     finemapped = finemapped[['SNP', 'PIP']]
-        #     finemapped = finemapped.sort_values("PIP", ascending=False)
-        #     if len(finemapped) == 0:
-        #         print(f"No finemapped SNPs for locus {locname}, skipping")
-        #         continue
-        #     finemapped.to_csv(f"{filedir}/locus_{locname}.susie.finemapped", sep="\t", index=False)
-        # except:
-        #     print(f"Error in {locname}")
-        # cmd = f'rm loci/locus_{locname}*'
-        # process = subprocess.Popen([cmd], close_fds=True, shell=True)
-        # process.wait(2.5)
-        
-    # format
+        #done with looping through loci
 
     indexfile = open(f"{filedir}/indexfile.txt", "w")
     print("\t".join(["Filename", "GenomicLocus", "Annotfiles"]), file=indexfile)
@@ -290,28 +371,36 @@ def main():
             locus_n += 1
     indexfile.close()
             
-    # run flames annotate
-    cmd = f'python /opt/FLAMES/FLAMES.py annotate \
-    -o {filedir} \
-    -a {flames}/Annotation_data \
-    -p {filedir}/input.preds \
-    -m {s2gdir}/{s2g_id}/magma.genes.out \
-    -mt {s2gdir}/{s2g_id}/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out \
-    -id {filedir}/indexfile.txt'
-    print(cmd)
-    process = subprocess.Popen([cmd], close_fds=True, shell=True)
-    process.wait()
-    time.sleep(2.5)
+    # # run flames annotate
+    # cmd = f'python /opt/FLAMES/FLAMES.py annotate \
+    # -o {filedir} \
+    # -a {flames}/Annotation_data \
+    # -p {filedir}/input.preds \
+    # -m {s2gdir}/{s2g_id}/magma.genes.out \
+    # -mt {s2gdir}/{s2g_id}/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out \
+    # -id {filedir}/indexfile.txt'
+    # print(cmd)
+    # process = subprocess.Popen([cmd], close_fds=True, shell=True)
+    # process.wait()
+    # time.sleep(2.5)
 
-    # run flames
-    cmd = f'python /opt/FLAMES/FLAMES.py FLAMES \
-    -o {filedir} \
-    -id {filedir}/indexfile.txt'
-    print(cmd)
-    process = subprocess.Popen([cmd], close_fds=True, shell=True)
-    process.wait()
-    time.sleep(2.5)
+    # # run flames
+    # cmd = f'python /opt/FLAMES/FLAMES.py FLAMES \
+    # -o {filedir} \
+    # -id {filedir}/indexfile.txt'
+    # print(cmd)
+    # process = subprocess.Popen([cmd], close_fds=True, shell=True)
+    # process.wait()
+    # time.sleep(2.5)
     
+    # place-holder for running pops
+    # run_pops(flames, logger)
+    
+    # run flames
+    run_flames(filedir, flames, s2gdir, s2g_id, logger, locname)
+    
+    # format
+    format_pred_output(filedir, logger)
 
     
 if __name__ == "__main__":

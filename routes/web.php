@@ -247,13 +247,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('flames')->group(function () {
         Route::get('/', [FLAMESController::class, 'index']);
         Route::get('/getFLAMESHistory', [FLAMESController::class, 'getFLAMESHistory']);
+        Route::post('/getS2GIDs', [FLAMESController::class, 'getS2GIDs']);
         Route::post('/submit', [FLAMESController::class, 'newJob']);
         
         Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::post('/checkSNP2GENEFiles', [FLAMESController::class, 'checkSNP2GENEFiles']);
             Route::get('/{jobID}', [FLAMESController::class, 'viewJob']); 
             Route::post('/deleteJob', [FLAMESController::class, 'deleteJob']);
-        //     Route::post('/DTfile', [XQTLSController::class, 'DTfile']);
-        //     Route::post('/downloadResults', [XQTLSController::class, 'downloadResults']);
+            Route::post('/DTfile', [FLAMESController::class, 'DTfile']);
+            Route::post('/downloadResults', [FLAMESController::class, 'downloadResults']);
             
         });
     });

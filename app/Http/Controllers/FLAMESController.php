@@ -110,7 +110,7 @@ class FLAMESController extends Controller
         Storage::putFileAs($filedir, $request->file('gwasSumstat'), 'input.gwas.gz');
         Storage::putFileAs($filedir, $request->file('preds'), 'input.preds');
 
-        $snp2geneID = $request->input('snp2geneID');
+        $snp2geneID = $request->input('s2gID');
         $sampleSize = $request->input('totalN');
 
         $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
@@ -158,5 +158,68 @@ class FLAMESController extends Controller
     {
         $jobID = $request->input('jobID');
         return Helper::deleteJob(config('app.jobdir') . '/flames/', $jobID);
+    }
+
+    public function getS2GIDs()
+    {
+        $user_id = Auth::user()->id;
+        $results = SubmitJob::where('user_id', $user_id)
+            ->where('type', 'snp2gene')
+            ->where('status', 'OK')
+            ->whereNull('removed_at')
+            ->get(['jobID', 'title']);
+        return $results;
+    }
+
+    public function checkSNP2GENEFiles(Request $request)
+    {
+        $id = $request->input('jobID');
+        if (Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.raw") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/GenomicRiskLoci.txt")) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function downloadResults(Request $request)
+    {
+        $user = Auth::user();
+        $code = $request->input('variant_code');
+        $jobID = $request->input('jobID');
+        $name = null;
+        
+        $job = SubmitJob::where('jobID', $jobID)
+            ->where('type', 'flames')
+            ->where('user_id', $user->id)
+            ->whereNull('removed_at')
+            ->first();
+        
+        if ($job == null) {
+            return response()->json(['error' => 'You are not authorized to access this job'], 403);
+        }
+        
+        switch ($code) {
+            case "flamesResultsRaw":
+                $name = "FLAMES_scores.raw";
+                break;
+            case "flamesResultsPred":
+                $name = "FLAMES_scores_fmt.pred";
+                break;
+            default:
+                return redirect()->back();
+        }
+        
+        $downloadPath = config('app.abs_path_to_flames_jobs_on_host') . '/' . $jobID . '/' . $name;
+        
+        if (!file_exists($downloadPath)) {
+        
+        return response()->json([
+            'error' => 'The requested file is not available.',
+            'message' => 'The download file could not be found.'
+        ], 404);
+        }
+        
+        $headers = array('Content-Type: application');
+        return response()->download($downloadPath, $name, $headers);
     }
 }
