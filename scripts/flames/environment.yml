@@ -18,6 +18,7 @@ dependencies:
   - networkx
   - bitarray
   - packaging
+  - ensembl-vep
 
   # -------------------
   # R base packages

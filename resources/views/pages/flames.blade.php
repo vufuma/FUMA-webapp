@@ -214,7 +214,7 @@ border-color: rgba(0,0,0,0.1);
                     </div>
                 </div>
 
-                <div>
+                <div class="card"><div class="card-body">
                     <h4 style="color: #00004d">Download Results: </h4>
                     <div class="clickable" onclick='tutorialDownloadVariant("flamesResultsRaw")'> FLAMES_scores.raw
                         <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" />

@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 import subprocess
-import time
 from sys import argv
 import configparser
 import argparse
@@ -184,7 +183,6 @@ def make_indexfile(filedir, infile, locus_n):
     except:
         sys.exit(6)
         
-
 def run_pops(flames, logger):
     try:
         pops_cmd = [
@@ -217,7 +215,7 @@ def run_pops(flames, logger):
         sys.exit(11)
         
 
-def run_flames(filedir, flames, s2gdir, s2g_id, logger, locname):
+def run_flames(filedir, flames, s2gdir, s2g_id, logger):
     try:
         annotate_cmd = [
             "python",
@@ -229,9 +227,13 @@ def run_flames(filedir, flames, s2gdir, s2g_id, logger, locname):
             "-m", f"{s2gdir}/{s2g_id}/magma.genes.out",
             "-mt", f"{s2gdir}/{s2g_id}/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out",
             "-id", f"{filedir}/indexfile.txt",
+            "-t", "tabix",
+            "-cf", f"{flames}/whole_genome_SNVs.tsv.gz",
+            "-cv", "vep",
+            "-vc", "/home/worker/.vep"
         ]
 
-        logger.info("Running FLAMES annotate for locus %s", locname)
+        logger.info("Running FLAMES annotate")
 
         subprocess.run(
             annotate_cmd,
@@ -240,7 +242,7 @@ def run_flames(filedir, flames, s2gdir, s2g_id, logger, locname):
             text=True
         )
 
-        logger.info("FLAMES annotate finished successfully for locus %s", locname)
+        logger.info("FLAMES annotate finished successfully")
 
         flames_cmd = [
             "python",
@@ -250,7 +252,7 @@ def run_flames(filedir, flames, s2gdir, s2g_id, logger, locname):
             "-id", f"{filedir}/indexfile.txt",
         ]
 
-        logger.info("Running FLAMES main for locus %s", locname)
+        logger.info("Running FLAMES main")
 
         subprocess.run(
             flames_cmd,
@@ -259,11 +261,10 @@ def run_flames(filedir, flames, s2gdir, s2g_id, logger, locname):
             text=True
         )
 
-        logger.info("FLAMES main finished successfully for locus %s", locname)
-
+        logger.info("FLAMES main finished successfully")
     except subprocess.CalledProcessError as e:
         logger.error(
-            "FLAMES failed for locus %s (exit code %s)", locname, e.returncode
+            "FLAMES failed"
         )
         logger.error("stderr: %s", e.stderr)
         sys.exit(10)
@@ -370,34 +371,9 @@ def main():
             print("\t".join(indexfile_row), file=indexfile)
             locus_n += 1
     indexfile.close()
-            
-    # # run flames annotate
-    # cmd = f'python /opt/FLAMES/FLAMES.py annotate \
-    # -o {filedir} \
-    # -a {flames}/Annotation_data \
-    # -p {filedir}/input.preds \
-    # -m {s2gdir}/{s2g_id}/magma.genes.out \
-    # -mt {s2gdir}/{s2g_id}/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out \
-    # -id {filedir}/indexfile.txt'
-    # print(cmd)
-    # process = subprocess.Popen([cmd], close_fds=True, shell=True)
-    # process.wait()
-    # time.sleep(2.5)
-
-    # # run flames
-    # cmd = f'python /opt/FLAMES/FLAMES.py FLAMES \
-    # -o {filedir} \
-    # -id {filedir}/indexfile.txt'
-    # print(cmd)
-    # process = subprocess.Popen([cmd], close_fds=True, shell=True)
-    # process.wait()
-    # time.sleep(2.5)
-    
-    # place-holder for running pops
-    # run_pops(flames, logger)
     
     # run flames
-    run_flames(filedir, flames, s2gdir, s2g_id, logger, locname)
+    run_flames(filedir, flames, s2gdir, s2g_id, logger)
     
     # format
     format_pred_output(filedir, logger)
@@ -405,120 +381,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-
-
-
-
-
-        
-#### Improved version with loggin
-    # locus_txt = os.path.join(filedir, "loci", f"locus_{locname}.txt")
-    # locus_pq = os.path.join(filedir, "loci", f"locus_{locname}.txt.pq")
-    # susie_out = os.path.join(filedir, "loci", f"locus_{locname}.susie")
-
-    # try:
-    #     # ===============================
-    #     # Munge polyfun sumstats
-    #     # ===============================
-    #     munge_cmd = [
-    #         "python",
-    #         "/opt/polyfun/munge_polyfun_sumstats.py",
-    #         "--sumstats", str(locus_txt),
-    #         "--out", str(locus_pq),
-    #         "--n", str(N),
-    #     ]
-
-    #     logger.info("Running munge_polyfun_sumstats for locus %s", locname)
-
-    #     subprocess.run(
-    #         munge_cmd,
-    #         check=True,
-    #         capture_output=True,
-    #         text=True
-    #     )
-
-    #     logger.info("Munging finished successfully for locus %s", locname)
-
-    #     # ===============================
-    #     # Run finemapper (SuSiE)
-    #     # ===============================
-    #     finemap_cmd = [
-    #         "python",
-    #         "/opt/polyfun/finemapper.py",
-    #         "--sumstats", str(locus_pq),
-    #         "--method", "susie",
-    #         "--n", str(N),
-    #         "--out", str(susie_out),
-    #         "--max-num-causal", "1",
-    #         "--chr", str(chrom),
-    #         "--start", str(start),
-    #         "--end", str(end),
-    #         "--non-funct",
-    #     ]
-
-    #     logger.info("Running finemapper for locus %s", locname)
-
-    #     subprocess.run(
-    #         finemap_cmd,
-    #         check=True,
-    #         capture_output=True,
-    #         text=True
-    #     )
-
-    #     logger.info("Finemapping finished successfully for locus %s", locname)
-
-    #     # ===============================
-    #     # Process finemapping results
-    #     # ===============================
-    #     finemapped = pd.read_csv(susie_out, sep="\t")
-
-    #     logger.info(
-    #         "Loaded finemapping results for locus %s (max PIP = %.4f)",
-    #         locname,
-    #         finemapped["PIP"].max()
-    #     )
-
-    #     finemapped = finemapped.sort_values("PIP", ascending=True)
-
-    #     if len(finemapped) > 1:
-    #         finemapped["cumsum"] = finemapped["PIP"].cumsum()
-    #         finemapped = finemapped[finemapped["cumsum"] > 0.05]
-
-    #     finemapped["SNP"] = finemapped.apply(
-    #         lambda row: f"{row['CHR']}:{row['BP']}:{row['A1']}:{row['A2']}",
-    #         axis=1
-    #     )
-
-    #     finemapped = (
-    #         finemapped[["SNP", "PIP"]]
-    #         .sort_values("PIP", ascending=False)
-    #     )
-
-    #     if finemapped.empty:
-    #         logger.warning("No finemapped SNPs for locus %s, skipping", locname)
-    #         raise ValueError("No finemapped SNPs")
-
-    #     output_file = os.path.join(filedir, f"locus_{locname}.susie.finemapped")
-    #     finemapped.to_csv(output_file, sep="\t", index=False)
-
-    #     logger.info(
-    #         "Saved %d finemapped SNPs for locus %s to %s",
-    #         len(finemapped),
-    #         locname,
-    #         output_file
-    #     )
-
-    # except Exception as e:
-    #     sys.exit(1)
-    #     logger.exception("Error processing locus %s", locname)
-
-    # finally:
-    #     # ===============================
-    #     # Cleanup locus files
-    #     # ===============================
-    #     for f in glob.glob(f"loci/locus_{locname}*"):
-    #         try:
-    #             Path(f).unlink()
-    #         except Exception:
-    #             logger.warning("Failed to remove file %s", f)
-
