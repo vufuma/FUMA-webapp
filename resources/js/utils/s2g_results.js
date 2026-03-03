@@ -653,7 +653,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 				type: 'POST',
 				data: {
 					jobID: id,
-					fileNames: ['annov.stats.txt', 'interval_sum.txt']
+					fileNames: ['annov.stats.txt', 'interval_sum.txt', 'qtls_hits.tsv']
 				},
 				error: function () {
 					alert("JobQuery get file contents error");
@@ -662,26 +662,27 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 				success: function (data) {
 					PlotSNPAnnot(data['annov.stats.txt']);
 					PlotLocuSum(data['interval_sum.txt']);
+					PlotUpSet(data['qtls_hits.tsv']);
 				}
 			});
 		}
 	});
 
-	var fakeSets = ["Set A", "Set B", "Set C", "Set D"];
+	// var fakeSets = ["Set A", "Set B", "Set C", "Set D"];
 
-	var fakeData = [
-		{ combination: ["Set A"], size: 120 },
-		{ combination: ["Set B"], size: 90 },
-		{ combination: ["Set C"], size: 75 },
-		{ combination: ["Set A", "Set B"], size: 60 },
-		{ combination: ["Set A", "Set C"], size: 45 },
-		{ combination: ["Set B", "Set C"], size: 30 },
-		{ combination: ["Set A", "Set B", "Set C"], size: 20 },
-		{ combination: ["Set D"], size: 55 },
-		{ combination: ["Set A", "Set D"], size: 25 }
-	];
+	// var fakeData = [
+	// 	{ combination: ["Set A"], size: 120 },
+	// 	{ combination: ["Set B"], size: 90 },
+	// 	{ combination: ["Set C"], size: 75 },
+	// 	{ combination: ["Set A", "Set B"], size: 60 },
+	// 	{ combination: ["Set A", "Set C"], size: 45 },
+	// 	{ combination: ["Set B", "Set C"], size: 30 },
+	// 	{ combination: ["Set A", "Set B", "Set C"], size: 20 },
+	// 	{ combination: ["Set D"], size: 55 },
+	// 	{ combination: ["Set A", "Set D"], size: 25 }
+	// ];
 
-	PlotUpSet(fakeData, fakeSets);
+	// PlotUpSet(fakeData, fakeSets);
 
 	var file = "GenomicRiskLoci.txt";
 	var lociTable = $('#lociTable').DataTable({
@@ -1604,19 +1605,64 @@ export function PlotLocuSum(data) {
 	svg.selectAll('.axis').selectAll('text').style('font-size', '11px');
 }
 
-export function PlotUpSet(data, sets) {
+export function PlotUpSet(jsonData) {
 
-	// data format example:
-	// [
-	//   { combination: ["A","B"], size: 120 },
-	//   { combination: ["A"], size: 80 },
-	//   { combination: ["B","C"], size: 45 }
-	// ]
-	// sets = ["A","B","C"]
+	// ==========================
+	// 1. Group by gene
+	// ==========================
 
-	data.forEach(function (d) {
-		d.size = +d.size;
+	var geneMap = {};
+
+	jsonData.forEach(function (d) {
+
+		if (!geneMap[d.gene]) {
+			geneMap[d.gene] = new Set();
+		}
+
+		geneMap[d.gene].add(d.type);
 	});
+
+	// ==========================
+	// 2. Extract unique sets
+	// ==========================
+
+	var sets = Array.from(
+		new Set(jsonData.map(function (d) { return d.type; }))
+	);
+
+	// ==========================
+	// 3. Compute intersections
+	// ==========================
+
+	var comboCount = {};
+
+	Object.keys(geneMap).forEach(function (gene) {
+
+		var combo = Array.from(geneMap[gene]).sort();
+		var key = combo.join("|");
+
+		if (!comboCount[key]) {
+			comboCount[key] = 0;
+		}
+
+		comboCount[key]++;
+	});
+
+	var data = Object.keys(comboCount).map(function (key) {
+		return {
+			combination: key.split("|"),
+			size: comboCount[key]
+		};
+	});
+
+	// Sort descending
+	data.sort(function (a, b) {
+		return b.size - a.size;
+	});
+
+	// ==========================
+	// 4. Plot (your original logic)
+	// ==========================
 
 	var margin = { top: 60, right: 30, bottom: 60, left: 120 },
 		width = 800,
@@ -1656,7 +1702,7 @@ export function PlotUpSet(data, sets) {
 	svg.call(tip_size);
 
 	// ==========================
-	// Top: Intersection bar plot
+	// Top bars
 	// ==========================
 
 	svg.selectAll("rect.intersection")
@@ -1672,12 +1718,14 @@ export function PlotUpSet(data, sets) {
 		.on("mouseover", tip_size.show)
 		.on("mouseout", tip_size.hide);
 
-	var xAxis = d3.axisBottom(x);
-	var yAxisBar = d3.axisLeft(yBar);
+	var maxVal = d3.max(data, function (d) { return d.size; });
 
 	svg.append('g')
-		.attr("class", "y axis")
-		.call(yAxisBar);
+    .attr("class", "y axis")
+    .call(
+        d3.axisLeft(yBar)
+            .tickValues(d3.range(0, maxVal + 1))
+    );
 
 	svg.append("text")
 		.attr("text-anchor", "middle")
@@ -1685,7 +1733,7 @@ export function PlotUpSet(data, sets) {
 		.text("Intersection Size");
 
 	// ==========================
-	// Bottom: Combination matrix
+	// Matrix
 	// ==========================
 
 	var matrixGroup = svg.append("g")
@@ -1708,7 +1756,6 @@ export function PlotUpSet(data, sets) {
 				.attr("fill", d.combination.indexOf(setName) !== -1 ? "black" : "#ddd");
 		});
 
-		// vertical connector line
 		var activeSets = sets.filter(function (s) {
 			return d.combination.indexOf(s) !== -1;
 		});
