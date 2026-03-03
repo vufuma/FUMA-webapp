@@ -52,20 +52,6 @@ def process_loci(tb, loci, locus, snps, config_class, type):
         qtls = qtls[qtls.uniqID.isin(snps.uniqID)]
 
     elif qtls.iloc[0,2]=="NA" or qtls.iloc[0,3]=="NA":
-        # snps['uniqID1'] = snps.uniqID.apply(lambda x: ":".join(x.split(":")[0:3]))
-        # snps['uniqID2'] = snps.uniqID.apply(lambda x: ":".join(np.delete(x.split(":"),2)))
-        # if qtls.iloc[0,2]=="NA":
-        #     qtls['uniqID1'] = qtls.iloc[:,0].astype('str')+":"+qtls.iloc[:,1].astype('str')+":"+qtls.iloc[:,3]
-        # else:
-        #     qtls['uniqID1'] = qtls.iloc[:,0].astype('str')+":"+qtls.iloc[:,1].astype('str')+":"+qtls.iloc[:,2]
-        # tmp_qtls = qtls[qtls.uniqID1.isin(snps.uniqID1)]
-        # tmp_qtls = tmp_qtls.merge(snps[snps.uniqID1.isin(tmp_qtls.uniqID1)].loc[:,["uniqID1", "uniqID"]], on="uniqID1", how="left")
-        # tmp_qtls = tmp_qtls.drop(columns="uniqID1")
-        # qtls = qtls[qtls.uniqID1.isin(snps.uniqID2)]
-        # qtls = qtls.merge(snps[snps.uniqID2.isin(qtls.uniqID1)].loc[:,["uniqID2", "uniqID"]], left_on="uniqID1", right_on="uniqID2", how="left")
-        # qtls = qtls.drop(columns=["uniqID1", "uniqID2"])
-        # qtls = pd.concat([qtls, tmp_qtls], ignore_index=True)
-        # del tmp_qtls
         
         # Create 'uniqID1' and 'uniqID2' for 'snps' using vectorized operations
         snps['uniqID1'] = snps['uniqID'].str.split(":").str[:3].str.join(":")

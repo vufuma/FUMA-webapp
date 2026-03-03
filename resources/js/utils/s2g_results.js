@@ -870,7 +870,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 			searchDelay: 3000,
 			select: false,
 			ajax: {
-				url: 'DTfileServerSide',
+				url: 'DTfile',
 				type: "POST",
 				data: {
 					jobID: id,
