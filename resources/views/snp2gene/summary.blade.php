@@ -62,5 +62,11 @@
 		</form>
 		<div id="lociPlot"></div>
 	</div>
+
+		<div style="text-align:center;">
+		<h4><span style="color: #00004d">Place holder for upset plot</span>
+		<div id="upsetPlot"></div>
+	</div>
+
 	<br><br>
 </div>

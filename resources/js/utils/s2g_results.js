@@ -667,6 +667,22 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 		}
 	});
 
+	var fakeSets = ["Set A", "Set B", "Set C", "Set D"];
+
+	var fakeData = [
+		{ combination: ["Set A"], size: 120 },
+		{ combination: ["Set B"], size: 90 },
+		{ combination: ["Set C"], size: 75 },
+		{ combination: ["Set A", "Set B"], size: 60 },
+		{ combination: ["Set A", "Set C"], size: 45 },
+		{ combination: ["Set B", "Set C"], size: 30 },
+		{ combination: ["Set A", "Set B", "Set C"], size: 20 },
+		{ combination: ["Set D"], size: 55 },
+		{ combination: ["Set A", "Set D"], size: 25 }
+	];
+
+	PlotUpSet(fakeData, fakeSets);
+
 	var file = "GenomicRiskLoci.txt";
 	var lociTable = $('#lociTable').DataTable({
 		"processing": true,
@@ -1586,6 +1602,142 @@ export function PlotLocuSum(data) {
 	svg.selectAll('.axis').selectAll('line').style('fill', 'none').style('stroke', 'grey');
 	svg.selectAll('text').style('font-family', 'sans-serif');
 	svg.selectAll('.axis').selectAll('text').style('font-size', '11px');
+}
+
+export function PlotUpSet(data, sets) {
+
+	// data format example:
+	// [
+	//   { combination: ["A","B"], size: 120 },
+	//   { combination: ["A"], size: 80 },
+	//   { combination: ["B","C"], size: 45 }
+	// ]
+	// sets = ["A","B","C"]
+
+	data.forEach(function (d) {
+		d.size = +d.size;
+	});
+
+	var margin = { top: 60, right: 30, bottom: 60, left: 120 },
+		width = 800,
+		matrixHeight = 25 * sets.length,
+		barHeight = 200,
+		height = barHeight + matrixHeight + 40;
+
+	var combinations = data.map(function (d, i) { return "C" + i; });
+
+	var x = d3.scaleBand()
+		.domain(combinations)
+		.range([0, width])
+		.padding(0.2);
+
+	var yBar = d3.scaleLinear()
+		.domain([0, d3.max(data, function (d) { return d.size; })])
+		.range([barHeight, 0]);
+
+	var yMatrix = d3.scaleBand()
+		.domain(sets)
+		.range([0, matrixHeight])
+		.padding(0.2);
+
+	var svg = d3.select('#upsetPlot').append('svg')
+		.attr("class", 'plotSVG')
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append('g')
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	// tooltips
+	var tip_size = d3Tip()
+		.attr('class', 'd3-tip')
+		.offset([-5, 0])
+		.html(function (d) { return d.size; });
+
+	svg.call(tip_size);
+
+	// ==========================
+	// Top: Intersection bar plot
+	// ==========================
+
+	svg.selectAll("rect.intersection")
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("class", "bar")
+		.attr("x", function (d, i) { return x("C" + i); })
+		.attr("y", function (d) { return yBar(d.size); })
+		.attr("width", x.bandwidth())
+		.attr("height", function (d) { return barHeight - yBar(d.size); })
+		.attr("fill", "steelblue")
+		.on("mouseover", tip_size.show)
+		.on("mouseout", tip_size.hide);
+
+	var xAxis = d3.axisBottom(x);
+	var yAxisBar = d3.axisLeft(yBar);
+
+	svg.append('g')
+		.attr("class", "y axis")
+		.call(yAxisBar);
+
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("transform", "translate(" + (width / 2) + ",-20)")
+		.text("Intersection Size");
+
+	// ==========================
+	// Bottom: Combination matrix
+	// ==========================
+
+	var matrixGroup = svg.append("g")
+		.attr("transform", "translate(0," + (barHeight + 40) + ")");
+
+	matrixGroup.append('g')
+		.attr("class", "y axis")
+		.call(d3.axisLeft(yMatrix));
+
+	data.forEach(function (d, i) {
+
+		var colX = x("C" + i) + x.bandwidth() / 2;
+
+		sets.forEach(function (setName) {
+
+			matrixGroup.append("circle")
+				.attr("cx", colX)
+				.attr("cy", yMatrix(setName) + yMatrix.bandwidth() / 2)
+				.attr("r", 6)
+				.attr("fill", d.combination.indexOf(setName) !== -1 ? "black" : "#ddd");
+		});
+
+		// vertical connector line
+		var activeSets = sets.filter(function (s) {
+			return d.combination.indexOf(s) !== -1;
+		});
+
+		if (activeSets.length > 1) {
+
+			matrixGroup.append("line")
+				.attr("x1", colX)
+				.attr("x2", colX)
+				.attr("y1", yMatrix(activeSets[0]) + yMatrix.bandwidth() / 2)
+				.attr("y2", yMatrix(activeSets[activeSets.length - 1]) + yMatrix.bandwidth() / 2)
+				.attr("stroke", "black")
+				.attr("stroke-width", 2);
+		}
+	});
+
+	svg.selectAll('.axis').selectAll('path')
+		.style('fill', 'none')
+		.style('stroke', 'grey');
+
+	svg.selectAll('.axis').selectAll('line')
+		.style('fill', 'none')
+		.style('stroke', 'grey');
+
+	svg.selectAll('text')
+		.style('font-family', 'sans-serif');
+
+	svg.selectAll('.axis').selectAll('text')
+		.style('font-size', '11px');
 }
 
 export function Chr15Select() {
