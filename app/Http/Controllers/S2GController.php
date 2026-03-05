@@ -687,6 +687,7 @@ class S2GController extends Controller
             $xqtlsMap = 1;
 
             $xqtlsMapdss = $this->joinQTLdatasets(
+                $this->parseQtl($request->input('eqtlBrainDs')),
                 $this->parseQtl($request->input('pqtlPlasmaDs')),
                 $this->parseQtl($request->input('pqtlBrainDs')),
                 $this->parseQtl($request->input('pqtlCsfDs'))

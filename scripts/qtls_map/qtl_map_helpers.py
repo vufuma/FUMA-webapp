@@ -22,10 +22,11 @@ def process_loci(tb, loci, locus, snps, config_class, type):
     
     qtls = qtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
     
-    if type == "eqtl":
-        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
-    elif type == "pQTL":
-        qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P'])
+    # if type == "eqtl":
+    #     qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'ta', 'gene', 'stats', 'p', 'fdr'])
+    # elif type == "pQTL":
+    #     qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P'])
+    qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P'])
 
 
     ### filter on qtls based on position

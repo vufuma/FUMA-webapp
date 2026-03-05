@@ -594,9 +594,9 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 		$('#eqtlfile').prop('checked', false);
 	}
 
-	if (xqtlsMap == 0) {
-		$('#xqtlsTableTab').hide();
-	}
+	// if (xqtlsMap == 0) {
+	// 	$('#xqtlsTableTab').hide();
+	// }
 
 	if (ciMap == 0) {
 		$('#ciTableTab').hide();
@@ -887,7 +887,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 			searchDelay: 3000,
 			select: false,
 			ajax: {
-				url: 'DTfile',
+				url: 'DTfileServerSide',
 				type: "POST",
 				data: {
 					jobID: id,

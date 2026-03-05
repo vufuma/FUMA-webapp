@@ -7,6 +7,7 @@ import numpy as np
 # from scripts.qtl_map.qtl_map_helpers import process_eqtl, do_eqtl_mapping
 from config_helpers import Configuration
 from qtl_map_helpers import process_eqtl, do_eqtl_mapping, process_xqtls, do_xqtls_mapping
+from collections import defaultdict
 
 def main():
     start = time.time()
@@ -34,6 +35,24 @@ def main():
             with open(out_fp, 'w') as f:
                 f.write("uniqID\tdb\ttissue\tprotein\ttype\tqtl_type\n")
             print("Nothing to print out.")
+            
+        # make the qtls_hits.tsv file for the upset plot
+        outfile = open(os.path.join(filedir, "qtls_hits.tsv"), "w")
+        print("\t".join(["gene", "type"]), file=outfile)
+        type_gene_dict = defaultdict(set)
+        with open(os.path.join(filedir, "xqtls.txt"), "r") as f:
+            for  line in f:
+                if line.startswith("uniqID"):
+                    continue
+                else:
+                    line = line.strip().split("\t")
+                    type_gene_dict[line[5]].add(line[3])
+        for type, genes in type_gene_dict.items():
+            for gene in genes:
+                print("\t".join([gene, type]), file=outfile)
+        outfile.close()
+                
+        
 
     print(f"Processing time: {time.time()-start}")
     

@@ -536,6 +536,11 @@ export const CheckAll = function() {
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		let ds = 0;
+
+		$('#eqtlBrainDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
 		$('#pqtlPlasmaDs option').each(function(){
 			if($(this).is(":checked")==true){ds++;}
 		});
