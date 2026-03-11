@@ -634,8 +634,30 @@ border-color: rgba(0,0,0,0.1);
                             </div>
                         </div>
 
+                        <div class="accordion-item" style="padding:0px;">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlAdiposeSubcutaneous">
+                                    Adipose_Subcutaneous
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="eqtlAdiposeSubcutaneous">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="eqtlAdiposeSubcutaneousDs" name="eqtlAdiposeSubcutaneousDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options.eqtls._eqtl_adipose_subcutaneous_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
                     </td>
-                    <td rowspan="2"></td>
+
+
+                    <td rowspan="3"></td>
                 </tr>
                 <tr class="xqtlsMapOptions">
                     <th class="align-middle">pQTLs Datasets
@@ -691,6 +713,36 @@ border-color: rgba(0,0,0,0.1);
                                         <select multiple class="form-select" id="pqtlCsfDs" name="pqtlCsfDs[]"
                                             size="10" onchange="window.CheckAll();">
                                             @include('snp2gene.xqtls_options.pqtls._pqtl_csf_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr class="xqtlsMapOptions">
+                    <th class="align-middle">mQTLs Datasets
+                    </th>
+                    <td> 
+                        <div class="accordion-item" style="padding:0px;">
+
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#mqtlBrain">
+                                    Brain
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="mqtlBrain">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="mqtlBrainDs" name="mqtlBrainDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options.mqtls._mqtl_brain_options')
                                         </select>
                                     </span>
                                 </div>
