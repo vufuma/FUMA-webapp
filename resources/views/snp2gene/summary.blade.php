@@ -39,6 +39,8 @@
 		</div>
 	</div>
 	<br>
+	<br>
+	<br>
 	<div style="text-align:center;">
 		<h4><span style="color: #00004d">Summary per genomic risk locus</span>
 		<a class="infoPop" data-bs-toggle="popover" data-bs-content="The histograms display summary results per genomic locus. Note that genomic loci could contain more than one independent lead SNPs.">
@@ -64,7 +66,7 @@
 	</div>
 
 		<div style="text-align:center;">
-		<h4><span style="color: #00004d">Place holder for upset plot</span>
+		<h4><span style="color: #00004d">Overlap in QTLs mapped genes</span>
 		<div id="upsetPlot"></div>
 	</div>
 

@@ -1730,7 +1730,7 @@ export function PlotUpSet(jsonData) {
 	svg.append("text")
 		.attr("text-anchor", "middle")
 		.attr("transform", "translate(" + (width / 2) + ",-20)")
-		.text("Intersection Size");
+		// .text("Intersection Size");
 
 	// ==========================
 	// Matrix
