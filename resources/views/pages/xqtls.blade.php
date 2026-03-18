@@ -215,7 +215,29 @@ border-color: rgba(0,0,0,0.1);
 
                                             <br>
 
-                                            <?php /*
+                                            <!-- metabrain -->
+                                            <div class="accordion-item" style="padding:0px;">
+                                                <h3 class="accordion-header">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlMetabrain">
+                                                        Metabrain
+                                                    </button>
+                                                </h3>
+
+                                                <div class="accordion-collapse collapse" id="eqtlMetabrain">
+                                                    <div class="accordion-body">
+                                                        <span class="multiSelect">
+                                                            <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                                            <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                                            <select multiple class="form-select" id="eqtlMetabrainDs" name="eqtlMetabrainDs[]"
+                                                                size="10" onchange="window.CheckAll();">
+                                                                @include('xqtls.xqtls_options.eqtls.metabrain_options')
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <br>
 
                                             <h2 style="color: #00004d; font-size:16px;">sQTLs Datasets</h2>
 
