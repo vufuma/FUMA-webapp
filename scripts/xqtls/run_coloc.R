@@ -78,7 +78,8 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
 
   if (length(genes_to_test) == 0) {
     print("No genes found in the locus for colocalization analysis.")
-    quit(status=1)
+    next
+    # quit(status=1) #TODO: should not quit if there is at least 1 datasets satisfy this condition
   }
 
   for (i in genes_to_test) {
