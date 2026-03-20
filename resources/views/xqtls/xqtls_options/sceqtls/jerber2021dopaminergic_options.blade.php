@@ -1,0 +1,15 @@
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D11.FPP">D11.FPP</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D30.FPP">D30.FPP</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D11.P_FPP">D11.P_FPP</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D30.DA">D30.DA</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D30.Epen1">D30.Epen1</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D30.Sert">D30.Sert</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Astro.ROT_treated">D52.Astro.ROT_treated</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Astro.untreated">D52.Astro.untreated</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.DA.ROT_treate">D52.DA.ROT_treate</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.DA.untreated">D52.DA.untreated</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Epen1.ROT_treated">D52.Epen1.ROT_treated</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Epen1.untreated">D52.Epen1.untreated</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.pseudobulk.untreated">D52.pseudobulk.untreated</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Sert.ROT_treated">D52.Sert.ROT_treated</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Sert.untreated">D52.Sert.untreated</option>
