@@ -133,8 +133,15 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     gene_conversion = gene_conversion_orig %>%
       select("gene_id", "gene_name") %>% unique()
     colnames(gene_conversion) = c("locus", "symbol")
+    # bivar_results = bivar_results %>%
+    #   left_join(gene_conversion, by="locus")
+
+    gene_conversion = gene_conversion %>%
+      mutate(locus = sub("\\..*", "", locus))
+
     bivar_results = bivar_results %>%
-      left_join(gene_conversion, by="locus")
+      mutate(locus = sub("\\..*", "", locus)) %>%
+      left_join(gene_conversion, by = "locus")
 
     write.table(bivar_results, paste0(filedir, out.fname,".bivar.lava"), row.names=F, quote=F, col.names=T)
 

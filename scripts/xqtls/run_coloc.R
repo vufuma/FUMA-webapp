@@ -111,8 +111,15 @@ gene_conversion_orig = fread(paste0(gene_conversion_dir, "/gencode.v39.gene_name
 gene_conversion = gene_conversion_orig %>%
   select("gene_id", "gene_name") %>% unique()
 colnames(gene_conversion) = c("gene", "symbol")
+# results = results %>%
+#   left_join(gene_conversion, by="gene")
+
+gene_conversion = gene_conversion %>%
+  mutate(gene = sub("\\..*", "", gene))
+
 results = results %>%
-  left_join(gene_conversion, by="gene")
+  mutate(gene = sub("\\..*", "", gene)) %>%
+  left_join(gene_conversion, by = "gene")
 
 write.table(results, file=out_fn, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
 
