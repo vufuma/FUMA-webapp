@@ -6,7 +6,7 @@
 <option class="level2" value="sceQTL-jerber2021Dopaminergic-D30.Sert">D30.Sert</option>
 <option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Astro.ROT_treated">D52.Astro.ROT_treated</option>
 <option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Astro.untreated">D52.Astro.untreated</option>
-<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.DA.ROT_treate">D52.DA.ROT_treate</option>
+<option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.DA.ROT_treated">D52.DA.ROT_treated</option>
 <option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.DA.untreated">D52.DA.untreated</option>
 <option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Epen1.ROT_treated">D52.Epen1.ROT_treated</option>
 <option class="level2" value="sceQTL-jerber2021Dopaminergic-D52.Epen1.untreated">D52.Epen1.untreated</option>
