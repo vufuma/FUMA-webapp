@@ -89,6 +89,7 @@ class XQTLSController extends Controller
         $xqtlsDatasets = $this->joinQTLdatasets(
             $this->parseQtl($request->input('eqtlGtexv10Ds')),
             $this->parseQtl($request->input('eqtlMetabrainDs')),
+            $this->parseQtl($request->input('sceqtlbryois2022BrainDs')),
             $this->parseQtl($request->input('pqtl9Sun2023Ds')) #TODO: add 
             // $this->parseQtl($request->input('pqtl9Sun2023Ds'))
             // $this->parseQtl($request->input('eqtlCatalog')),

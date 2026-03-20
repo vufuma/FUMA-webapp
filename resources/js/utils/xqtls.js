@@ -145,7 +145,7 @@ export const CheckAll = function() {
 		$(table.rows[1].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
 
-	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='eqtlMetabrainDs[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='pqtl9Sun2023Ds[]'] option:selected").length==0){
+	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='eqtlMetabrainDs[]'] option:selected").length==0 && $("select[name='sceqtlbryois2022BrainDs[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='pqtl9Sun2023Ds[]'] option:selected").length==0){
 		submit = false;
 		$(table.rows[5].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one dataset.</div>');
 	} else {
