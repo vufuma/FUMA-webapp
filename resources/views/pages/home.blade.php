@@ -9,8 +9,12 @@
 		<br>
 
 		</p>
+		<strong style="font-size: large;">Annoucements</strong><br>
 		<div class="alert alert-warning">
-			<strong>Announcement February 9 2026: </strong> New SNP2GENE jobs retention policy: each user can store a maximum of 100 SNP2GENE jobs on the FUMA server. Please keep continuing to delete old jobs that you do not need anymore. You can download all the files and associated images for future use. 
+			<strong>March 23 2026: </strong> The versions of FUMA and MAGMA have been updated in the donwloaded <i>Parameter settings</i> file. For future reference, please refer to the version as recorded in the <i>i</i> icon in the top right of the page or goes to the <i>Updates</i> page for the version history for the correct information. 
+		</div>
+		<div>
+			<strong>February 9 2026: </strong> New SNP2GENE jobs retention policy: each user can store a maximum of 100 SNP2GENE jobs on the FUMA server. Please keep continuing to delete old jobs that you do not need anymore. You can download all the files and associated images for future use. 
 		</div>
 		<p>
 
