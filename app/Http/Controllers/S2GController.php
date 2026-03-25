@@ -690,7 +690,8 @@ class S2GController extends Controller
                 $this->parseQtl($request->input('eqtlBrainDs')),
                 $this->parseQtl($request->input('pqtlPlasmaDs')),
                 $this->parseQtl($request->input('pqtlBrainDs')),
-                $this->parseQtl($request->input('pqtlCsfDs'))
+                $this->parseQtl($request->input('pqtlCsfDs')),
+                $this->parseQtl($request->input('sceqtlBrainDs'))
             );
 
         } else {

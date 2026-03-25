@@ -725,24 +725,24 @@ border-color: rgba(0,0,0,0.1);
                 </tr>
 
                 <tr class="xqtlsMapOptions">
-                    <th class="align-middle">mQTLs Datasets
+                    <th class="align-middle">single-cell eQTLs Datasets
                     </th>
                     <td> 
                         <div class="accordion-item" style="padding:0px;">
 
                             <h5 class="accordion-header">
-                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#mqtlBrain">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#sceqtlBrain">
                                     Brain
                                 </button>
                             </h5>
-                            <div class="accordion-collapse collapse" id="mqtlBrain">
+                            <div class="accordion-collapse collapse" id="sceqtlBrain">
                                 <div class="accordion-body">
                                     <span class="multiSelect">
                                         <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                         <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                        <select multiple class="form-select" id="mqtlBrainDs" name="mqtlBrainDs[]"
+                                        <select multiple class="form-select" id="sceqtlBrainDs" name="sceqtlBrainDs[]"
                                             size="10" onchange="window.CheckAll();">
-                                            @include('snp2gene.xqtls_options.mqtls._mqtl_brain_options')
+                                            @include('snp2gene.xqtls_options.sceqtls._sceqtl_brain_options')
                                         </select>
                                     </span>
                                 </div>
@@ -753,6 +753,23 @@ border-color: rgba(0,0,0,0.1);
                     </td>
                     <td></td>
                 </tr>
+
+                <tr class="xqtlsMapOptions">
+                    <th class="align-middle">P-value threshold
+                    </th>
+                    <td> 
+                        <span class="form-inline">(nominal) P-value cutoff (&lt;): <input type="number"
+										class="form-control" name="xqtlP" id="xqtlP" value="1e-3"
+										onchange="window.CheckAll();"></span>
+
+                    </td>
+                    <td>
+                        <span class="info"><i class="fa fa-info fa-sm"></i>
+                        For certain datasets, you need to specify the p value threshold cutoff. If not, the default value of 1e-3 will be used. 
+                        </span>
+                    </td>
+                </tr>
+
             </table>
         </div>
 
