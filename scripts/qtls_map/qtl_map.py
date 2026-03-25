@@ -29,11 +29,11 @@ def main():
         # for fxqtl in config_class._xqtlsMapdss:
         xqtls = do_xqtls_mapping(config_class, os.path.join(filedir, "xqtls_tmp.txt"), snps)
         try:
-            xqtls = xqtls[["uniqID", "db", "tissue", "protein", "type", "qtl_type"]]
+            xqtls = xqtls[["uniqID", "db", "tissue", "protein", "type", "qtl_type", "ensemble_id"]]
             xqtls.to_csv(out_fp, sep='\t', encoding='utf-8', index=False, header=True)
         except:
             with open(out_fp, 'w') as f:
-                f.write("uniqID\tdb\ttissue\tprotein\ttype\tqtl_type\n")
+                f.write("uniqID\tdb\ttissue\tprotein\ttype\tqtl_type\tensemble_id\n")
             print("Nothing to print out.")
             
         # make the qtls_hits.tsv file for the upset plot
