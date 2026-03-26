@@ -15,7 +15,7 @@ def qtl_tabix(region, tb):
 			qtls.append(l[0:9])
 	return qtls
 
-def process_loci(tb, loci, locus, snps, config_class, type):
+def process_loci(tb, loci, locus, snps):
     chrom = loci.iloc[locus,1]
     start = loci.iloc[locus,2]
     end = loci.iloc[locus,3]
@@ -29,19 +29,6 @@ def process_loci(tb, loci, locus, snps, config_class, type):
     qtls = qtls[qtls.iloc[:,1].astype('int').isin(snps[snps.iloc[:,1]==chrom].iloc[:,2])] #get the qtls that are in the snps.txt file
     if len(qtls)==0: 
         return None
-
-    ### filter by P/FDR if eqtl
-    if type == "eqtl":
-        if config_class._sigonly == 1:
-            qtls = qtls[pd.to_numeric(qtls.iloc[:,8], errors='coerce')<0.05]
-        else:
-            qtls = qtls[pd.to_numeric(qtls.iloc[:,7], errors='coerce')<config_class._eqtlP]
-        if len(qtls)==0:
-            return None
-
-    ### assign uniqID
-    ## if qtls do not have alleles, take uniqID from snps
-    ## For multi allelic SNPs, duplicated qtls (for later use in gene mapping)
 
     if qtls.iloc[0, 2] == "NA" and qtls.iloc[0, 3] == "NA":
         qtls.iloc[:, 1] = qtls.iloc[:, 1].astype(int)
@@ -78,7 +65,7 @@ def process_loci(tb, loci, locus, snps, config_class, type):
 
     return qtls
 
-def process_loci_threshold(tb, loci, locus, snps, config_class, type, threshold):
+def process_loci_threshold(tb, loci, locus, snps, config_class):
     chrom = loci.iloc[locus,1]
     start = loci.iloc[locus,2]
     end = loci.iloc[locus,3]
@@ -91,7 +78,7 @@ def process_loci_threshold(tb, loci, locus, snps, config_class, type, threshold)
     qtls = qtls[qtls.iloc[:,1].astype('int').isin(snps[snps.iloc[:,1]==chrom].iloc[:,2])] #get the qtls that are in the snps.txt file
     
     ### filter based on threshold
-    qtls = qtls[pd.to_numeric(qtls.iloc[:,8], errors='coerce')<threshold]
+    qtls = qtls[pd.to_numeric(qtls.iloc[:,8], errors='coerce')<config_class._xqtlP]
     
     if len(qtls)==0: 
         return None
@@ -139,42 +126,30 @@ def align_qtl(qtls): #TODO: add the condition here. Now just add NA placeholder
     qtls["RiskIncAllele"] = np.nan
     qtls["alignedDirection"] = np.nan
     return qtls
-    
-
-# def process_eqtl(fqtl, config_class, loci, snps, fout):
-#     db = fqtl.split("/")[0]
-#     ts = fqtl.split("/")[1].split(".txt.gz")[0]
-#     tb = tabix.open(os.path.join(config_class._qtldir, "eQTL", db, ts + ".txt.gz"))
-#     for locus in range(len(loci)):
-#         qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class, type="eqtl")
-#         if qtls is not None:
-#             aligned_qtls = align_qtl(qtls)
-#             aligned_qtls['db'] = db
-#             aligned_qtls['tissue'] = ts
-#             aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "gene", "ta", "p", "stats", "fdr", "RiskIncAllele", "alignedDirection"]]
-#             aligned_qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
             
 def process_xqtls(fqtl, config_class, loci, snps, fout):
-    ds_need_pthres = set("bryois2022Brain")
+    ds_need_pthres = set(["bryois2022Brain"])
     qtl_type = fqtl.split("/")[0]
     db = fqtl.split("/")[1]
     ts = fqtl.split("/")[3].split(".txt.gz")[0]
-    print(f"Processing: {os.path.join(config_class._qtldir, qtl_type, "sig_pairs", ts + ".txt.gz")}")
+    print(f"Processing: {ts + ".txt.gz"}")
     
     tb = tabix.open(os.path.join(config_class._qtldir, qtl_type, db, "sig_pairs", ts + ".txt.gz"))
-    for locus in range(len(loci)):
-        if any(ds in ts for ds in ds_need_pthres):
-            threshold = 1e-2
-            qtls = process_loci_threshold(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class, type=qtl_type, threshold=threshold)
-        else: 
-            qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class, type=qtl_type)
-        if qtls is not None:
-            aligned_qtls = align_qtl(qtls)
-            aligned_qtls['db'] = db
-            aligned_qtls['tissue'] = ts
-            aligned_qtls['qtl_type'] = qtl_type
-            aligned_qtls = aligned_qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "RiskIncAllele", "alignedDirection", "qtl_type"]]
-            aligned_qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
+    if db in ds_need_pthres:
+        print(f"INFO: p threshold for the dataset will be used.")
+        for locus in range(len(loci)):
+            qtls = process_loci_threshold(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class)
+    else: 
+        print(f"Significant associations for the dataset will be used.")
+        for locus in range(len(loci)):
+            qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps)
+            
+    if qtls is not None:
+        qtls['db'] = db
+        qtls['tissue'] = ts
+        qtls['qtl_type'] = qtl_type
+        qtls = qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "qtl_type"]]
+        qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
             
             
 def process_ensg(config_class):
@@ -211,31 +186,6 @@ def process_ensg(config_class):
     
     return ENSG
 
-def do_eqtl_mapping(config_class, eqtl_fp, snps):
-    eqtl = pd.read_csv(eqtl_fp, sep="\t", keep_default_na=False)
-    ENSG = process_ensg(config_class)
-    if eqtl.shape[0] > 0: 
-        eqtl = eqtl.query("gene.isin(@ENSG['ensembl_gene_id'])")
-        eqtl['chr'] = eqtl['uniqID'].map(snps.set_index('uniqID')['chr'])
-        eqtl['pos'] = eqtl['uniqID'].map(snps.set_index('uniqID')['pos'])
-        eqtl['symbol'] = eqtl['gene'].map(ENSG.set_index('ensembl_gene_id')['external_gene_name'])
-        eqtl['eqtlMapFilt'] = 1
-        return eqtl
-    # print(eqtl.head)
-        
-    #TODO: Implement the different filtering
-            
-# def do_xqtls_mapping(config_class, xqtl_fp, snps):
-#     xqtl = pd.read_csv(xqtl_fp, sep="\t", keep_default_na=False)
-#     ENSG = process_ensg(config_class)
-#     if xqtl.shape[0] > 0: 
-#         xqtl = xqtl.query("protein.isin(@ENSG['external_gene_name'])")
-#         # pqtl['chr'] = pqtl['uniqID'].map(snps.set_index('uniqID')['chr'])
-#         # pqtl['pos'] = pqtl['uniqID'].map(snps.set_index('uniqID')['pos'])
-#         # pqtl['pqtlMapFilt'] = 1
-        
-#         return xqtl
-
 def do_xqtls_mapping(config_class, xqtl_fp, snps):
     xqtl = pd.read_csv(xqtl_fp, sep="\t", keep_default_na=False)
     ENSG = process_ensg(config_class)
@@ -253,8 +203,7 @@ def do_xqtls_mapping(config_class, xqtl_fp, snps):
         xqtl = xqtl.rename(columns={
             "ensembl_gene_id": "ensemble_id"
         })
-
-        # Optional: drop duplicate column if not needed
+        
         xqtl = xqtl.drop(columns=["external_gene_name"])
 
         return xqtl

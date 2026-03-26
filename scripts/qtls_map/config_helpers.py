@@ -28,6 +28,7 @@ class Configuration:
         self._eqtlMapChr15Meth = None
         self._xqtlsMap = None
         self._xqtlsMapdss = None
+        self._xqtlP = None
         self._N = None
         
         self.get_values()
@@ -73,4 +74,5 @@ class Configuration:
         self._eqtlMapChr15Meth = self.param.get("eqtlMap", "eqtlMapChr15Meth")
         self._xqtlsMap = int(self.param.get("xqtlsMap", "xqtlsMap"))
         self._xqtlsMapdss = self.param.get("xqtlsMap", "xqtlsMapdss").split(":")
+        self._xqtlP = float(self.param.get("xqtlsMap", "xqtlP"))
         self._N = self.param.get("params", "N")

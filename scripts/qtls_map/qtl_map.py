@@ -3,10 +3,8 @@ import sys
 import os
 import pandas as pd
 import numpy as np
-# from scripts.helpers import Configuration
-# from scripts.qtl_map.qtl_map_helpers import process_eqtl, do_eqtl_mapping
 from config_helpers import Configuration
-from qtl_map_helpers import process_eqtl, do_eqtl_mapping, process_xqtls, do_xqtls_mapping
+from qtl_map_helpers import process_xqtls, do_xqtls_mapping
 from collections import defaultdict
 
 def main():
@@ -21,12 +19,12 @@ def main():
     
     if config_class._xqtlsMap == 1:
         out_fp = os.path.join(filedir, "xqtls.txt")
-        fout = open(os.path.join(filedir, "xqtls_tmp.txt"), "w")
-        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type", "RiskIncAllele", "alignedDirection", "qtl_type"]), file=fout)
+        tmp_out = open(os.path.join(filedir, "xqtls_tmp.txt"), "w")
+        print("\t".join(["uniqID", "db", "tissue", "protein", "testedAllele", "beta", "P", "type", "qtl_type"]), file=tmp_out)
         for fxqtl in config_class._xqtlsMapdss:
-            process_xqtls(fqtl=fxqtl, config_class=config_class, loci=loci, snps=snps, fout=fout)
-        fout.close()
-        # for fxqtl in config_class._xqtlsMapdss:
+            process_xqtls(fqtl=fxqtl, config_class=config_class, loci=loci, snps=snps, fout=tmp_out)
+        tmp_out.close()
+
         xqtls = do_xqtls_mapping(config_class, os.path.join(filedir, "xqtls_tmp.txt"), snps)
         try:
             xqtls = xqtls[["uniqID", "db", "tissue", "protein", "type", "qtl_type", "ensemble_id"]]
@@ -51,8 +49,6 @@ def main():
             for gene in genes:
                 print("\t".join([gene, type]), file=outfile)
         outfile.close()
-                
-        
 
     print(f"Processing time: {time.time()-start}")
     

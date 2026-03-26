@@ -18,7 +18,7 @@ border-color: rgba(0,0,0,0.1);
             <table class="table table-bordered inputTable" id="NewJobEqtlMap" style="width: auto; ">
                 <tr>
                     <div class="alert alert-info">
-			            Starting from FUMA v.2.0.0, this functionality of eQTL Mapping is kept for backward compatibility. To make adding new QTL datasets easier to FUMA, a new functionality below (<i>Perform xQTLs Mapping</i>) is added. You can still use this functionality to carry out analysis as before but new QTL datasets will be added to the xQTLs Mapping functionality.
+			            Starting from FUMA v.2.0.0, this functionality of eQTL Mapping is kept for backward compatibility. To make adding new QTL datasets easier to FUMA, a new functionality below (<i>Perform xQTLs Mapping</i>) is added. You can still use this functionality to carry out analysis as before but new QTL datasets will only be added to the xQTLs Mapping functionality.
                     </div>
                     <th class="h5">Perform eQTL Mapping
                     </th>
@@ -602,7 +602,7 @@ border-color: rgba(0,0,0,0.1);
             <table class="table table-bordered inputTable" id="NewJobXqtlsMap" style="width: auto; ">
                 <tr>
                     <div class="alert alert-info">
-			            Starting from FUMA v.2.0.0, xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. Please check this option to perform xQTLs mapping.
+			            Starting from FUMA v.2.0.0, xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. In some certain datasets where it was not possible to obtain the significant associations, a threshold based on p value is used. The default is 1e-3 but you can modify this. Please check this option to perform xQTLs mapping.
                     </div>
                     <th class="h5">Perform xQTLs Mapping
                     </th>
@@ -634,7 +634,7 @@ border-color: rgba(0,0,0,0.1);
                             </div>
                         </div>
 
-                        <div class="accordion-item" style="padding:0px;">
+                        <!-- <div class="accordion-item" style="padding:0px;">
                             <h5 class="accordion-header">
                                 <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlAdiposeSubcutaneous">
                                     Adipose_Subcutaneous
@@ -652,7 +652,7 @@ border-color: rgba(0,0,0,0.1);
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </td>
 

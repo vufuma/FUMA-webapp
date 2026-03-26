@@ -699,6 +699,10 @@ class S2GController extends Controller
             $xqtlsMapdss = "NA";
         }
 
+        // p threshold
+        $xqtlP = $request->input('xqtlP');
+
+
         // chromatin interaction mapping
         $ciMap = 0;
         $ciMapFileN = 0;
@@ -922,6 +926,7 @@ class S2GController extends Controller
         Storage::append($paramfile, "\n[xqtlsMap]");
         Storage::append($paramfile, "xqtlsMap=$xqtlsMap");
         Storage::append($paramfile, "xqtlsMapdss=$xqtlsMapdss");
+        Storage::append($paramfile, "xqtlP=$xqtlP");
 
         Storage::append($paramfile, "\n[ciMap]");
         Storage::append($paramfile, "ciMap=$ciMap");
