@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schedule;
 use App\Models\SubmitJob;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Helper;
+use App\Helpers\JobHelper;
 use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
@@ -133,4 +134,23 @@ Schedule::call(function () {
 })->monthlyOn(4, '16:00')
     ->environments('production')
     ->name('Delete OK Jobs')
+    ->withoutOverlapping();
+
+## Schedule a task to delete the gwas sumstat after 5 days
+Schedule::call(function () {
+
+    $jobIDs_file = Storage::path(config('app.jobdir') . '/schedule_logs/jobids_to_delete_input.txt');
+    $jobIDs = explode("\n", file_get_contents($jobIDs_file));
+    Log::info('Job IDs:', $jobIDs);
+
+    foreach ($jobIDs as $jobID) {
+        if ($jobID) {
+        $job = SubmitJob::find($jobID);
+        JobHelper::rmFiles($job);
+        }
+
+    }
+})->weeklyOn(4, '16:00')
+    ->environments('production')
+    ->name('Delete input gwas')
     ->withoutOverlapping();

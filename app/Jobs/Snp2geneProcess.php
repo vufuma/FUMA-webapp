@@ -182,7 +182,7 @@ class Snp2geneProcess implements ShouldQueue
                     return;
                 }
             }
-        }
+            }
 
         //-------------------------------------------------------------------
 
@@ -194,7 +194,18 @@ class Snp2geneProcess implements ShouldQueue
     private function gwas_file()
     {
         $jobID = $this->jobID;
-        Storage::put($this->logfile, "----- gwas_file.py -----\n");
+
+        $params = parse_ini_string(Storage::get(config('app.jobdir') . '/jobs/' . $jobID . "/params.config"), false, INI_SCANNER_RAW);
+
+        if ($params['keepinfiles'] == 1) {
+        $file_path = config('app.jobdir') . '/schedule_logs/jobids_to_delete_input.txt';
+        Storage::append($file_path, $jobID );
+
+        Storage::put($this->logfile, "Appended " . $jobID . " to " . basename($file_path) . "\n");
+
+        }
+
+        Storage::append($this->logfile, "----- gwas_file.py -----\n");
         Storage::put($this->errorfile, "----- gwas_file.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
