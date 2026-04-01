@@ -616,6 +616,86 @@ border-color: rgba(0,0,0,0.1);
                     <td> 
                         <div class="accordion-item" style="padding:0px;">
                             <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlAdipose">
+                                    Adipose
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="eqtlAdipose">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="eqtlAdiposeDs" name="eqtlAdiposeDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options.eqtls._eqtl_adipose_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" style="padding:0px;">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlAdrenalGland">
+                                    Adrenal Gland
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="eqtlAdrenalGland">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="eqtlAdrenalGlandDs" name="eqtlAdrenalGlandDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options.eqtls._eqtl_adrenalgland_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" style="padding:0px;">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlArtery">
+                                    Artery
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="eqtlArtery">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="eqtlArteryDs" name="eqtlArteryDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options.eqtls._eqtl_artery_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" style="padding:0px;">
+                            <h5 class="accordion-header">
+                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlBladder">
+                                    Bladder
+                                </button>
+                            </h5>
+                            <div class="accordion-collapse collapse" id="eqtlBladder">
+                                <div class="accordion-body">
+                                    <span class="multiSelect">
+                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
+                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
+                                        <select multiple class="form-select" id="eqtlBladderDs" name="eqtlBladderDs[]"
+                                            size="10" onchange="window.CheckAll();">
+                                            @include('snp2gene.xqtls_options.eqtls._eqtl_bladder_options')
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" style="padding:0px;">
+                            <h5 class="accordion-header">
                                 <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlBrain">
                                     Brain
                                 </button>
@@ -633,26 +713,6 @@ border-color: rgba(0,0,0,0.1);
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="accordion-item" style="padding:0px;">
-                            <h5 class="accordion-header">
-                                <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#eqtlAdiposeSubcutaneous">
-                                    Adipose_Subcutaneous
-                                </button>
-                            </h5>
-                            <div class="accordion-collapse collapse" id="eqtlAdiposeSubcutaneous">
-                                <div class="accordion-body">
-                                    <span class="multiSelect">
-                                        <a class="clear" style="float:right; padding-right:20px;">Clear</a>
-                                        <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                        <select multiple class="form-select" id="eqtlAdiposeSubcutaneousDs" name="eqtlAdiposeSubcutaneousDs[]"
-                                            size="10" onchange="window.CheckAll();">
-                                            @include('snp2gene.xqtls_options.eqtls._eqtl_adipose_subcutaneous_options')
-                                        </select>
-                                    </span>
-                                </div>
-                            </div>
-                        </div> -->
 
                     </td>
 
