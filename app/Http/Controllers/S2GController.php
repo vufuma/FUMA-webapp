@@ -426,6 +426,13 @@ class S2GController extends Controller
             Storage::copy($exfile, $filedir . '/input.gwas');
         }
 
+        // keep in files or not (for FLAMES)
+        if ($request->has('keepinfiles')) {
+            $keepinfiles = 1;
+        } else {
+             $keepinfiles = 0;
+        }
+
         // GRCh38
         if ($request->has('GRCh38')) {
             $GRCh38 = 1;
@@ -850,6 +857,7 @@ class S2GController extends Controller
         } else {
             Storage::append($paramfile, "gwasfile=fuma.example.CD.gwas");
         }
+        Storage::append($paramfile, "keepinfiles=$keepinfiles");
         Storage::append($paramfile, "chrcol=$chrcol");
         Storage::append($paramfile, "poscol=$poscol");
         Storage::append($paramfile, "rsIDcol=$rsIDcol");
