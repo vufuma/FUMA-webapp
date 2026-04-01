@@ -47,7 +47,14 @@ class JobHelper
             JobHelper::sendJobMail($job, new JobCompletedSuccessfully($job, $msg));
         }
 
-        if (App::isProduction()) {
+        // if (App::isProduction()) {
+        //     JobHelper::rmFiles($job);
+        // }
+        $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
+        $params = parse_ini_string(Storage::get($filedir . 'params.config'), false, INI_SCANNER_RAW);
+        $keepinfiles = $params['keepinfiles'];
+
+        if ($keepinfiles == '0') {
             JobHelper::rmFiles($job);
         }
         return;
