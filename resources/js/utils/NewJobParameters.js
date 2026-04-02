@@ -537,7 +537,115 @@ export const CheckAll = function() {
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		let ds = 0;
 
+		$('#eqtlAdiposeDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlAdrenalGlandDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlArteryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlBladderDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlBloodDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
 		$('#eqtlBrainDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlBreastDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlColonDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlEsophagusDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlHeartDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlKidneyDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlLiverDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlLungDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlMuscleDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlNerveDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlOvaryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlPancreasDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlPituitaryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlProstateDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSalivaryGlandDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSkinDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSmallIntestineDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSpleenDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlStomachDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlTestisDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlThyroidDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlUterusDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlVaginaDs option').each(function(){
 			if($(this).is(":checked")==true){ds++;}
 		});
 
