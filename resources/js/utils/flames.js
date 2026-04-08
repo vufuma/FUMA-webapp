@@ -110,31 +110,41 @@ export const CheckInput = function(){
     }else{
         if(s2gID>0){
             var filecheck = false;
+            var ingwas = false;
             $.ajax({
                 url: pageState.get("subdir")+"/flames/checkSNP2GENEFiles",
                 type: 'POST',
                 data: { jobID: s2gID },
+                
                 error: function(){alert("error from checkSNP2GENEFiles")},
                 success: function(data){
-                    if(data==1){filecheck=true}
+                    if(data==1){
+                        filecheck=true;
+                    } else if(data==2){
+                        filecheck=true;
+                        ingwas=true;
+                    }
                 },
                 complete: function(){
                     if(!filecheck){
                         submit = false;
-                        $('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The seleted SNP2GENE job does not have valid outputs necessary for FLAMES.</div>')
+                        $('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The seleted SNP2GENE job does not have valid MAGMA outputs necessary for FLAMES.</div>')
                     }else{
-                        $('#CheckInput').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. The files needed for FLAMES will be obtained from the selected SNP2GENE job.</div>')
+                        if(ingwas){
+                            $('#CheckInput').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. The MAGMA files needed for FLAMES will be obtained from the selected SNP2GENE job. We also found the input.snps file in the SNP2GENE job, which will be used as the input SNP list for FLAMES.</div>')
+                        } else {
+                        $('#CheckInput').html('<div class="alert alert-warning" style="padding-bottom: 10; padding-top: 10;">OK. The MAGMA files needed for FLAMES will be obtained from the selected SNP2GENE job. No input.snps file was found. Please submit a processed GWAS summary statistics file below. </div>')
                     }
                 }
-            });
+            }});
         }
     }
 
     if ($('#gwasSumstat').val().length === 0) {
-        submit = false;
-        $('#gwasInputCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload GWAS summary statistics.</div>')
+        // submit = false;
+        $('#gwasInputCheck').html('<div class="alert alert-warning" style="padding-bottom: 10; padding-top: 10;">If the processed GWAS summary statistics file is not kept in your SNP2GENE job, please upload GWAS summary statistics.</div>')
     } else{
-        $('#gwasInputCheck').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. ');
+        $('#gwasInputCheck').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. You uploaded your own GWAS summary statistics. Please make sure that it has the correct format. ');
     }
 
     if ($('#totalN').val().length === 0) {
