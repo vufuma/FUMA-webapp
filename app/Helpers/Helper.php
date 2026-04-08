@@ -427,4 +427,15 @@ class Helper
         return $results;
     }
 
+    public static function findJobsToDeleteInput(){ #after allowing for users to keep input gwas sumstat, in this function it will find the jobs where we need to delete the input files after 1 week
+        $jobIDs_file = Storage::path(config('app.jobdir') . '/schedule_logs/jobids_to_delete_input.txt');
+        $jobIDs = explode("\n", file_get_contents($jobIDs_file));
+    
+        $jobs = SubmitJob::whereIn('jobID', $jobIDs)
+            ->where('created_at', '<', now()->subWeek(1))
+            ->get(['jobID', 'created_at', 'type', 'status']);
+
+        return $jobs;
+    }
+
 }

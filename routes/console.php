@@ -139,16 +139,10 @@ Schedule::call(function () {
 ## Schedule a task to delete the gwas sumstat after 5 days
 Schedule::call(function () {
 
-    $jobIDs_file = Storage::path(config('app.jobdir') . '/schedule_logs/jobids_to_delete_input.txt');
-    $jobIDs = explode("\n", file_get_contents($jobIDs_file));
-    Log::info('Job IDs:', $jobIDs);
+    $jobs = Helper::findJobsToDeleteInput();
 
-    foreach ($jobIDs as $jobID) {
-        if ($jobID) {
-        $job = SubmitJob::find($jobID);
+    foreach ($jobs as $job) {
         JobHelper::rmFiles($job);
-        }
-
     }
 })->weeklyOn(4, '16:00')
     ->environments('production')
