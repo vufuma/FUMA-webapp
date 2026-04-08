@@ -7,6 +7,7 @@ import argparse
 import logging
 import sys
 import gzip
+import shutil
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -311,7 +312,39 @@ def main():
     # create the loci directory
     if not os.path.exists(os.path.join(filedir, "loci")):
         os.makedirs(os.path.join(filedir, "loci"))
-        
+    
+    if not os.path.exists(os.path.join(filedir, "input.gwas.gz")):
+        if not os.path.exists(os.path.join(s2gdir, s2g_id, "input.snps")):
+            logger.error("No input.gwas.gz found in the input directory and no input.snps found in the snp2gene directory. Please provide an input.gwas.gz or select a snp2gene job with valid input.snps file.")
+            sys.exit(12)
+        else: 
+            snp_ori = os.path.join(s2gdir, s2g_id, "input.snps")
+            snp_dest = os.path.join(filedir, "input.gwas.tmp")
+            dest = shutil.copyfile(snp_ori, snp_dest)
+            
+            input_gwas_fp = os.path.join(filedir, "input.gwas")
+            input_gwas = open(os.path.join(filedir, "input.gwas"), "w")
+            header = ["#chr", "bp", "A2", "A1", "rsID", "p", "beta"]
+            print("\t".join(header), file=input_gwas)
+            
+            with open(snp_dest, 'r') as f_in:
+                for line in f_in:
+                    if line.startswith("chr"):
+                        items = line.rstrip("\n").split("\t")
+                        if items != ["chr", "bp", "non_effect_allele", "effect_allele", "rsID", "p", "beta"]:
+                            logger.error("input.snps file does not have the correct header. Please make sure the input.snps file has the following header: chr, bp, A2, A1, rsID, p, beta")
+                            sys.exit(13)    
+                        continue
+                    else:
+                        print(line.strip(), file=input_gwas)
+            input_gwas.close()
+                
+            
+            
+            bgzip_cmd = ["bgzip", "-c", input_gwas_fp]
+            with open(input_gwas_fp + ".gz", "wb") as f_out:
+                subprocess.run(bgzip_cmd, stdout=f_out, check=True)
+    
     # input gwas sumstat sanitization
     sanitize_gwas(filedir, logger)
     
