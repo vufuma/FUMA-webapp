@@ -107,7 +107,9 @@ class FLAMESController extends Controller
 
         $filedir = config('app.jobdir') . '/flames/' . $jobID;
         Storage::makeDirectory($filedir);
-        Storage::putFileAs($filedir, $request->file('gwasSumstat'), 'input.gwas.gz');
+        if ($request->hasFile('gwasSumstat')) {
+            Storage::putFileAs($filedir, $request->file('gwasSumstat'), 'input.gwas.gz');
+        }
         Storage::putFileAs($filedir, $request->file('preds'), 'input.preds');
 
         $snp2geneID = $request->input('s2gID');
@@ -174,7 +176,9 @@ class FLAMESController extends Controller
     public function checkSNP2GENEFiles(Request $request)
     {
         $id = $request->input('jobID');
-        if (Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.raw") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/GenomicRiskLoci.txt")) {
+        if (Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.raw") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/GenomicRiskLoci.txt") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/input.snps")) {
+            return 2;
+        } else if (Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.raw") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma.genes.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out") && Storage::exists(config('app.jobdir') . '/jobs/' . $id . "/GenomicRiskLoci.txt")) {
             return 1;
         } else {
             return 0;
