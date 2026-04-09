@@ -57,15 +57,17 @@ const updateQueryHistory = function(){
 
                 if (val.status == "OK") {
                     var status = '<a href="'+subdir+'/flames/'+val.jobID+'#flamesResults">load results</a>';
+                    var logs = '<a href="'+subdir+'/flames/'+val.jobID+'#flamesLogs">load logs</a>';
                 }
                 else {
                     status = val.status;
+                    logs = '<a href="'+subdir+'/flames/'+val.jobID+'#flamesLogs">load logs</a>';
                 }
 
                 items = items + "<tr><td>"+val.jobID+"</td><td>"+val.title+"</td><td>"
                     +val.created_at+"</td><td>"+status+"</td>"
                     +'<td style="text-align: center;"><input type="checkbox" class="deleteJobCheck" value="'
-                    +val.jobID+'"/></td></tr>';
+                    +val.jobID+'"/></td><td>'+logs+'</td></tr>';
             });
         }
         // Put list in table

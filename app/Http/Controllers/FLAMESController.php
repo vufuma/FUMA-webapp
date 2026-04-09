@@ -209,6 +209,9 @@ class FLAMESController extends Controller
             case "flamesResultsPred":
                 $name = "FLAMES_scores_fmt.pred";
                 break;
+            case "flamesLogs":
+                $name = "job.log";
+                break;
             default:
                 return redirect()->back();
         }

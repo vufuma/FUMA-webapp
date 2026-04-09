@@ -1,16 +1,16 @@
 @extends('layouts.master')
 
 @section('stylesheets')
-@endsection
-
-
-@section('content')
 <style> 
 .accordion-button.accordion-highlight {
 background-color: #efeff8ff;
 border-color: rgba(0,0,0,0.1);
 }
 </style>
+@endsection
+
+
+@section('content')
 
 <div id="wrapper" class="active">
     <div id="sidebar-wrapper">
@@ -25,12 +25,15 @@ border-color: rgba(0,0,0,0.1);
             <div id="resultSide">
                 <li><a href="#flamesResults">Results<i class="sub_icon fa fa-table"></i></a></li>
             </div>
+            <div id="logSide">
+                <li><a href="#flamesLogs">Logs<i class="sub_icon fa fa-file"></i></a></li>
+            </div>
         </ul>
     </div>
 
     <div id="page-content-wrapper">
         <div class="page-content inset">  
-            <div id="newquery" class="sidePanel container" style="padding-top:50px;">
+            <div id="newquery" class="sidePanel container" style="padding-top:50px; min-height:80vh;">
                 <div class ="col">
                     <div class="container" style="padding-top:50px;">
                         <div style="text-align: center;">
@@ -39,7 +42,7 @@ border-color: rgba(0,0,0,0.1);
                             <div class="alert alert-primary">
                                 Implementation of FLAMES (fine-mapped locus accessment model of effector genes). <br> 
                                 <a href="https://www.nature.com/articles/s41588-025-02084-7" target="_blank">Link</a> to paper. <br>
-                                Please read the instructions carefully when submitting a FLAMES job. Please check the <a href="https://fuma-docs.readthedocs.io/en/latest/flames.html" target="_blank">documentation</a> for more details. 
+                                Please read the instructions carefully when submitting a FLAMES job. Please check the <a href="https://fuma-docs.readthedocs.io/en/latest/flames/index.html" target="_blank">documentation</a> for more details. 
                             </div>
                             
                         </div>
@@ -65,11 +68,11 @@ border-color: rgba(0,0,0,0.1);
                                         <h5>SNP2GENE jobID</h5>
                                         </td>
                                         <td>
-                                            <b>Select from existing SNP2GENE job</b><br>
+                                            <b>Select from existing SNP2GENE jobs</b><br>
                                             <span class="info"><i class="fa fa-info fa-sm"></i>
                                                 You can only select one of the successful SNP2GENE jobs in your account.<br>
                                                 When you select a job ID, FUMA will automatically check if MAGMA was performed in the
-                                                selected job and if the required files for running FLAMES were generated in your SNP2GENE job.
+                                                selected job and if the required MAGMA files for running FLAMES were generated in your SNP2GENE job. FUMA will also check if the input GWAS summary statistics is present in your SNP2GENE job. 
                                             </span>
                                             <select class="form-select" id="s2gID" name="s2gID" style="border: 1px solid black;" onchange="window.CheckInput();">
                                             </select>
@@ -152,7 +155,7 @@ border-color: rgba(0,0,0,0.1);
                 </div>
             </div>
 
-            <div id="queryhistory" class="sidePanel container" style="padding-top:50px; display: none">
+            <div id="queryhistory" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
                 <div class ="col">
                     <div class="container" style="padding-top:50px;">
                         <div style="text-align: center;">
@@ -173,6 +176,7 @@ border-color: rgba(0,0,0,0.1);
                                             <th>Submit date</th>
                                             <th>Link</td>
                                             <th>Select</th>
+                                            <th>Logs</th>
                                         </tr>
                                     </thead>
                                     <tbody id="historyBody">
@@ -187,56 +191,69 @@ border-color: rgba(0,0,0,0.1);
                 </div>
             </div>
 
-            <div id="flamesResults" class="sidePanel container" style="padding-top:50px; display: none">
-                <div class="card"><div class="card-body">
-                    <h4 style="color: #00004d">Result tables</h4>
-                    FLAMES output's FLAMES_scores.pred are displayed in the result tables. 
-                    
-                    <!-- Define navigation tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active " href="#predResultsTable" id="predResults-tab" data-bs-toggle="tab">PRED</a>
-                        </li>
-                    </ul>
+            <div id="flamesResults" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="color: #00004d">Result tables</h4>
+                        FLAMES output's FLAMES_scores.pred are displayed in the result tables. 
+                        
+                        <!-- Define navigation tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active " href="#predResultsTable" id="predResults-tab" data-bs-toggle="tab">PRED</a>
+                            </li>
+                        </ul>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade show active" id="predResultsTable" aria-labelledby="predResults-tab">
-                            <table id="predTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
-                                <thead>
-                                    <tr>
-                                        <th>Locus</th><th>Gene Symbol</th><th>Ensemble</th><th>FLAMES scaled</th><th>FLAMES raw</th><th>Estimated cumulative precision</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade show active" id="predResultsTable" aria-labelledby="predResults-tab">
+                                <table id="predTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+                                    <thead>
+                                        <tr>
+                                            <th>Locus</th><th>Gene Symbol</th><th>Ensemble</th><th>FLAMES scaled</th><th>FLAMES raw</th><th>Estimated cumulative precision</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card"><div class="card-body">
-                    <h4 style="color: #00004d">Download Results: </h4>
-                    <div class="clickable" onclick='tutorialDownloadVariant("flamesResultsRaw")'> FLAMES_scores.raw
-                        <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" />
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="color: #00004d">Download Results: </h4>
+                        <div class="clickable" onclick='tutorialDownloadVariant("flamesResultsRaw")'> FLAMES_scores.raw
+                            <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" />
+                        </div>
+                        <div class="clickable" onclick='tutorialDownloadVariant("flamesResultsPred")'> FLAMES_scores.pred
+                            <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" />
+                        </div>
                     </div>
-                    <div class="clickable" onclick='tutorialDownloadVariant("flamesResultsPred")'> FLAMES_scores.pred
-                        <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" />
+                </div>
+
+                <form method="post" target="_blank" action="/flames/downloadResults">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="jobID" value="<?php echo $id;?>"/>
+                    <input type="hidden" name="variant_code" id="tutorialDownloadVariantCode" value="" />
+                    <input type="submit" id="tutorialDownloadVariantSubmit" class="ImgDownSubmit" style="display: none;" />
+                </form>
+            </div>
+
+            <div id="flamesLogs" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 style="color: #00004d">Download Logs: </h4>
+                        <div class="clickable" onclick='tutorialDownloadVariant("flamesLogs")'> job.log
+                            <img class="fontsvg" src="{{ URL::asset('/image/download.svg') }}" />
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </div>
-
-<form method="post" target="_blank" action="/flames/downloadResults">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    <input type="hidden" name="jobID" value="<?php echo $id;?>"/>
-    <input type="hidden" name="variant_code" id="tutorialDownloadVariantCode" value="" />
-    <input type="submit" id="tutorialDownloadVariantSubmit" class="ImgDownSubmit" style="display: none;" />
-</form>
 
 
 @endsection
