@@ -48,7 +48,7 @@ def tabix_gwas(filedir, logger):
             capture_output=True,
             text=True
         )
-        logger.info("tabix finished successfully: %s", " ".join(cmd))
+        logger.info("tabix finished successfully")
     except subprocess.CalledProcessError as e:
         logger.error("tabix failed with exit code %s", e.returncode)
         logger.error("stdout: %s", e.stdout)
@@ -339,8 +339,6 @@ def main():
                         print(line.strip(), file=input_gwas)
             input_gwas.close()
                 
-            
-            
             bgzip_cmd = ["bgzip", "-c", input_gwas_fp]
             with open(input_gwas_fp + ".gz", "wb") as f_out:
                 subprocess.run(bgzip_cmd, stdout=f_out, check=True)

@@ -41,6 +41,7 @@ class FlamesProcess implements ShouldQueue
         $filedir = config('app.jobdir') . '/flames/' . $jobID . '/';
         $this->logfile = $filedir . "job.log";
         $this->errorfile = $filedir . "error.log";
+        $this->serverlog = $filedir . "server.log";
         
         // Started so update status to RUNNING
         $started_at = date("Y-m-d H:i:s");
@@ -66,22 +67,15 @@ class FlamesProcess implements ShouldQueue
         Storage::append($this->logfile, "INFO: Starting finemapping " . date("Y-m-d H:i:s") . "\n");
         $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -v $ref_data_path_on_host/FLAMES/vep_cache/:/home/worker/.vep " . $image_name . " /bin/sh -c 'python run_flames.py --filedir $job_location --s2gdir $s2g_dir >>$job_location/job.log 2>>$job_location/error.log'";
         $tmp = Process::forever()->run($cmd_format);
-        Log::info("Full Docker command: " . $cmd_format);
-        Storage::append($this->logfile, "Command to be executed:");
-        Storage::append($this->logfile, $cmd_format . "\n");
+        Storage::append($this->serverlog, "Command to be executed:");
+        Storage::append($this->serverlog, $cmd_format . "\n");
 
         $tmpError = $tmp->exitCode();
 
         // Log the exit code
         Storage::append($this->logfile, "Process exit code: " . $tmpError . "\n");
-        if ($tmpError == 1) {
-            JobHelper::JobTerminationHandling($jobID, 31, 'An error occurs at tabixing the input GWAS file.');
-            return;
-        } elseif ($tmpError == 2) {
-            JobHelper::JobTerminationHandling($jobID, 32, 'An error occurs at subsetting variants per locus');
-            return;
-        }elseif ($tmpError != 0) {
-            JobHelper::JobTerminationHandling($jobID, 33, 'An error occurs at flames');
+        if ($tmpError != 0) {
+            JobHelper::JobTerminationHandling($jobID, 31, 'An error occurs at flames');
             return;
         } 
         
