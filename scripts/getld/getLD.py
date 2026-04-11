@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import tabix
 import glob
-import ConfigParser
+import configparser
 from bisect import bisect_left
 
 ##### initialize parameters #####
@@ -16,18 +16,18 @@ class getParams:
 	def __init__(self, filedir, cfg, param_cfg):
 		leadSNPs = param_cfg.get('inputfiles', 'leadSNPsfile')
 		if leadSNPs == "NA":
-		    print "prefedined lead SNPs are not provided"
+		    print("prefedined lead SNPs are not provided")
 		    leadSNPs = None
 		else:
-		    print "predefined lead SNPs are provided"
+		    print("predefined lead SNPs are provided")
 		    leadSNPs = filedir+cfg.get('inputfiles', 'leadSNPs')
 		addleadSNPs = int(param_cfg.get('inputfiles', 'addleadSNPs')) #1 to add, 0 to not add
 		regions = param_cfg.get('inputfiles', 'regionsfile')
 		if regions == "NA":
-		    print "predefined genomic regions are not provided"
+		    print("predefined genomic regions are not provided")
 		    regions = None
 		else:
-		    print "predefined genomic regions are provided"
+		    print("predefined genomic regions are provided")
 		    regions = filedir+cfg.get('inputfiles', 'regions')
 
 		refpanel = param_cfg.get('params', 'refpanel')
@@ -118,7 +118,7 @@ class getParams:
 
 ##### Return index of a1 which exists in a2 #####
 def ArrayIn(a1, a2):
-	results = np.where(np.in1d(a1, a2))[0]
+	results = np.where(np.isin(a1, a2))[0]
 	return results
 
 ##### return unique element in list #####
@@ -190,7 +190,7 @@ def chr_process(ichrom, gwasfile_chr, regions, leadSNPs, params):
 	secol = params.secol
 
 	chrom = int(gwasfile_chr[ichrom][0])
-	print "Start chromosome "+str(chrom)+" ..."
+	print("Start chromosome "+str(chrom)+" ...")
 
 	### check pre-defined regions
 	regions_tmp = None
@@ -213,7 +213,7 @@ def chr_process(ichrom, gwasfile_chr, regions, leadSNPs, params):
 
 	### exclude MHC region
 	if chrom == 6 and MHC == 1:
-		print "Excluding MHC regions ..."
+		print("Excluding MHC regions ...")
 		gwas_in = gwas_in[(gwas_in[:,poscol].astype(int)<MHCstart) | (gwas_in[:,poscol].astype(int)>MHCend)]
 
 	### filter SNPs for pre-defined regions (if provided)
@@ -231,7 +231,7 @@ def chr_process(ichrom, gwasfile_chr, regions, leadSNPs, params):
 		gwas_in = gwas_tmp
 	gwas_in = gwas_in[np.lexsort((gwas_in[:,pcol], gwas_in[:,poscol]))]
 
-	print str(len(gwas_in))+" SNPs in chromosome "+str(chrom)
+	print(str(len(gwas_in))+" SNPs in chromosome "+str(chrom))
 
 	### init variables
 	ld = []
@@ -244,7 +244,7 @@ def chr_process(ichrom, gwasfile_chr, regions, leadSNPs, params):
 	ldfile = refgenome_dir+"/"+refpanel+'/'+pop+"/"+pop+".chr"+str(chrom)+".ld.gz"
 	maffile = refgenome_dir+"/"+refpanel+'/'+pop+"/"+pop+".chr"+str(chrom)+".frq.gz"
 	if not os.path.isfile(maffile) or not os.path.isfile(ldfile):
-		print "Reference file does not exist for chr: "+str(chrom)
+		print("Reference file does not exist for chr: "+str(chrom))
 		return [], [], []
 
 	rsIDset = set(gwas_in[:, rsIDcol])
@@ -254,7 +254,7 @@ def chr_process(ichrom, gwasfile_chr, regions, leadSNPs, params):
 	if leadSNPs_tmp is not None:
 		for l in leadSNPs_tmp:
 			if not l[0] in rsIDset:
-				print "Input lead SNP "+l[0]+" does not exists in input gwas file"
+				print("Input lead SNP "+l[0]+" does not exists in input gwas file")
 				continue # rsID of lead SNPs needs to be matched with the one in GWAS file
 
 			igwas = np.where(gwas_in[:,rsIDcol]==l[0])[0][0]
@@ -695,10 +695,10 @@ def main():
 		filedir += '/'
 
 	##### get config files #####
-	cfg = ConfigParser.ConfigParser()
+	cfg = configparser.ConfigParser()
 	cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
-	param_cfg = ConfigParser.ConfigParser()
+	param_cfg = configparser.ConfigParser()
 	param_cfg.read(filedir+'params.config')
 
 	##### get parameters #####
@@ -729,7 +729,7 @@ def main():
 		o.write(ohead)
 
 	tmp = subprocess.check_output('gzip -cd '+params.annot_dir+'/chr1.annot.gz | head -1', shell=True)
-	tmp = tmp.strip().split()
+	tmp = tmp.decode().strip().split()
 
 	ohead = "\t".join(["uniqID"]+tmp[4:])
 	ohead += "\n"
@@ -749,7 +749,7 @@ def main():
 	# 0: chr, 1: start, 2: end
 	regions = None
 	if params.regions:
-		regions = pd.read_csv(params.regions, comment="#", delim_whitespace=True, dtype='str')
+		regions = pd.read_csv(params.regions, comment="#", sep=r'\s+', dtype='str')
 		regions.iloc[:,0] = regions.iloc[:,0].apply(lambda x: re.sub('x','23',re.sub('chr', '', x, flags=re.IGNORECASE), flags=re.IGNORECASE))
 		regions.iloc[:,0] = pd.to_numeric(regions.iloc[:,0], downcast='integer', errors='coerce')
 		regions.iloc[:,1] = pd.to_numeric(regions.iloc[:,1], downcast='integer', errors='coerce')
@@ -760,7 +760,7 @@ def main():
 	# 0: rsID, 1: chr, 2: pos
 	inleadSNPs = None
 	if params.leadSNPs:
-		inleadSNPs = pd.read_csv(params.leadSNPs, comment="#", delim_whitespace=True, dtype='str')
+		inleadSNPs = pd.read_csv(params.leadSNPs, comment="#", sep=r'\s+', dtype='str')
 		inleadSNPs.iloc[:,1] = inleadSNPs.iloc[:,1].apply(lambda x: re.sub('x','23',re.sub('chr', '', x, flags=re.IGNORECASE), flags=re.IGNORECASE))
 		inleadSNPs.iloc[:,1] = pd.to_numeric(inleadSNPs.iloc[:,1], downcast='integer', errors='coerce')
 		inleadSNPs.iloc[:,2] = pd.to_numeric(inleadSNPs.iloc[:,2], downcast='integer', errors='coerce')
@@ -849,6 +849,6 @@ def main():
 	##### ANNOVAR #####
 	os.system("python "+os.path.dirname(os.path.realpath(__file__))+"/annovar.py "+filedir)
 
-	print "getLD.py run time: "+str(time.time()-starttime)
+	print("getLD.py run time: "+str(time.time()-starttime))
 
 if __name__ == "__main__": main()

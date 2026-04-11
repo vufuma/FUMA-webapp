@@ -10,12 +10,12 @@ filedir = sys.argv[1]
 if re.match(".+\/$", filedir) is None:
 	filedir += '/'
 
-snps = pd.read_csv(filedir+"input.snps", delim_whitespace=True)
+snps = pd.read_csv(filedir+"input.snps", sep=r'\s+')
 pcol = 5
 
 head = snps.columns.values
 
-snps = snps.as_matrix()
+snps = snps.to_numpy()
 snps = snps[np.argsort(snps[:,pcol])]
 snps = snps[0:10,]
 

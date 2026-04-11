@@ -29,3 +29,5 @@ RUN groupadd --gid ${PGID} $USERNAME && \
     usermod -a -G scistor_share_r,reference_data_r,users_data_c $USERNAME
 
 USER $USERNAME
+
+CMD ["R", "--vanilla"]
