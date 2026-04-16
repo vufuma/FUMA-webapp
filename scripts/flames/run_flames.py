@@ -105,12 +105,14 @@ def run_polyfun_munge(locus_txt, locus_pq, sample_size, logger, locname):
         )
 
         logger.info("Munging finished successfully for locus %s", locname)
+        return True
     except subprocess.CalledProcessError as e:
         logger.error(
             "polyfun munge failed for locus %s (exit code %s)", locname, e.returncode
         )
         logger.error("stderr: %s", e.stderr)
-        sys.exit(3)
+        return False
+        # sys.exit(3)
         
 def run_polyfun_finemapper(locus_pq, sample_size, susie_out, chrom, start, end, logger, locname):
     try:
@@ -138,18 +140,20 @@ def run_polyfun_finemapper(locus_pq, sample_size, susie_out, chrom, start, end, 
         )
 
         logger.info("Finemapping finished successfully for locus %s", locname)
+        return True
     except subprocess.CalledProcessError as e:
         logger.error(
-            "polyfun munge failed for locus %s (exit code %s)", locname, e.returncode
+            "finemapper failed for locus %s (exit code %s)", locname, e.returncode
         )
         logger.error("stderr: %s", e.stderr)
-        sys.exit(4)
+        # sys.exit(4)
+        return False
         
-def format_susie_results(filedir, locname):
+def format_susie_results(filedir, locnumber, locname):
     try:
-        finemapped = pd.read_csv(f"{filedir}/loci/locus_{locname}.susie", sep="\t")
-        print(finemapped)
-        print(max(finemapped['PIP']))
+        finemapped = pd.read_csv(f"{filedir}/loci/locus_{locnumber}_{locname}.susie", sep="\t")
+        # print(finemapped)
+        # print(max(finemapped['PIP']))
         finemapped = finemapped.sort_values("PIP", ascending=True)
         if len(finemapped) > 1:
             finemapped['cumsum'] = finemapped['PIP'].cumsum()
@@ -158,9 +162,9 @@ def format_susie_results(filedir, locname):
         finemapped = finemapped[['SNP', 'PIP']]
         finemapped = finemapped.sort_values("PIP", ascending=False)
         if len(finemapped) == 0:
-            print(f"No finemapped SNPs for locus {locname}, skipping")
+            print(f"No finemapped SNPs for locus {locnumber} {locname}, skipping")
             return
-        finemapped.to_csv(f"{filedir}/locus_{locname}.susie.finemapped", sep="\t", index=False)
+        finemapped.to_csv(f"{filedir}/locus_{locnumber}.susie.finemapped", sep="\t", index=False)
     except: 
         sys.exit(5)
         
@@ -352,8 +356,11 @@ def main():
     
     # read in the genomic risk loci file and process each row
     loci = pd.read_csv(os.path.join(s2gdir, s2g_id, 'GenomicRiskLoci.txt'), sep='\t')
+    
+    success_loci = []
+    
     for index, row in loci.iterrows():
-        locname = row['GenomicLocus']
+        locnumber = row['GenomicLocus']
         chrom = row["chr"]
         start = row["start"]
         end = row["end"]
@@ -362,12 +369,12 @@ def main():
             end = end + 25000
         locname = f'{chrom}:{start}-{end}'
         
-        if os.path.exists(f"{filedir}/locus_{locname}.susie.finemapped"):
-            logger.info(f"locus_{locname}.susie.finemapped already exists, skipping")
+        if os.path.exists(f"{filedir}/locus_{locnumber}.susie.finemapped"):
+            logger.info(f"locus_{locnumber}.susie.finemapped already exists, skipping")
             continue
         
         # add header
-        outfp = os.path.join(filedir, "loci", "locus_" + locname + ".txt")
+        outfp = os.path.join(filedir, "loci", "locus_" + str(locnumber) + "_" + locname + ".txt")
         
         # add header 
         add_header(header_path=os.path.join(filedir, "header.txt"), outfp=outfp)
@@ -375,33 +382,45 @@ def main():
         # get the variants per locus with tabix
         subset_variants_per_locus(filedir=filedir, locname=locname, outfp=outfp, logger=logger)
         
-        locus_txt = os.path.join(filedir, "loci", f"locus_{locname}.txt")
-        locus_pq = os.path.join(filedir, "loci", f"locus_{locname}.txt.pq")
-        susie_out = os.path.join(filedir, "loci", f"locus_{locname}.susie")
+        locus_txt = os.path.join(filedir, "loci", f"locus_{locnumber}_{locname}.txt")
+        locus_pq = os.path.join(filedir, "loci", f"locus_{locnumber}_{locname}.txt.pq")
+        susie_out = os.path.join(filedir, "loci", f"locus_{locnumber}_{locname}.susie")
         
         # run polyfun munge
-        run_polyfun_munge(locus_txt, locus_pq, sample_size, logger, locname)
+        if not run_polyfun_munge(locus_txt, locus_pq, sample_size, logger, locname):
+            continue
         
         # run polyfun finemapper
-        run_polyfun_finemapper(locus_pq, sample_size, susie_out, chrom, start, end, logger, locname)
+        if not run_polyfun_finemapper(locus_pq, sample_size, susie_out, chrom, start, end, logger, locname):
+            continue
+        
+        success_loci.append(locnumber)
         
         # format susie results
-        format_susie_results(filedir, locname)
+        format_susie_results(filedir, locnumber, locname)
 
         #done with looping through loci
 
     indexfile = open(f"{filedir}/indexfile.txt", "w")
     print("\t".join(["Filename", "GenomicLocus", "Annotfiles"]), file=indexfile)
 
-    locus_n = 1
-    for file in os.listdir(filedir):
-        if file.endswith(".susie.finemapped"):
-            make_indexfile(filedir, file, locus_n)
-            # format(os.path.join(filedir, file), locus_n)
-            indexfile_row = [f"{filedir}/locus_{locus_n}.cred1", f"{locus_n}", f"{filedir}/annots/annotated_locus_{locus_n}.txt"]
-            print("\t".join(indexfile_row), file=indexfile)
-            locus_n += 1
+    for locus_n in success_loci:
+        filename = os.path.join(filedir, "locus_" + str(locus_n) + ".susie.finemapped")
+        make_indexfile(filedir, filename, int(locus_n))
+        indexfile_row = [f"{filedir}/locus_{locus_n}.cred1", f"{locus_n}", f"{filedir}/annots/annotated_locus_{locus_n}.txt"]
+        print("\t".join(indexfile_row), file=indexfile)
+    
     indexfile.close()
+        
+    # locus_n = 1
+    # for file in os.listdir(filedir):
+    #     if file.endswith(".susie.finemapped"):
+    #         make_indexfile(filedir, file, locus_n)
+    #         # format(os.path.join(filedir, file), locus_n)
+    #         indexfile_row = [f"{filedir}/locus_{locus_n}.cred1", f"{locus_n}", f"{filedir}/annots/annotated_locus_{locus_n}.txt"]
+    #         print("\t".join(indexfile_row), file=indexfile)
+    #         locus_n += 1
+    # indexfile.close()
     
     # run flames
     run_flames(filedir, flames, s2gdir, s2g_id, logger)
