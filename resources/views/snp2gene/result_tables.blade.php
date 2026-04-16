@@ -160,7 +160,7 @@
 				<table id="xqtlsTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>uniqID</th><th>Database</th><th>Additional Details (if applicable)</th><th>Gene/Protein</th><th>Type (cis/trans)</th><th>QTL Type</th>
+							<th>uniqID</th><th>Database</th><th>Additional Details (if applicable)</th><th>Gene/Protein</th><th>Type (cis/trans)</th><th>QTL Type</th><th>Genomic Risk Loci</th><th>Ensemble ID</th>
 						</tr>
 					</thead>
 				</table>

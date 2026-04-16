@@ -16,6 +16,7 @@ def qtl_tabix(region, tb):
 	return qtls
 
 def process_loci(tb, loci, locus, snps):
+    loci_number = loci.iloc[locus,0]
     chrom = loci.iloc[locus,1]
     start = loci.iloc[locus,2]
     end = loci.iloc[locus,3]
@@ -23,6 +24,7 @@ def process_loci(tb, loci, locus, snps):
     qtls = qtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
     
     qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P'])
+    qtls["GenomicLocus"] = loci_number
 
 
     ### filter on qtls based on position
@@ -66,6 +68,7 @@ def process_loci(tb, loci, locus, snps):
     return qtls
 
 def process_loci_threshold(tb, loci, locus, snps, config_class):
+    locus_number = loci.iloc[locus,0]
     chrom = loci.iloc[locus,1]
     start = loci.iloc[locus,2]
     end = loci.iloc[locus,3]
@@ -76,6 +79,7 @@ def process_loci_threshold(tb, loci, locus, snps, config_class):
 
     ### filter on qtls based on position
     qtls = qtls[qtls.iloc[:,1].astype('int').isin(snps[snps.iloc[:,1]==chrom].iloc[:,2])] #get the qtls that are in the snps.txt file
+    qtls["GenomicLocus"] = locus_number
     
     ### filter based on threshold
     qtls = qtls[pd.to_numeric(qtls.iloc[:,8], errors='coerce')<config_class._xqtlP]
@@ -139,17 +143,22 @@ def process_xqtls(fqtl, config_class, loci, snps, fout):
         print(f"INFO: p threshold for the dataset will be used.")
         for locus in range(len(loci)):
             qtls = process_loci_threshold(tb=tb, loci=loci, locus=locus, snps=snps, config_class=config_class)
+            if qtls is not None:
+                qtls['db'] = db
+                qtls['tissue'] = ts
+                qtls['qtl_type'] = qtl_type
+                qtls = qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "qtl_type", "GenomicLocus"]]
+                qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
     else: 
         print(f"Significant associations for the dataset will be used.")
         for locus in range(len(loci)):
             qtls = process_loci(tb=tb, loci=loci, locus=locus, snps=snps)
-            
-    if qtls is not None:
-        qtls['db'] = db
-        qtls['tissue'] = ts
-        qtls['qtl_type'] = qtl_type
-        qtls = qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "qtl_type"]]
-        qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
+            if qtls is not None:
+                qtls['db'] = db
+                qtls['tissue'] = ts
+                qtls['qtl_type'] = qtl_type
+                qtls = qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "qtl_type", "GenomicLocus"]]
+                qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
             
             
 def process_ensg(config_class):

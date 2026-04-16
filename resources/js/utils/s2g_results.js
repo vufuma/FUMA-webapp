@@ -893,7 +893,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 					jobID: id,
 					prefix: prefix,
 					infile: file,
-					header: "uniqID:db:tissue:protein:type:qtl_type"
+					header: "uniqID:db:tissue:protein:type:qtl_type:genomicriskloci:ensemble_id"
 				}
 			},
 			"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
