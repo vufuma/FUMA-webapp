@@ -14,7 +14,7 @@ import sys
 import os
 import pandas as pd
 import numpy as np
-import ConfigParser
+import configparser
 import tabix
 import re
 
@@ -24,7 +24,7 @@ def eqtl_tabix(region, tb):
 	try:
 		tmp = tb.querys(region)
 	except:
-		print "Tabix failed for region "+region
+		print("Tabix failed for region "+region)
 	else:
 		for l in tmp:
 			eqtls.append(l[0:9])
@@ -32,7 +32,7 @@ def eqtl_tabix(region, tb):
 
 ##### check argument #####
 if len(sys.argv) < 2:
-	print "ERROR: not enough arguments\nUSAGE: ./geteQTL.py <filedir>"
+	print("ERROR: not enough arguments\nUSAGE: ./geteQTL.py <filedir>")
 	sys.exit()
 
 ##### add '/' to the filedir #####
@@ -41,10 +41,10 @@ if re.match(".+\/$", filedir) is None:
 	filedir += '/'
 
 ##### get config files #####
-cfg = ConfigParser.ConfigParser()
+cfg = configparser.ConfigParser()
 cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
-param_cfg = ConfigParser.ConfigParser()
+param_cfg = configparser.ConfigParser()
 param_cfg.read(filedir+'params.config')
 
 ##### get parameters #####
@@ -110,7 +110,7 @@ for feqtl in eqtlds:
 			eqtls = eqtls[eqtls.uniqID1.isin(snps.uniqID2)]
 			eqtls = eqtls.merge(snps[snps.uniqID2.isin(eqtls.uniqID1)].loc[:,["uniqID2", "uniqID"]], left_on="uniqID1", right_on="uniqID2", how="left")
 			eqtls = eqtls.drop(columns=["uniqID1", "uniqID2"])
-			eqtls = eqtls.append(tmp_eqtls, ignore_index=True)
+			eqtls = pd.concat([eqtls, tmp_eqtls], ignore_index=True)
 			del tmp_eqtls
 		else:
 			eqtls.iloc[:,2:4] = eqtls.iloc[:,2:4].apply(np.sort, axis=1, result_type='broadcast')

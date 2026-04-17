@@ -11,7 +11,7 @@ import statsmodels.sandbox.stats.multicomp as multicomp
 import re
 from joblib import Parallel, delayed
 import multiprocessing
-import ConfigParser
+import configparser
 
 n_cores = multiprocessing.cpu_count()
 
@@ -19,7 +19,7 @@ start = time.time()
 
 ##### Return index of a1 which exists in a2 #####
 def ArrayIn(a1, a2):
-	results = np.where(np.in1d(a1, a2))[0]
+	results = np.where(np.isin(a1, a2))[0]
 	return results
 
 ##### read gmt file #####
@@ -54,7 +54,7 @@ def hypTest(l, c):
 
 #### geneset test #####
 def GeneSetTest(f):
-	print f
+	print(f)
 	c = f.replace(".gmt", "").split("/")
 	c = c[len(c)-1]
 	gs = read_gmt(f)
@@ -74,7 +74,7 @@ def GeneSetTest(f):
 
 
 ##### config variables #####
-cfg = ConfigParser.ConfigParser()
+cfg = configparser.ConfigParser()
 cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 ensgdir = cfg.get('data', 'ENSG')
 ensgfile = cfg.get('data', 'ENSGfile')
@@ -86,7 +86,7 @@ if len(sys.argv)<1:
 filedir = sys.argv[1]
 if re.match(".+\/$", filedir) is None:
 	filedir += '/'
-param = ConfigParser.ConfigParser()
+param = configparser.ConfigParser()
 param.read(filedir+'params.config')
 
 gtype = param.get('params', 'gtype')
@@ -104,7 +104,7 @@ minOverlap = int(param.get('params', 'minOverlap'))
 if gtype == "text":
 	genes = gval.split(":")
 else:
-	lines = pd.read_csv(filedir+gval, header=None, delim_whitespace=True, dtype=str)
+	lines = pd.read_csv(filedir+gval, header=None, sep=r'\s+', dtype=str)
 	lines = np.array(lines)
 	genes = list(lines[:,0].astype(str))
 genes = [s.upper() for s in genes]
@@ -123,7 +123,7 @@ elif bkgtype == "text":
 	bkgenes = bkgval.split(":")
 	bkgenes = [s.upper() for s in bkgenes]
 else:
-	lines = pd.read_csv(filedir+bkgval, header=None, delim_whitespace=True, dtype=str)
+	lines = pd.read_csv(filedir+bkgval, header=None, sep=r'\s+', dtype=str)
 	lines = np.array(lines)[:,0]
 	bkgenes = list([str(s) for s in lines])
 	bkgenes = [s.upper() for s in bkgenes]
@@ -135,7 +135,7 @@ else:
 
 ### remove MHC region
 if not MHC:
-	print "Excluding genes in MHC regions"
+	print("Excluding genes in MHC regions")
 	mhc_start = int(ENSG[ENSG[:,ENSGheads.index("external_gene_name")]=="MOG",ENSGheads.index("start_position")][0])
 	mhc_end = int(ENSG[ENSG[:,ENSGheads.index("external_gene_name")]=="COL11A2",ENSGheads.index("start_position")][0])
 	ENSG = ENSG[np.where((ENSG[:,ENSGheads.index("chromosome_name")]!="6")|(ENSG[:,ENSGheads.index("end_position")].astype(int)<=mhc_start)|(ENSG[:,ENSGheads.index("start_position")].astype(int)>=mhc_end))]
@@ -177,7 +177,7 @@ ENSG = ENSG[ArrayIn(ENSG[:,ENSGheads.index("entrezID")], genes)]
 files = glob.glob(gsdir+'/*.gmt')
 if nFiles>0:
 	files += [filedir+x for x in gsFiles.split(":")]
-print files
+print(files)
 
 N = len(bkgenes)
 m = len(genes)
@@ -191,4 +191,4 @@ with open(filedir+"GS.txt", 'a') as out:
 		if len(gs_tmp)>0:
 			out.write("\n".join(["\t".join(l) for l in gs_tmp])+"\n")
 
-print time.time() - start
+print(time.time() - start)

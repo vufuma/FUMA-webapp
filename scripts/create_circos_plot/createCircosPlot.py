@@ -11,11 +11,11 @@ import tabix
 
 ##### Return index of a1 which exists in a2 #####
 def ArrayIn(a1, a2):
-	results = np.where(np.in1d(a1, a2))[0]
+	results = np.where(np.isin(a1, a2))[0]
 	return results
 
 def ArrayNotIn(a1, a2):
-    tmp = np.where(np.in1d(a1, a2))[0]
+    tmp = np.where(np.isin(a1, a2))[0]
     return list(set(range(0,len(a1)))-set(tmp))
 
 ##### return unique element in list #####

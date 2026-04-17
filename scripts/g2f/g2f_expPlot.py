@@ -10,11 +10,11 @@ from scipy.cluster.hierarchy import linkage, leaves_list
 
 ##### Return index of a1 which exists in a2 #####
 def ArrayIn(a1, a2):
-	results = np.where(np.in1d(a1, a2))[0]
+	results = np.where(np.isin(a1, a2))[0]
 	return results
 
 def ArrayNotIn(a1, a2):
-    tmp = np.where(np.in1d(a1, a2))[0]
+    tmp = np.where(np.isin(a1, a2))[0]
     return list(set(range(0,len(a1)))-set(tmp))
 
 def main():
@@ -56,6 +56,6 @@ def main():
 	gene_order = np.c_[gene_order_alph, gene_order_clst_log2, gene_order_clst_norm]
 	label_order = np.c_[label_order_alph, label_order_clst_log2, label_order_clst_norm]
 
-	print json.dumps({"data":[list(l) for l in exp_table], "gene":list(genes), "label":list(label), "order_gene":[list(l) for l in gene_order], "order_label":[list(l) for l in label_order]})
+	print(json.dumps({"data":[list(l) for l in exp_table], "gene":list(genes), "label":list(label), "order_gene":[list(l) for l in gene_order], "order_label":[list(l) for l in label_order]}))
 
 if __name__ == "__main__": main()
