@@ -132,7 +132,7 @@ def align_qtl(qtls): #TODO: add the condition here. Now just add NA placeholder
     return qtls
             
 def process_xqtls(fqtl, config_class, loci, snps, fout):
-    ds_need_pthres = set(["bryois2022Brain"])
+    ds_need_pthres = set(["bryois2022Brain", "jerber2021Dopaminergic"])
     qtl_type = fqtl.split("/")[0]
     db = fqtl.split("/")[1]
     ts = fqtl.split("/")[3].split(".txt.gz")[0]
