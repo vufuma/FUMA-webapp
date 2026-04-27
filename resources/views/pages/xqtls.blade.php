@@ -284,57 +284,30 @@ border-color: rgba(0,0,0,0.1);
                                             </div>
                                             <br>
 
-                                            <!-- <h2 style="color: #00004d; font-size:16px;">sQTLs Datasets</h2> -->
+                                            <h2 style="color: #00004d; font-size:16px;">sQTLs Datasets</h2>
 
                                             <!-- GTEx v10 -->
-                                            <!-- <div class="accordion-item" style="padding:0px;"> -->
-                                                <!-- <h3 class="accordion-header"> -->
-                                                    <!-- <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#sqtlGtexv10"> -->
-                                                        <!-- GTEx v10 -->
-                                                    <!-- </button> -->
-                                                <!-- </h3> -->
-
-                                                <!-- <div class="accordion-collapse collapse" id="sqtlGtexv10"> -->
-                                                    <!-- <div class="accordion-body"> -->
-                                                        <!-- <span class="multiSelect"> -->
-                                                            <!-- <a class="clear" style="float:right; padding-right:20px;">Clear</a> -->
-                                                            <!-- <a class="all" style="float:right; padding-right:20px;">Select all</a><br> -->
-                                                            <!-- <select multiple class="form-select" id="sqtlGtexv10Ds" name="sqtlGtexv10Ds[]" -->
-                                                                <!-- size="10" onchange="window.CheckAll();"> -->
-                                                                <!-- @include('xqtls.xqtls_options.sqtls.gtex_v10_options') -->
-                                                            <!-- </select> -->
-                                                        <!-- </span> -->
-                                                    <!-- </div> -->
-                                                <!-- </div> -->
-                                            <!-- </div> -->
-                                            <!-- <br> -->
-
-                                            <!-- <h2 style="color: #00004d; font-size:16px;">apaQTLs Datasets</h2> -->
-
-                                            <!-- GTEx v10 -->
-                                            <!-- <div class="accordion-item" style="padding:0px;">
+                                            <div class="accordion-item" style="padding:0px;">
                                                 <h3 class="accordion-header">
-                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#apaqtlGtexv10">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#sqtlGtexv10">
                                                         GTEx v10
                                                     </button>
                                                 </h3>
 
-                                                <div class="accordion-collapse collapse" id="apaqtlGtexv10">
+                                                <div class="accordion-collapse collapse" id="sqtlGtexv10">
                                                     <div class="accordion-body">
                                                         <span class="multiSelect">
                                                             <a class="clear" style="float:right; padding-right:20px;">Clear</a>
                                                             <a class="all" style="float:right; padding-right:20px;">Select all</a><br>
-                                                            <select multiple class="form-select" id="eqtlGtexv8Ts" name="eqtlGtexv8Ts[]"
+                                                            <select multiple class="form-select" id="sqtlGtexv10Ds" name="sqtlGtexv10Ds[]"
                                                                 size="10" onchange="window.CheckAll();">
-                                                                @include('xqtls.xqtls_options.apaqtls.gtex_v10_options')
+                                                                @include('xqtls.xqtls_options.sqtls.gtex_v10_options')
                                                             </select>
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <br> -->
-
-                                            
+                                            <br>
 
                                             <!-- <h2 style="color: #00004d; font-size:16px;">pQTLs Datasets</h2>
                                             <div class="accordion-item" style="padding:0px;">
