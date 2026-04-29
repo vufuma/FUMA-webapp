@@ -429,56 +429,14 @@ export const CheckAll = function() {
 	table = $('#NewJobEqtlMap')[0];
 	if($('#eqtlMap').is(":checked")==true){
 		$('.eqtlMapOptions').show();
-		// $('#eqtlMapOptFilt').show();
+		$('#eqtlMapOptFilt').show();
 		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 			+'<i class="fa fa-check"></i> OK.</div></td>');
 		let ts = 0;
-		$('#eqtlTigerTs option').each(function(){
+		$('#eqtlMapTs option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
-		$('#eqtlInspireTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlEyeGExTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlCatalogTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlPsychEncodeTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlvanderWijstTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlDiceTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtleQTLGenTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlBloodeqtlsTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlMutherTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlxQTLServerTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlCommonMindTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlBraineacTs option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlGtexv8Ts option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlGtexv7Ts option').each(function(){
-			if($(this).is(":checked")==true){ts++;}
-		});
-		$('#eqtlGtexv6Ts option').each(function(){
+		$('#eqtlMapGts option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
 		
@@ -1455,6 +1413,43 @@ function setParams(data){
 		});
 		$('#eqtlMapAnnoMeth').val(data.eqtlMapAnnoMeth);
 	}
+
+	// xqtls mapping
+	if(data.xqtlsMap == "1"){$('#xqtlsMap').prop("checked", true)}
+	else{$('#xqtlsMap').prop("checked", false)}
+	if(data.xqtlsMapdss != "NA"){
+		let dsList = data.xqtlsMapdss.split(":");
+
+		// clear previous selections
+		$('select[id$="Ds"] option').prop('selected', false);
+
+		dsList.forEach(function (ds) {
+
+			// if (ds === "all") {
+			// 	$('select[id$="Ds"] option').prop('selected', true);
+			// 	return;
+			// }
+
+			let fileName = ds.split("/")[3]
+				.replace(".txt.gz", "");
+
+			let baseTissue = fileName.split("_")[0];
+
+			let qtlType = ds.split("/")[0].toLowerCase();
+
+			console.log(qtlType);
+
+			let selectId = "#" + qtlType + baseTissue + "Ds";
+
+			$(selectId + ' option[value="' + ds + '"]')
+				.prop('selected', true);
+
+		});
+		CheckAll();
+		// if(data.eqtlMapSig=="1"){$('#sigeqtlCheck').prop("checked", true);}
+		// else{$('#sigeqtlCheck').prop("checked", false);$('#eqtlP').val(data.eqtlMapP);}
+	}
+
 	if(data.ciMap!=null){
 		if(data.ciMap=="1"){
 			$('#ciMap').prop('checked', true);

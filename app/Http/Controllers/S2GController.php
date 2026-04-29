@@ -601,41 +601,24 @@ class S2GController extends Controller
         // eqtl mapping
         if ($request->filled('eqtlMap')) {
             $eqtlMap = 1;
-
-            // $eqtlGtexv8Ts = [];
-            // $temp = $request->input('eqtlGtexv8Ts');
-            // foreach ($temp as $ts) {
-            //     if ($ts != "null") {
-            //         $eqtlGtexv8Ts[] = $ts;
-            //     }
-            // }
-
-            // $eqtlCatalogTs = [];
-            // $temp = $request->input('eqtlCatalogTs');
-            // foreach ($temp as $ts) {
-            //     if ($ts != "null") {
-            //         $eqtlCatalogTs[] = $ts;
-            //     }
-            // }
-
-            $eqtlMaptss = $this->joinQTLdatasets(
-                $this->parseQtl($request->input('eqtlTigerTs')),
-                $this->parseQtl($request->input('eqtlInspireTs')),
-                $this->parseQtl($request->input('eqtlEyeGExTs')),
-                $this->parseQtl($request->input('eqtlCatalogTs')),
-                $this->parseQtl($request->input('eqtlPsychEncodeTs')),
-                $this->parseQtl($request->input('eqtlvanderWijstTs')),
-                $this->parseQtl($request->input('eqtlDiceTs')),
-                $this->parseQtl($request->input('eqtleQTLGenTs')),
-                $this->parseQtl($request->input('eqtlBloodeqtlsTs')),
-                $this->parseQtl($request->input('eqtlMutherTs')),
-                $this->parseQtl($request->input('eqtlxQTLServerTs')),
-                $this->parseQtl($request->input('eqtlCommonMindTs')),
-                $this->parseQtl($request->input('eqtlBraineacTs')),
-                $this->parseQtl($request->input('eqtlGtexv8Ts')),
-                $this->parseQtl($request->input('eqtlGtexv7Ts')),
-                $this->parseQtl($request->input('eqtlGtexv6Ts'))
-            );
+            $temp = $request->input('eqtlMapTs');
+            // $eqtlMapGts = $request -> input('eqtlMapGts');
+            $eqtlMapTs = [];
+            $eqtlMapGts = [];
+            foreach ($temp as $ts) {
+                if ($ts != "null") {
+                    $eqtlMapTs[] = $ts;
+                }
+            }
+            if (!empty($eqtlMapTs) && !empty($eqtlMapGts)) {
+                $eqtlMapTs = implode(":", $eqtlMapTs);
+                $eqtlMapGts = implode(":", $eqtlMapGts);
+                $eqtlMaptss = implode(":", array($eqtlMapTs, $eqtlMapGts));
+            } else if (!empty($eqtlMapTs)) {
+                $eqtlMaptss = implode(":", $eqtlMapTs);
+            } else {
+                $eqtlMaptss = implode(":", $eqtlMapGts);
+            }
 
         } else {
             $eqtlMap = 0;
