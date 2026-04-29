@@ -3,7 +3,7 @@
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Brain_Anterior_cingulate_cortex_BA24.txt.gz">Anterior cingulate cortex BA24</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Brain_Caudate_basal_ganglia.txt.gz">Caudate basal ganglia</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Brain_Cerebellar_Hemisphere.txt.gz">Cerebellar Hemisphere</option>
-<option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Brain_Cerebellum.txt.gz">Cerebellum</option>
+<option class="level2" value="sQTL/gtex_v10/sig_pairs/Brain_Cerebellum.txt.gz">Cerebellum</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Brain_Cortex.txt.gz">Cortex</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Brain_Frontal_Cortex_BA9.txt.gz">Frontal Cortex BA9</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Brain_Hippocampus.txt.gz">Hippocampus</option>

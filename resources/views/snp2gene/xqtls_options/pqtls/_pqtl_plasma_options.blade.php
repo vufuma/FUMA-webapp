@@ -1,5 +1,5 @@
 <option class="level1" value="null"> 1_suhre_2017 (1) </option>
-<option class="level2" value="pQTL/1_suhre_2017/sig_pairs/1_suhre_2017.txt.gz">KORA Plasma</option>
+<option class="level2" value="pQTL/1_suhre_2017/sig_pairs/Plasma_1_suhre_2017.txt.gz">KORA Plasma</option>
 
 <option class="level1" value="null"> 2_sun_2016 (1) </option>
 <option class="level2" value="pQTL/2_sun_2016/sig_pairs/2_sun_2016_meta.txt.gz">SPIROMICS COPDGene Plasma</option>
