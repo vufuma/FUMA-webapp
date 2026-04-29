@@ -1437,7 +1437,7 @@ function setParams(data){
 
 			let qtlType = ds.split("/")[0].toLowerCase();
 
-			console.log(qtlType);
+			// console.log(qtlType);
 
 			let selectId = "#" + qtlType + baseTissue + "Ds";
 

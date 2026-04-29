@@ -1,1 +1,0 @@
-<option class="level2" value="TIGER/Nom_Alonso_Pancreatic_islets.txt.gz">Alonso et al. 2021 Pancreatic islets</option>

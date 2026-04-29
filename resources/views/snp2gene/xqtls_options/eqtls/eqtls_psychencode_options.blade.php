@@ -1,1 +1,0 @@
-<option class="level2" value="PsychENCODE/PsychENCODE_eQTLs.txt.gz">PsychENCODE eQTLs</option>
