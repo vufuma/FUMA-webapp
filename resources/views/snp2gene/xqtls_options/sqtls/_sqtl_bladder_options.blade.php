@@ -1,2 +1,2 @@
 <option class="level1" value="null"> GTEx v10 </option>
-<option class="level2" value="sQTL/gtex_v10/sig_pairs/gtex_v10_Bladder.txt.gz">Bladder</option>
+<option class="level2" value="sQTL/gtex_v10/sig_pairs/Bladder.txt.gz">Bladder</option>
