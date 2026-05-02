@@ -296,4 +296,23 @@ class XQTLSController extends Controller
         $headers = array('Content-Type: application');
         return response()->download($downloadPath, $name, $headers);
     }
+
+    public function loadParams(Request $request)
+    {
+        $id = $request->input('jobID');
+        $filedir = config('app.jobdir') . '/xqtls/' . $id . '/';
+        $params = parse_ini_string(Storage::get($filedir . "params.config"), false, INI_SCANNER_RAW);
+        return json_encode($params);
+    }
+
+    public function getQTLsAnalysisIDs()
+    {
+        $user_id = Auth::user()->id;
+        $results = SubmitJob::where('user_id', $user_id)
+            ->where('type', 'xqtls')
+            ->where('status', 'OK')
+            ->whereNull('removed_at')
+            ->get(['jobID', 'title']);
+        return $results;
+    }
 }

@@ -42,6 +42,27 @@ border-color: rgba(0,0,0,0.1);
                             <div id="uploadData">
                                 {{ html()->form('POST', '/xqtls/submit')->attribute('enctype', 'multipart/form-data')->open() }}
 
+                                <!-- load previous settings -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <span class="form-inline input-group-text" style="font-size:18px;">
+                                                Load settings from previous job
+                                                <a class="infoPop" data-bs-toggle="popover"
+                                                    title="Previous jobID"
+                                                    data-bs-content="By selecting jobID of your existing QTL jobs,
+                                                you can load parameter settings that you used before (only if there is any existing job in your account).
+                                                Note that this does not load input files and title. Please specify input files for each submission.">
+                                                    <i class="fa-regular fa-circle-question"></i>
+                                                </a>
+                                            </span>
+                                            <select class="form-select" id="paramsID" name="paramsID" onchange="window.loadParams();">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
                                 <div class="row">
                                     <div class="col-sm-2" style="font-weight: bold; padding-top:7px;">
                                         <b>Job name (optional):</b>
@@ -425,9 +446,10 @@ border-color: rgba(0,0,0,0.1);
     <script type="module">
         import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
         import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
-        import { XQTLSSetup, CheckAll } from "{{ Vite::appjs('utils/xqtls.js') }}";
+        import { XQTLSSetup, CheckAll, loadParams } from "{{ Vite::appjs('utils/xqtls.js') }}";
         import tutorialDownloadVariant from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
         window.CheckAll = CheckAll;
+        window.loadParams = loadParams;
         window.tutorialDownloadVariant = tutorialDownloadVariant;
         $(function(){
             SidebarSetup();

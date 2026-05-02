@@ -13,6 +13,21 @@ export const XQTLSSetup = function(){
 		updateQueryHistory();
 	});
 
+	// Get SNP2GENE job IDs
+	$.ajax({
+		url: pageState.get("subdir")+"/xqtls/getQTLsAnalysisIDs",
+		type: "POST",
+		error: function(){
+			alert("error for getQTLsAnalysisIDs");
+		},
+		success: function(data){
+			$('#paramsID').html('<option value=0 selected>None</option>');
+			data.forEach(function(d){
+				$('#paramsID').append('<option value='+d.jobID+'>'+d.jobID+' ('+d.title+')</option>');
+			})
+		}
+	});
+
     if(status.length==0 || status=="getJob") {
         // var id = jobID;
         lavaSummaryTable(subdir, page, prefix, id);
@@ -187,5 +202,36 @@ export const CheckAll = function() {
 	if(submit){$('#xqtlsSubmit').attr("disabled", false);}
 	else{$('#xqtlsSubmit').attr("disabled", true);}
 };
+
+export function loadParams(){
+	var paramsID = $('#paramsID').val();
+	if(paramsID > 0){
+		$.ajax({
+			url: pageState.get('subdir')+"/xqtls/loadParams",
+			type: "POST",
+			data: {
+				jobID: paramsID
+			},
+			error: function(){
+				alert("error for loadParams");
+			},
+			success: function(data){
+				data = JSON.parse(data);
+				setParams(data);
+			}
+		})
+	}
+}
+
+function setParams(data){
+
+	if(data.build=="GRCh37"){$('#grch37').prop('checked', true);}
+	else{$('#grch37').prop('checked', false);}
+
+	if(data.build=="GRCh38"){$('#grch38').prop('checked', true);}
+	else{$('#grch38').prop('checked', false);}
+
+	CheckAll();
+}
 
 export default XQTLSSetup;
