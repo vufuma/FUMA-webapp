@@ -60,3 +60,21 @@
 <option class="level2" value="sceQTL/singlebrain/sig_pairs/Brain_singlebrain_OPC.txt.gz">OPC</option>
 <option class="level2" value="sceQTL/singlebrain/sig_pairs/Brain_singlebrain_OPC1.txt.gz">OPC1</option>
 <option class="level2" value="sceQTL/singlebrain/sig_pairs/Brain_singlebrain_OPC2.txt.gz">OPC2</option>
+<option class="level1" value="null"> brainscope </option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Astro.txt.gz">Astro</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Chandelier__Pvalb.txt.gz">Chandelier__Pvalb</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_L5.6.NP.txt.gz">L5.6.NP</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_L4.IT.txt.gz">L4.IT</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_L2.3.IT.txt.gz">L2.3.IT</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_L6.CT.txt.gz">L6.CT</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_L6b.txt.gz">L6b</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_L5.IT.txt.gz">L5.IT</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Micro.PVM.txt.gz">Micro.PVM</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Lamp5.txt.gz">Lamp5</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Lamp5.Lhx6.txt.gz">Lamp5.Lhx6</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_L6.IT.txt.gz">L6.IT</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Sst__Sst.Chodl.txt.gz">Sst__Sst.Chodl</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_PC.txt.gz">PC</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_OPC.txt.gz">OPC</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Oligo.txt.gz">Oligo</option>
+<option class="level2" value="sceQTL/brainscope/sig_pairs/Brain_brainscope_Vip.txt.gz">Vip</option>
