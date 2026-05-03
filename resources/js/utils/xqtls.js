@@ -275,9 +275,13 @@ function setParams(data){
 			let database = ds.split("-")[1];
 			if (database == "gtex_v10") {
 				database = "Gtexv10";
+			} else if (database == "metabrain") {
+				database = "Metabrain";
+			} else if (database == "bryois2022Brain") {
+				database = "bryois2022Brain";
+			} else if (database == "jerber2021Dopaminergic") {
+				database = "jerber2021Dopaminergic";
 			}
-
-			let baseTissue = ds.split("-")[2]
 
 			let selectId = "#" + qtlType + database + "Ds";
 
