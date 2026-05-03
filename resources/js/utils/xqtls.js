@@ -225,11 +225,72 @@ export function loadParams(){
 
 function setParams(data){
 
+	// build
 	if(data.build=="GRCh37"){$('#grch37').prop('checked', true);}
 	else{$('#grch37').prop('checked', false);}
 
 	if(data.build=="GRCh38"){$('#grch38').prop('checked', true);}
 	else{$('#grch38').prop('checked', false);}
+
+	// chromosome, start, end
+	$('#chrom').val(data.chrom);
+	$('#locusStart').val(data.start);
+	$('#locusEnd').val(data.end);
+
+	// coloc parameterizations
+	if(data.coloc=="1"){$('#coloc').prop('checked', true);}
+	else{$('#coloc').prop('checked', false);}
+
+	if(data.pp4!="NA"){$('#pp4').val(data.pp4)}
+	else{$('#pp4').val('')}
+
+	if(data.colocGene!="NA"){$('#colocGene').val(data.colocGene)}
+	else{$('#colocGene').val('')}
+
+	// lava parameterization
+	if(data.lava=="1"){$('#lava').prop('checked', true);}
+	else{$('#lava').prop('checked', false);}
+
+	if(data.phenotype!="NA"){$('#phenotype').val(data.phenotype)}
+	else{$('#phenotype').val('')}
+
+	if(data.lavaGene!="NA"){$('#lavaGene').val(data.lavaGene)}
+	else{$('#lavaGene').val('')}
+
+	// other parameters
+	$('#cases').val(data.cases);
+	$('#totalN').val(data.totalN);
+
+	// datasets
+	if(data.datasets != "NA"){
+		let dsList = data.datasets.split(":");
+
+		// clear previous selections
+		$('select[id$="Ds"] option').prop('selected', false);
+
+		dsList.forEach(function (ds) {
+
+			let qtlType = ds.split("-")[0].toLowerCase();
+
+			let database = ds.split("-")[1];
+			if (database == "gtex_v10") {
+				database = "Gtexv10";
+			}
+
+			let baseTissue = ds.split("-")[2]
+
+			let selectId = "#" + qtlType + database + "Ds";
+
+			console.log(selectId);
+
+			$(selectId + ' option[value="' + ds + '"]')
+				.prop('selected', true);
+
+		});
+		CheckAll();
+		// if(data.eqtlMapSig=="1"){$('#sigeqtlCheck').prop("checked", true);}
+		// else{$('#sigeqtlCheck').prop("checked", false);$('#eqtlP').val(data.eqtlMapP);}
+	}
 
 	CheckAll();
 }
