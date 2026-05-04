@@ -44,9 +44,17 @@ updated_lines = []
 with open(param_path, "r") as f:
     for line in f:
         if line.startswith("start="):
-            updated_lines.append(f"start={start}\n")
+            if build == "grch37":
+                updated_lines.append(f"start_grch37={param.getint('params','start')}\n")
+                updated_lines.append(f"start={start}\n")
+            else:
+                updated_lines.append(f"start={start}\n")
         elif line.startswith("end="):
-            updated_lines.append(f"end={end}\n")
+            if build == "grch37":
+                updated_lines.append(f"end_grch37={param.getint('params','end')}\n")
+                updated_lines.append(f"end={end}\n")
+            else:
+                updated_lines.append(f"end={end}\n")
         else:
             updated_lines.append(line)
 
