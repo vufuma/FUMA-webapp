@@ -140,7 +140,10 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
       mutate(locus = sub("\\..*", "", locus))
 
     bivar_results = bivar_results %>%
-      mutate(locus = sub("\\..*", "", locus)) %>%
+      mutate(
+        locus = sub(".*:(ENSG[0-9]+)", "\\1", locus),   
+        locus = sub("\\..*", "", locus)                
+      ) %>%
       left_join(gene_conversion, by = "locus")
 
     write.table(bivar_results, paste0(filedir, out.fname,".bivar.lava"), row.names=F, quote=F, col.names=T)
