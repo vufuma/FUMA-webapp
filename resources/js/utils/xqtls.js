@@ -234,8 +234,13 @@ function setParams(data){
 
 	// chromosome, start, end
 	$('#chrom').val(data.chrom);
-	$('#locusStart').val(data.start);
-	$('#locusEnd').val(data.end);
+	if(data.build=="GRCh37"){
+		$('#locusStart').val(data.start_grch37);
+		$('#locusEnd').val(data.end_grch37);
+	} else if(data.build=="GRCh38"){
+		$('#locusStart').val(data.start);
+		$('#locusEnd').val(data.end);
+	}
 
 	// coloc parameterizations
 	if(data.coloc=="1"){$('#coloc').prop('checked', true);}
