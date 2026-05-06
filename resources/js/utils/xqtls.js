@@ -102,7 +102,7 @@ const lavaSummaryTable = function(){
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "locus:chr:phen1:rho:rho.lower:rho.upper:r2:r2.lower:r2.upper:p:dataset:p.adjust:symbol"
+				header: "locus:chr:phen1:rho:rho.lower:rho.upper:r2:r2.lower:r2.upper:p:qtl_type:database:tissue_ct:p.adjust:symbol"
 			}
 		},
 		error: function () {
@@ -127,7 +127,7 @@ const colocSummaryTable = function(){
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "tissue:gene:nsnps:PP.H0.abf:PP.H1.abf:PP.H2.abf:PP.H3.abf:PP.H4.abf:symbol"
+				header: "qtl_type:database:tissue:gene:nsnps:PP.H0.abf:PP.H1.abf:PP.H2.abf:PP.H3.abf:PP.H4.abf:symbol"
 			}
 		},
 		error: function () {
@@ -160,7 +160,7 @@ export const CheckAll = function() {
 		$(table.rows[1].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
 
-	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='eqtlMetabrainDs[]'] option:selected").length==0 && $("select[name='sceqtlbryois2022BrainDs[]'] option:selected").length==0 && $("select[name='sceqtljerber2021DopaminergicDs[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0){
+	if($("select[name='eqtlGtexv10Ds[]'] option:selected").length==0 && $("select[name='eqtlMetabrainDs[]'] option:selected").length==0 && $("select[name='sceqtlbryois2022BrainDs[]'] option:selected").length==0 && $("select[name='sceqtljerber2021DopaminergicDs[]'] option:selected").length==0 && $("select[name='sceqtlsinglebrainDs[]'] option:selected").length==0 && $("select[name='sqtlGtexv10Ds[]'] option:selected").length==0){
 		submit = false;
 		$(table.rows[5].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one dataset.</div>');
 	} else {
@@ -247,7 +247,7 @@ function setParams(data){
 	else{$('#coloc').prop('checked', false);}
 
 	if(data.pp4!="NA"){$('#pp4').val(data.pp4)}
-	else{$('#pp4').val('')}
+	else{$('#pp4').val('0.8')}
 
 	if(data.colocGene!="NA"){$('#colocGene').val(data.colocGene)}
 	else{$('#colocGene').val('')}

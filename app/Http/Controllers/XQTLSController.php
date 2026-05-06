@@ -91,13 +91,8 @@ class XQTLSController extends Controller
             $this->parseQtl($request->input('eqtlMetabrainDs')),
             $this->parseQtl($request->input('sceqtlbryois2022BrainDs')),
             $this->parseQtl($request->input('sceqtljerber2021DopaminergicDs')),
+            $this->parseQtl($request->input('sceqtlsinglebrainDs')),
             $this->parseQtl($request->input('sqtlGtexv10Ds')),
-            // $this->parseQtl($request->input('pqtl9Sun2023Ds')) #TODO: add 
-            // $this->parseQtl($request->input('pqtl9Sun2023Ds'))
-            // $this->parseQtl($request->input('eqtlCatalog')),
-            // $this->parseQtl($request->input('sqtlGtexv10')),
-            // $this->parseQtl($request->input('apaqtlGtexv10')),
-            // $this->parseQtl($request->input('pqtls'))
         );
 
 

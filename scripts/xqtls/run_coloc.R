@@ -101,7 +101,7 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
     
     coloc_results <- coloc.abf(dataset1, dataset2)
     
-    result = data.frame("tissue" = tissue, "gene" = i, "nsnps" = coloc_results$summary[[1]], "PP.H0.abf" = coloc_results$summary[[2]], "PP.H1.abf" = coloc_results$summary[[3]], "PP.H2.abf" = coloc_results$summary[[4]], "PP.H3.abf" = coloc_results$summary[[5]], "PP.H4.abf" = coloc_results$summary[[6]])
+    result = data.frame("qtl_type" = qtl_type, "database" = dataset_origin, "tissue" = tissue, "gene" = i, "nsnps" = coloc_results$summary[[1]], "PP.H0.abf" = coloc_results$summary[[2]], "PP.H1.abf" = coloc_results$summary[[3]], "PP.H2.abf" = coloc_results$summary[[4]], "PP.H3.abf" = coloc_results$summary[[5]], "PP.H4.abf" = coloc_results$summary[[6]])
     results = rbind(results, result)
   }
 }

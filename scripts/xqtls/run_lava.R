@@ -2,6 +2,7 @@ library(data.table)
 library(dplyr)
 library(argparse)
 library(LAVA)
+library(tidyr)
 
 # Create argument parser
 parser <- ArgumentParser(description = 'Run LAVA analysis')
@@ -163,4 +164,5 @@ write.table(results, file=paste0(filedir, "lava_bivar_results_all_datasets.txt")
 
 results <- results %>%
   filter(p.adjust < 0.05)
+results <- results %>% separate(dataset, c('qtl_type', 'database', 'tissue_ct'), sep='-')
 write.table(results, file=paste0(filedir, "lava_bivar_results_all_datasets_significant.txt"), row.names=F, quote=F, col.names=T, sep="\t")

@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # R packages
-RUN R -e "install.packages(c('Rcpp','data.table','irlba','coloc', 'rprojroot', 'whereami', 'data.table', 'kimisc', 'R.utils', 'dplyr', 'argparse', 'remotes'), \
+RUN R -e "install.packages(c('Rcpp','data.table','irlba','coloc', 'rprojroot', 'whereami', 'data.table', 'kimisc', 'R.utils', 'dplyr', 'argparse', 'remotes', 'tidyr'), \
     repos='https://cloud.r-project.org', Ncpus=parallel::detectCores())"
 
 # R package from GitHub
