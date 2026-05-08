@@ -24,7 +24,7 @@
 				<table id="colocTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>QTL Type</th><th>Database</th><th>Tissue</th><th>Gene</th><th>Nsnps</th><th>PP.H0.abf</th><th>PP.H1.abf</th><th>PP.H2.abf</th><th>PP.H3.abf</th><th>PP.H4.abf</th><th>Symbol</th>
+							<th>QTL Type</th><th>Database</th><th>Tissue</th><<th>Gene</th><th>Nsnps</th><th>PP.H0.abf</th><th>PP.H1.abf</th><th>PP.H2.abf</th><th>PP.H3.abf</th><th>PP.H4.abf</th><th>Original QTL Phenotype</th><th>Symbol</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -34,7 +34,7 @@
 				<table id="lavaTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>Gene</th><th>Chromosome</th><th>Phenotype</th><th>Rho</th><th>Rho lower</th><th>Rho upper</th><th>r2</th><th>r2.lower</th><th>r2.upper</th><th>p</th><th>QTL Type</th><th>Database</th><th>Tissue/Cell type</th><th>p.adjust</th><th>Symbol</th>
+							<th>Original QTL Phenotype</th><th>Gene</th><th>Chromosome</th><th>Phenotype</th><th>Rho</th><th>Rho lower</th><th>Rho upper</th><th>r2</th><th>r2.lower</th><th>r2.upper</th><th>p</th><th>QTL Type</th><th>Database</th><th>Tissue/Cell type</th><th>p.adjust</th><th>Symbol</th>
 						</tr>
 					</thead>
 					<tbody></tbody>

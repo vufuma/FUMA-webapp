@@ -102,7 +102,7 @@ const lavaSummaryTable = function(){
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "locus:chr:phen1:rho:rho.lower:rho.upper:r2:r2.lower:r2.upper:p:qtl_type:database:tissue_ct:p.adjust:symbol"
+				header: "locus_original:locus:chr:phen1:rho:rho.lower:rho.upper:r2:r2.lower:r2.upper:p:qtl_type:database:tissue_ct:p.adjust:symbol"
 			}
 		},
 		error: function () {
@@ -127,7 +127,7 @@ const colocSummaryTable = function(){
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "qtl_type:database:tissue:gene:nsnps:PP.H0.abf:PP.H1.abf:PP.H2.abf:PP.H3.abf:PP.H4.abf:symbol"
+				header: "qtl_type:database:tissue:gene:nsnps:PP.H0.abf:PP.H1.abf:PP.H2.abf:PP.H3.abf:PP.H4.abf:gene_original:symbol"
 			}
 		},
 		error: function () {

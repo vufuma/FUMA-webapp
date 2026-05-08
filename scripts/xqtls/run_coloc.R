@@ -119,6 +119,7 @@ gene_conversion = gene_conversion %>%
 
 results = results %>%
   mutate(
+    gene_original= gene,
     gene = sub(".*:(ENSG[0-9]+)", "\\1", gene),   
     gene = sub("\\..*", "", gene)                
   ) %>%

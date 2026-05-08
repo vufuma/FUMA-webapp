@@ -142,8 +142,9 @@ for (dataset in unlist(strsplit(datasets, ":"))) {
 
     bivar_results = bivar_results %>%
       mutate(
-        locus = sub(".*:(ENSG[0-9]+)", "\\1", locus),   
-        locus = sub("\\..*", "", locus)                
+        locus_original = locus,
+        locus = sub(".*:(ENSG[0-9]+)", "\\1", locus),
+        locus = sub("\\..*", "", locus)
       ) %>%
       left_join(gene_conversion, by = "locus")
 
