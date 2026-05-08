@@ -60,6 +60,10 @@ Route::get('/faq', function () {
     return view('pages.faq');
 });
 
+Route::get('/wiki', function () {
+    return view('pages.wiki');
+});
+
 Route::get('/xqtls', function () {
     return view('pages.xqtls');
 });

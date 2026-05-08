@@ -32,6 +32,7 @@
 			<li class="nav-item"><a class="nav-link {{ Request::is('downloadPage') ? 'active' : ''}}"
 					href="/downloadPage">Downloads</a></li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('faq') ? 'active' : ''}}" href="/faq">FAQs</a></li>
+			<li class="nav-item"><a class="nav-link {{ Request::is('wiki') ? 'active' : ''}}" href="/wiki">Wiki</a></li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('updates') ? 'active' : ''}}"
 					href="/updates">Updates</a></li>
 			<li class="nav-item">
