@@ -880,6 +880,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 	}
 
 	if (xqtlsMap == 1) {
+		console.log("show xqtls table");
 		file = "xqtls.txt";
 		var xqtlsTable = $('#xqtlsTable').DataTable({
 			processing: true,
@@ -893,7 +894,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 					jobID: id,
 					prefix: prefix,
 					infile: file,
-					header: "uniqID:db:tissue:protein:type:qtl_type:genomicriskloci:ensemble_id"
+					header: "uniqID:db:tissue:protein:type:qtl_type:genomicriskloci:ensemble_id:originalPhenotype"
 				}
 			},
 			"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],

@@ -5,15 +5,15 @@ import pandas as pd
 import numpy as np
 
 def qtl_tabix(region, tb):
-	qtls = []
-	try:
-		tmp = tb.querys(region)
-	except:
-		print("Tabix failed for region "+region)
-	else:
-		for l in tmp:
-			qtls.append(l[0:9])
-	return qtls
+    qtls = []
+    try:
+        tmp = tb.querys(region)
+    except Exception as e:
+        print(f"Tabix failed for region {region}: {e}")
+    else:
+        for l in tmp:
+            qtls.append(l[0:])
+    return qtls
 
 def process_loci(tb, loci, locus, snps):
     loci_number = loci.iloc[locus,0]
@@ -23,7 +23,13 @@ def process_loci(tb, loci, locus, snps):
     
     qtls = qtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
     
-    qtls = pd.DataFrame(qtls, columns=['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P'])
+    columns = (
+    ['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P']
+    + (['originalPhenotype'] if len(qtls[0]) == 10 else [])
+    )
+
+    qtls = pd.DataFrame(qtls, columns=columns)
+    
     qtls["GenomicLocus"] = loci_number
 
 
@@ -157,7 +163,11 @@ def process_xqtls(fqtl, config_class, loci, snps, fout):
                 qtls['db'] = db
                 qtls['tissue'] = ts
                 qtls['qtl_type'] = qtl_type
-                qtls = qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "qtl_type", "GenomicLocus"]]
+                if qtl_type == "sQTL" and db == "gtex_v10": #TODO: need to generalize this but ok for now since there is only 1 sQTL dataset
+                    qtls = qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "qtl_type", "GenomicLocus", "originalPhenotype"]]
+                else:
+                    qtls['originalPhenotype'] = "NotApplicable"
+                    qtls = qtls[["uniqID", "db", "tissue", "protein", "a2", "beta", "P", "type", "qtl_type", "GenomicLocus", "originalPhenotype"]]
                 qtls.to_csv(fout, header=False, index=False, mode='a', na_rep="NA", sep="\t", float_format="%.5f")
             
             
