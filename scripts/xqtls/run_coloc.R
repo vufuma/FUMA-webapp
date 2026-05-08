@@ -118,7 +118,10 @@ gene_conversion = gene_conversion %>%
   mutate(gene = sub("\\..*", "", gene))
 
 results = results %>%
-  mutate(gene = sub("\\..*", "", gene)) %>%
+  mutate(
+    gene = sub(".*:(ENSG[0-9]+)", "\\1", gene),   
+    gene = sub("\\..*", "", gene)                
+  ) %>%
   left_join(gene_conversion, by = "gene")
 
 write.table(results, file=out_fn, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
