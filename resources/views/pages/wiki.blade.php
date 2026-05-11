@@ -29,10 +29,9 @@
                 <h2>SNP2GENE</h2>
                 <div style="margin-left: 40px;">
                     <h4>Resources on running SNP2GENE on FUMA</h4>
-                    <h5>Submit a SNP2GENE job</h5>
-                    <h6>Upload GWAS summary statistics</h6>
-                    <video width="400" controls>
-                    <source src="{{ asset('storage/fuma_tutorial_test.mp4') }}" type="video/mp4">
+                    <h5>What is new in SNP2GENE in FUMA v2.0.0?</h5>
+                    <video width="600" controls>
+                    <source src="{{ asset('storage/whatisnewinsnp2gene_fumav2.mp4') }}" type="video/mp4">
                     Your browser does not support HTML video.
                     </video>
                 </div>
@@ -41,6 +40,11 @@
                 <h2>FLAMES</h2>
                 <div style="margin-left: 40px;">
                     <h4>Resources on running FLAMES on FUMA</h4>
+                    <h5>Introduction to the FLAMES module</h5>
+                    <video width="600" controls>
+                    <source src="{{ asset('storage/flames_intro.mp4') }}" type="video/mp4">
+                    Your browser does not support HTML video.
+                    </video>
                 </div>
             </div>
             <div id="xqtls" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
