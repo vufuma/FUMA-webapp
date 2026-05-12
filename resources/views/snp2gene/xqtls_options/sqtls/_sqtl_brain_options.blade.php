@@ -10,5 +10,5 @@
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/Brain_Hypothalamus.txt.gz">Hypothalamus</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/Brain_Nucleus_accumbens_basal_ganglia.txt.gz">Nucleus accumbens basal ganglia</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/Brain_Putamen_basal_ganglia.txt.gz">Putamen basal ganglia</option>
-<option class="level2" value="sQTL/gtex_v10/sig_pairs/Brain_Spinal_cord_cervical_c1.txt.gz">Spinal cord cervical c1</option>
+<option class="level2" value="sQTL/gtex_v10/sig_pairs/Brain_Spinal_cord_cervical_c1.txt.gz">Spinal cord cervical c-1</option>
 <option class="level2" value="sQTL/gtex_v10/sig_pairs/Brain_Substantia_nigra.txt.gz">Substantia nigra</option>

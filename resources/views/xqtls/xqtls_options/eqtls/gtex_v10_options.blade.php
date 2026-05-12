@@ -16,11 +16,11 @@
 <option class="level2" value="eQTL-gtex_v10-Brain_Hypothalamus">Brain Hypothalamus</option>
 <option class="level2" value="eQTL-gtex_v10-Brain_Nucleus_accumbens_basal_ganglia">Brain Nucleus accumbens basal ganglia</option>
 <option class="level2" value="eQTL-gtex_v10-Brain_Putamen_basal_ganglia">Brain Putamen basal ganglia</option>
-<option class="level2" value="eQTL-gtex_v10-Brain_Spinal_cord_cervical_c1">Brain Spinal cord cervical c1</option>
+<option class="level2" value="eQTL-gtex_v10-Brain_Spinal_cord_cervical_c1">Brain Spinal cord cervical c-1</option>
 <option class="level2" value="eQTL-gtex_v10-Brain_Substantia_nigra">Brain Substantia nigra</option>
 <option class="level2" value="eQTL-gtex_v10-Breast_Mammary_Tissue">Breast Mammary Tissue</option>
 <option class="level2" value="eQTL-gtex_v10-Cells_Cultured_fibroblasts">Cells Cultured fibroblasts</option>
-<option class="level2" value="eQTL-gtex_v10-Cells_EBV-transformed_lymphocytes">Cells EBV-transformed lymphocytes</option>
+<option class="level2" value="eQTL-gtex_v10-Cells_EBVtransformed_lymphocytes">Cells EBV-transformed lymphocytes</option>
 <option class="level2" value="eQTL-gtex_v10-Colon_Sigmoid">Colon Sigmoid</option>
 <option class="level2" value="eQTL-gtex_v10-Colon_Transverse">Colon Transverse</option>
 <option class="level2" value="eQTL-gtex_v10-Esophagus_Gastroesophageal_Junction">Esophagus Gastroesophageal Junction</option>
