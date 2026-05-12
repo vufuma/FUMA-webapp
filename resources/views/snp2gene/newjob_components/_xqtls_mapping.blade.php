@@ -286,6 +286,16 @@ border-color: rgba(0,0,0,0.1);
                     <td></td>
                 </tr>
                 <tr class="xqtlsMapOptions">
+                    <th> Select xQTLs datasets:</th>
+                    <td>
+                        <div style="text-align:right; margin-bottom:10px;">
+                            <a href="javascript:void(0);" id="clearAllEqtlSelections" style="padding-right:20px;">
+                                Clear all selections
+                            </a>
+                        </div> 
+                    </td>
+                </tr>
+                <tr class="xqtlsMapOptions">
                     <th class="align-middle">eQTLs Datasets
                     </th>
                     <td> 

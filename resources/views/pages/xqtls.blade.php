@@ -210,6 +210,11 @@ border-color: rgba(0,0,0,0.1);
                                     <tr>
                                         <td>Available datasets:</td>
                                         <td>
+                                            <div style="text-align:right; margin-bottom:10px;">
+                                                <a href="javascript:void(0);" id="clearAllEqtlSelections" style="padding-right:20px;">
+                                                    Clear all selections
+                                                </a>
+                                            </div>
                                             <h2 style="color: #00004d; font-size:16px;">eQTLs Datasets</h2>
 
                                             <!-- GTEx v10 -->
@@ -307,7 +312,7 @@ border-color: rgba(0,0,0,0.1);
 
                                             <div class="accordion-item" style="padding:0px;">
                                                 <h3 class="accordion-header">
-                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#sceqtljerber2021Dopaminergic">
+                                                    <button class="accordion-button collapsed accordion-highlight" type="button" data-bs-toggle="collapse" data-bs-target="#sceqtlsinglebrain">
                                                         Single Brain
                                                     </button>
                                                 </h3>

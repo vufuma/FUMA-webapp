@@ -49,6 +49,16 @@ export const XQTLSSetup = function(){
 		}
 		CheckAll();
 	});
+
+	// Global "Clear all selections"
+	$('#clearAllEqtlSelections').on('click', function (e) {
+		e.preventDefault();
+
+		// Clear all selects inside the eQTL section
+		$('#eqtlGtexv10Ds option, #eqtlMetabrainDs option, #sceqtlbryois2022BrainDs option, #sceqtljerber2021DopaminergicDs option, #sceqtlsinglebrainDs option, #sqtlGtexv10Ds option').prop('selected', false);
+
+		CheckAll();
+	});
     
     $('#deleteJob').on('click', function(){
         deleteJobs(pageState.get("subdir"), pageState.get("page"), updateQueryHistory)

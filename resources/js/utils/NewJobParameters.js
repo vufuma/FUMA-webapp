@@ -734,10 +734,10 @@ export const CheckAll = function() {
 		});
 
 		if(ds>0){
-			$(table.rows[1].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			$(table.rows[2].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-check"></i> OK.</div></td>');
 		}else{
-			$(table.rows[1].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			$(table.rows[2].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-ban"></i> Please select at least one dataset.</div></td>');
 			submit=false;
 			tablecheck=false;
@@ -1201,6 +1201,16 @@ export const NewJobSetup = function(){
 		}
 		CheckAll();
 	});
+
+	// Global "Clear all selections"
+		$('#clearAllEqtlSelections').on('click', function (e) {
+			e.preventDefault();
+	
+			// Clear all selects inside the eQTL section
+			$('#eqtlAdiposeDs option, #eqtlAdrenalGlandDs option, #eqtlArteryDs option, #eqtlBladderDs option, #eqtlBloodDs option, #eqtlBrainDs option, #eqtlBreastDs option, #eqtlColonDs option, #eqtlEsophagusDs option, #eqtlHeartDs option, #eqtlKidneyDs option, #eqtlLiverDs option, #eqtlLungDs option, #eqtlMuscleDs option, #eqtlNerveDs option, #eqtlOvaryDs option, #eqtlPancreasDs option, #eqtlPituitaryDs option, #eqtlProstateDs option, #eqtlSalivaryGlandDs option, #eqtlSkinDs option, #eqtlSmallIntestineDs option, #eqtlSpleenDs option, #eqtlStomachDs option, #eqtlTestisDs option, #eqtlThyroidDs option, #eqtlUterusDs option, #eqtlVaginaDs option, #sqtlAdiposeDs option, #sqtlAdrenalGlandDs option, #sqtlArteryDs option, #sqtlBladderDs option, #sqtlBloodDs option, #sqtlBrainDs option, #sqtlBreastDs option, #sqtlColonDs option, #sqtlEsophagusDs option, #sqtlHeartDs option, #sqtlKidneyDs option, #sqtlLiverDs option, #sqtlLungDs option, #sqtlMuscleDs option, #sqtlNerveDs option, #sqtlOvaryDs option, #sqtlPancreasDs option, #sqtlPituitaryDs option, #sqtlProstateDs option, #sqtlSalivaryGlandDs option, #sqtlSkinDs option, #sqtlSmallIntestineDs option, #sqtlSpleenDs option, #sqtlStomachDs option, #sqtlTestisDs option, #sqtlThyroidDs option, #sqtlUterusDs option, #sqtlVaginaDs option, #pqtlPlasmaDs option, #pqtlBrainDs option, #pqtlCsfDs option, #sceqtlBrainDs option').prop('selected', false);
+	
+			CheckAll();
+		});
 
 	$("#GWASsummary").on('change', function(){
 		if($(this).val().length>0){
