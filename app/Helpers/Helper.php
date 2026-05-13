@@ -427,6 +427,20 @@ class Helper
         return $results;
     }
 
+    /* Schedulilng deletion of SNP2GENE jobs based on timestamp 
+    Logic: SNP2GENE jobs are removed if they are older than a certain timestamp. At the update around May 2026, this is set to prior to 01-01-2023. 
+    */
+    public static function findSNP2GENEJobsTimestamp() {
+    
+        $jobs = SubmitJob::where('type', 'snp2gene')
+            ->where('created_at', '<', '2023-01-01 00:00:00') #change here to update the timestamp for deletion
+            ->where('removed_at', null)
+            ->where('is_public', '=', 0)
+            ->get(['jobID', 'created_at', 'type', 'status']);
+
+        return $jobs;
+    }
+
     public static function findJobsToDeleteInput(){ #after allowing for users to keep input gwas sumstat, in this function it will find the jobs where we need to delete the input files after 1 week
         $jobIDs_file = Storage::path(config('app.jobdir') . '/schedule_logs/jobids_to_delete_input.txt');
         $jobIDs = explode("\n", file_get_contents($jobIDs_file));
