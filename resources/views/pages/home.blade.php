@@ -12,6 +12,13 @@
 		<strong style="font-size: large;">Announcements</strong><br>
 
 		<div class="alert alert-info">
+			<strong>May 13 2026: </strong>
+			<p> 1. We will perform an update and maintenance on FUMA starting from <strong>Sunday May 17 2026</strong>. During the maintenance, FUMA is not accessible. Expect up to 2 weeks of down time. Please make sure to download files needed for your analyses from FUMA before this date. Any QUEUED jobs would be stopped before the maintenance.</p>
+			<p> 2. Any SNP2GENE jobs that were created prior to Jan 01 2023 will be removed from the FUMA server during the maintenance. This does not apply to public jobs. 
+
+		</div>
+
+		<div>
 			<strong>April 17 2026: </strong> We will perform an update and maintenance on FUMA starting from Sunday May 17 2026. During the maintenance, FUMA is not accessible. Expect 1 to 2 weeks down time. Please make sure to download files needed for your analyses from FUMA before this date.  
 		</div>
 
