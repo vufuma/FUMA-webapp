@@ -50,15 +50,7 @@ Route::get('downloadPage', function () {
     return view('pages.downloadPage');
 });
 
-Route::get('/links', function () {
-    return view('pages.links');
-});
-
 Route::get('/updates', [UpdateController::class, 'showUpdates']);
-
-Route::get('/faq', function () {
-    return view('pages.faq');
-});
 
 Route::get('/wiki', function () {
     return view('pages.wiki');

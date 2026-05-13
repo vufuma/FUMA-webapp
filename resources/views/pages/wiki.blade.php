@@ -14,6 +14,8 @@
             <li><a href="#snp2gene">SNP2GENE<span class="sub_icon fa fa-circle-info"></span></a></li>
             <li><a href="#flames">FLAMES<span class="sub_icon fa fa-circle-info"></span></a></li>
             <li><a href="#xqtls">QTLs Analysis<span class="sub_icon fa fa-circle-info"></span></a></li>
+            <li><a href="#faqs">FAQs<span class="sub_icon fa fa-circle-info"></span></a></li>
+            <li><a href="#links">Links<span class="sub_icon fa fa-circle-info"></span></a></li>
         </ul>
     </div>
 
@@ -56,6 +58,17 @@
                     <h4>Resources on running QTLs Analysis on FUMA</h4>
                 </div>
             </div>
+
+            <div id="faqs" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
+                <h2>FAQs</h2>
+                @include('wiki._faqs')
+            </div>
+
+            <div id="links" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
+                <h2>Links</h2>
+                @include('wiki._links')
+            </div>
+
         </div>
     </div>
 </div>
