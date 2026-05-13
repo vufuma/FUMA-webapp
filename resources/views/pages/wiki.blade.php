@@ -21,8 +21,11 @@
         <div class="page-content inset">
             <div id="overview" class="sidePanel container" style="padding-top:50px; min-height:80vh;">
                 <div style="text-align: center;">
-                    <h2>Wiki</h2>
-                    <p>Resources on running FUMA modules and interpreting results.</p>
+                    <h1>Wiki</h1>
+                    <h3>Resources on running FUMA modules and interpreting results.</h3>
+                </div>
+                <div>
+                    Documentation and tutorial for FUMA v2.0 and above will be hosted on: <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/"> link to documentation</a>
                 </div>
             </div>
             <div id="snp2gene" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
