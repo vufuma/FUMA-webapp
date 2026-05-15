@@ -56,6 +56,11 @@
                 <h2>QTLs Analysis</h2>
                 <div style="margin-left: 40px;">
                     <h4>Resources on running QTLs Analysis on FUMA</h4>
+                    <h5>Introduction to the QTLs Analysis module</h5>
+                    <video width="600" controls>
+                    <source src="{{ asset('storage/qtls_analysis_intro.mp4') }}" type="video/mp4">
+                    Your browser does not support HTML video.
+                    </video>
                 </div>
             </div>
 
