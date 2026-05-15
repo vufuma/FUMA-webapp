@@ -65,10 +65,10 @@
 		<div id="lociPlot"></div>
 	</div>
 
-		<div style="text-align:center;">
+		<!-- <div style="text-align:center;">
 		<h4><span style="color: #00004d">Overlap in QTLs mapped genes</span>
-		<div id="upsetPlot"></div>
-	</div>
+		<div id="upsetPlot"></div> -->
+	<!-- </div> -->
 
 	<br><br>
 </div>

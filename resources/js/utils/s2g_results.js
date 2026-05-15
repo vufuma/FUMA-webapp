@@ -662,7 +662,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 				success: function (data) {
 					PlotSNPAnnot(data['annov.stats.txt']);
 					PlotLocuSum(data['interval_sum.txt']);
-					PlotUpSet(data['qtls_hits.tsv']);
+					// PlotUpSet(data['qtls_hits.tsv']);
 				}
 			});
 		}
