@@ -57,7 +57,7 @@ class FlamesProcess implements ShouldQueue
         $params = parse_ini_string(Storage::get($filedir . "params.config"), false, INI_SCANNER_RAW);
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'flames');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'flames');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'flames');
         $s2g_dir = config('app.abs_path_to_jobs_on_host');
 
