@@ -5,6 +5,8 @@ use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\FumaController;
 use App\Http\Controllers\LoggingController;
 use App\Http\Controllers\S2GController;
+use App\Http\Controllers\FLAMESController;
+use App\Http\Controllers\XQTLSController;
 use App\Http\Controllers\G2FController;
 use App\Http\Controllers\CellController;
 use App\Http\Controllers\AdminController;
@@ -48,14 +50,18 @@ Route::get('downloadPage', function () {
     return view('pages.downloadPage');
 });
 
-Route::get('/links', function () {
-    return view('pages.links');
-});
-
 Route::get('/updates', [UpdateController::class, 'showUpdates']);
 
-Route::get('/faq', function () {
-    return view('pages.faq');
+Route::get('/wiki', function () {
+    return view('pages.wiki');
+});
+
+Route::get('/xqtls', function () {
+    return view('pages.xqtls');
+});
+
+Route::get('/flames', function () {
+    return view('pages.flames');
 });
 
 Auth::routes();
@@ -230,6 +236,40 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/geneTable', [FumaController::class, 'geneTable']);
             Route::get('/g2f_d3text/{prefix}/{jobID}/{file}', [FumaController::class, 'g2f_d3text']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
+        });
+    });
+
+    // ********************** FLAMES ************************
+    Route::prefix('flames')->group(function () {
+        Route::get('/', [FLAMESController::class, 'index']);
+        Route::get('/getFLAMESHistory', [FLAMESController::class, 'getFLAMESHistory']);
+        Route::post('/getS2GIDs', [FLAMESController::class, 'getS2GIDs']);
+        Route::post('/submit', [FLAMESController::class, 'newJob']);
+        
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::post('/checkSNP2GENEFiles', [FLAMESController::class, 'checkSNP2GENEFiles']);
+            Route::get('/{jobID}', [FLAMESController::class, 'viewJob']); 
+            Route::post('/deleteJob', [FLAMESController::class, 'deleteJob']);
+            Route::post('/DTfile', [FLAMESController::class, 'DTfile']);
+            Route::post('/downloadResults', [FLAMESController::class, 'downloadResults']);
+            
+        });
+    });
+
+    // ********************** XQTLS ************************
+    Route::prefix('xqtls')->group(function () {
+        Route::get('/', [XQTLSController::class, 'index']);
+        Route::get('/getQTLSHistory', [XQTLSController::class, 'getQTLSHistory']);
+        Route::post('/getQTLsAnalysisIDs', [XQTLSController::class, 'getQTLsAnalysisIDs']);
+        Route::post('/submit', [XQTLSController::class, 'newJob']);
+        
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::post('/loadParams', [XQTLSController::class, 'loadParams']);
+            Route::get('/{jobID}', [XQTLSController::class, 'viewJob']); 
+            Route::post('/DTfile', [XQTLSController::class, 'DTfile']);
+            Route::post('/deleteJob', [XQTLSController::class, 'deleteJob']);
+            Route::post('/downloadResults', [XQTLSController::class, 'downloadResults']);
+            
         });
     });
 

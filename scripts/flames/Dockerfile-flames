@@ -1,0 +1,101 @@
+# ===============================
+# Base image
+# ===============================
+FROM continuumio/miniconda3:latest
+
+# ===============================
+# Set working directory
+# ===============================
+WORKDIR /opt
+
+# ===============================
+# Install system dependencies
+# ===============================
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-dev \
+    gcc \
+    g++ \
+    gfortran \
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    bedtools \
+    tabix \
+    git \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# ===============================
+# Install mamba for fast environment solving
+# ===============================
+RUN conda install -y -c conda-forge mamba
+
+# ===============================
+# Copy environment file
+# ===============================
+COPY flames/environment.yml /tmp/environment.yml
+
+# ===============================
+# Create conda environment using mamba
+# ===============================
+RUN mamba env create -f /tmp/environment.yml
+
+# Make the environment default
+ENV PATH=/opt/conda/envs/flames/bin:$PATH
+SHELL ["conda", "run", "-n", "flames", "/bin/bash", "-c"]
+
+# ===============================
+# Install PoPS
+# ===============================
+RUN git clone https://github.com/FinucaneLab/pops.git /opt/pops
+ENV PYTHONPATH="/opt/pops:$PYTHONPATH"
+
+# ===============================
+# Install PolyFun
+# ===============================
+RUN git clone https://github.com/omerwe/polyfun.git /opt/polyfun
+ENV PYTHONPATH="/opt/polyfun:$PYTHONPATH"
+
+# ===============================
+# Install FLAMES
+# ===============================
+RUN git clone https://github.com/Marijn-Schipper/FLAMES.git /opt/FLAMES
+ENV PYTHONPATH="/opt/FLAMES:$PYTHONPATH"
+
+# Install FLAMES Python dependencies (pip packages)
+COPY flames/requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# ===============================
+# Copy application scripts
+# ===============================
+COPY app.config ./ 
+COPY flames/run_flames.py ./
+
+# ===============================
+# Configure non-root user
+# ===============================
+ARG USERNAME=user
+ARG PUID=1000
+ARG PGID=1000
+ARG PGIDSCISTOR=1001
+ARG PGIDREF=1002
+ARG PGIDUSR=1003
+
+RUN groupadd --gid ${PGID} $USERNAME && \
+    groupadd --gid ${PGIDSCISTOR} scistor_share_r && \
+    groupadd --gid ${PGIDREF} reference_data_r && \
+    groupadd --gid ${PGIDUSR} users_data_c && \
+    useradd -l --non-unique --uid ${PUID} --gid ${PGID} $USERNAME && \
+    usermod -a -G scistor_share_r,reference_data_r,users_data_c $USERNAME
+
+USER $USERNAME
+
+# ===============================
+# Default command
+# ===============================
+CMD ["bash"]

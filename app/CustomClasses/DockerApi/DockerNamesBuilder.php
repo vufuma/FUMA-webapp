@@ -29,6 +29,12 @@ class DockerNamesBuilder
             case 'cellType':
                 $path = config('app.abs_path_to_cell_jobs_on_host') . '/' . $id;
                 break;
+            case 'xqtls':
+                $path = config('app.abs_path_to_xqtls_jobs_on_host') . '/' . $id;
+                break;
+            case 'flames':
+                $path = config('app.abs_path_to_flames_jobs_on_host') . '/' . $id;
+                break;
         }
 
         return $path;

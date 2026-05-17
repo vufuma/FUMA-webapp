@@ -134,6 +134,9 @@ class S2GController extends Controller
         if (array_key_exists('eqtlMap', $params)) {
             $res['eqtlMap'] = $params['eqtlMap'];
         }
+        if (array_key_exists('xqtlsMap', $params)) {
+            $res['xqtlsMap'] = $params['xqtlsMap'];
+        }
         if (array_key_exists('orcol', $params)) {
             $res['orcol'] = $params['orcol'];
         }
@@ -297,6 +300,34 @@ class S2GController extends Controller
         return config('queue.jobLimits.queue_cap', 10);
     }
 
+    private function joinQTLdatasets(...$qtlArrays) 
+    {
+        $parts = [];
+
+        foreach ($qtlArrays as $array) {
+            if (!empty($array) && is_array($array)) {
+                $parts[] = implode(":", $array);
+            }
+        }
+
+        return !empty($parts) ? implode(":", $parts) : "NA";
+    }
+
+    private function parseQtl($temp) {
+        $qtlMapTs = [];
+        
+        if (!is_array($temp)) {
+            return $qtlMapTs;
+        }
+        
+        foreach ($temp as $ts) {
+            if ($ts != "null") {
+                $qtlMapTs[] = $ts;
+            }
+        }
+        return $qtlMapTs;
+    }
+
     public function newJob(Request $request)
     {
         $acceptable_mime_types = array(
@@ -393,6 +424,13 @@ class S2GController extends Controller
             myFile::fileValidationAndStore($request->file('GWASsummary'), $GWAS, $filedir);
         } else if ($request->has('egGWAS')) {
             Storage::copy($exfile, $filedir . '/input.gwas');
+        }
+
+        // keep in files or not (for FLAMES)
+        if ($request->has('keepinfiles')) {
+            $keepinfiles = 1;
+        } else {
+             $keepinfiles = 0;
         }
 
         // GRCh38
@@ -581,10 +619,12 @@ class S2GController extends Controller
             } else {
                 $eqtlMaptss = implode(":", $eqtlMapGts);
             }
+
         } else {
             $eqtlMap = 0;
             $eqtlMaptss = "NA";
         }
+
         if ($request->filled('sigeqtlCheck')) {
             $sigeqtl = 1;
             $eqtlP = 1;
@@ -631,6 +671,82 @@ class S2GController extends Controller
             $eqtlMapAnnoDs = implode(":", $temp);
         }
         $eqtlMapAnnoMeth = $request->input('eqtlMapAnnoMeth');
+
+        // xqtls mapping
+        if ($request->filled('xqtlsMap')) {
+            $xqtlsMap = 1;
+
+            $xqtlsMapdss = $this->joinQTLdatasets(
+                $this->parseQtl($request->input('eqtlAdiposeDs')),
+                $this->parseQtl($request->input('eqtlAdrenalGlandDs')),
+                $this->parseQtl($request->input('eqtlArteryDs')),
+                $this->parseQtl($request->input('eqtlBladderDs')),
+                $this->parseQtl($request->input('eqtlBloodDs')),
+                $this->parseQtl($request->input('eqtlBrainDs')),
+                $this->parseQtl($request->input('eqtlBreastDs')),
+                $this->parseQtl($request->input('eqtlColonDs')),
+                $this->parseQtl($request->input('eqtlEsophagusDs')),
+                $this->parseQtl($request->input('eqtlHeartDs')),
+                $this->parseQtl($request->input('eqtlKidneyDs')),
+                $this->parseQtl($request->input('eqtlLiverDs')),
+                $this->parseQtl($request->input('eqtlLungDs')),
+                $this->parseQtl($request->input('eqtlMuscleDs')),
+                $this->parseQtl($request->input('eqtlNerveDs')),
+                $this->parseQtl($request->input('eqtlOvaryDs')),
+                $this->parseQtl($request->input('eqtlPancreasDs')),
+                $this->parseQtl($request->input('eqtlPituitaryDs')),
+                $this->parseQtl($request->input('eqtlProstateDs')),
+                $this->parseQtl($request->input('eqtlSalivaryGlandDs')),
+                $this->parseQtl($request->input('eqtlSkinDs')),
+                $this->parseQtl($request->input('eqtlSmallIntestineDs')),
+                $this->parseQtl($request->input('eqtlSpleenDs')),
+                $this->parseQtl($request->input('eqtlStomachDs')),
+                $this->parseQtl($request->input('eqtlTestisDs')),
+                $this->parseQtl($request->input('eqtlThyroidDs')),
+                $this->parseQtl($request->input('eqtlUterusDs')),
+                $this->parseQtl($request->input('eqtlVaginaDs')),
+                $this->parseQtl($request->input('sqtlAdiposeDs')),
+                $this->parseQtl($request->input('sqtlAdrenalGlandDs')),
+                $this->parseQtl($request->input('sqtlArteryDs')),
+                $this->parseQtl($request->input('sqtlBladderDs')),
+                $this->parseQtl($request->input('sqtlBloodDs')),
+                $this->parseQtl($request->input('sqtlBrainDs')),
+                $this->parseQtl($request->input('sqtlBreastDs')),
+                $this->parseQtl($request->input('sqtlColonDs')),
+                $this->parseQtl($request->input('sqtlEsophagusDs')),
+                $this->parseQtl($request->input('sqtlHeartDs')),
+                $this->parseQtl($request->input('sqtlKidneyDs')),
+                $this->parseQtl($request->input('sqtlLiverDs')),
+                $this->parseQtl($request->input('sqtlLungDs')),
+                $this->parseQtl($request->input('sqtlMuscleDs')),
+                $this->parseQtl($request->input('sqtlNerveDs')),
+                $this->parseQtl($request->input('sqtlOvaryDs')),
+                $this->parseQtl($request->input('sqtlPancreasDs')),
+                $this->parseQtl($request->input('sqtlPituitaryDs')),
+                $this->parseQtl($request->input('sqtlProstateDs')),
+                $this->parseQtl($request->input('sqtlSalivaryGlandDs')),
+                $this->parseQtl($request->input('sqtlSkinDs')),
+                $this->parseQtl($request->input('sqtlSmallIntestineDs')),
+                $this->parseQtl($request->input('sqtlSpleenDs')),
+                $this->parseQtl($request->input('sqtlStomachDs')),
+                $this->parseQtl($request->input('sqtlTestisDs')),
+                $this->parseQtl($request->input('sqtlThyroidDs')),
+                $this->parseQtl($request->input('sqtlUterusDs')),
+                $this->parseQtl($request->input('sqtlVaginaDs')),
+                $this->parseQtl($request->input('pqtlPlasmaDs')),
+                $this->parseQtl($request->input('pqtlBrainDs')),
+                $this->parseQtl($request->input('pqtlCsfDs')),
+                $this->parseQtl($request->input('sceqtlBrainDs'))
+            );
+
+        } else {
+            $xqtlsMap = 0;
+            $xqtlsMapdss = "NA";
+        }
+
+        // p threshold
+        $xqtlP = $request->input('xqtlP');
+
 
         // chromatin interaction mapping
         $ciMap = 0;
@@ -779,6 +895,7 @@ class S2GController extends Controller
         } else {
             Storage::append($paramfile, "gwasfile=fuma.example.CD.gwas");
         }
+        Storage::append($paramfile, "keepinfiles=$keepinfiles");
         Storage::append($paramfile, "chrcol=$chrcol");
         Storage::append($paramfile, "poscol=$poscol");
         Storage::append($paramfile, "rsIDcol=$rsIDcol");
@@ -851,6 +968,11 @@ class S2GController extends Controller
         Storage::append($paramfile, "eqtlMapChr15Meth=$eqtlMapChr15Meth");
         Storage::append($paramfile, "eqtlMapAnnoDs=$eqtlMapAnnoDs");
         Storage::append($paramfile, "eqtlMapAnnoMeth=$eqtlMapAnnoMeth");
+
+        Storage::append($paramfile, "\n[xqtlsMap]");
+        Storage::append($paramfile, "xqtlsMap=$xqtlsMap");
+        Storage::append($paramfile, "xqtlsMapdss=$xqtlsMapdss");
+        Storage::append($paramfile, "xqtlP=$xqtlP");
 
         Storage::append($paramfile, "\n[ciMap]");
         Storage::append($paramfile, "ciMap=$ciMap");
@@ -1292,6 +1414,11 @@ class S2GController extends Controller
         if ($request->filled('eqtlfile')) {
             if (Storage::exists($filedir . "eqtl.txt")) {
                 $files[] = "eqtl.txt";
+            }
+        }
+        if ($request->filled('xqtlsfile')) {
+            if (Storage::exists($filedir . "xqtls.txt")) {
+                $files[] = "xqtls.txt";
             }
         }
         if ($request->filled('cifile')) {

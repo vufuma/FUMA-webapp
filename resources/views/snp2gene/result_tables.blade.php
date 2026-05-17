@@ -27,6 +27,9 @@
 			<li class="nav-item" role="presentation" id="eqtlTableTab">
 				<a class="nav-link RegionalPlotOff" href="#eqtlTablePane" id="eqtlTablePane-tab" data-bs-toggle="tab">eQTL</a>
 			</li>
+			<li class="nav-item" role="presentation" id="xqtlsTableTab">
+				<a class="nav-link RegionalPlotOff" href="#xqtlsTablePane" id="xqtlsTablePane-tab" data-bs-toggle="tab">xQTLs</a>
+			</li>
 			<li class="nav-item" role="presentation" id="ciTableTab">
 				<a class="nav-link RegionalPlotOff" href="#ciTablePane" id="ciTablePane-tab" data-bs-toggle="tab">Chromatin interactions</a>
 			</li>
@@ -143,6 +146,21 @@
 					<thead>
 						<tr>
 							<th>uniqID</th><th>chr</th><th>pos</th><th>testedAllele</th><th>DB</th><th>tissue</th><th>Gene</th><th>Symbol</th><th>P-value</th><th>FDR</th><th>signed_stats</th><th>RiskincAllele</th><th>alignedDirection</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+
+			<div role="tabpanel" class="tab-pane fade" id="xqtlsTablePane" aria-labelledby="xqtlsTablePane-tab">
+				<br>
+				<span class="info"><i class="fa fa-info"></i>
+					In this table results from xQTLs analysis from FUMA version 2.0.0 are displayed. The table is empty if there are no results. 
+				</span>
+				<br>
+				<table id="xqtlsTable" class="table table-striped table-sm display compact dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+					<thead>
+						<tr>
+							<th>uniqID</th><th>Database</th><th>Additional Details (if applicable)</th><th>Gene/Protein</th><th>Type (cis/trans)</th><th>QTL Type</th><th>Genomic Risk Loci</th><th>Ensemble ID</th><th>Original QTL Phenotype</th>
 						</tr>
 					</thead>
 				</table>
