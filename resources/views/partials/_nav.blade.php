@@ -24,13 +24,12 @@
 					href="/snp2gene">SNP2GENE</a></li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('gene2func*') ? 'active' : ''}}"
 					href="/gene2func">GENE2FUNC</a></li>
-			<li class="nav-item"><a class="nav-link {{ Request::is('celltype*') ? 'active' : ''}}" href="/celltype">Cell
-					Type</a></li>
-			<li class="nav-item"><a class="nav-link {{ Request::is('links') ? 'active' : ''}}" href="/links">Links</a>
-			</li>
+			<li class="nav-item"><a class="nav-link {{ Request::is('celltype*') ? 'active' : ''}}" href="/celltype">Cell Type</a></li>
+			<li class="nav-item"><a class="nav-link {{ Request::is('flames*') ? 'active' : ''}}" href="/flames">FLAMES</a></li>
+			<li class="nav-item"><a class="nav-link {{ Request::is('xqtls*') ? 'active' : ''}}" href="/xqtls">QTLs Analysis</a></li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('downloadPage') ? 'active' : ''}}"
 					href="/downloadPage">Downloads</a></li>
-			<li class="nav-item"><a class="nav-link {{ Request::is('faq') ? 'active' : ''}}" href="/faq">FAQs</a></li>
+			<li class="nav-item"><a class="nav-link {{ Request::is('wiki') ? 'active' : ''}}" href="/wiki">Wiki</a></li>
 			<li class="nav-item"><a class="nav-link {{ Request::is('updates') ? 'active' : ''}}"
 					href="/updates">Updates</a></li>
 			<li class="nav-item">

@@ -244,6 +244,7 @@ export const Snp2GeneSetup = function(){
 		function loadResults() {
 			var posMap;
 			var eqtlMap;
+			var xqtlsMap;
 			var ciMap;
 			var orcol;
 			var becol;
@@ -262,6 +263,7 @@ export const Snp2GeneSetup = function(){
 				success: function (data) {
 					posMap = parseInt(data['posMap']);
 					eqtlMap = parseInt(data['eqtlMap']);
+					xqtlsMap = parseInt(data['xqtlsMap']);
 					ciMap = parseInt(data['ciMap'])
 					orcol = data['orcol'];
 					becol = data['becol'];
@@ -351,7 +353,7 @@ export const Snp2GeneSetup = function(){
 					});
 				}
 
-				showResultTables(pageState.get('subdir'), pageState.get('page'), prefix, pageState.get('id'), posMap, eqtlMap, ciMap, orcol, becol, secol);
+				showResultTables(pageState.get('subdir'), pageState.get('page'), prefix, pageState.get('id'), posMap, eqtlMap, xqtlsMap, ciMap, orcol, becol, secol);
 				$('#GWplotSide').show();
 				$('#resultsSide').show();
 			}

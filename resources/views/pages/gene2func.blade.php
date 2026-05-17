@@ -303,6 +303,7 @@ header('X-Frame-Options: GOFORIT');
 <!-- type="module" is used to keep the prder of execution 
         this relies on app.js being imported first-->
 <script type="module">
+    console.log("{{ $status }}");
     window.loggedin = "{{ Auth::check() }}";
         window.setG2FPageState(
             "{{ URL::asset('/image/ajax-loader2.gif') }}",

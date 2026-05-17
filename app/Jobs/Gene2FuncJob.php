@@ -73,7 +73,7 @@ class Gene2FuncJob implements ShouldQueue
         }
         SubmitJob::where('jobID', $jobID) 
             ->update([
-                'status' => config('snp2gene_status_codes.15.short_name'),
+                'status' => config('all_status_codes.15.short_name'),
                 'completed_at' => date("Y-m-d H:i:s")
             ]);
         Log::info("Saved Gene2Func job id: ".$jobID);

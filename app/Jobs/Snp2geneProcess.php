@@ -130,6 +130,14 @@ class Snp2geneProcess implements ShouldQueue
                 }
             }
 
+            if ($params['xqtlsMap'] == 1) {
+                if (!$this->xqtlsMap()) {
+                    // error handling
+                    return;
+                }
+            }
+
+
             if ($params['ciMap'] == 1) {
                 if (!$this->getCI()) {
                     // error handling
@@ -174,7 +182,7 @@ class Snp2geneProcess implements ShouldQueue
                     return;
                 }
             }
-        }
+            }
 
         //-------------------------------------------------------------------
 
@@ -186,7 +194,18 @@ class Snp2geneProcess implements ShouldQueue
     private function gwas_file()
     {
         $jobID = $this->jobID;
-        Storage::put($this->logfile, "----- gwas_file.py -----\n");
+
+        $params = parse_ini_string(Storage::get(config('app.jobdir') . '/jobs/' . $jobID . "/params.config"), false, INI_SCANNER_RAW);
+
+        if ($params['keepinfiles'] == 1) {
+        $file_path = config('app.jobdir') . '/schedule_logs/jobids_to_delete_input.txt';
+        Storage::append($file_path, $jobID );
+
+        Storage::put($this->logfile, "Appended " . $jobID . " to " . basename($file_path) . "\n");
+
+        }
+
+        Storage::append($this->logfile, "----- gwas_file.py -----\n");
         Storage::put($this->errorfile, "----- gwas_file.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
@@ -445,6 +464,30 @@ class Snp2geneProcess implements ShouldQueue
 
         if ($error) {
             JobHelper::JobTerminationHandling($jobID, 11);
+            return false;
+        }
+        return true;
+    }
+
+    private function xqtlsMap()
+    {
+        $jobID = $this->jobID;
+        Storage::append($this->logfile, "----- qtl_map.py -----\n");
+        Storage::append($this->errorfile, "----- qtl_map.py -----\n");
+
+        $container_name = DockerNamesBuilder::containerName($jobID);
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'qtls_map');
+        $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
+
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python qtl_map.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        Storage::append($this->logfile, "Command to be executed:");
+        Storage::append($this->logfile, $cmd . "\n");
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
+
+        if ($error) {
+            JobHelper::JobTerminationHandling($jobID, 30);
             return false;
         }
         return true;

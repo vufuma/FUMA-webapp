@@ -1,0 +1,32 @@
+# Core scientific stack
+numpy
+scipy
+pandas
+
+
+# Genomics / bioinformatics
+pysam
+pybedtools
+bitarray
+
+# Utilities
+cython
+tqdm
+matplotlib
+seaborn
+
+# Polyfun / LDSC-related helpers
+scikit-learn
+statsmodels
+joblib
+pyarrow
+tqdm
+bitarray
+networkx
+pandas-plink
+
+# Misc
+setuptools
+wheel
+
+

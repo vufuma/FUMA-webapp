@@ -109,6 +109,24 @@ class SubmitJob extends Model
             ->get();
     }
 
+    public function getNewJobs_xqtls_only($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['xqtls'])
+            ->where('status', 'NEW')
+            ->whereNull('removed_at')
+            ->get();
+    }
+
+        public function getNewJobs_flames_only($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['flames'])
+            ->where('status', 'NEW')
+            ->whereNull('removed_at')
+            ->get();
+    }
+
     public function updateStatus($job_id, $status): void
     {
         $this->where('jobID', $job_id)

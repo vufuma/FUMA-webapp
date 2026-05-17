@@ -2,7 +2,7 @@
 <div class="sidePanel container" style="padding-top:50px;" id="summaryTable">
 	<div class="row">
 		<div class="col-md-5 col-xs-5 col-sm-5" id="sumTable" style="text-align:center;">
-			<h4 style="color: #00004d">Summary of SNPs and mapped genes</h4>
+			<!-- <h4 style="color: #00004d">Summary of SNPs and mapped genes</h4> -->
 		</div>
 
 		<div class="col-md-7 col-xs-7 col-sm-7" style="text-align:center;">
@@ -39,6 +39,8 @@
 		</div>
 	</div>
 	<br>
+	<br>
+	<br>
 	<div style="text-align:center;">
 		<h4><span style="color: #00004d">Summary per genomic risk locus</span>
 		<a class="infoPop" data-bs-toggle="popover" data-bs-content="The histograms display summary results per genomic locus. Note that genomic loci could contain more than one independent lead SNPs.">
@@ -62,5 +64,11 @@
 		</form>
 		<div id="lociPlot"></div>
 	</div>
+
+		<!-- <div style="text-align:center;">
+		<h4><span style="color: #00004d">Overlap in QTLs mapped genes</span>
+		<div id="upsetPlot"></div> -->
+	<!-- </div> -->
+
 	<br><br>
 </div>
