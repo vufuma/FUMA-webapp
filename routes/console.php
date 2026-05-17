@@ -175,7 +175,7 @@ Schedule::call(function () {
         return;
     }
     Helper::writeToCsv($out_file, $results);
-})->yearlyOn(1, 1, '17:00');
+})->yearlyOn(1, 1, '17:00')
     ->environments('production')
     ->name('Find SNP2GENE jobs to be deleted based on timestamp')
     ->withoutOverlapping();
@@ -210,7 +210,7 @@ Schedule::call(function () {
         return;
     }
     Helper::writeToCsv($out_file, $results);
-})->yearlyOn(1, 1, '17:00');
+})->yearlyOn(1, 1, '17:00')
     ->environments('production')
     ->name('Delete SNP2GENE jobs to be deleted based on timestamp')
     ->withoutOverlapping();
