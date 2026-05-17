@@ -160,7 +160,7 @@ Logic: SNP2GENE jobs are removed if they are older than a certain timestamp. At 
 */
 # Schedule a task to list the SNP2GENE jobs to be deleted based on timestamp
 Schedule::call(function () {
-    $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.to_be_deleted_createdbefore20230101.csv');
+    $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.to_be_deleted_createdbefore20210101.csv');
     $dir = config('app.jobdir');
 
     $jobs = Helper::findSNP2GENEJobsTimestamp();
@@ -175,13 +175,14 @@ Schedule::call(function () {
         return;
     }
     Helper::writeToCsv($out_file, $results);
-})->environments('production')
+})->yearlyOn(1, 1, '17:00');
+    ->environments('production')
     ->name('Find SNP2GENE jobs to be deleted based on timestamp')
     ->withoutOverlapping();
 
 # Schedule a task to delete the SNP2GENE jobs based on timestamp
 Schedule::call(function () {
-    $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.createdbefore20230101.deleted.csv');
+    $out_file = Storage::path(config('app.jobdir') . '/schedule_logs/' . date('Y-m-d_H-i-s') . '.createdbefore20210101.deleted.csv');
     $dir = config('app.jobdir');
 
     $jobs = Helper::findSNP2GENEJobsTimestamp();
@@ -209,6 +210,7 @@ Schedule::call(function () {
         return;
     }
     Helper::writeToCsv($out_file, $results);
-})->environments('production')
+})->yearlyOn(1, 1, '17:00');
+    ->environments('production')
     ->name('Delete SNP2GENE jobs to be deleted based on timestamp')
     ->withoutOverlapping();
