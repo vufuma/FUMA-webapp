@@ -5,6 +5,9 @@ WORKDIR /app
 COPY locusPlot/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list                                                                                                                                                      0.7s
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
 COPY locusPlot/locusPlot.py ./
 
 # Configure non-root user.
