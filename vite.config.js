@@ -43,6 +43,7 @@ export default defineConfig({
                 'resources/js/utils/xqtls.js',
                 'resources/js/utils/cell_results.js',
                 'resources/js/utils/gene2func.js',
+                'resources/js/utils/flames.js',
                 'resources/js/utils/tutorial_utils.js',
                 'resources/js/utils/jobsSearch.js',
             ],

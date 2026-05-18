@@ -452,7 +452,7 @@ border-color: rgba(0,0,0,0.1);
 @push('vite')
     @vite([
         'resources/js/utils/sidebar.js',
-        'resoures/js/utils/xqtls.js',
+        'resources/js/utils/xqtls.js',
         'resources/js/utils/browse.js',
         'resources/js/utils/tutorial_utils.js'])
 @endpush
