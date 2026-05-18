@@ -5,6 +5,9 @@ WORKDIR /app
 COPY geteqtl/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list                                                                                                                                                      0.7s
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base \
     && rm -rf /var/lib/apt/lists/*
     
