@@ -305,7 +305,6 @@ class XQTLSController extends Controller
         $user_id = Auth::user()->id;
         $results = SubmitJob::where('user_id', $user_id)
             ->where('type', 'xqtls')
-            ->where('status', 'OK')
             ->whereNull('removed_at')
             ->get(['jobID', 'title']);
         return $results;
