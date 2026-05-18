@@ -433,7 +433,7 @@ class Helper
     public static function findSNP2GENEJobsTimestamp() {
     
         $jobs = SubmitJob::where('type', 'snp2gene')
-            ->where('created_at', '<', '2021-01-01 00:00:00') #change here to update the timestamp for deletion
+            ->where('created_at', '<', '2023-01-01 00:00:00') #change here to update the timestamp for deletion
             ->where('removed_at', null)
             ->where('is_public', '=', 0)
             ->get(['jobID', 'created_at', 'type', 'status']);
