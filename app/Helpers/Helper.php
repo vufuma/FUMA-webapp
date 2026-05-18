@@ -65,13 +65,22 @@ class Helper
      */
     public static function my_glob($filedir, $pattern)
     {
-        // list all filenames in given path
-        $allFiles = Storage::files($filedir);
+        try {
+            $allFiles = Storage::files($filedir);
+        } catch (\League\Flysystem\UnableToListContents $e) {
+            $diskRoot = Storage::path('');
+            $absDir = $diskRoot . ltrim($filedir, '/');
+            $allFiles = [];
+            foreach (scandir($absDir) as $f) {
+                if ($f === '.' || $f === '..' || str_starts_with($f, '._')) {
+                    continue;
+                }
+                $allFiles[] = rtrim($filedir, '/') . '/' . $f;
+            }
+        }
 
-        // filter the ones that match the filename.* 
         $matchingFiles = preg_grep($pattern, $allFiles);
         $matchingFiles = array_values($matchingFiles);
-        // return the matching filenames
         return $matchingFiles;
     }
 
