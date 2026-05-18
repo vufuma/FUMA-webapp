@@ -56,14 +56,6 @@ Route::get('/wiki', function () {
     return view('pages.wiki');
 });
 
-Route::get('/xqtls', function () {
-    return view('pages.xqtls');
-});
-
-Route::get('/flames', function () {
-    return view('pages.flames');
-});
-
 Auth::routes();
 
 /**
