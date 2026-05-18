@@ -27,12 +27,18 @@ RUN apt-get update && apt-get install -y \
     tabix \
     git \
     wget \
+    ca-certificates \
+    && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # ===============================
-# Install mamba for fast environment solving
+# Update conda and install mamba
 # ===============================
-RUN conda install -y -c conda-forge mamba
+# The latest continuumio/miniconda3 image often contains an older conda
+# that can fail when installing mamba from conda-forge.
+RUN conda update -n base -c defaults conda -y && \
+    conda install -n base -c conda-forge mamba -y && \
+    conda clean -afy
 
 # ===============================
 # Copy environment file
@@ -42,11 +48,14 @@ COPY flames/environment.yml /tmp/environment.yml
 # ===============================
 # Create conda environment using mamba
 # ===============================
-RUN mamba env create -f /tmp/environment.yml
+RUN mamba env create -f /tmp/environment.yml && \
+    conda clean -afy
 
+# ===============================
 # Make the environment default
+# ===============================
 ENV PATH=/opt/conda/envs/flames/bin:$PATH
-SHELL ["conda", "run", "-n", "flames", "/bin/bash", "-c"]
+SHELL ["conda", "run", "--no-capture-output", "-n", "flames", "/bin/bash", "-c"]
 
 # ===============================
 # Install PoPS
@@ -66,7 +75,9 @@ ENV PYTHONPATH="/opt/polyfun:$PYTHONPATH"
 RUN git clone https://github.com/Marijn-Schipper/FLAMES.git /opt/FLAMES
 ENV PYTHONPATH="/opt/FLAMES:$PYTHONPATH"
 
-# Install FLAMES Python dependencies (pip packages)
+# ===============================
+# Install FLAMES Python dependencies
+# ===============================
 COPY flames/requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
