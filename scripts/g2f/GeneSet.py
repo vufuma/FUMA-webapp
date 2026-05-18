@@ -58,7 +58,7 @@ def GeneSetTest(f):
 	c = f.replace(".gmt", "").split("/")
 	c = c[len(c)-1]
 	gs = read_gmt(f)
-	gs = np.array(gs)
+	gs = np.array(gs, dtype=object)
 	tmp = []
 	for l in gs:
 		if len(l) < 3:
