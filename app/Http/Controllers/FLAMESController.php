@@ -110,7 +110,7 @@ class FLAMESController extends Controller
         if ($request->hasFile('gwasSumstat')) {
             Storage::putFileAs($filedir, $request->file('gwasSumstat'), 'input.gwas.gz');
         }
-        Storage::putFileAs($filedir, $request->file('preds'), 'input.preds');
+        // Storage::putFileAs($filedir, $request->file('preds'), 'input.preds');
 
         $snp2geneID = $request->input('s2gID');
         $sampleSize = $request->input('totalN');

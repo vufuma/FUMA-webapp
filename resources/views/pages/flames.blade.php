@@ -109,7 +109,7 @@ border-color: rgba(0,0,0,0.1);
 
 
 
-                                    <tr>
+                                    <!-- <tr>
                                         <td>
                                         <h5>PoPS output upload (for testing only)</h5>
                                         </td>
@@ -129,7 +129,7 @@ border-color: rgba(0,0,0,0.1);
                                         <td>
                                             <div id="popsInputCheck" class="mt-2" style="padding-bottom: 0;"></div>
                                         </td>
-                                    </tr>
+                                    </tr> -->
 
                                     <tr>
                                         <td>
