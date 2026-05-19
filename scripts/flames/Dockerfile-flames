@@ -1,7 +1,7 @@
 # ===============================
 # Base image
 # ===============================
-FROM continuumio/miniconda3:latest
+FROM condaforge/miniforge3:latest
 
 # ===============================
 # Set working directory
@@ -34,10 +34,7 @@ RUN apt-get update && apt-get install -y \
 # ===============================
 # Update conda and install mamba
 # ===============================
-# The latest continuumio/miniconda3 image often contains an older conda
-# that can fail when installing mamba from conda-forge.
-RUN conda update -n base -c defaults conda -y && \
-    conda install -n base -c conda-forge mamba -y && \
+RUN conda install -n base -c conda-forge mamba -y && \
     conda clean -afy
 
 # ===============================
