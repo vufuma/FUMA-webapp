@@ -188,18 +188,20 @@ def make_indexfile(filedir, infile, locus_n):
     except:
         sys.exit(6)
         
-def run_pops(flames, logger):
+def run_pops(flames, s2gdir, s2g_id, filedir, logger):
     try:
         pops_cmd = [
             "python",
             "/opt/pops/pops.py",
-            "--gene_annot_path", f"{flames}/pops_features_full_FUMA_compatible/gene_annots.txt",
-            "--feature_mat_prefix", f"{flames}/pops_features_full_FUMA_compatible/features_munged/pops_features",
+            "--gene_annot_path", f"/data/FLAMES/pops_features_full_FUMA_compatible/gene_annots.txt",
+            "--feature_mat_prefix", f"/data/FLAMES/pops_features_full_FUMA_compatible/features_munged/pops_features",
             "--num_feature_chunks", "116",
-            "--magma_prefix", "magma",
-            "--control_features", f"{flames}/pops_features_full_FUMA_compatible/control.features",
-            "--out_prefix", "input",
+            "--magma_prefix", f"{s2gdir}/{s2g_id}/magma",
+            "--control_features", f"/data/FLAMES/pops_features_full_FUMA_compatible/control.features",
+            "--out_prefix", f"{filedir}/input",
         ]
+        
+        print("Running PoPS with the following command:" + " ".join(pops_cmd))
 
         logger.info("Running PoPS")
 
@@ -227,15 +229,15 @@ def run_flames(filedir, flames, s2gdir, s2g_id, logger):
             "/opt/FLAMES/FLAMES.py",
             "annotate",
             "-o", str(filedir),
-            "-a", f"{flames}/Annotation_data",
+            "-a", f"/data/FLAMES/Annotation_data",
             "-p", f"{filedir}/input.preds",
             "-m", f"{s2gdir}/{s2g_id}/magma.genes.out",
             "-mt", f"{s2gdir}/{s2g_id}/magma_exp_gtex_v8_ts_general_avg_log2TPM.gsa.out",
             "-id", f"{filedir}/indexfile.txt",
             "-t", "tabix",
-            "-cf", f"{flames}/whole_genome_SNVs.tsv.gz",
+            "-cf", f"/data/FLAMES/whole_genome_SNVs.tsv.gz",
             "-cv", "vep",
-            "-vc", "/home/worker/.vep"
+            "-vc", "/data/FLAMES/vep_cache"
         ]
 
         logger.info("Running FLAMES annotate")
@@ -312,6 +314,9 @@ def main():
     # get the parameters from the params
     sample_size = param.get('params','sampleSize')
     s2g_id = param.get('params','snp2geneID')
+    
+    # run pops
+    run_pops(flames, s2gdir, s2g_id, filedir, logger)
 
     # create the loci directory
     if not os.path.exists(os.path.join(filedir, "loci")):
@@ -421,6 +426,7 @@ def main():
     #         print("\t".join(indexfile_row), file=indexfile)
     #         locus_n += 1
     # indexfile.close()
+    
     
     # run flames
     run_flames(filedir, flames, s2gdir, s2g_id, logger)
