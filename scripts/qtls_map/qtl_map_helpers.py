@@ -23,6 +23,9 @@ def process_loci(tb, loci, locus, snps):
     
     qtls = qtl_tabix(str(chrom)+":"+str(start)+"-"+str(end), tb)
     
+    if len(qtls)==0: 
+        return None
+    
     columns = (
     ['chr', 'pos', 'a1', 'a2', 'variant_id', 'protein', 'type', 'beta', 'P']
     + (['originalPhenotype'] if len(qtls[0]) == 10 else [])
