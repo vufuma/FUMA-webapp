@@ -1461,11 +1461,18 @@ class S2GController extends Controller
             }
         }
 
-        if ($request->filled('GRCh38file')) {
-            if (Storage::exists($filedir . "GRCh38_droppedvariants.txt.gz")) {
-                $files[] = "GRCh38_droppedvariants.txt.gz";
+        // if ($request->filled('GRCh38file')) {
+        //     if (Storage::exists($filedir . "GRCh38_droppedvariants.txt.gz")) {
+        //         $files[] = "GRCh38_droppedvariants.txt.gz";
+        //     }
+        // }
+
+        if ($request->filled('xqtlsfile')) {
+            if (Storage::exists($filedir . "xqtls.txt")) {
+                $files[] = "xqtls.txt";
             }
         }
+
 
         if ($prefix == "gwas") {
             $zipfile = $filedir . "FUMA_gwas" . $id . ".zip";
