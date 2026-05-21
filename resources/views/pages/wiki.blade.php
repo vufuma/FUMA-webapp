@@ -27,7 +27,14 @@
                     <h3>Resources on running FUMA modules and interpreting results.</h3>
                 </div>
                 <div>
-                    Documentation and tutorial for FUMA v2.0 and above will be hosted on: <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/"> link to documentation</a>
+                    Documentation and tutorial for FUMA v2.0 and beyond will be hosted on: <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/"> link to documentation</a>
+                </div>
+                <br>
+                <div>
+                    <strong>Overview of FUMA v2.0.0 release: </strong>
+                    <p>1. SNP2GENE module is updated with additional xQTLs datasets for xQTLs mapping. Click <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/snp2gene/index.html">here</a> for documentation.</p>
+                    <p>2. FLAMES module is added. Click <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/flames/index.html">here</a> for documentation.</p>
+                    <p>3. QTLs Analysis module is added. Click <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/qtl/index.html">here</a> for documentation.</p>
                 </div>
             </div>
             <div id="snp2gene" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">

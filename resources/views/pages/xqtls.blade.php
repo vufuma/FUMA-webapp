@@ -36,7 +36,13 @@ border-color: rgba(0,0,0,0.1);
                         <div style="text-align: center;">
                             <h3>QTLs Analysis</h3>
                             <h5 style="color: #00004d"> Prioritizing genes within a genomic risk locus by integrating with QTLs datasets. </h5>
-                            <p> Use the QTLs Analysis module to investigate the potential functional mechanisms underlying GWAS associations by integrating with various QTLs. To get started, upload your GWAS summary statistics for a specific genomic locus and select the QTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/qtl/index.html">Documentation</a> for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown. </p>
+                            <div class="alert alert-info">
+                                Use the QTLs Analysis module to investigate the potential functional mechanisms underlying GWAS associations by integrating with various QTLs. To get started, upload your GWAS summary statistics for a specific genomic locus and select the QTLs datasets of interest to perform colocalization and/or LAVA analysis. Check the <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/qtl/index.html">Documentation</a> for more information on how to prepare the input files and interpret the results. Please select either colocalization and/or LAVA analysis. If you do not check either option, there is no error but there will be no results shown.
+                            </div>
+                            <div class="alert alert-warning">
+                                Only run this analysis for a genomic risk locus. You can use the genomic risk locus definition from SNP2GENE. DO NOT upload the full GWAS summary statistics.
+                            </div>
+                            
                         </div>
                         <div>
                             <div id="uploadData">
