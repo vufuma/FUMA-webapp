@@ -12,6 +12,13 @@
 		<strong style="font-size: large;">Announcements</strong><br>
 
 		<div class="alert alert-info">
+			<strong>May 27 2026: </strong>
+			<p> FUMA has been updated to version 2.0.0.</p>
+			<p> Please navigate to <a href="{{ Config::get('app.subdir') }}/wiki">the wiki page</a> for an overview of the updates.
+
+		</div>
+
+		<div>
 			<strong>May 13 2026: </strong>
 			<p> 1. We will perform an update and maintenance on FUMA starting from <strong>Sunday May 17 2026</strong>. During the maintenance, FUMA is not accessible. Expect up to 2 weeks of down time. Please make sure to download files needed for your analyses from FUMA before this date. Any QUEUED jobs would be stopped before the maintenance.</p>
 			<p> 2. Any SNP2GENE jobs that were created prior to Jan 01 2023 will be removed from the FUMA server during the maintenance. This does not apply to public jobs. 

@@ -277,8 +277,13 @@ border-color: rgba(0,0,0,0.1);
             <table class="table table-bordered inputTable" id="NewJobXqtlsMap" style="width: auto; ">
                 <tr>
                     <div class="alert alert-info">
-			            Starting from FUMA v.2.0.0, xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. In some certain datasets where it was not possible to obtain the significant associations, a threshold based on p value is used. The default is 1e-3 but you can modify this. Please check this option to perform xQTLs mapping.
+			            <p>Starting from FUMA v.2.0.0, xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. In some certain datasets where it was not possible to obtain the significant associations (bryois2022Brain and jerber2021Dopaminergic), a threshold based on p value is used. The default is 1e-3 but you can modify this. <p>
+                        <p>Please check this option and select at least one dataset to perform xQTLs mapping.</p>
                     </div>
+                    <div class="alert alert-warning">
+			            Note that optional SNP filtering by functional annotation is currently not yet available. This functionality will be added in future release.
+                    </div>
+
                     <th class="h5">Perform xQTLs Mapping
                     </th>
                     <td><input type="checkbox" class="form-check-inline" name="xqtlsMap" id="xqtlsMap"

@@ -39,7 +39,7 @@ border-color: rgba(0,0,0,0.1);
                         <div style="text-align: center;">
                             <h3>GWAS Gene Prioritization with FLAMES</h3>
 
-                            <div class="alert alert-primary">
+                            <div class="alert alert-info">
                                 Implementation of FLAMES (fine-mapped locus accessment model of effector genes). <br> 
                                 <a href="https://www.nature.com/articles/s41588-025-02084-7" target="_blank">Link</a> to paper. <br>
                                 Please read the instructions carefully when submitting a FLAMES job. Please check the <a href="https://fuma-docs.readthedocs.io/en/latest/flames/index.html" target="_blank">documentation</a> for more details. 
