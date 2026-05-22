@@ -24,6 +24,13 @@ class FlamesProcess implements ShouldQueue
     protected $jobID;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 28800; // 8 hours
+
+    /**
      * Create a new queuable job instance.
      */
     public function __construct($user, $jobID)
@@ -66,28 +73,56 @@ class FlamesProcess implements ShouldQueue
         #######################################################################
         Storage::append($this->logfile, "INFO: Starting finemapping " . date("Y-m-d H:i:s") . "\n");
         $cmd_format = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python run_flames.py --filedir $job_location --s2gdir $s2g_dir >>$job_location/job.log 2>>$job_location/error.log'";
-        $tmp = Process::forever()->run($cmd_format);
+
+        // $tmp = Process::forever()->run($cmd_format);
+        // Storage::append($this->serverlog, "Command to be executed:");
+        // Storage::append($this->serverlog, $cmd_format . "\n");
+
+        // $tmpError = $tmp->exitCode();
+
+        // $process = Process::forever()->start($cmd_format);
+
+        // Storage::append($this->serverlog, "Command to be executed:");
+        // Storage::append($this->serverlog, $cmd_format . "\n");
+
+        // // Wait for completion if needed
+        // $process->wait();
+
+        // $tmpError = $process->exitCode();
+
         Storage::append($this->serverlog, "Command to be executed:");
         Storage::append($this->serverlog, $cmd_format . "\n");
 
-        $tmpError = $tmp->exitCode();
+        $process = Process::forever()->run($cmd_format);
+        // $tmpError = $process->exitCode();
 
-        // Log the exit code
-        Storage::append($this->logfile, "Process exit code: " . $tmpError . "\n");
-        if ($tmpError != 0) {
+        // // Log the exit code
+        // Storage::append($this->logfile, "Process exit code: " . $tmpError . "\n");
+        // if ($tmpError != 0) {
+        //     JobHelper::JobTerminationHandling($jobID, 31, 'An error occurs at flames');
+        //     return;
+        // } 
+        
+        // // Completed successfully
+        // SubmitJob::where('jobID', $jobID) 
+        // ->update([
+        //     'status' => config('all_status_codes.15.short_name'),
+        //     'completed_at' => date("Y-m-d H:i:s")
+        // ]);
+
+        $error = $process->exitCode();
+
+        if ($error != 0) {
             JobHelper::JobTerminationHandling($jobID, 31, 'An error occurs at flames');
             return;
-        } 
-        
-        // Completed successfully
-        SubmitJob::where('jobID', $jobID) 
-        ->update([
-            'status' => config('all_status_codes.15.short_name'),
-            'completed_at' => date("Y-m-d H:i:s")
-        ]);
+        }
 
-
-
+        JobHelper::JobTerminationHandling($jobID, 15);
+        return;
     }
+
+
+
+    // }
 
 }

@@ -24,6 +24,13 @@ class XqtlsProcess implements ShouldQueue
     protected $jobID;
 
     /**
+     * The number of seconds the job can run before timing out.
+     *
+     * @var int
+     */
+    public $timeout = 28800; // 8 hours
+
+    /**
      * Create a new queuable job instance.
      */
     public function __construct($user, $jobID)
