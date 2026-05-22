@@ -51,6 +51,9 @@ colnames(results) = c("tissue", "gene", "nsnps", "PP.H0.abf", "PP.H1.abf", "PP.H
 for (dataset in unlist(strsplit(datasets, ":"))) {
   qtl_type = unlist(strsplit(dataset, "-"))[1]
   dataset_origin = unlist(strsplit(dataset, "-"))[2]
+  if (dataset_origin == "singlebrain") {
+    next
+  }
   tissue = unlist(strsplit(dataset, "-"))[3]
 
   snps_fn = paste0(filedir, "locus.input")

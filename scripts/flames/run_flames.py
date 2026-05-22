@@ -315,9 +315,6 @@ def main():
     sample_size = param.get('params','sampleSize')
     s2g_id = param.get('params','snp2geneID')
     
-    # run pops
-    run_pops(flames, s2gdir, s2g_id, filedir, logger)
-
     # create the loci directory
     if not os.path.exists(os.path.join(filedir, "loci")):
         os.makedirs(os.path.join(filedir, "loci"))
@@ -358,6 +355,8 @@ def main():
     # tabix the input gwas sumstat
     tabix_gwas(filedir=filedir, logger=logger)
     
+    # run pops
+    run_pops(flames, s2gdir, s2g_id, filedir, logger)
     
     # read in the genomic risk loci file and process each row
     loci = pd.read_csv(os.path.join(s2gdir, s2g_id, 'GenomicRiskLoci.txt'), sep='\t')
