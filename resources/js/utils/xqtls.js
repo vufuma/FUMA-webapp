@@ -191,7 +191,7 @@ export const CheckAll = function() {
 	if($('#lava').is(':checked')){
 		if($('#phenotype').val().length==0){
 			submit = false;
-			$(table.rows[3].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please provide phenotype for LAVA analysis.</div>');
+			$(table.rows[3].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">For LAVA analysis, please provide a phenotype name for the uploaded file.</div>');
 		} else {
 			$(table.rows[3].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. LAVA is selected. </div>');
 		}

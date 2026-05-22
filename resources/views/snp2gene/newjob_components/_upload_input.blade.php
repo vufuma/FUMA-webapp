@@ -33,7 +33,7 @@
                             <strong> Only for running FLAMES afterwards: </strong>
                             <div class="form-check"> <input type="checkbox" class="form-check-input"
                                     name="keepinfiles" id="keepinfiles" /><label
-                                    class="form-check-label"> Keep input files after job completion.</label>
+                                    class="form-check-label"> Keep input files after job completion for FLAMES.</label>
                                 <br>
                                 <span class="info"><i class="fa fa-info fa-sm"></i>
                                     The default of this option is unchecked, which means that your GWAS summary statistics and intermediate files will be deleted once the SNP2GENE process is finished. <br>
