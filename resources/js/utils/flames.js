@@ -130,7 +130,7 @@ export const CheckInput = function(){
                 complete: function(){
                     if(!filecheck){
                         submit = false;
-                        $('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The seleted SNP2GENE job does not have valid MAGMA outputs necessary for FLAMES.</div>')
+                        $('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The selected SNP2GENE job does not have valid MAGMA outputs necessary for FLAMES.</div>')
                     }else{
                         if(ingwas){
                             $('#CheckInput').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. The MAGMA files needed for FLAMES will be obtained from the selected SNP2GENE job. We also found the input.snps file in the SNP2GENE job, which will be used as the input SNP list for FLAMES.</div>')
@@ -150,7 +150,7 @@ export const CheckInput = function(){
     }
 
     if ($('#totalN').val().length === 0) {
-        submit = false;
+        // submit = false;
         $('#otherParamsCheck').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please input sample size.</div>')
     } else{
         $('#otherParamsCheck').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. ');

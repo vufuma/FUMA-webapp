@@ -131,6 +131,9 @@ border-color: rgba(0,0,0,0.1);
                                                 data-bs-content="Check this option to perform colocalization analysis.">
                                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                                             </a>
+                                            <div class="alert alert-warning">
+                                                singlebrain dataset is currently not available for colocalization analysis (only for LAVA analysis).
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="accordion-item" style="padding:0px;">
@@ -214,7 +217,8 @@ border-color: rgba(0,0,0,0.1);
                                     </tr>
 
                                     <tr>
-                                        <td>Available datasets:</td>
+                                        <td>Available datasets:
+                                        </td>
                                         <td>
                                             <div style="text-align:right; margin-bottom:10px;">
                                                 <a href="javascript:void(0);" id="clearAllEqtlSelections" style="padding-right:20px;">
