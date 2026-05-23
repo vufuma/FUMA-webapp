@@ -1,6 +1,7 @@
 //import $ from 'jquery';
 //window.$ = $;
 //window.jQuery = $;
+import swal from 'sweetalert';
 var gwasFileSize = 0;
 var ciFileSize = 0;
 import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
@@ -58,6 +59,15 @@ export const CheckAll = function() {
 			submit=false;
 			tablecheck=false;
 		}else{
+			var span = document.createElement("span");
+			span.innerHTML = "For a standard SNP2GENE, follow <a href='https://fuma-docs.readthedocs.io/en/latest/snp2gene/prepare_input_files.html' target='_blank'>instruction</a> to prepare your input files.<br> For a SNP2GENE job intended for FLAMES, follow <a href='https://fuma-docs.readthedocs.io/en/latest/flames/prepare_input_files.html' target='_blank'>instruction</a> to prepare your input files.<br><div class='alert alert-danger'>Your job will fail if the input files are not prepared correctly.</div>";
+			swal({
+				title: "Did you check your input file format?",
+				content: span,
+				icon: "warning",
+				buttons: true,
+				closeModal: true,
+			});
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-check"></i> OK. Please check your input file format.</div></td>');
 			submit=true;
