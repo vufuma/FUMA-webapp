@@ -96,9 +96,9 @@ border-color: rgba(0,0,0,0.1);
                                                 <i class="fa-regular fa-circle-question"></i>
                                         </a>
                                         <br>  
-                                        <input type="radio" id="grch37" name="build" value="GRCh37" onchange="window.CheckAll()">
+                                        <input type="radio" id="grch37" name="build" value="GRCh37" onchange="window.CheckAll(); window.AlertFileType()">
                                         <label for="grch37">GRCh37</label><br>
-                                        <input type="radio" id="grch38" name="build" value="GRCh38" onchange="window.CheckAll()">
+                                        <input type="radio" id="grch38" name="build" value="GRCh38" onchange="window.CheckAll(); window.AlertFileType()">
                                         <label for="grch38">GRCh38</label><br>
                                         </input>
                                         </td>
@@ -483,9 +483,10 @@ border-color: rgba(0,0,0,0.1);
     <script type="module">
         import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
         import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
-        import { XQTLSSetup, CheckAll, loadParams } from "{{ Vite::appjs('utils/xqtls.js') }}";
+        import { XQTLSSetup, CheckAll, loadParams, AlertFileType } from "{{ Vite::appjs('utils/xqtls.js') }}";
         import tutorialDownloadVariant from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
         window.CheckAll = CheckAll;
+        window.AlertFileType = AlertFileType;
         window.loadParams = loadParams;
         window.tutorialDownloadVariant = tutorialDownloadVariant;
         $(function(){

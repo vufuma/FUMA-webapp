@@ -99,7 +99,7 @@ border-color: rgba(0,0,0,0.1);
                                                 The header file needs to start with "#" and the columns need to be separated by tab. <br>
                                                 The file also needs to be bgzipped and have extension ".gz". <br>
                                             </span>
-                                            <input type="file" class="form-control-file" name="gwasSumstat" id="gwasSumstat" onchange="window.CheckInput();" />
+                                            <input type="file" class="form-control-file" name="gwasSumstat" id="gwasSumstat" onchange="window.CheckInput(); window.AlertFileType()" />
                                         </td>
 
                                         <td>
@@ -282,9 +282,10 @@ border-color: rgba(0,0,0,0.1);
     <script type="module">
         import { SidebarSetup } from "{{ Vite::appjs('utils/sidebar.js') }}";
         import { BrowseSetup } from "{{ Vite::appjs('utils/browse.js') }}";
-        import { FLAMESSetup, CheckInput} from "{{ Vite::appjs('utils/flames.js') }}";
+        import { FLAMESSetup, CheckInput, AlertFileType } from "{{ Vite::appjs('utils/flames.js') }}";
         import tutorialDownloadVariant from "{{ Vite::appjs('utils/tutorial_utils.js') }}";
         window.CheckInput = CheckInput;
+        window.AlertFileType = AlertFileType;
         window.tutorialDownloadVariant = tutorialDownloadVariant;
         $(function(){
             SidebarSetup();
