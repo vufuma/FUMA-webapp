@@ -61,7 +61,7 @@ class XqtlsProcess implements ShouldQueue
         $this->errorfile = $filedir . "error.log";
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'xqtls');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'xqtls');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'xqtls');
 
         #######################################################################
