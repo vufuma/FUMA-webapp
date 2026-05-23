@@ -33,6 +33,9 @@ def sanitize_gwas(filedir, logger):
             sys.exit(8)
         else:
             header = first_line[1:].rstrip("\n").split("\t")
+            if header != ["chr", "bp", "A2", "A1", "rsID", "p", "beta"]:
+                logger.error("input.gwas.gz file does not have the correct header. Please make sure the input.gwas.gz file has the following header: chr, bp, A2, A1, rsID, p, beta")
+                sys.exit(14)
             print("\t".join(header), file=open(os.path.join(filedir, "header.txt"), 'w'))
     
     
@@ -325,15 +328,20 @@ def main():
             sys.exit(12)
         else: 
             snp_ori = os.path.join(s2gdir, s2g_id, "input.snps")
-            snp_dest = os.path.join(filedir, "input.gwas.tmp")
+            snp_dest = os.path.join(filedir, "input.gwas.tmp2")
             dest = shutil.copyfile(snp_ori, snp_dest)
+            
+            #subset the snp_dest
+            snp2gene_input_snp_orig = pd.read_csv(snp_dest, sep="\t")
+            snp2gene_input_snp = snp2gene_input_snp_orig[['chr', 'bp', 'non_effect_allele', 'effect_allele', 'rsID', 'p', 'beta']]
+            snp2gene_input_snp.to_csv(os.path.join(filedir, "input.gwas.tmp"), sep="\t", index=False)
             
             input_gwas_fp = os.path.join(filedir, "input.gwas")
             input_gwas = open(os.path.join(filedir, "input.gwas"), "w")
             header = ["#chr", "bp", "A2", "A1", "rsID", "p", "beta"]
             print("\t".join(header), file=input_gwas)
             
-            with open(snp_dest, 'r') as f_in:
+            with open(os.path.join(filedir, "input.gwas.tmp"), 'r') as f_in:
                 for line in f_in:
                     if line.startswith("chr"):
                         items = line.rstrip("\n").split("\t")
