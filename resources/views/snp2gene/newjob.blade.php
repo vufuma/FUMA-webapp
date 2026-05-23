@@ -16,7 +16,7 @@
     @endif
 
     <!-- load previous settings -->
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-6">
 			<div class="input-group">
 				<span class="form-inline input-group-text" style="font-size:18px;">
@@ -35,7 +35,9 @@
 			</div>
         </div>
     </div>
-    <br><br>
+    <br><br> -->
+
+    @include('snp2gene.newjob_components._config_newjob')
 
     <!-- Input files upload -->
     @include('snp2gene.newjob_components._upload_input')
@@ -61,19 +63,19 @@
 
 </div>
 <br>
-<div class="row">
+<!-- <div class="row">
     <div class="col-5">
         <div class="input-group">
             <span class="input-group-text" style="font-size:16px;">Title of job submission: </span>
             <input type="text" class="form-control" name="NewJobTitle" id="NewJobTitle" />
         </div>
     </div>
-</div>
-<div>
+</div> -->
+<!-- <div>
     <span class="info"><i class="fa fa-info"></i>
         This is not mandatory, but job title might help you to track your jobs.
     </span>
-    <br><br>
+    <br><br> -->
     <div class="row">
         <div class="col-2">
             <input class="btn btn-default" type="submit" value="Submit Job" name="SubmitNewJob"
