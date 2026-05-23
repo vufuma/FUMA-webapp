@@ -149,6 +149,24 @@ const colocSummaryTable = function(){
 	});
 }
 
+export const AlertFileType = function() {
+	if (
+		$('#locusSumstat').val().length !== 0 &&
+		($('#grch37').is(':checked') || 
+		$('#grch38').is(':checked'))
+	) {
+		var span = document.createElement("span");
+		span.innerHTML = "Did you follow the <a href='https://fuma-docs.readthedocs.io/en/latest/qtl/prepare_input_files.html#gwas-summary-statistics-for-a-genetic-locus-of-interest' target='_blank'>instruction</a> to prepare your input files? <br><div class='alert alert-danger'>Your job will fail if the input files are not prepared correctly.</div>";
+		swal({
+			title: "Did you check your input file format?",
+			content: span,
+			icon: "warning",
+			closeModal: true,
+			showCancelButton: false,
+		});
+	}
+}
+
 export const CheckAll = function() {
 	var submit = true;
 	var table;
@@ -161,15 +179,6 @@ export const CheckAll = function() {
 		submit = false;
 		$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload a summary statistics file for the locus of interest AND indicate if your input file is in GRCh37 or GRCh38 coordinates.</div>');
 	} else {
-		var span = document.createElement("span");
-		span.innerHTML = "Did you follow the <a href='https://fuma-docs.readthedocs.io/en/latest/qtl/prepare_input_files.html#gwas-summary-statistics-for-a-genetic-locus-of-interest' target='_blank'>instruction</a> to prepare your input files? <br><div class='alert alert-danger'>Your job will fail if the input files are not prepared correctly.</div>";
-		swal({
-			title: "Did you check your input file format?",
-			content: span,
-			icon: "warning",
-			buttons: true,
-			closeModal: true,
-		});
 		$(table.rows[0].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
 	}
 

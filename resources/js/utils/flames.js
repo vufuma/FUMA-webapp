@@ -103,6 +103,23 @@ const flamesResultTable = function(){
     });
 }
 
+export const AlertFileType = function() {
+	if (
+		$('#gwasSumstat').val().length !== 0
+	) {
+		var span = document.createElement("span");
+		span.innerHTML = "Did you follow the <a href='https://fuma-docs.readthedocs.io/en/latest/flames/prepare_input_files.html' target='_blank'>instruction</a> to prepare your input files? <br><div class='alert alert-danger'>Your job will fail if the input files are not prepared correctly.</div>";
+		swal({
+			title: "Did you check your input file format?",
+			content: span,
+			icon: "warning",
+			buttons: true,
+            showCancelButton: false,
+			closeModal: true,
+		});
+	}
+}
+
 export const CheckInput = function(){
     var submit = true;
     var s2gID = $('#s2gID').val();
@@ -130,7 +147,7 @@ export const CheckInput = function(){
                 },
                 complete: function(){
                     if(!filecheck){
-                        submit = false;
+	                    $('#flamesSubmit').attr("disabled", true);
                         $('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The selected SNP2GENE job does not have valid MAGMA outputs necessary for FLAMES.</div>')
                     }else{
                         if(ingwas){
@@ -147,15 +164,6 @@ export const CheckInput = function(){
         // submit = false;
         $('#gwasInputCheck').html('<div class="alert alert-warning" style="padding-bottom: 10; padding-top: 10;">If the processed GWAS summary statistics file is not kept in your SNP2GENE job, please upload GWAS summary statistics.</div>')
     } else{
-        var span = document.createElement("span");
-		span.innerHTML = "Did you follow the <a href='https://fuma-docs.readthedocs.io/en/latest/flames/prepare_input_files.html' target='_blank'>instruction</a> to prepare your input files? <br><div class='alert alert-danger'>Your job will fail if the input files are not prepared correctly.</div>";
-		swal({
-			title: "Did you check your input file format?",
-			content: span,
-			icon: "warning",
-			buttons: true,
-			closeModal: true,
-		});
         $('#gwasInputCheck').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. You uploaded your own GWAS summary statistics. Please make sure that it has the correct format. ');
     }
 
