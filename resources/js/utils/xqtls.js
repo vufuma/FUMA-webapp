@@ -1,4 +1,3 @@
-import swal from 'sweetalert';
 var prefix = "xqtls";
 var id = ""
 
@@ -147,24 +146,6 @@ const colocSummaryTable = function(){
 		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"iDisplayLength": 10
 	});
-}
-
-export const AlertFileType = function() {
-	if (
-		$('#locusSumstat').val().length !== 0 &&
-		($('#grch37').is(':checked') || 
-		$('#grch38').is(':checked'))
-	) {
-		var span = document.createElement("span");
-		span.innerHTML = "Did you follow the <a href='https://fuma-docs.readthedocs.io/en/latest/qtl/prepare_input_files.html#gwas-summary-statistics-for-a-genetic-locus-of-interest' target='_blank'>instruction</a> to prepare your input files? <br><div class='alert alert-danger'>Your job will fail if the input files are not prepared correctly.</div>";
-		swal({
-			title: "Did you check your input file format?",
-			content: span,
-			icon: "warning",
-			closeModal: true,
-			showCancelButton: false,
-		});
-	}
 }
 
 export const CheckAll = function() {

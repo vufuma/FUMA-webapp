@@ -4,9 +4,8 @@
 // with the php macro values for the rendered page
 console.log("Initialize S2G page");
 
-import { CheckAll, AlertFileType, ciFileDel, ciFileCheck, loadParams } from "../utils/NewJobParameters.js";
+import { CheckAll, loadParams, ciFileDel, ciFileCheck } from "../utils/NewJobParameters.js";
 window.CheckAll = CheckAll;
-window.AlertFileType = AlertFileType;
 window.loadParams = loadParams;
 window.ciFileDel = ciFileDel;
 window.ciFileCheck = ciFileCheck;

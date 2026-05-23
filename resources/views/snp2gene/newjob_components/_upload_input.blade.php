@@ -23,7 +23,7 @@
                             </a>
                         </td>
                         <td><input type="file" class="form-control-file" name="GWASsummary"
-                                id="GWASsummary" onchange="window.CheckAll(); window.AlertFileType()" /><br>
+                                id="GWASsummary" /><br>
                             Or <div class="form-check"> <input type="checkbox" class="form-check-input"
                                     name="egGWAS" id="egGWAS" onchange="window.CheckAll()" /><label
                                     class="form-check-label"> Use example input (Crohn's disease, Franke et
