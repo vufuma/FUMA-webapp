@@ -49,6 +49,7 @@ class JobFailedWithErrorCode extends Mailable
                 'status' => $this->job->status,
                 'msg' => $this->msg,
                 'err_specific_msg' => $err_specific_msg,
+                'job_type' => $this->job->type,
             ],
         );
     }

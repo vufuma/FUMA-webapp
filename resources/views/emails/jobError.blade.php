@@ -7,14 +7,16 @@
 <body>
 
     <p>
-        This is unfortunate! An error occurred during the process of your job (job ID: {{ $jobID }}, job title:
+        This is unfortunate! An error occurred during the process of your <strong> {{ $job_type }} </strong> job (job ID: {{ $jobID }}, job title:
         {{ $jobtitle }}).<br>
         {{ $status }}
     </p>
 
     {!! $err_specific_msg !!}
 
-    <h1> If this is a SNP2GENE job, make sure that your data is correctly formatted for FUMA</h1>
+    <h1> Tips on troubleshooting FUMA errors</h1>
+
+    <h2> If this is a SNP2GENE job, make sure that your data is correctly formatted for FUMA</h2>
     <ol>
         <li>Make sure that there is a header (column name) in your input file.
             <ul>
@@ -58,18 +60,21 @@
             instead of "1". This is usually caused when you save a file in R. To avoid this, one needs to set quote=F
             when saving a file in R (see previous thread: <a href="https://groups.google.com/g/fuma-gwas-users/c/E1Qtk1-4apc/m/6sDD5_g2AwAJ">ERROR:001</a>)
         </li>
+
+        <li>
+            For additional troubleshooting help, please follow the troubleshooting list: 
+		    <a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw">GUIDELINES ON TROUBLESHOOTING FUMA ERRORS</a>
+        </li>
     </ol>
 
-    <h1> If this is a FLAMES job, make sure you follow the guidelines in <a href="https://fuma-docs.readthedocs.io/en/latest/flames/index.html">FLAMES DOCUMENTATION</a></h1>
+    <h2> If this is a FLAMES job, make sure you follow the guidelines in <a href="https://fuma-docs.readthedocs.io/en/latest/flames/index.html">FLAMES DOCUMENTATION</a></h2>
 
-    <h1> If this is a QTLs Analysis job, make sure you follow the guidelines in <a href="https://fuma-docs.readthedocs.io/en/latest/qtl/index.html">QTLs ANALYSIS DOCUMENTATION</a></h1>
+    <h2> If this is an xqlts (QTLs Analysis) job, make sure you follow the guidelines in <a href="https://fuma-docs.readthedocs.io/en/latest/qtl/index.html">QTLs ANALYSIS DOCUMENTATION</a></h2>
 
     <p>
-        To solve this issue, please follow the troubleshooting list: 
-		<a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw">GUIDELINES ON TROUBLESHOOTING FUMA ERRORS</a>
-		and <a href="https://groups.google.com/g/fuma-gwas-users/c/oVvZFhMpCY4">GUIDELINES ON FUMA ISSUES SUBMISSION</a>. 
-        You can post questions, suggestions and bug reports on Google Forum:
+        If issues persist after following the above guidelines, please post your question on Google Forum:
         <a href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a><br><br>
+
         Tanya Phung, Ph.D.<br>
         VU University Amsterdam<br>
         Dept. Complex Trait Genetics<br>
