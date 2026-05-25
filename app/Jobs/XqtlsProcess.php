@@ -197,12 +197,15 @@ class XqtlsProcess implements ShouldQueue
             Storage::append($this->logfile, "LAVA analysis not selected.\n");
         }
         
-        // Completed successfully
-        SubmitJob::where('jobID', $jobID) 
-        ->update([
-            'status' => config('all_status_codes.15.short_name'),
-            'completed_at' => date("Y-m-d H:i:s")
-        ]);
+        // // Completed successfully
+        // SubmitJob::where('jobID', $jobID) 
+        // ->update([
+        //     'status' => config('all_status_codes.15.short_name'),
+        //     'completed_at' => date("Y-m-d H:i:s")
+        // ]);
+
+        JobHelper::JobTerminationHandling($jobID, 15);
+        return;
 
 
 
