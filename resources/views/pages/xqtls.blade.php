@@ -218,6 +218,13 @@ border-color: rgba(0,0,0,0.1);
 
                                     <tr>
                                         <td>Available datasets:
+                                            <div class="alert alert-warning">
+                                                Note that chromosome X is currently not included in the xQTLs mapping. This will be added in future release.
+                                            </div>
+                                            <div class="alert alert-warning">
+                                                LAVA is a time-consumsing process. Please be selective about which datasets you want to include in the LAVA analysis. If you select too many datasets, the LAVA analysis will be timeout after 8 hours. 
+                                            </div>
+
                                         </td>
                                         <td>
                                             <div style="text-align:right; margin-bottom:10px;">

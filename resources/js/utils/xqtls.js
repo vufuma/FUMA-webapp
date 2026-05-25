@@ -64,6 +64,7 @@ export const XQTLSSetup = function(){
     $('#deleteJob').on('click', function(){
         deleteJobs(pageState.get("subdir"), pageState.get("page"), updateQueryHistory)
     });
+
 }
 
 const updateQueryHistory = function(){
@@ -179,7 +180,13 @@ export const CheckAll = function() {
 		submit = false;
 		$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please upload a summary statistics file for the locus of interest AND indicate if your input file is in GRCh37 or GRCh38 coordinates.</div>');
 	} else {
-		$(table.rows[0].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+		const locusFileSize = $('#locusSumstat').get(0).files[0].size;
+		if (locusFileSize > 10000000) {
+			$(table.rows[0].cells[2]).html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The uploaded file is too large. Please upload a file smaller than 10 MB.</div>');
+			submit = false;
+		} else {
+			$(table.rows[0].cells[2]).html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK.</div>');
+		}
 	}
 
 	if($('#chrom').val().length==0 || $('#locusStart').val().length==0 || $('#locusEnd').val().length==0){

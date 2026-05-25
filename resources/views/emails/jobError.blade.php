@@ -14,7 +14,7 @@
 
     {!! $err_specific_msg !!}
 
-    <h1>Make sure that your data is correctly formatted for FUMA</h1>
+    <h1> If this is a SNP2GENE job, make sure that your data is correctly formatted for FUMA</h1>
     <ol>
         <li>Make sure that there is a header (column name) in your input file.
             <ul>
@@ -60,13 +60,17 @@
         </li>
     </ol>
 
+    <h1> If this is a FLAMES job, make sure you follow the guidelines in <a href="https://fuma-docs.readthedocs.io/en/latest/flames/index.html">FLAMES DOCUMENTATION</a></h1>
+
+    <h1> If this is a QTLs Analysis job, make sure you follow the guidelines in <a href="https://fuma-docs.readthedocs.io/en/latest/qtl/index.html">QTLs ANALYSIS DOCUMENTATION</a></h1>
+
     <p>
         To solve this issue, please follow the troubleshooting list: 
 		<a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw">GUIDELINES ON TROUBLESHOOTING FUMA ERRORS</a>
 		and <a href="https://groups.google.com/g/fuma-gwas-users/c/oVvZFhMpCY4">GUIDELINES ON FUMA ISSUES SUBMISSION</a>. 
         You can post questions, suggestions and bug reports on Google Forum:
         <a href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a><br><br>
-        FUMA development team<br>
+        Tanya Phung, Ph.D.<br>
         VU University Amsterdam<br>
         Dept. Complex Trait Genetics<br>
     </p>

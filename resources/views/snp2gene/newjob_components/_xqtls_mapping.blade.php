@@ -25,6 +25,10 @@ border-color: rgba(0,0,0,0.1);
 			            Note that optional SNP filtering by functional annotation is currently not yet available. This functionality will be added in future release.
                     </div>
 
+                    <div class="alert alert-warning">
+			            Note that chromosome X is currently not included in the xQTLs mapping. This will be added in future release.
+                    </div>
+
                     <th class="h5">Perform xQTLs Mapping
                     </th>
                     <td><input type="checkbox" class="form-check-inline" name="xqtlsMap" id="xqtlsMap"
