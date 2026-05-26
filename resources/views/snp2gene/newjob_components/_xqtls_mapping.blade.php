@@ -20,13 +20,12 @@ border-color: rgba(0,0,0,0.1);
                     <div class="alert alert-info">
 			            <p>Starting from FUMA v.2.0.0, xQTLs mapping maps SNPs to genes based on xQTLs information. Only significant associations are used. In some certain datasets where it was not possible to obtain the significant associations (bryois2022Brain and jerber2021Dopaminergic), a threshold based on p value is used. The default is 1e-3 but you can modify this. <p>
                         <p>Please check this option and select at least one dataset to perform xQTLs mapping.</p>
+                        <p>You can view the results of the xQLT mapping in the <strong>xQTLs</strong> tab of the SNP2GENE result pages. The xQTLs mapping results are available for download in the <strong>Downloads</strong> tab. Check <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/snp2gene/quick_start.html#xqtls-mapping"> documentation</a> for how to access these results.</p>
                     </div>
                     <div class="alert alert-warning">
-			            Note that optional SNP filtering by functional annotation is currently not yet available. This functionality will be added in future release.
-                    </div>
-
-                    <div class="alert alert-warning">
-			            Note that chromosome X is currently not included in the xQTLs mapping. This will be added in future release.
+			            <p>Note that optional SNP filtering by functional annotation is currently not yet available. This functionality will be added in future release.</p>
+                        <p>Note that chromosome X is currently not included in the xQTLs mapping. This will be added in future release.</p>
+                        <p>These results are currently not included in the regional plot. This will be added in future release.</p>
                     </div>
 
                     <th class="h5">Perform xQTLs Mapping
@@ -1301,7 +1300,8 @@ border-color: rgba(0,0,0,0.1);
         <div class="accordion-body">
             <table class="table table-bordered inputTable" id="NewJobEqtlMap" style="width: auto; ">
                 <tr>
-                    <div class="alert alert-info">
+                    <div class="alert alert-dark" role="alert">
+                        <strong>Legacy:</strong>
 			            Starting from FUMA v.2.0.0, this functionality of eQTL Mapping is kept for backward compatibility. To make adding new QTL datasets easier to FUMA, a new functionality below (<i>Perform xQTLs Mapping</i>) is added. You can still use this functionality to carry out analysis as before but new QTL datasets will only be added to the xQTLs Mapping functionality.
                     </div>
                     <th class="h5">Perform eQTL Mapping

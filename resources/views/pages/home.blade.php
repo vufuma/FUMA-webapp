@@ -12,9 +12,11 @@
 		<strong style="font-size: large;">Announcements</strong><br>
 
 		<div class="alert alert-info">
-			<strong>May 27 2026: </strong>
+			<strong>May 26 2026: </strong>
 			<p> FUMA has been updated to version 2.0.0.</p>
-			<p> Please navigate to <a href="{{ Config::get('app.subdir') }}/wiki">the wiki page</a> for an overview of the updates.
+			<p> Please navigate to <a href="{{ Config::get('app.subdir') }}/wiki">the wiki page</a> for an overview of the updates.</p>
+			<p> <strong>IMPORTANT:</strong> Please make sure to read the documentation carefully before submiting your jobs. If you need assistance, please post your questions on <a target="_blank" href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a> with your job type (snp2gene, gene2func, celltype, flames, or xqtls) and your jobID.</p>
+			<p> As this is a major update, expect that FUMA will be down periodically for bug fixes. Please be sure to always download your files after the analysis is done.</p>
 
 		</div>
 
@@ -49,6 +51,10 @@
 			<br/>
 			The <a href="{{ Config::get('app.subdir') }}/celltype">Cell Type</a> module takes MAGMA gene analysis result (as an output from SNP2GENE or as provided manually) and predicts relevant cell types.
 			<br/>
+			The <a href="{{ Config::get('app.subdir') }}/flames">FLAMES</a> module identifies effector genes per genomic risk locus defined from SNP2GENE outputs.
+			<br/>
+			The <a href="{{ Config::get('app.subdir') }}/xqtls">QTLs Analysis</a> module investigates the potential functional mechanisms underlying GWAS associations by integrating with various QTLs.
+			<br/>
 			To submit your own GWAS, login is required for security reason.
 			If you have not registered yet, you can do so from <a href="{{ Config::get('app.subdir') }}/register">here</a>.
 			<br/>
@@ -57,9 +63,7 @@
 		<p>
 			Please post any questions, suggestions and bug reports on Google Forum: <a target="_blank" href="https://groups.google.com/forum/#!forum/fuma-gwas-users">FUMA GWAS users</a>.<br>
 		</p>
-		<div class="alert alert-danger">
-			<strong>If you encounter an error with your FUMA job, please check this troubleshooting guide prior to posting on the Google Forum: <a href="https://groups.google.com/g/fuma-gwas-users/c/N3HCEXBJ8Iw/m/utS6HxWoAAAJ">Troubleshooting List</a></strong>
-		</div>
+		
 		<p>
 			<strong style="font-size: large;">Citation</strong><br>
 			When using SNP2GENE or GENE2FUNC modules, please cite the following:<br>
