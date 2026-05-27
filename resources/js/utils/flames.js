@@ -113,9 +113,8 @@ export const AlertFileType = function() {
 			title: "Did you check your input file format?",
 			content: span,
 			icon: "warning",
-			buttons: true,
-            showCancelButton: false,
 			closeModal: true,
+			showCancelButton: false,
 		});
 	}
 }

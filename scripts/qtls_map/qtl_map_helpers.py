@@ -186,8 +186,7 @@ def process_ensg(config_class):
     
     if config_class._genetype != "all":
         genetype = set(config_class._genetype.split(":"))
-        
-    ENSG = ENSG[ENSG["gene_biotype"].isin(genetype)]
+        ENSG = ENSG[ENSG["gene_biotype"].isin(genetype)]
     
     # Exclude MHC genes if required
     if config_class._exMHC == 1:
