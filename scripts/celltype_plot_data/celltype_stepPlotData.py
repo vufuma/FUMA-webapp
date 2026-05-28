@@ -7,7 +7,7 @@ import pandas as pd
 import json
 
 def ArrayIn(a1, a2):
-	return np.where(np.in1d(a1, a2))[0]
+	return np.where(np.isin(a1, a2))[0]
 
 def main():
 	##### check argument #####
@@ -76,6 +76,6 @@ def main():
 		x[1::2] = data3[::2,1]
 		data3 = np.c_[data3[:,0], x, data3[:,1:]]
 
-	print json.dumps({"step1":[list(l) for l in data1], "step2": [list(l) for l in data2], "step3":[list(l) for l in data3]})
+	print(json.dumps({"step1":[list(l) for l in data1], "step2": [list(l) for l in data2], "step3":[list(l) for l in data3]}))
 
 if __name__ == "__main__": main()

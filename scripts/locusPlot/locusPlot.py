@@ -10,11 +10,11 @@ import tabix
 ##### Return index of a1 which exists in a2 #####
 def ArrayIn(a1, a2):
 	# results = [i for i, x in enumerate(a1) if x in a2]
-	results = np.where(np.in1d(a1, a2))[0]
+	results = np.where(np.isin(a1, a2))[0]
 	return results
 
 def ArrayNotIn(a1, a2):
-    tmp = np.where(np.in1d(a1, a2))[0]
+    tmp = np.where(np.isin(a1, a2))[0]
     return list(set(range(0,len(a1)))-set(tmp))
 
 start = timeit.default_timer()
@@ -28,16 +28,16 @@ Type = sys.argv[3]
 
 snps = pd.read_csv(filedir+"snps.txt", sep="\t")
 snpshead = list(snps.columns.values)
-snps = snps.as_matrix()
+snps = snps.to_numpy()
 ld = pd.read_csv(filedir+"ld.txt", sep="\t")
-ld = ld.as_matrix()
+ld = ld.to_numpy()
 
 ind = pd.read_csv(filedir+"IndSigSNPs.txt", sep="\t")
-ind = ind.as_matrix()
+ind = ind.to_numpy()
 lead = pd.read_csv(filedir+"leadSNPs.txt", sep="\t")
-lead = lead.as_matrix()
+lead = lead.to_numpy()
 loci = pd.read_csv(filedir+"GenomicRiskLoci.txt", sep="\t")
-loci = loci.as_matrix()
+loci = loci.to_numpy()
 
 if Type=="IndSigSNP":
 	ls = str(ind[i, 2])
@@ -110,4 +110,4 @@ out = {}
 out["snps"] = [dict(zip(snpshead, l)) for l in snps]
 out["allsnps"] = [[int(l[1]), float(l[2])] for l in allsnps]
 
-print json.dumps(out)
+print(json.dumps(out))

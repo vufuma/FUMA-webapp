@@ -4,7 +4,7 @@ import os
 import re
 import numpy as np
 import pandas as pd
-import ConfigParser
+import configparser
 import json
 
 def main():
@@ -22,7 +22,7 @@ def main():
 		filedir += '/'
 
 	##### get Parameters #####
-	param = ConfigParser.RawConfigParser()
+	param = configparser.RawConfigParser()
 	param.optionxform = str
 	param.read(filedir+'params.config')
 	suffix = ".gsa.out"
@@ -45,6 +45,6 @@ def main():
 	out_data = out_data[np.argsort(out_data[:,1])]
 	out_data = np.c_[out_data, range(0, len(out_data))]
 
-	print json.dumps([list(l) for l in out_data])
+	print(json.dumps([list(l) for l in out_data]))
 
 if __name__ == "__main__": main()

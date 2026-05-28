@@ -14,10 +14,10 @@ import subprocess
 ##### Return index of a1 which exists in a2 #####
 def ArrayIn(a1, a2):
 	# results = [i for i, x in enumerate(a1) if x in a2]
-	results = np.where(np.in1d(a1, a2))[0]
+	results = np.where(np.isin(a1, a2))[0]
 	return results
 def ArrayNotIn(a1, a2):
-    tmp = np.where(np.in1d(a1, a2))[0]
+    tmp = np.where(np.isin(a1, a2))[0]
     return list(set(range(0,len(a1)))-set(tmp))
 
 ##### detect file delimiter from the header #####
@@ -61,14 +61,14 @@ leadfile = param.get('inputfiles', 'leadSNPsfile')
 regionfile = param.get('inputfiles', 'regionsfile')
 if leadfile != "NA":
 	leadfile = filedir+"input.lead"
-	tmp = pd.read_csv(leadfile, delim_whitespace=True)
+	tmp = pd.read_csv(leadfile, sep=r'\s+')
 	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
 		sys.exit("Input lead SNPs file does not have enought columns.")
 
 if regionfile != "NA":
 	regionfile = filedir+"input.regions"
-	tmp = pd.read_csv(regionfile, delim_whitespace=True)
+	tmp = pd.read_csv(regionfile, sep=r'\s+')
 	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
 		sys.exit("Input genomic region file does not have enought columns.")
