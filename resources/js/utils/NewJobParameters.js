@@ -760,7 +760,7 @@ export const CheckAll = function() {
 		}
 	} else {
 		$('.xqtlsMapOptions').hide();
-		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
+		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#eqtlMap').is(":checked")==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
@@ -992,7 +992,7 @@ export const CheckAll = function() {
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs,eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
 			tablecheck=false;
 			submit=false;
 		}
