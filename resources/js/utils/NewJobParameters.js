@@ -336,12 +336,12 @@ export const CheckAll = function() {
 	}else{
 		$('.posMapOptions').hide();
 		$('#posMapOptFilt').hide();
-		if($('#eqtlMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
+		if($('#eqtlMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
 			submit=false;
 			tablecheck=false;
 		}
@@ -492,12 +492,12 @@ export const CheckAll = function() {
 	}else{
 		$('.eqtlMapOptions').hide();
 		// $('#eqtlMapOptFilt').hide();
-		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
+		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
 			submit=false;
 			tablecheck=false;
 		}
@@ -760,12 +760,12 @@ export const CheckAll = function() {
 		}
 	} else {
 		$('.xqtlsMapOptions').hide();
-		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
+		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
 			submit=false;
 			tablecheck=false;
 		}
@@ -987,12 +987,12 @@ export const CheckAll = function() {
 	}else{
 		$('.ciMapOptions').hide();
 		$('#ciMapOptFilt').hide();
-		if($('#posMap').is(':checked')==true || $('#eqtlMap').is(':checked')==true){
+		if($('#posMap').is(':checked')==true || $('#eqtlMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs,eQTL or chromatin interaction mapping.</div></td>');
 			tablecheck=false;
 			submit=false;
 		}
