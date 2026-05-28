@@ -193,17 +193,17 @@ def process_ensg(config_class):
         start = ENSG.loc[ENSG["external_gene_name"] == "MOG", "start_position"].values[0]
         end = ENSG.loc[ENSG["external_gene_name"] == "COL11A2", "end_position"].values[0]
     
-    # Adjust MHC boundaries
-    if config_class._extMHC != "NA":
-        extMHC = list(map(int, config_class._extMHC.split("-")))
-        start = min(start, extMHC[0])
-        end = max(end, extMHC[1])
+        # Adjust MHC boundaries
+        if config_class._extMHC != "NA":
+            extMHC = list(map(int, config_class._extMHC.split("-")))
+            start = min(start, extMHC[0])
+            end = max(end, extMHC[1])
 
-    # Optimized filtering using .query() and avoiding unnecessary selections
-    ENSG = ENSG.query(
-        "not (chromosome_name == 6 and ((end_position >= @start and end_position <= @end) or "
-        "(start_position >= @start and start_position <= @end)))"
-    )
+        # Optimized filtering using .query() and avoiding unnecessary selections
+        ENSG = ENSG.query(
+            "not (chromosome_name == 6 and ((end_position >= @start and end_position <= @end) or "
+            "(start_position >= @start and start_position <= @end)))"
+        )
     
     return ENSG
 
