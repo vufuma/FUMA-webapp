@@ -118,10 +118,6 @@ data-section="Brain/Human/Dorsolateral Prefrontal Cortex/Postnatal/Level1" data-
 data-section="Brain/Human/Dorsolateral Prefrontal Cortex/Postnatal/Level1" data-key="25">
 558_Lee_Human_2024_Adult_DLPFC_RADC_Cohort_level1</option>
 
-<option value="16_Siletti_CerebralCortex.IFG.A44-A45_Human_2022_level1"
-data-section="Brain/Human/Ventrolateral Prefrontal Cortex/Postnatal/Level1" data-key="26">
-16_Siletti_CerebralCortex.IFG.A44-A45_Human_2022_level1</option>
-
 <!-- postnatal level 2 -->
 <option value="249_Zhu2023_Neocortex_Human_2023_group3_level2"
 data-section="Brain/Human/Dorsolateral Prefrontal Cortex/Postnatal/Level2" data-key="0">
@@ -158,10 +154,6 @@ data-section="Brain/Human/Dorsolateral Prefrontal Cortex/Postnatal/Level2" data-
 <option value="33_Siletti_CerebralCortex.MFG.A46_Human_2022_level2"
 data-section="Brain/Human/Dorsolateral Prefrontal Cortex/Postnatal/Level2" data-key="8">
 33_Siletti_CerebralCortex.MFG.A46_Human_2022_level2</option>
-
-<option value="16_Siletti_CerebralCortex.IFG.A44-A45_Human_2022_level2"
-data-section="Brain/Human/Ventrolateral Prefrontal Cortex/Postnatal/Level2" data-key="9">
-16_Siletti_CerebralCortex.IFG.A44-A45_Human_2022_level2</option>
 
 <!-- postnatal level 3 -->
 <option value="440_Wang2024_Human_2024_Infancy_BrodmannArea9_level3"
