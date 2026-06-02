@@ -1,5 +1,13 @@
 @extends('layouts.master')
 
+@section('stylesheets')
+<style> 
+.form-check-input {
+    --bs-border-color: #333;
+}
+</style>
+@endsection
+
 
 @section('content')
 <div id="wrapper" class="active">

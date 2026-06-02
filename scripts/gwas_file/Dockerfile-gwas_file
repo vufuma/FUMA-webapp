@@ -16,6 +16,7 @@ COPY gwas_file/gwas_file.py ./
 COPY ConfigParser.R ./
 COPY liftOver ./
 COPY gwas_file/liftover_to_grch37.py ./
+COPY gwas_file/find_rsid_from_grch38.py ./
 
 # Configure non-root user.
 ARG USERNAME

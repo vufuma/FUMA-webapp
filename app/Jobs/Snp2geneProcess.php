@@ -78,8 +78,13 @@ class Snp2geneProcess implements ShouldQueue
                 return;
             }
 
-            if (!$this->liftover_to_grch37()) {
-                return;
+            if ($params['snp2genegrch38'] == 1) {
+                //  if (!$this->liftover_to_grch37()) {
+                //     return;
+                // }
+                if (!$this->find_rsid_from_grch38()) {
+                    return;
+                }
             }
 
             if (!$this->gwas_file()) {
@@ -209,6 +214,39 @@ class Snp2geneProcess implements ShouldQueue
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python liftover_to_grch37.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
+        Storage::append($this->logfile, "Command to be executed:");
+        Storage::append($this->logfile, $cmd . "\n");
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
+
+        if ($error) {
+            $msg = "No error log found for SNP2GENE job ID: $jobID";
+            if (Storage::exists($this->errorfile)) {
+                $errorout = Storage::get($this->errorfile);
+                $errorout = explode("\n", $errorout);
+                $msg = $errorout[count($errorout) - 2];
+            }
+            JobHelper::JobTerminationHandling($jobID, 2, $msg);
+            return false;
+        }
+        return true;
+    }
+
+    private function find_rsid_from_grch38()
+    {
+        $jobID = $this->jobID;
+
+        $params = parse_ini_string(Storage::get(config('app.jobdir') . '/jobs/' . $jobID . "/params.config"), false, INI_SCANNER_RAW);
+
+        Storage::append($this->logfile, "----- find_rsid_from_grch38.py -----\n");
+        Storage::put($this->errorfile, "----- find_rsid_from_grch38.py -----\n");
+
+        $container_name = DockerNamesBuilder::containerName($jobID);
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'gwas_file');
+        $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
+
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python find_rsid_from_grch38.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 

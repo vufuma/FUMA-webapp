@@ -30,6 +30,13 @@
                                     al. 2010).</label>
                             </div>
                             <br>
+                            <strong>Is your input file in GRCh38? Please check the box below if your input file has chromosome and position columns on build GRCh38. </strong><br>
+                            <div class="form-check"> <input type="checkbox" class="form-check-input"
+                                    name="snp2genegrch38" id="snp2genegrch38" /><label
+                                    class="form-check-label"> Input file is in GRCh38.</label>
+                                <br>
+                            </div>
+                            <br>
                             <strong> Only for running FLAMES afterwards: </strong>
                             <div class="form-check"> <input type="checkbox" class="form-check-input"
                                     name="keepinfiles" id="keepinfiles" /><label
