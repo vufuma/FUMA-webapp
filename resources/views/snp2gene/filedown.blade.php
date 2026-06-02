@@ -19,7 +19,6 @@
 			<input type="checkbox" name="gwascatfile" id="gwascatfile" checked onchange="DownloadFiles();">SNPs in GWAS catalog (full features)<br>
 			<input type="checkbox" name="magmafile" id="magmafile" checked onchange="DownloadFiles();">MAGMA (full) results<br>
 			<input type="checkbox" name="xqtlsfile" id="xqtlsfile" checked onchange="DownloadFiles();">xQTLs mapping results<br>
-			<!-- <input type="checkbox" name="GRCh38file" id="GRCh38file" checked onchange="DownloadFiles();">Variants dropped during rsID annotation from GRCh38 input<br> -->
 		</div>
 		<span class="form-inline">
 			<input class="btn btn-default btn-xs" type="submit" name="download" id="downloadFiles" value="Download files"/>
