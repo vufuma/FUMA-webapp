@@ -14,6 +14,8 @@ RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimis
 COPY app.config ./
 COPY gwas_file/gwas_file.py ./
 COPY ConfigParser.R ./
+COPY liftOver ./
+COPY gwas_file/liftover_to_grch37.py ./
 
 # Configure non-root user.
 ARG USERNAME
