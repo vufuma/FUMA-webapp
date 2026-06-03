@@ -17,6 +17,7 @@ tb_cache = {}
 def process_header(filedir, logger):
     with open(os.path.join(filedir, 'input.gwas.grch38'), "r") as f:
         header = f.readline().strip("\n").split("\t")
+        logger.info(f"Input file header: {header}")
         
         if "chromosome" not in header or "base_pair_location" not in header:
             logger.error("Columns chromosome and base_pair_location are required in the input file.")
@@ -218,6 +219,8 @@ def main(args):
     )
     logger = logging.getLogger(__name__)
     
+    logger.info("You indicated that your input gwas sumstat is in GRCh38. FUMA will look up rsid using dbSNP v157")
+    
     # rename
     gwas_ori = os.path.join(filedir, "input.gwas")
     gwas_dest = os.path.join(filedir, "input.gwas.grch38")
@@ -232,7 +235,6 @@ def main(args):
     n_unmatched = 0
     
     if type_of_process == "process_beta":
-        logger.info("Processing with beta column.")
         header = ["effect_allele", "other_allele", "rsid", "p_value", "beta"]
         print("\t".join(header), file=outfile)
         
@@ -271,7 +273,6 @@ def main(args):
 
             n_unmatched += process_window_beta(chrom, start, end, buffer, outfile, unmatch_outfile)
     else:
-        logger.info("Processing without beta column.")
         header = ["rsid", "p_value"]
         print("\t".join(header), file=outfile)
         
