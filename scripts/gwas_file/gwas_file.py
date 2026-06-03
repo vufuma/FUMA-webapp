@@ -10,15 +10,7 @@ from bisect import bisect_left
 import tabix
 import csv
 import subprocess
-
-##### Return index of a1 which exists in a2 #####
-def ArrayIn(a1, a2):
-	# results = [i for i, x in enumerate(a1) if x in a2]
-	results = np.where(np.in1d(a1, a2))[0]
-	return results
-def ArrayNotIn(a1, a2):
-    tmp = np.where(np.in1d(a1, a2))[0]
-    return list(set(range(0,len(a1)))-set(tmp))
+import logging
 
 ##### detect file delimiter from the header #####
 def DetectDelim(header):
@@ -47,6 +39,15 @@ start = time.time()
 filedir = sys.argv[1]
 if re.match(r".+/$", filedir) is None:
 	filedir += '/'
+ 
+# Setting up the log file
+logging.basicConfig(
+	filename=os.path.join(filedir, "user.log"),
+	filemode="a",
+	level=logging.INFO,
+	format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 ##### config variables #####
 cfg = configparser.ConfigParser()
@@ -64,14 +65,16 @@ if leadfile != "NA":
 	tmp = pd.read_csv(leadfile, delim_whitespace=True)
 	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
-		sys.exit("Input lead SNPs file does not have enought columns.")
+		logger.error("Input lead SNPs file does not have enough columns.")
+		sys.exit("Input lead SNPs file does not have enough columns.")
 
 if regionfile != "NA":
 	regionfile = filedir+"input.regions"
 	tmp = pd.read_csv(regionfile, delim_whitespace=True)
 	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
-		sys.exit("Input genomic region file does not have enought columns.")
+		logger.error("Input genomic region file does not have enough columns.")
+		sys.exit("Input genomic region file does not have enough columns.")
 
 ##### prepare parameters #####
 gwas = filedir+cfg.get('inputfiles', 'gwas')
@@ -99,6 +102,8 @@ fin.close()
 delim = DetectDelim(header)
 header = re.split(delim, header.strip())
 nheader = len(header)
+
+logger.info(f"Input file header: {header}")
 
 ##### detect column index #####
 # prioritize user defined colum name
@@ -206,6 +211,7 @@ else:
 if not all([type(x) is int for x in user_header]):
 	bl = [type(x) is not int for x in user_header]
 	user_header = ", ".join([user_header[i] for i,x in enumerate(bl) if x])
+	logger.error("The following header(s) was not detected in the input file: "+user_header)
 	sys.exit("The following header(s) was not detected in your input file: "+user_header)
 
 ##### allele column check #####
