@@ -1559,4 +1559,45 @@ class S2GController extends Controller
         $job->save();
         return;
     }
+
+        public function downloadResults(Request $request)
+    {
+        $user = Auth::user();
+        $code = $request->input('variant_code');
+        $jobID = $request->input('jobID');
+        $name = null;
+        
+        $job = SubmitJob::where('jobID', $jobID)
+            ->where('type', 'snp2gene')
+            ->where('user_id', $user->id)
+            ->whereNull('removed_at')
+            ->first();
+        
+        if ($job == null) {
+            return response()->json(['error' => 'You are not authorized to access this job'], 403);
+        }
+        
+        switch ($code) {
+            case "s2gLogs":
+                $name = "user.log";
+                break;
+            default:
+                return redirect()->back();
+        }
+        
+        $downloadPath = config('app.abs_path_to_jobs_on_host') . '/' . $jobID . '/' . $name;
+        
+        if (!file_exists($downloadPath)) {
+        
+        return response()->json([
+            'error' => 'The requested file is not available.',
+            'message' => 'The download file could not be found.'
+        ], 404);
+        }
+        
+        $headers = array('Content-Type: application');
+        return response()->download($downloadPath, $name, $headers);
+    }
+
+
 }

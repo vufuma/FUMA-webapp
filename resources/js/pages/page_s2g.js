@@ -25,6 +25,9 @@ import { geneMapCheckAll } from "../utils/geneMapParameters.js";
 window.geneMapCheckAll = geneMapCheckAll;
 import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
 
+import { tutorialDownloadVariant } from "../utils/tutorial_utils.js";
+window.tutorialDownloadVariant = tutorialDownloadVariant;
+
 import { NewJobSetup } from "../utils/NewJobParameters.js";
 import { Snp2GeneSetup } from "../utils/snp2gene.js";
 import { GeneMapSetup } from "../utils/geneMapParameters.js";
