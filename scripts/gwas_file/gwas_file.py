@@ -36,10 +36,11 @@ if len(sys.argv)<2:
 ##### start time #####
 start = time.time()
 
-##### add '/' to the filedir #####
+
 filedir = sys.argv[1]
-if re.match(r".+/$", filedir) is None:
-	filedir += '/'
+# ##### add '/' to the filedir #####
+# if re.match(r".+/$", filedir) is None:
+# 	filedir += '/'
  
 # Setting up the log file
 logging.basicConfig(
@@ -56,13 +57,13 @@ cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
 param = configparser.RawConfigParser()
 param.optionxform = str
-param.read(filedir+'params.config')
+param.read(os.path.join(filedir, 'params.config'))
 
 ##### check format of pre-defined lead SNPS and genomic regions if provided #####
 leadfile = param.get('inputfiles', 'leadSNPsfile')
 regionfile = param.get('inputfiles', 'regionsfile')
 if leadfile != "NA":
-	leadfile = filedir+"input.lead"
+	leadfile = os.path.join(filedir, "input.lead")
 	tmp = pd.read_csv(leadfile, delim_whitespace=True)
 	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
@@ -70,7 +71,7 @@ if leadfile != "NA":
 		sys.exit("Input lead SNPs file does not have enough columns.")
 
 if regionfile != "NA":
-	regionfile = filedir+"input.regions"
+	regionfile = os.path.join(filedir, "input.regions")
 	tmp = pd.read_csv(regionfile, delim_whitespace=True)
 	tmp = tmp.to_numpy()
 	if len(tmp)==0 or len(tmp[0])<3:
@@ -78,9 +79,8 @@ if regionfile != "NA":
 		sys.exit("Input genomic region file does not have enough columns.")
 
 ##### prepare parameters #####
-gwas = filedir+cfg.get('inputfiles', 'gwas')
-outSNPs = filedir+"input.snps"
-outMAGMA = filedir+"magma.in"
+gwas = os.path.join(filedir, cfg.get('inputfiles', 'gwas'))
+outSNPs = os.path.join(filedir, "input.snps")
 
 chrcol = param.get('inputfiles', 'chrcol').upper()
 poscol = param.get('inputfiles', 'poscol').upper()
@@ -237,7 +237,7 @@ if param.get('inputfiles', 'becol')=="NA" and becol is not None:
 if param.get('inputfiles', 'secol')=="NA" and secol is not None:
     param.set('inputfiles', 'secol', 'se')
 
-paramout = open(filedir+"params.config", 'w+')
+paramout = open(os.path.join(filedir, "params.config"), 'w+')
 param.write(paramout)
 paramout.close()
 
@@ -346,7 +346,7 @@ if chrcol is not None and poscol is not None and rsIDcol is not None and eacol i
 		out.write("\n")
 	gwasIn.close()
 	out.close()
-	tempfile = filedir+"temp.txt"
+	tempfile = os.path.join(filedir, "temp.txt")
 	os.system("sort -k 1n -k 2n "+outSNPs+" > "+tempfile)
 	os.system("mv "+tempfile+" "+outSNPs)
 
@@ -673,7 +673,7 @@ elif chrcol is None or poscol is None:
 	out.close()
 
 ##### check output file #####
-wc = int(subprocess.check_output("wc -l "+filedir+"input.snps", shell=True).split()[0])
+wc = int(subprocess.check_output("wc -l "+ outSNPs, shell=True).split()[0])
 if wc < 2:
 	sys.exit("There was no SNPs remained after formatting the input summary statistics.")
 
