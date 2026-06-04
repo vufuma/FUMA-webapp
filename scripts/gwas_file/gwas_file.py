@@ -11,6 +11,7 @@ import tabix
 import csv
 import subprocess
 import logging
+import shutil
 
 ##### detect file delimiter from the header #####
 def DetectDelim(header):
@@ -222,8 +223,10 @@ if neacol is not None and eacol is None:
 
 ##### Mandatory header check #####
 if pcol is None:
+    logger.error("P-value column was not found")
     sys.exit("P-value column was not found")
 if (chrcol is None or poscol is None) and rsIDcol is None:
+    logger.error("Chromosome, position or rsID column was not found")
     sys.exit("Chromosome, position or rsID column was not found")
 
 ##### Rewrite params.config if optional headers were detected #####
@@ -238,15 +241,83 @@ paramout = open(filedir+"params.config", 'w+')
 param.write(paramout)
 paramout.close()
 
+def basic_sanitize(filedir, pcol, chrcol, poscol, header):
+    "basic sanitation of chr, pos, and pvalue"
+    # rename
+    gwas_ori = os.path.join(filedir, "input.gwas")
+    gwas_dest = os.path.join(filedir, "input.gwas.unclean")
+    dest = shutil.copyfile(gwas_ori, gwas_dest)
+    
+    gwasIn = open(os.path.join(filedir, "input.gwas.unclean"), 'r')
+    gwasIn.readline()
+    n_variants = 0
+    n_skipped = 0
+    outfile = open(os.path.join(filedir, "input.gwas"), 'w')
+    outfile.write("\t".join(header)+"\n")
+    for l in gwasIn:
+        if re.match("^#", l):
+            next
+        n_variants += 1
+        l = l.replace("nan", "")
+        l = re.split(delim, l.strip())
+        if len(l) < nheader:
+            n_skipped += 1
+            logger.warning("The following line does not have enough columns and will be skipped: "+str(l))
+            continue
+        if not is_float(l[pcol]):
+            n_skipped += 1
+            logger.warning("The following line does not have a valid P-value and will be skipped: "+str(l))
+            continue
+        if float(l[pcol])<0 or float(l[pcol])>1:
+            n_skipped += 1
+            logger.warning("The following line has a P-value out of range (0-1) and will be skipped: "+str(l))
+            continue
+        if float(l[pcol])==0 and re.match("^0", l[pcol]):
+            n_skipped += 1
+            logger.warning("The following line has a P-value of 0 and will be skipped: "+str(l))
+            continue
+        l[chrcol] = l[chrcol].replace("chr", "").replace("CHR", "")
+        if re.match("x", l[chrcol], re.IGNORECASE):
+            l[chrcol] = '23'
+        if not l[chrcol].isdigit():
+            n_skipped += 1
+            logger.warning("The following line has a non-numeric chromosome and will be skipped: "+str(l))
+            continue
+        if int(l[chrcol]) not in range(1,24):
+            n_skipped += 1
+            logger.warning("The following line has a chromosome out of range (1-23) and will be skipped: "+str(l))
+            continue
+        
+        pos = l[poscol].strip()
+
+        # reject scientific notation
+        if "e" in pos.lower():
+            n_skipped += 1
+            logger.warning("Scientific notation position skipped: " + str(l))
+            continue
+
+        # must be pure integer
+        if not pos.isdigit():
+            n_skipped += 1
+            logger.warning("Non-integer position skipped: " + str(l))
+            continue
+        outfile.write("\t".join(l)+"\n")
+    outfile.close()
+    logger.info(f"Total number of variants in the input file: {n_variants}")
+    logger.info(f"Total number of variants skipped due to formatting issues: {n_skipped}")
+    with open(os.path.join(filedir, "input.gwas.sanitized")) as f:
+        n_variants_final = sum(1 for line in f) - 1
+    logger.info(f"Total number of variants in the output file: {n_variants_final}")
+    
+# sanitize
+basic_sanitize(filedir, pcol, chrcol, poscol, header)
+
 ##### Process input gwas sum stats #####
 # when all columns are provided
 # In this case, if the rsID columns is wrongly labeled, it will be problem later (not checked here)
 if chrcol is not None and poscol is not None and rsIDcol is not None and eacol is not None and neacol is not None:
-	# dbSNPfile = cfg.get('data', 'dbSNP')
-	# rsID = pd.read_csv(dbSNPfile+"/RsMerge146.txt", header=None)
-	# rsID = np.array(rsID)
-	# rsIDs = set(rsID[:,0])
-	# rsID = rsID[rsID[:,0].argsort()]
+    
+	logger.info("All of the following columns were detected in the input file: chr, pos, rsID, effect allele, non-effect allele, and p-value. The input file will be processed directly without extracting information from reference panel.")
 
 	out = open(outSNPs, 'w')
 	out.write("chr\tbp\tnon_effect_allele\teffect_allele\trsID\tp")
@@ -263,29 +334,6 @@ if chrcol is not None and poscol is not None and rsIDcol is not None and eacol i
 	gwasIn = open(gwas, 'r')
 	gwasIn.readline()
 	for l in gwasIn:
-		if re.match("^#", l):
-			next
-		l = re.split(delim, l.strip())
-		if len(l) < nheader:
-			continue
-		if not is_float(l[pcol]):
-			continue
-		if float(l[pcol])<0 or float(l[pcol])>1:
-			continue
-		if float(l[pcol])==0 and re.match("^0", l[pcol]):
-			continue
-		# if l[rsIDcol] in rsIDs:
-		# 	j = bisect_left(rsID[:,0], l[rsIDcol])
-		# 	l[rsIDcol] = rsID[j,1]
-		l[chrcol] = l[chrcol].replace("chr", "").replace("CHR", "")
-		if re.match("x", l[chrcol], re.IGNORECASE):
-			l[chrcol] = '23'
-		if not l[chrcol].isdigit():
-			continue
-		if int(l[chrcol]) not in range(1,24):
-			continue
-        # if float(l[pcol]) < 1e-308:
-        #     l[pcol] = str(1e-308)
 		out.write("\t".join([l[chrcol], l[poscol], l[neacol].upper(), l[eacol].upper(), l[rsIDcol], l[pcol]]))
 		if orcol is not None:
 			out.write("\t"+l[orcol])
@@ -302,8 +350,10 @@ if chrcol is not None and poscol is not None and rsIDcol is not None and eacol i
 	os.system("sort -k 1n -k 2n "+outSNPs+" > "+tempfile)
 	os.system("mv "+tempfile+" "+outSNPs)
 
+
 # if both chr and pos are provided
 elif chrcol is not None and poscol is not None:
+	logger.info("rsID is missing. Look up from dbSNP will be performed")
 	dbSNPfile = cfg.get('data', 'dbSNP')
 	refpanel = cfg.get('data', 'refgenome')+"/"+param.get('params', 'refpanel')
 	pop = param.get('params', 'pop')
@@ -437,8 +487,8 @@ elif chrcol is not None and poscol is not None:
 	tmp = pd.read_csv(gwas, comment="#", sep=delim, dtype=str)
 	head = list(tmp.columns.values)
 	tmp = np.array(tmp)
-	tmp[:,chrcol] = [x.replace("chr", "").replace("CHR", "") for x in tmp[:,chrcol]]
-	tmp[:,chrcol] = [x.replace("x", "23").replace("X", "23") for x in tmp[:,chrcol]]
+	# tmp[:,chrcol] = [x.replace("chr", "").replace("CHR", "") for x in tmp[:,chrcol]]
+	# tmp[:,chrcol] = [x.replace("x", "23").replace("X", "23") for x in tmp[:,chrcol]]
 	tmp = tmp[np.lexsort((tmp[:,poscol].astype(int), tmp[:,chrcol].astype(int)))]
 	with open(gwas, 'w') as o:
 		o.write(" ".join(head)+"\n")
@@ -469,25 +519,25 @@ elif chrcol is not None and poscol is not None:
 	gwasIn = open(gwas, 'r')
 	gwasIn.readline()
 	for l in gwasIn:
-		if re.match("^#", l):
-			next
-		l = l.replace("nan", "")
-		l = l.strip('\n').split(' ')
-		if len(l) < nheader:
-			continue
-		if not is_float(l[pcol]):
-			continue
-		if float(l[pcol])<0 or float(l[pcol])>1:
-			continue
-		if float(l[pcol])==0 and re.match("^0", l[pcol]):
-			continue
-		l[chrcol] = l[chrcol].replace("chr", "").replace("CHR", "")
-		if re.match(r"x", l[chrcol], re.IGNORECASE):
-			l[chrcol] = '23'
-		if not l[chrcol].isdigit():
-			continue
-		if int(l[chrcol]) not in range(1,24):
-			continue
+		# if re.match("^#", l):
+		# 	next
+		# l = l.replace("nan", "")
+		l = l.strip('\n').split('\t')
+		# if len(l) < nheader:
+		# 	continue
+		# if not is_float(l[pcol]):
+		# 	continue
+		# if float(l[pcol])<0 or float(l[pcol])>1:
+		# 	continue
+		# if float(l[pcol])==0 and re.match("^0", l[pcol]):
+		# 	continue
+		# l[chrcol] = l[chrcol].replace("chr", "").replace("CHR", "")
+		# if re.match(r"x", l[chrcol], re.IGNORECASE):
+		# 	l[chrcol] = '23'
+		# if not l[chrcol].isdigit():
+		# 	continue
+		# if int(l[chrcol]) not in range(1,24):
+		# 	continue
 		# if float(l[pcol]) < 1e-308:
 		#     l[pcol] = str(1e-308)
 
