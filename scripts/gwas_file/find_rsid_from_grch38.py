@@ -12,6 +12,9 @@ import logging
 cfg = configparser.ConfigParser()
 cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 
+def log_skip(reason, line, logger):
+    logger.warning(f"SKIPPED ({reason}): {line}")
+
 tb_cache = {}
 
 def process_header(filedir, logger):
@@ -40,7 +43,7 @@ def process_header(filedir, logger):
             return "process_no_beta"
                 
                 
-def process_window_beta(chrom, start, end, snps, outfile, unmatch_outfile):
+def process_window_beta(chrom, start, end, snps, outfile, logger):
 
     tb = tb_cache.get(chrom)
     if tb is None:
@@ -75,7 +78,6 @@ def process_window_beta(chrom, start, end, snps, outfile, unmatch_outfile):
 
     out_lines = []
     unmatched_count = 0
-    unmatch_out_lines = []
 
     for snp in snps:
 
@@ -89,7 +91,7 @@ def process_window_beta(chrom, start, end, snps, outfile, unmatch_outfile):
 
         if matches is None:
             unmatched_count += 1
-            unmatch_out_lines.append("\t".join([chrom, str(snp["pos"]), snp["effect_allele"], snp["other_allele"], snp["beta"], snp["p_value"]]))
+            log_skip("rsID not found for this snp in dbSNP", [chrom, str(pos), effect_allele, other_allele, beta, p_value], logger)
             continue
 
         found = False
@@ -132,17 +134,14 @@ def process_window_beta(chrom, start, end, snps, outfile, unmatch_outfile):
 
         if not found:
             unmatched_count += 1
-            unmatch_out_lines.append("\t".join([chrom, str(snp["pos"]), snp["effect_allele"], snp["other_allele"], snp["beta"], snp["p_value"]]))
+            log_skip("rsID not found for this snp in dbSNP", [chrom, str(pos), effect_allele, other_allele, beta, p_value], logger)
 
     outfile.write("\n".join(out_lines))
     outfile.write("\n")
-    
-    unmatch_outfile.write("\n".join(unmatch_out_lines))
-    unmatch_outfile.write("\n")
 
     return unmatched_count
     
-def process_window_nobeta(chrom, start, end, snps, outfile):
+def process_window_nobeta(chrom, start, end, snps, outfile, logger):
 
     tb = tb_cache.get(chrom)
     if tb is None:
@@ -168,8 +167,6 @@ def process_window_nobeta(chrom, start, end, snps, outfile):
 
         if pos not in db_lookup:
             db_lookup[pos] = (
-                row[3],              # ref
-                row[4].split(',')[0],  # first alt allele
                 row[2]               # rsid
             )
 
@@ -183,14 +180,13 @@ def process_window_nobeta(chrom, start, end, snps, outfile):
         match = db_lookup.get(pos)
         if match is None:
             unmatched_count += 1
+            log_skip("rsID not found for this snp in dbSNP", [chrom, str(pos), p_value], logger)
             continue
 
-        ref, alt, rsid = match
+        rsid = match
 
         out_lines.append(
             "\t".join([
-                alt,
-                ref,
                 rsid,
                 p_value
             ])
@@ -227,7 +223,6 @@ def main(args):
     dest = shutil.copyfile(gwas_ori, gwas_dest)
     
     outfile = open(os.path.join(filedir, "input.gwas"), "w")
-    unmatch_outfile = open(os.path.join(filedir, "unmatched_snps.tsv"), "w")
     
     type_of_process = process_header(filedir, logger)
     
@@ -266,12 +261,12 @@ def main(args):
                     buffer.append(snp)
                     end = int(snp["pos"])
                 else:
-                    n_unmatched += process_window_beta(chrom, start, end, buffer, outfile, unmatch_outfile)
+                    n_unmatched += process_window_beta(chrom, start, end, buffer, outfile, logger)
                     start = int(snp["pos"])
                     end = int(snp["pos"])
                     buffer = [snp]
 
-            n_unmatched += process_window_beta(chrom, start, end, buffer, outfile, unmatch_outfile)
+            n_unmatched += process_window_beta(chrom, start, end, buffer, outfile, logger)
     else:
         header = ["rsid", "p_value"]
         print("\t".join(header), file=outfile)
@@ -281,6 +276,7 @@ def main(args):
         with open(os.path.join(filedir, 'input.gwas.grch38'), "r") as f:
             next(f) # skip header
             for line in f:
+                n_rows += 1
                 items = line.rstrip("\n").split("\t")
                 snps_by_chr[items[0]].append({"pos": items[1],
                                         "p_value": items[2]})
@@ -300,12 +296,12 @@ def main(args):
                     buffer.append(snp)
                     end = int(snp["pos"])
                 else:
-                    n_unmatched += process_window_nobeta(chrom, start, end, buffer, outfile)
+                    n_unmatched += process_window_nobeta(chrom, start, end, buffer, outfile, logger)
                     start = int(snp["pos"])
                     end = int(snp["pos"])
                     buffer = [snp]
 
-            n_unmatched += process_window_nobeta(chrom, start, end, buffer, outfile)
+            n_unmatched += process_window_nobeta(chrom, start, end, buffer, outfile, logger)
     
     logger.info(f"Total number of rows processed: {n_rows}")
     logger.info(f"Number of unmatched SNPs: {n_unmatched}")
@@ -318,8 +314,3 @@ def parse_params():
 
 if __name__ == "__main__":
     main(parse_params())
-
-
-    
-    
-    

@@ -150,7 +150,7 @@ for i in range(0, len(header)):
         chrcol = i
     elif rsIDcol == "NA" and re.match("SNP$|^MarkerName$|^rsID$|^snpid$", header[i], re.IGNORECASE):
         rsIDcol = i
-    elif poscol == "NA" and re.match("^BP$|^pos$|^position$", header[i], re.IGNORECASE):
+    elif poscol == "NA" and re.match("^BP$|^pos$|^position$|^base_pair_location$", header[i], re.IGNORECASE):
         poscol = i
     elif eacol == "NA" and re.match("^A1$|^Effect_allele$|^allele1$|^alleleB$", header[i], re.IGNORECASE):
         eacol = i
@@ -222,6 +222,7 @@ if not all([type(x) is int for x in user_header]):
 if neacol is not None and eacol is None:
     eacol = neacol
     neacol = None
+    logger.warning("Non-effect allele column was detected but effect allele column was not detected. The detected non-effect allele column will be treated as effect allele column and non-effect allele will be set to NA.")
 
 ##### Mandatory header check #####
 if pcol is None:
