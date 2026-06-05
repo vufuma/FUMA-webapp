@@ -441,8 +441,8 @@ elif chrcol is not None and poscol is not None:
                     log_skip("missing p-value", l)
                     continue
                 if eacol is not None:
-                    if snps[j,eacol].upper()!=l[3] or snps[j,eacol].upper()!=l[4]:
-                        log_skip("allele mismatch", l)
+                    if snps[j,eacol].upper()!=l[3] and snps[j,eacol].upper()!=l[4]:
+                        log_skip("allele mismatch", snps[j])
                         continue
                     a = "NA"
                     if snps[j,eacol]==l[3]:
