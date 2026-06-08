@@ -206,6 +206,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/circos_image/{prefix}/{jobID}/{file}', [FumaController::class, 'circos_image']);
             Route::post('/circosDown', [FumaController::class, 'circosDown']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
+            Route::post('/downloadResults', [S2GController::class, 'downloadResults']);
         });
     });
 

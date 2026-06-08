@@ -69,6 +69,15 @@ class JobHelper
                 Storage::delete($job_dir . '/input.gwas');
             }
 
+            if (Storage::exists($job_dir . '/input.gwas.unclean')) {
+                Storage::delete($job_dir . '/input.gwas.unclean');
+            }
+
+            if (Storage::exists($job_dir . '/input.gwas.grch38')) {
+                Storage::delete($job_dir . '/input.gwas.grch38');
+            }
+
+
             if (Storage::exists($job_dir . '/input.snps')) {
                 Storage::delete($job_dir . '/input.snps');
             }

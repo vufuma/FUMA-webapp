@@ -79,20 +79,6 @@ export const CheckAll = function() {
 			submit=true;
 		}
 	}
-	if ($('#GRCh38').is(":checked")==true) {
-		if($('#chrcol').val().length==0 || $('#poscol').val().length==0 || $('#eacol').val().length==0 || $('#neacol').val().length==0){
-			$(table.rows[2].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br> <br> <strong> Please fill in the column names above and unclick then reclick this button. </strong> <br></div></td>');
-				submit=false;
-				tablecheck=false;
-			}else{
-			$(table.rows[2].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-exclamation-circle"></i> OK. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br> The chromosome and position must be on build GRCh38.<br></div></td>');
-		}
-	}else{
-		$(table.rows[2].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-			+'<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br>The chromosome and position must be on build GRCh38.</div></td>');
-	}
 
 	if($('#leadSNPs').val().length==0){
 		$(table.rows[3].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'

@@ -12,6 +12,12 @@
 		<strong style="font-size: large;">Announcements</strong><br>
 
 		<div class="alert alert-info">
+			<strong>June 8 2026: </strong>
+			<p> FUMA has been updated to version 2.1.0.</p>
+			<p> Support for GRCh38 has been added and logs for formatting of input GWAS sumstat in SNP2GENE job has been added.</p>
+		</div>
+
+		<div>
 			<strong>May 26 2026: </strong>
 			<p> FUMA has been updated to version 2.0.0.</p>
 			<p> Please navigate to <a href="{{ Config::get('app.subdir') }}/wiki">the wiki page</a> for an overview of the updates.</p>
@@ -66,17 +72,22 @@
 		
 		<p>
 			<strong style="font-size: large;">Citation</strong><br>
-			When using SNP2GENE or GENE2FUNC modules, please cite the following:<br>
+			<strong> When using SNP2GENE or GENE2FUNC modules, please cite the following: </strong> <br>
 			K. Watanabe, E. Taskesen, A. van Bochoven and D. Posthuma. Functional mapping and annotation of genetic associations with FUMA. <i>Nat. Commun.</i> <b>8</b>:1826. (2017).<br><a href="{{ Config::get('app.subdir') }}/links">links</a>
 			<a target="_blank" href="https://www.nature.com/articles/s41467-017-01261-5">https://www.nature.com/articles/s41467-017-01261-5</a>
 			<br>
-			When using Cell Type module, please cite the following:<br>
+			<strong>When using the Cell Type module, please cite the following:</strong><br>
 			K. Watanabe, M. Umicevic Mirkov, C. de Leeuw, M. van den Heuvel and D. Posthuma. Genetic mapping of cell type specificity for complex traits. <i>Nat. Commun.</i> <b>10</b>:3222. (2019).<br>
 			<a target="_blank" href="https://www.nature.com/articles/s41467-019-11181-1">https://www.nature.com/articles/s41467-019-11181-1</a>
 			<br>
-			Depending on which results you are going to report, please also cite the original study of data sources/tools used in FUMA
+			Phung T, Seoane S, Li W, Brouwer R, Posthuma D. Identification of cell types associated with 14 brain phenotypes from more than 10 million single cells. [Preprint]. 2025 December 09. DOI: 10.64898/2025.12.05.692533
+			<br>
+			<strong>When using the FLAMES module, please cite the following:</strong><br>
+			Schipper, M., de Leeuw, C.A., Maciel, B.A.P.C. et al. Prioritizing effector genes at trait-associated loci using multimodal evidence. Nat Genet 57, 323–333 (2025). https://doi.org/10.1038/s41588-025-02084-7
+			<br>
+			<strong>Depending on which results you are going to report, please also cite the original study of data sources/tools used in FUMA
 			(references are available at <a href="{{ Config::get('app.subdir') }}/links">links</a> or
-			<a href="{{ Config::get('app.subdir') }}/tutorial#celltype">tutorial for the cell type specificity analysis</a> for scRNA-seq data).
+			<a href="{{ Config::get('app.subdir') }}/tutorial#celltype">tutorial for the cell type specificity analysis</a> for scRNA-seq data). </strong>
 		</p>
 		<br>
 

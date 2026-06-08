@@ -597,9 +597,6 @@ class FumaController extends Controller
             case "MAGMAgenev110":
                 $name = "ENSGv110.coding.genes.txt";
                 break;
-            case "GRCh382rsID":
-                $name = "GRCh38_to_rsID_dbSNPv152.txt.gz";
-                break;
             
             // MAGMA gene sets 
             case "MAGMA_EUR_bim":
