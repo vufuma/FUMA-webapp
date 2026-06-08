@@ -1,5 +1,13 @@
 @extends('layouts.master')
 
+@section('stylesheets')
+<style> 
+.form-check-input {
+    --bs-border-color: #333;
+}
+</style>
+@endsection
+
 
 @section('content')
 <div id="wrapper" class="active">
@@ -18,6 +26,9 @@
 				<li><a href="#tables">Results<i class="sub_icon fa fa-table"></i></a></li>
 				<li><a href="#downloads">Download<i class="sub_icon fa fa-download"></i></a></li>
 			</div>
+			<div id="logSide">
+                <li><a href="#s2gLogs">Logs<i class="sub_icon fa fa-file"></i></a></li>
+            </div>
 		</ul>
 	</div>
 
@@ -32,6 +43,7 @@
 			@include('snp2gene.summary')
 			@include('snp2gene.result_tables')
 			@include('snp2gene.filedown')
+			@include('snp2gene.log')
 		</div>
 	</div>
 </div>

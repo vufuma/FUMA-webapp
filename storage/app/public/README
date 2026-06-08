@@ -410,10 +410,3 @@ When genotype data is available, we recommend to re-run MAGMA locally with genot
   This tests positive relationship between gene expression in a specific category and genetic associations.
   magma_exp_xxx.gcov.out: output of user selected data sets.
 Please refer to the manual of MAGMA from https://ctg.cncr.nl/software/magma for more details.
-
-######################
-# GRCh38_droppedvariants.txt.gz
-# A gzipped file included in your download if you selected "Input is build GRCh38" in the submission page
-######################
-This file contains the rows of your input data that could not be given an rsID. Since your input was GRCh38, rsIDs are necessary to connect the input data to the reference data in FUMA which is on build GRCh37.
-Variants could be lost due to their position and alleles not matching rsIDs present in dbSNP v150 or any of the reference panels in FUMA.

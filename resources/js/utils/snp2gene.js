@@ -27,14 +27,18 @@ function getJobList() {
 					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">Go to results</a>';
 					g2fbutton = '<button class="btn btn-default btn-sm" value="' + val.jobID + '" onclick="g2fbtn(' + val.jobID + ');">GENE2FUNC</button>';
 					publish = '<button class="btn btn-default btn-sm" value="' + val.jobID + '" onclick="checkPublish(' + val.jobID + ');">Publish</button>';
+					var logs = '<a href="'+pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID+'#s2gLogs">load logs</a>';
 				} else if (val.status == 'ERROR:005') {
 					val.status = '<a href="' + pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID + '">ERROR:005</a>';
+					logs = '<a href="'+pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID+'#s2gLogs">load logs</a>';
+				} else {
+					logs = '<a href="'+pageState.get('subdir') + '/' + pageState.get('page') + '/' + val.jobID+'#s2gLogs">load logs</a>';
 				}
 
 				items = items + "<tr><td>" + val.jobID + "</td><td>" + val.title
 					+ "</td><td>" + val.created_at + "</td><td>" + (val.started_at != null ? val.started_at : '-') + "</td><td>" + (val.completed_at != null ? val.completed_at : '-') + "</td><td>" + val.status + "</td><td>" + g2fbutton
 					+ '</td><td>' + publish + '</td><td style="text-align: center;"><input type="checkbox" class="deleteJobCheck" value="'
-					+ val.jobID + '"/></td></tr>';
+					+ val.jobID + '"/></td><td>'+logs+'</td></tr>';
 			});
 		}
 

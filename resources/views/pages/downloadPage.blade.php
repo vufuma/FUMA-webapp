@@ -258,17 +258,7 @@
                         </div>
                     </td>
                 </tr>
-
-                <tr>
-                <td> <strong> GRCh38 to rsID </strong> </td>
-                </tr>
-                <tr>
-                    <td> GRCh38 unique ID and rsID file</td>
-                    <td>This file is used to convert GRCh38 chromosome and position to rsID in the SNP2GENE analysis. The
-                        rsID is based on dbSNP v152.</td>
-                    <td class="clickable" onclick='tutorialDownloadVariant("GRCh382rsID")'><img class="fontsvg"
-                            src="{{ URL::asset('/image/download.svg') }}" /> 708M</td>
-                </tr>
+            <tr>
             <td> <strong> Reference panel data </strong> </td>
             </tr>
             <tr>
