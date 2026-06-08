@@ -460,13 +460,14 @@ elif chrcol is not None and poscol is not None:
                     else:
                         values = [l[0],l[1], l[3], l[4], snps[j,rsIDcol], snps[j,pcol]]
                     write_row(out, values, snps[j])
+            missing = []
+            for i, l in enumerate(snps):
+                if int(l[poscol]) not in temp_pos:
+                    missing.append(l)
+                    log_skip("SNP not found in reference database for the selected population", l)
         out.close()
 
-        missing = []
-        for i, l in enumerate(snps):
-            if int(l[poscol]) not in temp_pos:
-                missing.append(l)
-                log_skip("SNP not found in reference database for the selected population", l)
+
         return
         ##### end def Tabix() #####
 

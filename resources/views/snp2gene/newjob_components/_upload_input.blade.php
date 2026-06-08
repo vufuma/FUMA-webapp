@@ -21,6 +21,9 @@
                                 If you would like to test FUMA, please check 'Use example input', this will load an example file automatically.">
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
+                            <div class="alert alert-info" role="alert">
+                            If you are unsure about how to prepare the input, please check the <a href='https://fuma-docs.readthedocs.io/en/latest/snp2gene/prepare_input_files.html' target='_blank'>instruction</a>. In addition, check <a href='https://github.com/tanyaphung/commonly_used_codes/tree/master/fuma_related/acceptable_snp2gene_sumstats' target='_blank'>here</a> for examples of acceptable input. 
+                            </div>
                         </td>
                         <td><input type="file" class="form-control-file" name="GWASsummary"
                                 id="GWASsummary" onchange="window.CheckAll(); window.AlertFileType()" /><br>
@@ -64,6 +67,9 @@
                             However, to avoid error, please provide column names.">
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
+                            <div class="alert alert-warning">
+                                If you selected GRCh38 leave this section empty. Otherwise there will be an error.
+                            </div>
                         </td>
                         <td>
                             <span class="info"><i class="fa fa-info"></i> case insensitive</span>
