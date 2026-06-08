@@ -208,7 +208,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::put($this->errorfile, "----- find_rsid_from_grch38.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'gwas_file');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'gwas_file');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python find_rsid_from_grch38.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
@@ -249,7 +249,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->errorfile, "----- gwas_file.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'gwas_file');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'gwas_file');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python gwas_file.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
@@ -492,7 +492,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->errorfile, "----- geteQTL.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'geteqtl');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'geteqtl');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python geteQTL.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
@@ -516,7 +516,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->errorfile, "----- qtl_map.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'qtls_map');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'qtls_map');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python qtl_map.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
