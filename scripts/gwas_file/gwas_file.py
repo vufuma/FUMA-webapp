@@ -61,7 +61,7 @@ leadfile = param.get('inputfiles', 'leadSNPsfile')
 regionfile = param.get('inputfiles', 'regionsfile')
 if leadfile != "NA":
     leadfile = os.path.join(filedir, "input.lead")
-    tmp = pd.read_csv(leadfile, delim_whitespace=True)
+    tmp = pd.read_csv(leadfile, sep=r"\s+")
     tmp = tmp.to_numpy()
     if len(tmp)==0 or len(tmp[0])<3:
         logger.error("Input lead SNPs file does not have enough columns.")
@@ -69,7 +69,7 @@ if leadfile != "NA":
 
 if regionfile != "NA":
     regionfile = os.path.join(filedir, "input.regions")
-    tmp = pd.read_csv(regionfile, delim_whitespace=True)
+    tmp = pd.read_csv(regionfile, sep=r"\s+")
     tmp = tmp.to_numpy()
     if len(tmp)==0 or len(tmp[0])<3:
         logger.error("Input genomic region file does not have enough columns.")
