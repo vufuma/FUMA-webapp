@@ -8,6 +8,7 @@ import configparser
 import tabix
 from collections import defaultdict
 import logging
+import pandas as pd
 
 cfg = configparser.ConfigParser()
 cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
@@ -41,7 +42,36 @@ def process_header(filedir, logger):
                 logger.error("When beta column is not present, the header must be: chromosome, base_pair_location, p_value")
                 sys.exit(4)
             return "process_no_beta"
-                
+        
+def basic_sanitize(filedir, logger):
+    data = pd.read_csv(
+        os.path.join(filedir, 'input.gwas.grch38'),
+        sep="\t"
+    )
+
+    initial_rows = len(data)
+
+    # Remove chr prefix and convert X -> 23
+    data['chromosome'] = (
+        data['chromosome']
+        .astype(str)
+        .str.replace(r'^chr', '', regex=True, case=False)
+        .replace({'X': '23', 'x': '23'})
+    )
+
+    # Keep only chromosomes 1-23
+    data['chromosome'] = pd.to_numeric(data['chromosome'], errors='coerce')
+    data = data[data['chromosome'].between(1, 23)]
+
+    removed_rows = initial_rows - len(data)
+    if removed_rows > 0:
+        logger.warning(
+            f"Removed {removed_rows} rows with invalid chromosome values "
+            f"(allowed: 1-23, with X mapped to 23)."
+        )
+
+    data.to_csv(os.path.join(filedir, 'input.gwas.grch38'), sep="\t", index=False)
+    
                 
 def process_window_beta(chrom, start, end, snps, outfile, logger):
 
@@ -225,6 +255,8 @@ def main(args):
     outfile = open(os.path.join(filedir, "input.gwas"), "w")
     
     type_of_process = process_header(filedir, logger)
+    
+    basic_sanitize(filedir, logger)
     
     n_rows = 0
     n_unmatched = 0
