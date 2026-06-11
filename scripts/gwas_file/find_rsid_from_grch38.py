@@ -69,6 +69,15 @@ def basic_sanitize(filedir, logger):
             f"Removed {removed_rows} rows with invalid chromosome values "
             f"(allowed: 1-23, with X mapped to 23)."
         )
+        
+        
+    # Capitalize effect_allele if present
+    if 'effect_allele' in data.columns:
+        data['effect_allele'] = data['effect_allele'].astype(str).str.upper()
+        
+    # Capitalize other_allele if present
+    if 'other_allele' in data.columns:
+        data['other_allele'] = data['other_allele'].astype(str).str.upper()
 
     data.to_csv(os.path.join(filedir, 'input.gwas.grch38'), sep="\t", index=False)
     
