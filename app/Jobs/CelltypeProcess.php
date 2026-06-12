@@ -87,7 +87,7 @@ class CelltypeProcess implements ShouldQueue
     public function failed($exception): void
     {
         JobHelper::kill_docker_containers_based_on_jobID($this->jobID);
-        Storage::append($this->errorfile, "Job failed with exception: " . $exception->getMessage() . "\n");
+        
 
         if ($exception instanceof TimeoutExceededException) {
             JobHelper::JobTerminationHandling($this->jobID, 17);
