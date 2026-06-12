@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-
+use Illuminate\Queue\TimeoutExceededException;
 use App\Helpers\Helper;
 use App\Helpers\JobHelper;
 use App\Models\SubmitJob;
@@ -28,7 +28,7 @@ class XqtlsProcess implements ShouldQueue
      *
      * @var int
      */
-    public $timeout = 28800; // 8 hours
+    public $timeout = 30; // 8 hours
 
     /**
      * Create a new queuable job instance.
@@ -61,7 +61,7 @@ class XqtlsProcess implements ShouldQueue
         $this->errorfile = $filedir . "error.log";
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'xqtls');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'xqtls');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'xqtls');
 
         #######################################################################
@@ -209,6 +209,18 @@ class XqtlsProcess implements ShouldQueue
 
 
 
+    }
+
+    public function failed($exception): void
+    {
+        JobHelper::kill_docker_containers_based_on_jobID($this->jobID);
+        
+
+        if ($exception instanceof TimeoutExceededException) {
+            JobHelper::JobTerminationHandling($this->jobID, 17);
+        } else {
+            JobHelper::JobTerminationHandling($this->jobID, 16);
+        }
     }
 
 }
