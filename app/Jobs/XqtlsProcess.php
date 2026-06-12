@@ -28,7 +28,7 @@ class XqtlsProcess implements ShouldQueue
      *
      * @var int
      */
-    public $timeout = 30; // 8 hours
+    public $timeout = 28800; // 8 hours
 
     /**
      * Create a new queuable job instance.
