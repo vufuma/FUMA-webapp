@@ -277,7 +277,7 @@ def basic_sanitize(filedir, pcol, chrcol, poscol, header):
             next
         n_variants += 1
         l = l.replace("nan", "")
-        l = re.split(delim, l.strip())
+        l = [item.strip() for item in re.split(delim, l.strip())]
         if len(l) < nheader:
             n_skipped += 1
             log_skip("not enough columns", l)
