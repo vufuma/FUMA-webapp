@@ -52,10 +52,12 @@ class JobHelper
         // }
         $filedir = config('app.jobdir') . '/jobs/' . $jobID . '/';
         $params = parse_ini_string(Storage::get($filedir . 'params.config'), false, INI_SCANNER_RAW);
-        $keepinfiles = $params['keepinfiles'];
+        if (array_key_exists('keepinfiles', $params)){
+            $keepinfiles = $params['keepinfiles'];
 
-        if ($keepinfiles == '0') {
-            JobHelper::rmFiles($job);
+            if ($keepinfiles == '0') {
+                JobHelper::rmFiles($job);
+            }
         }
         return;
     }
