@@ -66,6 +66,7 @@ if leadfile != "NA":
         sys.exit("Input lead SNPs file does not have any data.")
     number_cols = len(leadfile.columns)
     if number_cols == 1: 
+        logger.info("There is only 1 column detected in your predefined lead SNPs file. FUMA assumes that this column is the rsID. chrosome and position in GRCh37 will be extracted from dbSNP v146.")
         lead_snps = leadfile.to_numpy()
         lead_snps = lead_snps[lead_snps[:,0].argsort()]
 
@@ -104,15 +105,17 @@ if leadfile != "NA":
             if len(lead_snps)==len(checked):
                 break
         out.close()
-    elif number_cols != 3: 
-        logger.error("You submitted a predefined lead SNPs file. FUMA expects this file to have either (1) a single rsID column or (2) 3 colums of rsID, chromosome, and position in GRCh37")
+    elif number_cols == 3:
+        logger.info("3 columns were detected in your predefined lead SNPs file. FUMA assumes that the columns are in this order: rsID, chr, pos (GRCh37)")
+    else: 
+        logger.error("You submitted a predefined lead SNPs file. FUMA expects this file to have either (1) a single rsID column or (2) 3 colums of rsID, chromosome, and position in GRCh37. Your file has an incorrect number of columns.")
         sys.exit("Input lead SNPs file does not have enough columns.")
     
-    tmp = pd.read_csv(leadfile, sep=r"\s+")
-    tmp = tmp.to_numpy()
-    if len(tmp)==0 or len(tmp[0])<3:
-        logger.error("Input lead SNPs file does not have enough columns.")
-        sys.exit("Input lead SNPs file does not have enough columns.")
+    # tmp = pd.read_csv(leadfile, sep=r"\s+")
+    # tmp = tmp.to_numpy()
+    # if len(tmp)==0 or len(tmp[0])<3:
+    #     logger.error("Input lead SNPs file does not have enough columns.")
+    #     sys.exit("Input lead SNPs file does not have enough columns.")
 
 if regionfile != "NA":
     regionfile = os.path.join(filedir, "input.regions")
