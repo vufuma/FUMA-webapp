@@ -60,12 +60,62 @@ param.read(os.path.join(filedir, 'params.config'))
 leadfile = param.get('inputfiles', 'leadSNPsfile')
 regionfile = param.get('inputfiles', 'regionsfile')
 if leadfile != "NA":
-    leadfile = os.path.join(filedir, "input.lead")
-    tmp = pd.read_csv(leadfile, sep=r"\s+")
-    tmp = tmp.to_numpy()
-    if len(tmp)==0 or len(tmp[0])<3:
-        logger.error("Input lead SNPs file does not have enough columns.")
+    leadfile = pd.read_csv(os.path.join(filedir, "input.lead"), comment="#", sep=r"\s+", dtype=str)
+    if leadfile.shape[0] == 0:
+        logger.error("You submitted a predefined lead SNPs file. However, there is no data in this file.")
+        sys.exit("Input lead SNPs file does not have any data.")
+    number_cols = len(leadfile.columns)
+    if number_cols == 1: 
+        logger.info("There is only 1 column detected in your predefined lead SNPs file. FUMA assumes that this column is the rsID. chrosome and position in GRCh37 will be extracted from dbSNP v146.")
+        lead_snps = leadfile.to_numpy()
+        lead_snps = lead_snps[lead_snps[:,0].argsort()]
+
+        ##### write header of input.snps #####
+        out = open(os.path.join(filedir, "input.lead"), 'w')
+        print("\t".join(["rsID", "chr", "pos"]), file=out)
+
+        ##### update rsID to dbSNP 146 #####
+        rsIDs = set(list(lead_snps[:, 0]))
+        rsID = list(lead_snps[:, 0])
+        dbSNPfile = cfg.get('data', 'dbSNP')
+        rsID146 = open(dbSNPfile+"/RsMerge146.txt", 'r')
+        for l in rsID146:
+            l = l.strip().split()
+            if l[0] in rsIDs:
+                j = bisect_left(rsID, l[0])
+                lead_snps[j,0] = l[1]
+        rsID146.close()
+
+        ##### sort input snps by rsID for bisect_left #####
+        lead_snps = lead_snps[lead_snps[:,0].argsort()]
+        rsIDs = set(list(lead_snps[:, 0]))
+        rsID = list(lead_snps[:, 0])
+        checked = []
+
+        ##### process per chromosome #####
+        for chrom in range(1,24):
+            print("start chr"+str(chrom))
+            for chunk in pd.read_csv(dbSNPfile+"/dbSNP146.chr"+str(chrom)+".vcf.gz", header=None, sep="\t", dtype=str, chunksize=10000):
+                chunk = np.array(chunk)
+                for l in chunk:
+                    if l[2] in rsIDs:
+                        checked.append(l[2])
+                        print("\t".join([l[2], str(chrom), str(l[1])]), file=out)
+
+            if len(lead_snps)==len(checked):
+                break
+        out.close()
+    elif number_cols == 3:
+        logger.info("3 columns were detected in your predefined lead SNPs file. FUMA assumes that the columns are in this order: rsID, chr, pos (GRCh37)")
+    else: 
+        logger.error("You submitted a predefined lead SNPs file. FUMA expects this file to have either (1) a single rsID column or (2) 3 colums of rsID, chromosome, and position in GRCh37. Your file has an incorrect number of columns.")
         sys.exit("Input lead SNPs file does not have enough columns.")
+    
+    # tmp = pd.read_csv(leadfile, sep=r"\s+")
+    # tmp = tmp.to_numpy()
+    # if len(tmp)==0 or len(tmp[0])<3:
+    #     logger.error("Input lead SNPs file does not have enough columns.")
+    #     sys.exit("Input lead SNPs file does not have enough columns.")
 
 if regionfile != "NA":
     regionfile = os.path.join(filedir, "input.regions")
