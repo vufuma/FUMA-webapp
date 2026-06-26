@@ -117,7 +117,7 @@
                     <tr>
                         <td>Pre-defined lead SNPs
                             <a class="infoPop" data-bs-toggle="popover" title="Pre-defined lead SNPs"
-                                data-bs-content="This option can be used when you already have determined lead SNPs and do not want FUMA to do this for you. This option can be also used when you want to include specific SNPs as lead SNPs which do no reach significant P-value threshold. The input file should have 3 columns, rsID, chromosome and position with header (header could be anything but the order of columns have to match).">
+                                data-bs-content="This option can be used when you already have determined lead SNPs and do not want FUMA to do this for you. This option can be also used when you want to include specific SNPs as lead SNPs which do no reach significant P-value threshold. The input file can either (1) have 3 columns, rsID, chromosome and position in GRCh37 with header (header could be anything but the order of columns have to match) or (2) rsID with header. Be aware that when only rsID is supplied, the job will take longer.">
                                 <i class="fa-regular fa-circle-question fa-lg"></i>
                             </a>
                         </td>
