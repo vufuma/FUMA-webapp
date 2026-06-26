@@ -12,6 +12,12 @@
 		<strong style="font-size: large;">Announcements</strong><br>
 
 		<div class="alert alert-info">
+			<strong>June 26 2026: </strong>
+			<p> FUMA has been updated to version 2.1.5.</p>
+			<p> In uploading of pre-defined lead SNPs, you can now submit either a file with 3 columns (rsID, chr, pos in GRCh37) or a file with 1 column (rsID). Files need to have a header. See <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/snp2gene/prepare_input_files.html#pre-defined-lead-snps">Documentation</a> for more details.</p>
+		</div>
+
+		<div>
 			<strong>June 8 2026: </strong>
 			<p> FUMA has been updated to version 2.1.0.</p>
 			<p> Support for GRCh38 has been added and logs for formatting of input GWAS sumstat in SNP2GENE job has been added.</p>
