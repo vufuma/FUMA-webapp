@@ -79,13 +79,38 @@ class FLAMESController extends Controller
         return myFile::processCsvDataWithHeaders($file_path, $cols);
     }
 
+    private function getNumberScheduledJobs($user_id): int
+    {
+        $results = (new SubmitJob)->getScheduledJobs_flames($user_id);
+        return count($results);
+    }
+
+    private function getQueueCap()
+    {
+        return config('queue.jobLimits.queue_cap', 10);
+    }
+
     public function newJob(Request $request)
     {
         $date = date('Y-m-d H:i:s');
         $email = Auth::user()->email;
         $user_id = Auth::user()->id;
 
+        // Implement the cap on max jobs in queue
+        $numSchedJobs = $this->getNumberScheduledJobs($user_id);
+        $queueCap = $this->getQueueCap();
 
+        if (!is_null($queueCap) && ($numSchedJobs >= $queueCap)) {
+            // flash a warning to the user about the queue cap
+            $name = Auth::user()->name;
+            $message = <<<MSG
+                Job submission temporarily blocked for user: $name!<br>
+                The maximum number of jobs: $queueCap, has been reached. <br>
+                Please wait for some jobs to complete.
+                MSG;
+            $request->session()->flash("alert-warning", $message);
+            return redirect()->back();
+        }
 
         if ($request->filled("title")) {
             $title = $request->input('title');
