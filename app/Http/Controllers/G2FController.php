@@ -73,11 +73,38 @@ class G2FController extends Controller
         return Helper::deleteJob(config('app.jobdir') . '/gene2func/', $jobID);
     }
 
+    private function getNumberScheduledJobs($user_id): int
+    {
+        $results = (new SubmitJob)->getScheduledJobs_g2f($user_id);
+        return count($results);
+    }
+
+    private function getQueueCap()
+    {
+        return config('queue.jobLimits.queue_cap', 10);
+    }
+
     public function gene2funcSubmit(Request $request)
     {
         $date = date('Y-m-d H:i:s');
         $email = Auth::user()->email;
         $user_id = Auth::user()->id;
+
+        // Implement the cap on max jobs in queue
+        $numSchedJobs = $this->getNumberScheduledJobs($user_id);
+        $queueCap = $this->getQueueCap();
+
+        if (!is_null($queueCap) && ($numSchedJobs >= $queueCap)) {
+            // flash a warning to the user about the queue cap
+            $name = Auth::user()->name;
+            $message = <<<MSG
+                Job submission temporarily blocked for user: $name!<br>
+                The maximum number of jobs: $queueCap, has been reached. <br>
+                Please wait for some jobs to complete.
+                MSG;
+            $request->session()->flash("alert-warning", $message);
+            return redirect()->back();
+        }
 
         if ($request->filled('title')) {
             $title = $request->input('title');
@@ -225,6 +252,22 @@ class G2FController extends Controller
             $date = date('Y-m-d H:i:s');
             $email = Auth::user()->email;
             $user_id = Auth::user()->id;
+
+            // Implement the cap on max jobs in queue
+            $numSchedJobs = $this->getNumberScheduledJobs($user_id);
+            $queueCap = $this->getQueueCap();
+
+            if (!is_null($queueCap) && ($numSchedJobs >= $queueCap)) {
+                // flash a warning to the user about the queue cap
+                $name = Auth::user()->name;
+                $message = <<<MSG
+                    Job submission temporarily blocked for user: $name!<br>
+                    The maximum number of jobs: $queueCap, has been reached. <br>
+                    Please wait for some jobs to complete.
+                    MSG;
+                $request->session()->flash("alert-warning", $message);
+                return view('pages.gene2func', ['id' => null, 'status'=> null, 'page'=>'gene2func', 'prefix'=>'jobs']);;
+            }
 
             if ($request->filled('title')) {
                 $title = $request->input('title');

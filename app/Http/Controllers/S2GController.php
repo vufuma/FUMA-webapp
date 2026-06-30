@@ -363,7 +363,7 @@ class S2GController extends Controller
             $message = <<<MSG
                 Job submission temporarily blocked for user: $name!<br>
                 The maximum number of jobs: $queueCap, has been reached. <br>
-                Wait for some jobs to complete or delete stalled jobs.
+                Please wait for some jobs to complete.
                 MSG;
             $request->session()->flash("alert-warning", $message);
             return redirect()->back();

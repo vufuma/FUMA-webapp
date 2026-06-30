@@ -12,6 +12,12 @@
 		<strong style="font-size: large;">Announcements</strong><br>
 
 		<div class="alert alert-info">
+			<strong>June 30 2026: </strong>
+			<p> FUMA has been updated to version 2.1.6.</p>
+			<p> Each user can have up to <strong>10 QUEUED or RUNNING jobs</strong> per module. This limit applies separately to the SNP2GENE, GENE2FUNC, CellType, FLAMES, and QTLs Analysis modules. A warning will be displayed if you reach the limit when attempting to submit a new job.</p>
+		</div>
+
+		<div>
 			<strong>June 26 2026: </strong>
 			<p> FUMA has been updated to version 2.1.5.</p>
 			<p> In uploading of pre-defined lead SNPs, you can now submit either a file with 3 columns (rsID, chr, pos in GRCh37) or a file with 1 column (rsID). Files need to have a header. See <a target="_blank" href="https://fuma-docs.readthedocs.io/en/latest/snp2gene/prepare_input_files.html#pre-defined-lead-snps">Documentation</a> for more details.</p>
