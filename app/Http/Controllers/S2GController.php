@@ -875,6 +875,14 @@ class S2GController extends Controller
             $magma_exp = implode(":", $request->input('magma_exp'));
         }
 
+        // Drug sets option
+        $drugsets = 0;
+        $drugsets_selection = "NA";
+        if ($request->filled('drugsets')) {
+            $drugsets = 1;
+            $drugsets_selection = $request->input('drugsets');
+        }
+
         $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
 
         // write parameter into a file
@@ -942,6 +950,8 @@ class S2GController extends Controller
         Storage::append($paramfile, "magma=$magma");
         Storage::append($paramfile, "magma_window=$magma_window");
         Storage::append($paramfile, "magma_exp=$magma_exp");
+        Storage::append($paramfile, "drugsets=$drugsets");
+        Storage::append($paramfile, "drugsets_selection=$drugsets_selection");
 
         Storage::append($paramfile, "\n[posMap]");
         Storage::append($paramfile, "posMap=$posMap");

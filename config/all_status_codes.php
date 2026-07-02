@@ -336,5 +336,14 @@ return [
         'description' => 'An error occurs while running FLAMES',
         'email_message' => '<p>An error occurs while running FLAMES. Check the logs for more information.</p>',
         'type' => 'err'
+    ],
+    32 => [
+        'short_name' => 'ERROR:drugsets',
+        'long_name' => 'Error when executing drugsets.py',
+        'description' => 'Error when executing drugsets.py',
+        'email_message' => '
+                            <p>Error during execution of drugsets.py.</p>
+                            ',
+        'type' => 'err',
     ]
 ];

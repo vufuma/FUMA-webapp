@@ -1,0 +1,15 @@
+FROM condaforge/miniforge3:latest
+
+WORKDIR /app
+
+COPY drugsets/drugsets_env.yml .
+COPY drugsets/. .
+
+RUN mamba env update -n base -f drugsets_env.yml && \
+    mamba clean -afy
+
+RUN if [ -f setup.py ] || [ -f pyproject.toml ]; then \
+        pip install -e . ; \
+    fi
+
+CMD ["/bin/bash"]

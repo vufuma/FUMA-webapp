@@ -1,4 +1,3 @@
-@section('content')
 <style> 
 .accordion-button.accordion-highlight {
 background-color: #efeff8ff;
@@ -127,78 +126,78 @@ border-color: rgba(0,0,0,0.1);
                                     <i>Select Drug Sets:</i><br>
 
                                     <label>
-                                        <input type="radio" name="drugsets" value="Set1" onchange="window.CheckAll()">
+                                        <input type="radio" name="drugsets" value="drug" onchange="window.CheckAll()" checked>
                                         drug
                                     </label><br>
 
                                     <label>
-                                        <input type="radio" name="drugsets" value="Set2" onchange="window.CheckAll()">
+                                        <input type="radio" name="drugsets" value="moa_clue" onchange="window.CheckAll()">
                                         moa_clue
                                     </label><br>
 
                                     <label>
-                                        <input type="radio" name="drugsets" value="Set3" onchange="window.CheckAll()">
+                                        <input type="radio" name="drugsets" value="moa_targ_clue" onchange="window.CheckAll()">
                                         moa_targ_clue
                                     </label><br>
 
                                     <label>
-                                        <input type="radio" name="drugsets" value="Set4" onchange="window.CheckAll()">
+                                        <input type="radio" name="drugsets" value="moa_chembl" onchange="window.CheckAll()">
                                         moa_chembl
                                     </label><br>
 
                                     <label>
-                                        <input type="radio" name="drugsets" value="Set5" onchange="window.CheckAll()">
+                                        <input type="radio" name="drugsets" value="moa_targ_chembl" onchange="window.CheckAll()">
                                         moa_targ_chembl
                                     </label><br>
 
                                     <label>
-                                        <input type="radio" name="drugsets" value="Set6" onchange="window.CheckAll()">
+                                        <input type="radio" name="drugsets" value="all" onchange="window.CheckAll()">
                                         all
                                     </label><br>
                                 </div>
                                 <div class="accordion-body">
                                     <i>Conditional Analysis?</i><br>
                                     <label>
-                                        <input type="radio" name="conditional" value="cond_yes" onchange="window.CheckAll()">
+                                        <input type="radio" name="conditional" value="yes" onchange="window.CheckAll()">
                                         yes
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="conditional" value="cond_no" onchange="window.CheckAll()">
+                                        <input type="radio" name="conditional" value="no" onchange="window.CheckAll()">
                                         no
                                     </label><br>
                                 </div>
                                 <div class="accordion-body">
                                     <i>Enrich: Specify drug group type to test for enrichment</i><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_None" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="None" onchange="window.CheckAll()">
                                         None
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_atc1" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="atc1" onchange="window.CheckAll()">
                                         atc1
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_atc2" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="atc2" onchange="window.CheckAll()">
                                         atc2
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_atc3" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="atc3" onchange="window.CheckAll()">
                                         atc3
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_atc4moa_clue" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="atc4moa_clue" onchange="window.CheckAll()">
                                         atc4moa_clue
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_moa_targ_clue" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="moa_targ_clue" onchange="window.CheckAll()">
                                         moa_targ_clue
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_moa_chembl" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="moa_chembl" onchange="window.CheckAll()">
                                         moa_chembl
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="enrich" value="enrich_moa_targ_chembl" onchange="window.CheckAll()">
+                                        <input type="radio" name="enrich" value="moa_targ_chembl" onchange="window.CheckAll()">
                                         moa_targ_chembl
                                     </label><br>
                                 </div>

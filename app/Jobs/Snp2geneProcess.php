@@ -105,6 +105,13 @@ class Snp2geneProcess implements ShouldQueue
                 }
             }
 
+            if ($params['drugsets'] == 1) {
+                if (!$this->drugsets()) {
+                    // error handling
+                    return;
+                }
+            }
+
             if (!$this->manhattan_filt()) {
                 // error handling
                 return;
@@ -208,7 +215,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::put($this->errorfile, "----- find_rsid_from_grch38.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'gwas_file');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'gwas_file');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python find_rsid_from_grch38.py --filedir $job_location/ >>$job_location/job.log 2>>$job_location/error.log'";
@@ -249,7 +256,7 @@ class Snp2geneProcess implements ShouldQueue
         Storage::append($this->errorfile, "----- gwas_file.py -----\n");
 
         $container_name = DockerNamesBuilder::containerName($jobID);
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'gwas_file');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'gwas_file');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v $this->ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python gwas_file.py $job_location >>$job_location/job.log 2>>$job_location/error.log'";
@@ -336,6 +343,30 @@ class Snp2geneProcess implements ShouldQueue
             }
 
             JobHelper::JobTerminationHandling($jobID, 4, $msg);
+            return false;
+        }
+        return true;
+    }
+
+    private function drugsets()
+    {
+        $jobID = $this->jobID;
+        Storage::append($this->logfile, "----- drugsets.py -----\n");
+        Storage::append($this->errorfile, "----- drugsets.py -----\n");
+
+        $container_name = DockerNamesBuilder::containerName($jobID);
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'drugsets');
+        $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
+
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python run_drugsets.py --filedir $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        Storage::append($this->logfile, "Command to be executed:");
+        Storage::append($this->logfile, $cmd . "\n");
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
+
+        if ($error) {
+            JobHelper::JobTerminationHandling($jobID, 32);
             return false;
         }
         return true;
