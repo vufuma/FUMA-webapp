@@ -19,6 +19,7 @@
 			<input type="checkbox" name="gwascatfile" id="gwascatfile" checked onchange="DownloadFiles();">SNPs in GWAS catalog (full features)<br>
 			<input type="checkbox" name="magmafile" id="magmafile" checked onchange="DownloadFiles();">MAGMA (full) results<br>
 			<input type="checkbox" name="xqtlsfile" id="xqtlsfile" checked onchange="DownloadFiles();">xQTLs mapping results<br>
+			<input type="checkbox" name="drugfile" id="drugfile" checked onchange="DownloadFiles();">Drugsets results<br>
 		</div>
 		<span class="form-inline">
 			<input class="btn btn-default btn-xs" type="submit" name="download" id="downloadFiles" value="Download files"/>

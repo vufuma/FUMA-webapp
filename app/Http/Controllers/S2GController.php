@@ -1471,6 +1471,12 @@ class S2GController extends Controller
             }
         }
 
+        if ($request->filled('drugfile')) {
+            $files[] = "drugsets_output.drug.gsa.out";
+            $files[] = "drugsets_output.drug.gsa.sets.genes.out";
+            $files[] = "drugsets_output.drug.gsa.genes.out";
+        }
+
         if ($request->filled('xqtlsfile')) {
             if (Storage::exists($filedir . "xqtls.txt")) {
                 $files[] = "xqtls.txt";

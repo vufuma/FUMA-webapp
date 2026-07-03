@@ -36,6 +36,9 @@
 			<li class="nav-item" role="presentation" id="gwascatTableTab">
 				<a class="nav-link RegionalPlotOff" href="#gwascatTablePane" id="gwascatTablePane-tab" role="tab" data-bs-toggle="tab">GWAScatalog</a>
 			</li>
+			<li class="nav-item" role="presentation" id="drugTableTab">
+				<a class="nav-link RegionalPlotOff" href="#drugTablePane" id="drugTablePane-tab" role="tab" data-bs-toggle="tab">Drugs</a>
+			</li>
 			<!-- <li role="presentation"><a href="#exacTablePane" id="exacTablePane-tab" role="tab" data-bs-toggle="tab">ExAC</a></li> -->
 			<li class="nav-item" role="presentation">
 				<a class="nav-link RegionalPlotOff" href="#paramsPane" id="paramsPane-tab" role="tab" data-bs-toggle="tab">Parameters</a>
@@ -251,17 +254,18 @@
 					</thead>
 				</table>
 			</div>
-			<!-- <div role="tabpanel" class="tab-pane" id="exacTablePane">
+
+			<div role="tabpanel" class="tab-pane" id="drugTablePane" aria-labelledby="drugTablePane-tab">
 				<br>
-				<table id="exacTable" class="display dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<table id="drugTable" class="display dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>Genomic Locus</th><th>uniqID</th><th>chr</th><th>bp</th><th>ref</th><th>alt</th><th>Annotation</th><th>Gene</th><th>MAF</th>
-							<th>MAF(FIN)</th><th>MAF(NFE)</th><th>MAF(AMR)</th><th>MAF(AFR)</th><th>MAF(EAS)</th><th>MAF(SAS)</th><th>MAF(OTH)<th>
+							<th>FULL_NAME</th><th>TYPE</th><th>NGENES</th><th>BETA</th><th>BETA_STD</th><th>SE</th><th>P</th><
 						</tr>
 					</thead>
 				</table>
-			</div> -->
+			</div>
+
 			<div role="tabpanel" class="tab-pane" id="paramsPane" aria-labelledby="paramsPane-tab">
 				<br>
 				<div id="paramTable"></div>

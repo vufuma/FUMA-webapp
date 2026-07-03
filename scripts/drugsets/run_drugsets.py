@@ -4,6 +4,7 @@ import argparse
 import os
 import sys
 import configparser
+import pandas as pd
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -67,6 +68,30 @@ def main():
         )
         logger.error("stderr: %s", e.stderr)
         sys.exit(2)
-    
+        
+    logger.info("Post-processing drugsets results")
+    with open(f"{filedir}/drugsets_output.drug.gsa.out.fmt", "w") as out:
+        grep = subprocess.Popen(
+            ["grep", "-v", "#", f"{filedir}/drugsets_output.drug.gsa.out"],
+            stdout=subprocess.PIPE,
+            text=True,
+        )
+
+        awk = subprocess.run(
+            ["awk", '{print $8"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7}'],
+            stdin=grep.stdout,
+            stdout=out,
+            text=True,
+            check=True,
+        )
+
+        grep.stdout.close()
+        grep.wait()
+        
+    drugsets_results = pd.read_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt", sep="\t")
+    n_obs = drugsets_results.shape[0]
+    drugsets_results_sig = drugsets_results[drugsets_results["P"] <= n_obs]
+    drugsets_results_sig.to_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt.sig", sep="\t", index=False)
+
 if __name__ == "__main__":
     main()
