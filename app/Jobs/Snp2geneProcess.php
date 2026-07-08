@@ -105,6 +105,13 @@ class Snp2geneProcess implements ShouldQueue
                 }
             }
 
+            // if ($params['use_pops'] == "yes") {
+            //     if (!$this->run_pops()) {
+            //         // error handling
+            //         return;
+            //     }
+            // }
+
             if ($params['drugsets'] == 1) {
                 if (!$this->drugsets()) {
                     // error handling
@@ -343,6 +350,32 @@ class Snp2geneProcess implements ShouldQueue
             }
 
             JobHelper::JobTerminationHandling($jobID, 4, $msg);
+            return false;
+        }
+        return true;
+    }
+
+    private function run_pops()
+    {
+        $jobID = $this->jobID;
+        Storage::append($this->logfile, "----- run_pops.py -----\n");
+        Storage::append($this->errorfile, "----- run_pops.py -----\n");
+
+        $ref_data_path_on_host = config('app.ref_data_on_host_path');
+
+        $container_name = DockerNamesBuilder::containerName($jobID);
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'flames');
+        $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
+
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v $ref_data_path_on_host:/data -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python run_pops.py --filedir $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        Storage::append($this->logfile, "Command to be executed:");
+        Storage::append($this->logfile, $cmd . "\n");
+
+        $process = Process::forever()->run($cmd);
+        $error = $process->exitCode();
+
+        if ($error) {
+            JobHelper::JobTerminationHandling($jobID, 32);
             return false;
         }
         return true;

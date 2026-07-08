@@ -344,6 +344,24 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
         "iDisplayLength": 10
     });
 
+    $('#drugGroupTable').DataTable({
+        processing: true,
+        serverSide: false,
+        select: false,
+        ajax: {
+            url: 'DTfile',
+            type: "POST",
+            data: {
+                jobID: id,
+                prefix: prefix,
+                infile: "enrich.corrected.groups.out",
+                header: "GROUP:BETA:SE:CI_lower:CI_upper:T:DF:P:GROUP_N"
+            }
+        },
+        "lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "iDisplayLength": 10
+    });
+
     $('#sigSNPtable tbody').on('click', 'tr', function () {
         $('#plotClear').show();
         $('#annotPlotPanel').show();

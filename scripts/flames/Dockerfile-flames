@@ -83,6 +83,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 # ===============================
 COPY app.config ./ 
 COPY flames/run_flames.py ./
+COPY flames/run_pops.py ./
 
 # ===============================
 # Configure non-root user

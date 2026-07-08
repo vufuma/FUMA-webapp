@@ -41,33 +41,87 @@ def main():
         sys.exit(1)
         
     drugsets_selection = param.get('magma', 'drugsets_selection')
+    conditional = param.get('magma', 'conditional')
+    enrich = param.get('magma', 'enrich')
+    correct_cov = param.get('magma', 'correct_cov')
+    min_set_size = param.get('magma', 'min_set_size')
+    min_sample_size = param.get('magma', 'min_sample_size')
+    multiple_testing = param.get('magma', 'multiple_testing')
+    use_pops = param.get('magma', 'use_pops')
     
-    try:
-        drugsets_cmd = [
+    if use_pops == "yes":
+        if not os.path.exists(os.path.join(filedir, "input.preds")):
+            logger.error(f"File {os.path.join(filedir, 'input.preds')} does not exist. This file needs to be present to run drug sets with the pops option.")
+            sys.exit(2)
+        try:
+            drugsets_cmd = [
             "python",
             "/app/drugsets-dev/drugsets.py",
             "--raw_file", f"{filedir}/magma.genes.raw",
             "--drugsets", f"{drugsets_selection}",
             "--magma", "/app/magma",
+            "--conditional", f"{conditional}",
+            "--enrich", f"{enrich}",
+            "--correct_cov", f"{correct_cov}",
+            "--setsize", f"{min_set_size}",
+            "--nsize", f"{min_sample_size}",
+            "--correct", f"{multiple_testing}",
+            "--use_pops", f"{filedir}/magma.genes.out", f"{filedir}/input.preds",
+            "--adj_pops", "no",
             "--out", f"{filedir}/drugsets_output",
             "--gene_id", "ensembl"
-        ]
+            ]
         
-        logger.info(f"Running drugsets with command {drugsets_cmd}")
+            logger.info(f"Running drugsets with command {drugsets_cmd}")
 
-        subprocess.run(
+            subprocess.run(
             drugsets_cmd,
             check=True,
             capture_output=True,
             text=True
-        )
-        logger.info("Drugsets analysis is successful")
-    except subprocess.CalledProcessError as e:
-        logger.error(
-            "drugsets failed"
-        )
-        logger.error("stderr: %s", e.stderr)
-        sys.exit(2)
+            )
+            logger.info("Drugsets analysis is successful")
+        except subprocess.CalledProcessError as e:
+            logger.error(
+                "drugsets failed"
+            )
+            logger.error("stderr: %s", e.stderr)
+            sys.exit(3)
+            
+    else:
+        logger.info("PoPS is not used, running drugsets without PoPS")
+        try:
+            drugsets_cmd = [
+            "python",
+            "/app/drugsets-dev/drugsets.py",
+            "--raw_file", f"{filedir}/magma.genes.raw",
+            "--drugsets", f"{drugsets_selection}",
+            "--magma", "/app/magma",
+            "--conditional", f"{conditional}",
+            "--enrich", f"{enrich}",
+            "--correct_cov", f"{correct_cov}",
+            "--setsize", f"{min_set_size}",
+            "--nsize", f"{min_sample_size}",
+            "--correct", f"{multiple_testing}",
+            "--out", f"{filedir}/drugsets_output",
+            "--gene_id", "ensembl"
+            ]
+            
+            logger.info(f"Running drugsets with command {drugsets_cmd}")
+
+            subprocess.run(
+                drugsets_cmd,
+                check=True,
+                capture_output=True,
+                text=True
+            )
+            logger.info("Drugsets analysis is successful")
+        except subprocess.CalledProcessError as e:
+            logger.error(
+                "drugsets failed"
+            )
+            logger.error("stderr: %s", e.stderr)
+            sys.exit(4)
         
     logger.info("Post-processing drugsets results")
     with open(f"{filedir}/drugsets_output.drug.gsa.out.fmt", "w") as out:
@@ -90,7 +144,7 @@ def main():
         
     drugsets_results = pd.read_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt", sep="\t")
     n_obs = drugsets_results.shape[0]
-    drugsets_results_sig = drugsets_results[drugsets_results["P"] <= n_obs]
+    drugsets_results_sig = drugsets_results[drugsets_results["P"] <= (0.05/n_obs)]
     drugsets_results_sig.to_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt.sig", sep="\t", index=False)
 
 if __name__ == "__main__":

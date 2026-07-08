@@ -878,9 +878,24 @@ class S2GController extends Controller
         // Drug sets option
         $drugsets = 0;
         $drugsets_selection = "NA";
+        $conditional = "NA";
+        $enrich = "NA";
+        $correct_cov = "NA";
+        $min_set_size = "NA";
+        $min_sample_size = "NA";
+        $multiple_testing = "NA";
+        $use_pops = "NA";
+
         if ($request->filled('drugsets')) {
             $drugsets = 1;
             $drugsets_selection = $request->input('drugsets');
+            $conditional = $request->input('conditional');
+            $enrich = $request->input('enrich');
+            $correct_cov = $request->input('correct_cov');
+            $min_set_size = $request->input('min_set_size');
+            $min_sample_size = $request->input('min_sample_size');
+            $multiple_testing = $request->input('multiple_testing');
+            $use_pops = $request->input('use_pops');
         }
 
         $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
@@ -952,6 +967,13 @@ class S2GController extends Controller
         Storage::append($paramfile, "magma_exp=$magma_exp");
         Storage::append($paramfile, "drugsets=$drugsets");
         Storage::append($paramfile, "drugsets_selection=$drugsets_selection");
+        Storage::append($paramfile, "conditional=$conditional");
+        Storage::append($paramfile, "enrich=$enrich");
+        Storage::append($paramfile, "correct_cov=$correct_cov");
+        Storage::append($paramfile, "min_set_size=$min_set_size");
+        Storage::append($paramfile, "min_sample_size=$min_sample_size");
+        Storage::append($paramfile, "multiple_testing=$multiple_testing");
+        Storage::append($paramfile, "use_pops=$use_pops");
 
         Storage::append($paramfile, "\n[posMap]");
         Storage::append($paramfile, "posMap=$posMap");
