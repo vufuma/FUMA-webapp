@@ -1497,6 +1497,10 @@ class S2GController extends Controller
             $files[] = "drugsets_output.drug.gsa.out";
             $files[] = "drugsets_output.drug.gsa.sets.genes.out";
             $files[] = "drugsets_output.drug.gsa.genes.out";
+            $files[] = "drugsets_output.drug.gsa.out.fmt.sig";
+            if (Storage::exists($filedir . "enrich.corrected.groups.out")) {
+                $files[] = "enrich.corrected.groups.out";
+            }
         }
 
         if ($request->filled('xqtlsfile')) {
