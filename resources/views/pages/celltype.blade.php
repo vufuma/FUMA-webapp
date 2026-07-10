@@ -27,47 +27,69 @@
             <div class="page-content inset">
                 <div id="newJob" class="sidePanel container" style="padding-top:50px;">
                     {{ html()->form('POST', '/celltype/submit')->acceptsFiles()->novalidate()->open() }}
-                    <div class="card">
-                        <div class="card-body">
-                            <h4>MAGMA gene analysis result</h4>
-                            1. Select from existing SNP2GENE job<br>
-                            <span class="info"><i class="fa fa-info fa-sm"></i>
-                                You can only select one of the successful SNP2GENE jobs in your account.<br>
-                                When you select a job ID, FUMA will automatically check if MAGMA was performed in the
-                                selected job.
-                            </span>
-                            <select class="form-select" id="s2gID" name="s2gID" onchange="window.CheckInput();">
-                            </select>
-                            <br>
-                            2. Upload your own genes.raw file<br>
-                            <span class="info"><i class="fa fa-info fa-sm"></i>
-                                You can only upload a file with extension "genes.raw"
-                                which is an output of MAGMA gene analysis.
-                            </span>
-                            <div class="row mb-1">
-                                <div class="col-sm-1">
-                                    <input type="file" class="form-control-file" name="genes_raw" id="genes_raw"
-                                        onchange="window.CheckInput();" />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-sm-5">
-                                    <input type="checkbox" checked class="form-check-input" name="ensg_id" i="ensg_id">
-                                    &nbsp;: Ensembl gene ID is used in the provided file. &nbsp;
-                                    <a class="infoPop" data-bs-toggle="popover" title="Ensembl dene ID"
-                                        data-bs-content="Please UNCHECK this option if you used different gene ID than Ensembl gene ID
-								in your uploaded MAGMA output. In that case, provided genes will be mapped to Ensembl gene ID.">
-                                        <i class="fa-regular fa-circle-question"></i>
-                                    </a>
-                                    </input>
-                                </div>
+                    <div class="accordion" style="padding-top: 0px;">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading1">
+                                <button class="accordion-button fs-5" type="button" data-bs-target="#NewJobFilesPanel"
+                                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobFilesPanel">
+                                    1. Specify MAGMA gene analysis result
+                                </button>
+                            </h2>
+                            <div class="accordion-collapse collapse show" id="NewJobFilesPanel" aria-labelledby="heading1">
+                                <table class="table table-bordered inputTable" id="NewJobFiles" style="width: auto;">
+                                    <tr>
+                                        <td>
+                                            1. Select from existing SNP2GENE job<br>
+                                            <span class="info"><i class="fa fa-info fa-sm"></i>
+                                                You can only select one of the successful SNP2GENE jobs in your account.<br>
+                                                When you select a job ID, FUMA will automatically check if MAGMA was performed in the
+                                                selected job.
+                                            </span>
+                                            <select class="form-select" id="s2gID" name="s2gID" onchange="window.CheckInput();">
+                                            </select>
+                                            <br>
+                                            2. Upload your own genes.raw file<br>
+                                            <span class="info"><i class="fa fa-info fa-sm"></i>
+                                                You can only upload a file with extension "genes.raw"
+                                                which is an output of MAGMA gene analysis.
+                                            </span>
+                                            <div class="row mb-1">
+                                                <div class="col-sm-1">
+                                                    <input type="file" class="form-control-file" name="genes_raw" id="genes_raw"
+                                                        onchange="window.CheckInput();" />
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col-sm-5">
+                                                    <input type="checkbox" checked class="form-check-input" name="ensg_id" i="ensg_id">
+                                                    &nbsp;: Ensembl gene ID is used in the provided file. &nbsp;
+                                                    <a class="infoPop" data-bs-toggle="popover" title="Ensembl dene ID"
+                                                        data-bs-content="Please UNCHECK this option if you used different gene ID than Ensembl gene ID
+                                                in your uploaded MAGMA output. In that case, provided genes will be mapped to Ensembl gene ID.">
+                                                        <i class="fa-regular fa-circle-question"></i>
+                                                    </a>
+                                                    </input>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        
+                                    <tr>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div class="card mt-2">
-                        <div class="card-body" style="padding-bottom: 10;">
-                            <h4>Single-cell expression data sets</h4>
-                            Select single-cell expression data sets to perform MAGMA gene-property analysis<br>
+
+                    <div class="accordion" style="padding-top: 0px;">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading1">
+                                <button class="accordion-button fs-5" type="button" data-bs-target="#NewJobFilesPanel"
+                                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobFilesPanel">
+                                    2. Select single-cell expression data sets
+                                    Select single-cell expression data sets to perform MAGMA gene-property analysis<br>
+                                </button>
+                            </h2>
                             <span class="info"><i class="fa fa-info fa-sm"></i>
                                 You should not select all datasets if you want to perform step 2 and 3 of the workflow
                                 due to the duplicated cell types in multiple datasets from the same data resource.
@@ -89,86 +111,160 @@
                                 If you would like to add a new scRNAseq dataset that is not currently available here, please email us. 
                                 
                             </div>
-
-                            <div>
-                                <select multiple="multiple" class="form-control" style="display: none;" id="cellDataSets"
-                                    name="cellDataSets[]" onchange="window.CheckInput();">
-                                    @include('celltype.celltype_options.aorta_options')
-                                    @include('celltype.celltype_options.bladder_options')
-                                    @include('celltype.celltype_options.blood_options')
-                                    @include('celltype.celltype_options.boneMarrow_options')
-                                    @include('celltype.celltype_options.brain_human_allocortex_options')
-                                    @include('celltype.celltype_options.brain_human_brain_options')
-                                    @include('celltype.celltype_options.brain_human_cerebellum_options')
-                                    @include('celltype.celltype_options.brain_human_cerebralGyriAndLobules_options')
-                                    @include('celltype.celltype_options.brain_human_cerebralNuclei_options')
-                                    @include('celltype.celltype_options.brain_human_cingulateNeocortex_options')
-                                    @include('celltype.celltype_options.brain_human_diencephalon_options')
-                                    @include('celltype.celltype_options.brain_human_dorsolateralPrefrontalCortex_options')
-                                    @include('celltype.celltype_options.brain_human_forebrain_options')
-                                    @include('celltype.celltype_options.brain_human_frontalNeocortex_options')
-                                    @include('celltype.celltype_options.brain_human_hindbrain_options')
-                                    @include('celltype.celltype_options.brain_human_hippocampalGyrusFormation_options')
-                                    @include('celltype.celltype_options.brain_human_hypothalamus_options')
-                                    @include('celltype.celltype_options.brain_human_insularNeocortex_options')
-                                    @include('celltype.celltype_options.brain_human_medulla_options')
-                                    @include('celltype.celltype_options.brain_human_meninges_options')
-                                    @include('celltype.celltype_options.brain_human_midbrain_options')
-                                    @include('celltype.celltype_options.brain_human_middleTemporalGyrus_options')
-                                    @include('celltype.celltype_options.brain_human_myelencephalon_options')
-                                    @include('celltype.celltype_options.brain_human_neocortex_options')
-                                    @include('celltype.celltype_options.brain_human_occipitalNeocortex_options')
-                                    @include('celltype.celltype_options.brain_human_orbitalFrontalCortex_options')
-                                    @include('celltype.celltype_options.brain_human_parietalNeocortex_options')
-                                    @include('celltype.celltype_options.brain_human_periallocortex_options')
-                                    @include('celltype.celltype_options.brain_human_pons_options')
-                                    @include('celltype.celltype_options.brain_human_prefrontalCortex_options')
-                                    @include('celltype.celltype_options.brain_human_primaryAuditoryCortex_options')
-                                    @include('celltype.celltype_options.brain_human_primaryMotorCortex_options')
-                                    @include('celltype.celltype_options.brain_human_primarySomatosensoryCortex_options')
-                                    @include('celltype.celltype_options.brain_human_primaryVisualCortex_options')
-                                    @include('celltype.celltype_options.brain_human_telencephalon_options')
-                                    @include('celltype.celltype_options.brain_human_temporalNeocortex_options')
-                                    @include('celltype.celltype_options.brain_human_thalamus_options')
-                                    @include('celltype.celltype_options.brain_human_transientStructuresOfForebrain_options')
-                                    @include('celltype.celltype_options.brain_human_unspecifiedRegions_options')
-                                    @include('celltype.celltype_options.brain_human_vagalNucleus_options')
-                                    @include('celltype.celltype_options.brain_human_ventrolateralPrefrontalCortex_options')
-                                    @include('celltype.celltype_options.brain_human_whiteMatter_options')
-                                    @include('celltype.celltype_options.brain_mouse_options')
-                                    @include('celltype.celltype_options.breast_options')
-                                    @include('celltype.celltype_options.diaphram_options')
-                                    @include('celltype.celltype_options.embryo_options')
-                                    @include('celltype.celltype_options.epithelial_options')
-                                    @include('celltype.celltype_options.fat_options')
-                                    @include('celltype.celltype_options.heart_options')
-                                    @include('celltype.celltype_options.intestine_options')
-                                    @include('celltype.celltype_options.kidney_options')
-                                    @include('celltype.celltype_options.liver_options')
-                                    @include('celltype.celltype_options.lung_options')
-                                    @include('celltype.celltype_options.lymphNode_options')
-                                    @include('celltype.celltype_options.muscle_options')
-                                    @include('celltype.celltype_options.other_options')
-                                    @include('celltype.celltype_options.ovary_options')
-                                    @include('celltype.celltype_options.pancreas_options')
-                                    @include('celltype.celltype_options.placenta_options')
-                                    @include('celltype.celltype_options.prostate_options')
-                                    @include('celltype.celltype_options.ribs_options')
-                                    @include('celltype.celltype_options.skeletalMuscle_options')
-                                    @include('celltype.celltype_options.skin_options')
-                                    @include('celltype.celltype_options.spinalCord_options')
-                                    @include('celltype.celltype_options.spleen_options')
-                                    @include('celltype.celltype_options.stemCell_options')
-                                    @include('celltype.celltype_options.stomach_options')
-                                    @include('celltype.celltype_options.testis_options')
-                                    @include('celltype.celltype_options.thymus_options')
-                                    @include('celltype.celltype_options.tongue_options')
-                                    @include('celltype.celltype_options.trachea_options')
-                                    @include('celltype.celltype_options.uterus_options')
-                                </select>
+                            <div class="accordion-collapse collapse show" id="NewJobFilesPanel" aria-labelledby="heading1">
+                                <table class="table table-bordered inputTable" id="SingleCellData" style="width: auto;">
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <select multiple="multiple" class="form-control" style="display: none;" id="cellDataSets"
+                                                    name="cellDataSets[]" onchange="window.CheckInput();">
+                                                    @include('celltype.celltype_options.aorta_options')
+                                                    @include('celltype.celltype_options.bladder_options')
+                                                    @include('celltype.celltype_options.blood_options')
+                                                    @include('celltype.celltype_options.boneMarrow_options')
+                                                    @include('celltype.celltype_options.brain_human_allocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_brain_options')
+                                                    @include('celltype.celltype_options.brain_human_cerebellum_options')
+                                                    @include('celltype.celltype_options.brain_human_cerebralGyriAndLobules_options')
+                                                    @include('celltype.celltype_options.brain_human_cerebralNuclei_options')
+                                                    @include('celltype.celltype_options.brain_human_cingulateNeocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_diencephalon_options')
+                                                    @include('celltype.celltype_options.brain_human_dorsolateralPrefrontalCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_forebrain_options')
+                                                    @include('celltype.celltype_options.brain_human_frontalNeocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_hindbrain_options')
+                                                    @include('celltype.celltype_options.brain_human_hippocampalGyrusFormation_options')
+                                                    @include('celltype.celltype_options.brain_human_hypothalamus_options')
+                                                    @include('celltype.celltype_options.brain_human_insularNeocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_medulla_options')
+                                                    @include('celltype.celltype_options.brain_human_meninges_options')
+                                                    @include('celltype.celltype_options.brain_human_midbrain_options')
+                                                    @include('celltype.celltype_options.brain_human_middleTemporalGyrus_options')
+                                                    @include('celltype.celltype_options.brain_human_myelencephalon_options')
+                                                    @include('celltype.celltype_options.brain_human_neocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_occipitalNeocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_orbitalFrontalCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_parietalNeocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_periallocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_pons_options')
+                                                    @include('celltype.celltype_options.brain_human_prefrontalCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_primaryAuditoryCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_primaryMotorCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_primarySomatosensoryCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_primaryVisualCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_telencephalon_options')
+                                                    @include('celltype.celltype_options.brain_human_temporalNeocortex_options')
+                                                    @include('celltype.celltype_options.brain_human_thalamus_options')
+                                                    @include('celltype.celltype_options.brain_human_transientStructuresOfForebrain_options')
+                                                    @include('celltype.celltype_options.brain_human_unspecifiedRegions_options')
+                                                    @include('celltype.celltype_options.brain_human_vagalNucleus_options')
+                                                    @include('celltype.celltype_options.brain_human_ventrolateralPrefrontalCortex_options')
+                                                    @include('celltype.celltype_options.brain_human_whiteMatter_options')
+                                                    @include('celltype.celltype_options.brain_mouse_options')
+                                                    @include('celltype.celltype_options.breast_options')
+                                                    @include('celltype.celltype_options.diaphram_options')
+                                                    @include('celltype.celltype_options.embryo_options')
+                                                    @include('celltype.celltype_options.epithelial_options')
+                                                    @include('celltype.celltype_options.fat_options')
+                                                    @include('celltype.celltype_options.heart_options')
+                                                    @include('celltype.celltype_options.intestine_options')
+                                                    @include('celltype.celltype_options.kidney_options')
+                                                    @include('celltype.celltype_options.liver_options')
+                                                    @include('celltype.celltype_options.lung_options')
+                                                    @include('celltype.celltype_options.lymphNode_options')
+                                                    @include('celltype.celltype_options.muscle_options')
+                                                    @include('celltype.celltype_options.other_options')
+                                                    @include('celltype.celltype_options.ovary_options')
+                                                    @include('celltype.celltype_options.pancreas_options')
+                                                    @include('celltype.celltype_options.placenta_options')
+                                                    @include('celltype.celltype_options.prostate_options')
+                                                    @include('celltype.celltype_options.ribs_options')
+                                                    @include('celltype.celltype_options.skeletalMuscle_options')
+                                                    @include('celltype.celltype_options.skin_options')
+                                                    @include('celltype.celltype_options.spinalCord_options')
+                                                    @include('celltype.celltype_options.spleen_options')
+                                                    @include('celltype.celltype_options.stemCell_options')
+                                                    @include('celltype.celltype_options.stomach_options')
+                                                    @include('celltype.celltype_options.testis_options')
+                                                    @include('celltype.celltype_options.thymus_options')
+                                                    @include('celltype.celltype_options.tongue_options')
+                                                    @include('celltype.celltype_options.trachea_options')
+                                                    @include('celltype.celltype_options.uterus_options')
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    <tr>
+                                </table>
                             </div>
                         </div>
                     </div>
+
+                    <div class="accordion" style="padding-top: 0px;">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading1">
+                                <button class="accordion-button fs-5" type="button" data-bs-target="#NewJobFilesPanel"
+                                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobFilesPanel">
+                                    3. Specify additional options
+                                </button>
+                            </h2>
+                            <div class="accordion-collapse collapse show" id="NewJobFilesPanel" aria-labelledby="heading1">
+                                <table class="table table-bordered inputTable" id="AdditionalOptions" style="width: auto;">
+                                    <tr>
+                                        <td>
+                                            <div class="row mb-1">
+                                                <label for="adjPmeth" class="col-sm-5 col-form-label">
+                                                    Multiple test correction method:</label>
+                                                <div class="col-sm-1">
+                                                    <select class="form-select" id="adjPmeth" name="adjPmeth" style="width:auto;">
+                                                        <option selected value="bonferroni">Bonferroni</option>
+                                                        <option value="BH">Benjamini-Hochberg (FDR)</option>
+                                                        <option value="BY">Benjamini-Yekutieli</option>
+                                                        <option value="holm">Holm</option>
+                                                        <option value="hochberg">Hochberg</option>
+                                                        <option value="hommel">Hommel</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <input type="checkbox" id="step2" name="step2"> Perform step 2 (per dataset conditional
+                                            analysis)
+                                            if there is more then one significant cell type per dataset.
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Step 2 in the workflow is per dataset conditional analysis.
+                                            When there are more than one significant cell types from the same dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
+                                            significant cell types within the dataset. Based on this, forward selection will be performed to identify independent signals.
+                                            See tutorial for details.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                            <br>
+                                            <input type="checkbox" id="step3" name="step3"> Perform step 3 (cross-datasets
+                                            conditional analysis)
+                                            if there is significant cell types from more than one dataset.
+                                            <a class="infoPop" data-bs-toggle="popover"
+                                                data-bs-content="Step 3 in the workflow is cross-datasets conditional analysis.
+                                            When there are significant cell types from more than one dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
+                                            significant cell types across datasets. See tutorial for details.">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </a>
+                                            <br>
+                                            <span class="info"><i class="fa fa-info fa-sm"></i>
+                                                Step 2 and 3 options are disabled when all scRNA datasets are selected.
+                                            </span>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        
+                                    <tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                    
+
                     <div class="card mt-2">
                         <div class="card-body" style="padding-bottom: 10;">
                             <h4>Other options</h4>

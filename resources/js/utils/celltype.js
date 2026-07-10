@@ -90,6 +90,10 @@ export function CheckInput(){
 	var s2gID = $('#s2gID').val();
 	var fileName = $('#genes_raw').val();
 	var ds = $("#cellDataSets :selected").length;
+	var table1;
+	table1 = $('#NewJobFiles')[0];
+	var table2;
+	table2 = $('#SingleCellData')[0];
 
 	// If all datasets are selected, not allow step 2 and step 3
 	var all = $("#cellDataSets :not(:selected)").length;
@@ -103,10 +107,11 @@ export function CheckInput(){
 
 	if(s2gID==0 && fileName.length==0){
 		check = false;
-		$('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please either select SNP2GENE jobID or upload a file.</div>')
+		$(table1.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Please either select SNP2GENE jobID or upload a file.</div></td>');
 	}else{
 		if(ds==0){
 			check = false;
+			$(table2.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Please select at least one single-cell expression data set.</div></td>');
 			$('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one single-cell expression data set.</div>')
 		}else if(s2gID>0){
 			var filecheck = false;
