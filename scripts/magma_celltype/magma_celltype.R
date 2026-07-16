@@ -246,7 +246,12 @@ if (!"cellex" %in% names(all_data)) {
   all_data$cellex <- "Metric not specified"
 }
 
-all_data = all_data %>% select(Dataset, Cell_type, fumaCelltype, cellex)
+if (!"cepo" %in% names(all_data)) {
+  all_data$cepo <- "Metric not specified"
+}
+
+
+all_data = all_data %>% select(Dataset, Cell_type, fumaCelltype, ewce, cellex, cepo)
 
 write.table(all_data, paste0(filedir, "celltype_step1_allGeneRankingMetrics.txt"), quote=F, row.names=F, sep="\t")
 
