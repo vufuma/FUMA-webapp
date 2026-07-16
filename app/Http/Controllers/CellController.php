@@ -10,6 +10,7 @@ use Auth;
 use App\CustomClasses\DockerApi\DockerNamesBuilder;
 use App\Jobs\CelltypeProcess;
 use App\Models\SubmitJob;
+use App\CustomClasses\myFile;
 
 
 class CellController extends Controller
@@ -166,6 +167,7 @@ class CellController extends Controller
             $ensg = 1;
         }
         $ds = implode(":", $request->input('cellDataSets'));
+        $geneRankingMetrics = implode(":", $request->input('geneRanking'));
         $adjPmeth = $request->input('adjPmeth');
         $step2 = 0;
         if ($request->filled('step2')) {
@@ -223,10 +225,11 @@ class CellController extends Controller
         Storage::append($paramfile, "inputfile=$inputfile");
         Storage::append($paramfile, "ensg_id=$ensg");
         Storage::append($paramfile, "datasets=$ds");
+        Storage::append($paramfile, "geneRankingMetrics=$geneRankingMetrics");
         Storage::append($paramfile, "adjPmeth=$adjPmeth");
         Storage::append($paramfile, "step2=$step2");
         Storage::append($paramfile, "step3=$step3");
-
+        
         $this->queueNewJobs();
 
         return redirect("/celltype#joblist");
@@ -331,13 +334,14 @@ class CellController extends Controller
     {
         $jobID = $request->input('jobID');
         $ds = escapeshellarg(escapeshellcmd($request->input('ds')));
+        $geneRanking = escapeshellarg(escapeshellcmd($request->input('geneRanking')));
 
         // $container_name = DockerNamesBuilder::containerName($jobID);
         $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
-        $python_command = "python celltype_perDatasetPlotData.py $job_location/ $ds";
+        $python_command = "python celltype_perDatasetPlotData.py $job_location/ $ds $geneRanking";
         $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' -w /app ' . $image_name . ' /bin/sh -c "' . $python_command . '"';
         // $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_perDatasetPlotData.py $job_location/ $ds'";
         $json = shell_exec($cmd);
@@ -355,5 +359,17 @@ class CellController extends Controller
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_stepPlotData.py $job_location/'";
         $json = shell_exec($cmd);
         return $json;
+    }
+
+    public function DTfile(Request $request)
+    {
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
+        $prefix = $request->input('prefix');
+        $fin = $request->input('infile');
+        $cols = $request->input('header');
+
+        $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . $fin;
+
+        return myFile::processCsvDataWithHeaders($file_path, $cols);
     }
 }

@@ -284,6 +284,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/getPerDatasetData', [CellController::class, 'getPerDatasetData']);
             Route::post('/getStepPlotData', [CellController::class, 'getStepPlotData']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
+            Route::post('/DTfile', [CellController::class, 'DTfile']);
         });
     });
 });

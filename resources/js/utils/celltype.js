@@ -79,6 +79,7 @@ export const CellTypeSetup = function(){
 				if(jobStatus=="OK"){
 					$('#resultSide').show();
 					loadResults(pageState.get("id"));
+					geneRankingTable();
 				}
 			}
 		});
@@ -90,10 +91,10 @@ export function CheckInput(){
 	var s2gID = $('#s2gID').val();
 	var fileName = $('#genes_raw').val();
 	var ds = $("#cellDataSets :selected").length;
-	var table1;
-	table1 = $('#NewJobFiles')[0];
-	var table2;
-	table2 = $('#SingleCellData')[0];
+	var magmaTable;
+	magmaTable = $('#NewJobFiles')[0];
+	var dataTable;
+	dataTable = $('#SingleCellData')[0];
 
 	// If all datasets are selected, not allow step 2 and step 3
 	var all = $("#cellDataSets :not(:selected)").length;
@@ -107,13 +108,9 @@ export function CheckInput(){
 
 	if(s2gID==0 && fileName.length==0){
 		check = false;
-		$(table1.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Please either select SNP2GENE jobID or upload a file.</div></td>');
+		$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Please either select SNP2GENE jobID or upload a file.</div></td>');
 	}else{
-		if(ds==0){
-			check = false;
-			$(table2.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Please select at least one single-cell expression data set.</div></td>');
-			$('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">Please select at least one single-cell expression data set.</div>')
-		}else if(s2gID>0){
+		if(s2gID>0){
 			var filecheck = false;
 			$.ajax({
 				url: pageState.get("subdir")+"/celltype/checkMagmaFile",
@@ -126,22 +123,28 @@ export function CheckInput(){
 				complete: function(){
 					if(!filecheck){
 						check = false;
-						$('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The seleted SNP2GENE job does not have valid MAGMA output.</div>')
+						$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> The seleted SNP2GENE job does not have valid MAGMA output.</div></td>');
 					}else if(fileName.length>0){
-						$('#CheckInput').html('<div class="alert alert-warning" style="padding-bottom: 10; padding-top: 10;">Both SNP2GENE job ID and upload file are provided. Selected SNP2GENE job will be used.</div>')
+						$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Both SNP2GENE job ID and upload file are provided. Selected SNP2GENE job will be used.</div></td>');
 					}else{
-						$('#CheckInput').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. The MAGMA gene analysis results will be obtained from the selected SNP2GENE job.</div>')
+						$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-check"></i> OK. The MAGMA gene analysis results will be obtained from the selected SNP2GENE job.</div></td>');
 					}
 				}
 			});
 		}else{
 			if(fileName.endsWith(".genes.raw")){
-				$('#CheckInput').html('<div class="alert alert-success" style="padding-bottom: 10; padding-top: 10;">OK. The selected file will be uploaded.</div>')
+				$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-check"></i> OK. The selected file will be uploaded.</div></td>');
 			}else{
 				check = false;
-				$('#CheckInput').html('<div class="alert alert-danger" style="padding-bottom: 10; padding-top: 10;">The seleted file does not have extension "genes.raw".</div>')
+				$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> The seleted file does not have extension "genes.raw".</div></td>');
 			}
 		}
+	}
+	if(ds==0){
+		check = false;
+		$(dataTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Please select at least one single-cell expression data set.</div></td>');
+	} else{
+		$(dataTable.rows[0].cells[1]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-check"></i> OK. '+ds+' single-cell expression data sets are selected.</div></td>');
 	}
 
 	if(check){$('#cellSubmit').attr("disabled", false);}
@@ -187,6 +190,31 @@ function getJobList(){
 function countJobs() {
 	$.getJSON(pageState.get('subdir') + '/' + pageState.get('page') + '/getJobList', function (data) {
 		$('#jobCount').text(data.length);
+	});
+}
+
+const geneRankingTable = function(){
+	const file = "celltype_step1_allGeneRankingMetrics.txt";
+	var id = pageState.get("id");
+	$('#geneRankingTable').DataTable({
+		"processing": true,
+		serverSide: false,
+		select: true,
+		"ajax": {
+			url: "DTfile",
+			type: "POST",
+			data: {
+				jobID: id,
+				prefix: pageState.get("prefix"),
+				infile: file,
+				header: "Dataset:Cell_type:fumaCelltype:ewce:cellex:cepo"
+			}
+		},
+		error: function () {
+			alert("Table error");
+		},
+		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		"iDisplayLength": 10
 	});
 }
 

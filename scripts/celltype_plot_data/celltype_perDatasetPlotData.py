@@ -14,7 +14,8 @@ def main():
 
 	##### get command line arguments #####
 	filedir = sys.argv[1]
-	ds = sys.argv[2];
+	ds = sys.argv[2]
+	geneRanking = sys.argv[3]
 
 	##### add '/' to the filedir #####
 	filedir = sys.argv[1]
@@ -33,7 +34,7 @@ def main():
 	out_data = []
 
 	##### process per file
-	for chunk in pd.read_csv(filedir+"magma_celltype_step1.txt", header=0, sep="\t", chunksize=5000):
+	for chunk in pd.read_csv(filedir + geneRanking + "_celltype_step1.txt", header=0, sep="\t", chunksize=5000):
 		chunk = np.array(chunk)
 		if len(out_data)>0:
 			out_data = np.r_[out_data, chunk[np.where(chunk[:,0]==ds)][:,[1,6,7,8]]]

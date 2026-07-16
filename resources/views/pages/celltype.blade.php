@@ -212,6 +212,15 @@
                             <div class="accordion-collapse collapse show" id="NewJobFilesPanel" aria-labelledby="heading1">
                                 <table class="table table-bordered inputTable" id="AdditionalOptions" style="width: auto;">
                                     <tr>
+                                        <h5>a. Specify gene ranking metrics</h5>
+                                        <select multiple class="form-select" name="geneRanking[]" id="geneRanking">
+                                            <option selected value="fumaCelltype">FUMA Cell Type</option>
+                                            <option value="ewce">EWCE</option>
+                                            <option value="cellex">Cellex</option>
+                                            <option value="cepo">Cepo</option>
+                                        </select>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <div class="row mb-1">
                                                 <label for="adjPmeth" class="col-sm-5 col-form-label">
@@ -258,6 +267,9 @@
                                         
                                     <tr>
                                 </table>
+                                <input type="submit" value="Submit" class="btn btn-primary" id="cellSubmit"
+                    name="cellSubmit" /><br><br>
+                                {{ html()->form()->close() }}
                             </div>
                         </div>
                     </div>
@@ -265,69 +277,14 @@
                 </div>
                     
 
-                    <div class="card mt-2">
-                        <div class="card-body" style="padding-bottom: 10;">
-                            <h4>Other options</h4>
-                            <div class="row mb-1">
-                                <label for="adjPmeth" class="col-sm-5 col-form-label">
-                                    Multiple test correction method:</label>
-                                <div class="col-sm-1">
-                                    <select class="form-select" id="adjPmeth" name="adjPmeth" style="width:auto;">
-                                        <option selected value="bonferroni">Bonferroni</option>
-                                        <option value="BH">Benjamini-Hochberg (FDR)</option>
-                                        <option value="BY">Benjamini-Yekutieli</option>
-                                        <option value="holm">Holm</option>
-                                        <option value="hochberg">Hochberg</option>
-                                        <option value="hommel">Hommel</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <input type="checkbox" id="step2" name="step2"> Perform step 2 (per dataset conditional
-                            analysis)
-                            if there is more then one significant cell type per dataset.
-                            <a class="infoPop" data-bs-toggle="popover"
-                                data-bs-content="Step 2 in the workflow is per dataset conditional analysis.
-							When there are more than one significant cell types from the same dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
-							significant cell types within the dataset. Based on this, forward selection will be performed to identify independent signals.
-							See tutorial for details.">
-                                <i class="fa-regular fa-circle-question"></i>
-                            </a>
-                            <br>
-                            <input type="checkbox" id="step3" name="step3"> Perform step 3 (cross-datasets
-                            conditional analysis)
-                            if there is significant cell types from more than one dataset.
-                            <a class="infoPop" data-bs-toggle="popover"
-                                data-bs-content="Step 3 in the workflow is cross-datasets conditional analysis.
-							When there are significant cell types from more than one dataset, FUMA will perform pair-wise conditional analyses for all possible pairs of
-							significant cell types across datasets. See tutorial for details.">
-                                <i class="fa-regular fa-circle-question"></i>
-                            </a>
-                            <br>
-                            <span class="info"><i class="fa fa-info fa-sm"></i>
-                                Step 2 and 3 options are disabled when all scRNA datasets are selected.
-                            </span>
-                            <br>
-                            <div class="row mb-1">
-                                <label for="title" class="col-sm-5 col-form-label">
-                                    Title:
-                                </label>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="title" name="title" />
-                                </div>
-                                <div class="col-sm-1">
-                                    <span class="info"><i class="fa fa-info fa-sm"></i> Optional</span>
-                                    <div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="CheckInput" class="mt-2"></div>
+                <div id="CheckInput" class="mt-2"></div>
+                <!-- <div class="row">
+                    <div class="col-2">
                     <input type="submit" value="Submit" class="btn btn-primary" id="cellSubmit"
-                        name="cellSubmit" /><br><br>
+                    name="cellSubmit" /><br><br>
                     {{ html()->form()->close() }}
-                </div>
+                    </div>
+                </div> -->
                 <div>
                     @include('celltype.joblist')
                     <div id="DIY" class="sidePanel container" style="padding-top:50px;">

@@ -41,6 +41,7 @@ export function loadResults(id){
 		}
 	});
 
+
 	// Get plot data for step 1-3
 	$.ajax({
 		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getStepPlotData',
@@ -61,13 +62,15 @@ export function loadResults(id){
 
 export function updatePerDatasetPlot(){
 	let ds = $('#dataset_select').val();
+	let geneRanking = $('#geneRanking_select').val();
 	$('#perDatasetPlot').html('<center><i class="fa fa-spinner fa-spin fa-5x"></i></center>')
 	$.ajax({
 		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getPerDatasetData',
 		type: 'POST',
 		data: {
 			jobID: pageState.get("id"),
-			ds: ds
+			ds: ds,
+			geneRanking: geneRanking
 		},
 		error: function(){alert("getPlotData error")},
 		success: function(data){

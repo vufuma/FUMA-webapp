@@ -47,7 +47,15 @@
 				<br><br>
 				<span class="form-inline">
 					Dataset :
-					<select id="dataset_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot();">
+					<select id="dataset_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot(); plotAllGeneRanking();">
+					</select>
+				</span>
+				<br>
+				<span class="form-inline">
+					Gene ranking metrics :
+					<select id="geneRanking_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot();">
+						<option value="fumaCelltype" selected>FUMA Cell type</option>
+						<option value="ewce">EWCE</option>
 					</select>
 				</span>
 				<br>
@@ -68,6 +76,15 @@
 					</select>
 				</span>
 				<div id="perDatasetPlot" style="overflow-x: auto;"></div>
+				<table id="geneRankingTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+					<h4>Summary of significant cell types (corrected per datasets) across each gene metrics</h4>
+					<thead>
+						<tr>
+							<th>Dataset</th><th>Cell_type</th><th>fumaCelltype</th><th>ewce</th><th>cellex</th><th>cepo</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
 			</div>
 		</div>
 

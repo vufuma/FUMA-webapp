@@ -1,5 +1,6 @@
 library(data.table)
 library(kimisc)
+library(dplyr)
 args <- commandArgs(TRUE)
 
 ##### get params #####
@@ -19,6 +20,7 @@ adjPmeth <- params$params$adjPmeth
 step2 <- as.numeric(params$params$step2)
 step3 <- as.numeric(params$params$step3)
 datasets <- unlist(strsplit(params$params$datasets, ":"))
+geneRankingMetrics <- unlist(strsplit(params$params$geneRankingMetrics, ":"))
 
 ##### Map to ENSG ID #####
 if(params$params$snp2geneID=="NA" & params$params$ensg_id==0){
@@ -44,33 +46,239 @@ if(params$params$snp2geneID=="NA" & params$params$ensg_id==0){
   write.table(out, paste0(filedir, "magma.genes.raw"), quote=F, row.names=F, col.names=F)
 }
 
-##### Step 1 #####
-step1_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-				" --gene-covar ", magmafiles, "/celltype/[ds].txt --model condition-hide=Average direction=greater",
-				" --out ", filedir, "magma_celltype_[ds]")
-step1_command <- sapply(datasets, function(x){gsub("\\[ds\\]", x, step1_command)})
-write.table(step1_command, paste0(filedir, "step1.sh"), quote=F, row.names=F, col.names=F)
-system(paste0("bash ", filedir, "step1.sh"))
-rm(step1_command)
-### multple testing correction
-step1 <- data.frame()
-for(ds in datasets){
-	tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "magma_celltype_", ds, ".gsa.out"), data.table=F)
-	if("FULL_NAME" %in% colnames(tmp)){
-		tmp$VARIABLE <- tmp$FULL_NAME
-		tmp <- tmp[,-ncol(tmp)]
+all_data = data.frame()
+
+# gene ranking metrics: fuma cell type
+if ("fumaCelltype" %in% geneRankingMetrics) {
+	datasets_full = c()
+	for (i in datasets){
+		datasets_full = c(datasets_full, paste0(i, "_", "fumaCelltype"))
 	}
-	tmp <- tmp[order(tmp$P),]
-	tmp$ds <- ds
-	tmp$P.adj.pds <- p.adjust(tmp$P, method=adjPmeth)
-	if(nrow(step1)==0){step1 <- tmp}
-	else{step1 <- rbind(step1, tmp)}
+	##### Step 1 #####
+	step1_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
+					" --gene-covar ", magmafiles, "/celltype/[ds].txt --model condition-hide=Average direction=greater",
+					" --out ", filedir, "fumaCelltype_celltype_[ds]")
+	step1_command <- sapply(datasets_full, function(x){gsub("\\[ds\\]", x, step1_command)})
+	write.table(step1_command, paste0(filedir, "step1.sh"), quote=F, row.names=F, col.names=F)
+	system(paste0("bash ", filedir, "step1.sh"))
+	rm(step1_command)
+	### multple testing correction
+	step1 <- data.frame()
+	for(ds in datasets_full){
+		tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "fumaCelltype_celltype_", ds, ".gsa.out"), data.table=F)
+		if("FULL_NAME" %in% colnames(tmp)){
+			tmp$VARIABLE <- tmp$FULL_NAME
+			tmp <- tmp[,-ncol(tmp)]
+		}
+		tmp <- tmp[order(tmp$P),]
+		tmp$ds <- strsplit(ds, "_fumaCelltype")[[1]][1]
+		tmp$P.adj.pds <- p.adjust(tmp$P, method=adjPmeth)
+		if(nrow(step1)==0){step1 <- tmp}
+		else{step1 <- rbind(step1, tmp)}
+	}
+	step1$P.adj <- p.adjust(step1$P, method=adjPmeth)
+	tmp_out <- step1[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
+	colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
+	write.table(tmp_out, paste0(filedir, "fumaCelltype_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
+
+	tmp_out <- tmp_out %>% mutate(fumaCelltype = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, fumaCelltype)
+	if (nrow(all_data) == 0) {
+		all_data <- tmp_out_subset
+	} else {
+		all_data <- all_data %>%
+			full_join(tmp_out_subset, by = c("Dataset", "Cell_type"))
+	}
+	rm(tmp_out)
+	rm(tmp_out_subset)
 }
-step1$P.adj <- p.adjust(step1$P, method=adjPmeth)
-tmp_out <- step1[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
-colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
-write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
-rm(tmp_out)
+
+# gene ranking metrics: ewce
+if ("ewce" %in% geneRankingMetrics) {
+	datasets_full = c()
+	for (i in datasets){
+		datasets_full = c(datasets_full, paste0(i, "_", "ewce"))
+	}
+	##### Step 1 #####
+	ewce_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
+					" --set-annot ", magmafiles, "/celltype/[ds].txt",
+					" --out ", filedir, "ewce_celltype_[ds]")
+	ewce_command <- sapply(datasets_full, function(x){gsub("\\[ds\\]", x, ewce_command)})
+	write.table(ewce_command, paste0(filedir, "ewce.sh"), quote=F, row.names=F, col.names=F)
+	system(paste0("bash ", filedir, "ewce.sh"))
+	rm(ewce_command)
+	### multple testing correction
+	ewce <- data.frame()
+	for(ds in datasets_full){
+		tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "ewce_celltype_", ds, ".gsa.out"), data.table=F)
+		if("FULL_NAME" %in% colnames(tmp)){
+			tmp$VARIABLE <- tmp$FULL_NAME
+			tmp <- tmp[,-ncol(tmp)]
+		}
+		tmp <- tmp[order(tmp$P),]
+		tmp$ds <- strsplit(ds, "_ewce")[[1]][1]
+		tmp$P.adj.pds <- p.adjust(tmp$P, method=adjPmeth)
+		if(nrow(ewce)==0){ewce <- tmp}
+		else{ewce <- rbind(ewce, tmp)}
+	}
+	ewce$P.adj <- p.adjust(ewce$P, method=adjPmeth)
+	tmp_out <- ewce[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
+	colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
+	write.table(tmp_out, paste0(filedir, "ewce_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
+	# rm(tmp_out)
+
+	tmp_out <- tmp_out %>% mutate(ewce = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, ewce)
+	if (nrow(all_data) == 0) {
+		all_data <- tmp_out_subset
+	} else {
+		all_data <- all_data %>%
+			full_join(tmp_out_subset, by = c("Dataset", "Cell_type"))
+	}
+	rm(tmp_out)
+	rm(tmp_out_subset)
+}
+
+# gene ranking metrics: cellex
+if ("cellex" %in% geneRankingMetrics) {
+	datasets_full = c()
+	for (i in datasets){
+		datasets_full = c(datasets_full, paste0(i, "_", "cellex"))
+	}
+	##### Step 1 #####
+	cellex_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
+					" --gene-covar ", magmafiles, "/celltype/[ds].txt",
+					" --out ", filedir, "cellex_celltype_[ds]",
+					" --model correct=all direction-covar=greater",
+					" --settings abbreviate=0 gene-info")
+	cellex_command <- sapply(datasets_full, function(x){gsub("\\[ds\\]", x, cellex_command)})
+	write.table(cellex_command, paste0(filedir, "cellex.sh"), quote=F, row.names=F, col.names=F)
+	system(paste0("bash ", filedir, "cellex.sh"))
+	rm(cellex_command)
+	### multple testing correction
+	cellex <- data.frame()
+	for(ds in datasets_full){
+		tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "cellex_celltype_", ds, ".gsa.out"), data.table=F)
+		if("FULL_NAME" %in% colnames(tmp)){
+			tmp$VARIABLE <- tmp$FULL_NAME
+			tmp <- tmp[,-ncol(tmp)]
+		}
+		tmp <- tmp[order(tmp$P),]
+		tmp$ds <- strsplit(ds, "_cellex")[[1]][1]
+		tmp$P.adj.pds <- p.adjust(tmp$P, method=adjPmeth)
+		if(nrow(cellex)==0){cellex <- tmp}
+		else{cellex <- rbind(cellex, tmp)}
+	}
+	cellex$P.adj <- p.adjust(cellex$P, method=adjPmeth)
+	tmp_out <- cellex[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
+	colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
+	write.table(tmp_out, paste0(filedir, "cellex_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
+	# rm(tmp_out)
+
+	tmp_out <- tmp_out %>% mutate(cellex = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, cellex)
+	if (nrow(all_data) == 0) {
+		all_data <- tmp_out_subset
+	} else {
+		all_data <- all_data %>%
+			full_join(tmp_out_subset, by = c("Dataset", "Cell_type"))
+	}
+	rm(tmp_out)
+	rm(tmp_out_subset)
+}
+
+# gene ranking metrics: cepo
+if ("cepo" %in% geneRankingMetrics) {
+	datasets_full = c()
+	for (i in datasets){
+		datasets_full = c(datasets_full, paste0(i, "_", "cepo"))
+	}
+	##### Step 1 #####
+	cepo_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
+					" --set-annot ", magmafiles, "/celltype/[ds].txt",
+					" --out ", filedir, "cepo_celltype_[ds]")
+	cepo_command <- sapply(datasets_full, function(x){gsub("\\[ds\\]", x, cepo_command)})
+	write.table(cepo_command, paste0(filedir, "cepo.sh"), quote=F, row.names=F, col.names=F)
+	system(paste0("bash ", filedir, "cepo.sh"))
+	rm(cepo_command)
+	### multple testing correction
+	cepo <- data.frame()
+	for(ds in datasets_full){
+		tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "cepo_celltype_", ds, ".gsa.out"), data.table=F)
+		if("FULL_NAME" %in% colnames(tmp)){
+			tmp$VARIABLE <- tmp$FULL_NAME
+			tmp <- tmp[,-ncol(tmp)]
+		}
+		tmp <- tmp[order(tmp$P),]
+		tmp$ds <- strsplit(ds, "_cepo")[[1]][1]
+		tmp$P.adj.pds <- p.adjust(tmp$P, method=adjPmeth)
+		if(nrow(cepo)==0){cepo <- tmp}
+		else{cepo <- rbind(cepo, tmp)}
+	}
+	cepo$P.adj <- p.adjust(cepo$P, method=adjPmeth)
+	tmp_out <- cepo[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
+	colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
+	write.table(tmp_out, paste0(filedir, "cepo_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
+	# rm(tmp_out)
+
+	tmp_out <- tmp_out %>% mutate(cepo = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, cepo)
+	if (nrow(all_data) == 0) {
+		all_data <- tmp_out_subset
+	} else {
+		all_data <- all_data %>%
+			full_join(tmp_out_subset, by = c("Dataset", "Cell_type"))
+	}
+	rm(tmp_out)
+	rm(tmp_out_subset)
+}
+
+
+if (!"fumaCelltype" %in% names(all_data)) {
+  all_data$fumaCelltype <- "Metric not specified"
+}
+
+if (!"ewce" %in% names(all_data)) {
+  all_data$ewce <- "Metric not specified"
+}
+
+if (!"cellex" %in% names(all_data)) {
+  all_data$cellex <- "Metric not specified"
+}
+
+all_data = all_data %>% select(Dataset, Cell_type, fumaCelltype, cellex)
+
+write.table(all_data, paste0(filedir, "celltype_step1_allGeneRankingMetrics.txt"), quote=F, row.names=F, sep="\t")
+
+
+
+# ##### Step 1 #####
+# step1_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
+# 				" --gene-covar ", magmafiles, "/celltype/[ds].txt --model condition-hide=Average direction=greater",
+# 				" --out ", filedir, "magma_celltype_[ds]")
+# step1_command <- sapply(datasets, function(x){gsub("\\[ds\\]", x, step1_command)})
+# write.table(step1_command, paste0(filedir, "step1.sh"), quote=F, row.names=F, col.names=F)
+# system(paste0("bash ", filedir, "step1.sh"))
+# rm(step1_command)
+# ### multple testing correction
+# step1 <- data.frame()
+# for(ds in datasets){
+# 	tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "magma_celltype_", ds, ".gsa.out"), data.table=F)
+# 	if("FULL_NAME" %in% colnames(tmp)){
+# 		tmp$VARIABLE <- tmp$FULL_NAME
+# 		tmp <- tmp[,-ncol(tmp)]
+# 	}
+# 	tmp <- tmp[order(tmp$P),]
+# 	tmp$ds <- ds
+# 	tmp$P.adj.pds <- p.adjust(tmp$P, method=adjPmeth)
+# 	if(nrow(step1)==0){step1 <- tmp}
+# 	else{step1 <- rbind(step1, tmp)}
+# }
+# step1$P.adj <- p.adjust(step1$P, method=adjPmeth)
+# tmp_out <- step1[,c("ds", "VARIABLE", "NGENES", "BETA", "BETA_STD", "SE", "P", "P.adj.pds", "P.adj")]
+# colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
+# write.table(tmp_out, paste0(filedir, "magma_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
+# rm(tmp_out)
 
 ##### Step 2 and 3 #####
 if(step2==1){
