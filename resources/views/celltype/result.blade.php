@@ -56,6 +56,8 @@
 					<select id="geneRanking_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot();">
 						<option value="fumaCelltype" selected>FUMA Cell type</option>
 						<option value="ewce">EWCE</option>
+						<option value="cellex">Cellex</option>
+						<option value="cepo">CEPO</option>
 					</select>
 				</span>
 				<br>
