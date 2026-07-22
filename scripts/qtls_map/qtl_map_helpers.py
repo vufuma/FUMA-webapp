@@ -42,8 +42,6 @@ def process_loci(tb, loci, locus, snps):
         return None
 
     if qtls.iloc[0, 2] == "NA" and qtls.iloc[0, 3] == "NA":
-        print(qtls)
-        # qtls.iloc[:, 1] = qtls.iloc[:, 1].astype(int)
         qtls["pos"] = qtls["pos"].astype(int)
         qtls = qtls.merge(snps.loc[snps.iloc[:, 1] == chrom, ["pos", "uniqID"]], on="pos", how="left")
         qtls = qtls[qtls.uniqID.isin(snps.uniqID)]
