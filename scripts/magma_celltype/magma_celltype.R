@@ -81,8 +81,9 @@ if ("fumaCelltype" %in% geneRankingMetrics) {
 	colnames(tmp_out)[1:2] <- c("Dataset", "Cell_type")
 	write.table(tmp_out, paste0(filedir, "fumaCelltype_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 
-	tmp_out <- tmp_out %>% mutate(fumaCelltype = if_else(P.adj < 0.05, "Significant", "Not Significant"))
-	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, fumaCelltype)
+	# tmp_out <- tmp_out %>% mutate(fumaCelltype = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, P.adj)
+	colnames(tmp_out_subset)[3] <- "fumaCelltype"
 	if (nrow(all_data) == 0) {
 		all_data <- tmp_out_subset
 	} else {
@@ -127,8 +128,9 @@ if ("ewce" %in% geneRankingMetrics) {
 	write.table(tmp_out, paste0(filedir, "ewce_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 	# rm(tmp_out)
 
-	tmp_out <- tmp_out %>% mutate(ewce = if_else(P.adj < 0.05, "Significant", "Not Significant"))
-	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, ewce)
+	# tmp_out <- tmp_out %>% mutate(ewce = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, P.adj)
+	colnames(tmp_out_subset)[3] <- "ewce"
 	if (nrow(all_data) == 0) {
 		all_data <- tmp_out_subset
 	} else {
@@ -175,8 +177,9 @@ if ("cellex" %in% geneRankingMetrics) {
 	write.table(tmp_out, paste0(filedir, "cellex_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 	# rm(tmp_out)
 
-	tmp_out <- tmp_out %>% mutate(cellex = if_else(P.adj < 0.05, "Significant", "Not Significant"))
-	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, cellex)
+	# tmp_out <- tmp_out %>% mutate(cellex = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, P.adj)
+	colnames(tmp_out_subset)[3] <- "cellex"
 	if (nrow(all_data) == 0) {
 		all_data <- tmp_out_subset
 	} else {
@@ -221,8 +224,9 @@ if ("cepo" %in% geneRankingMetrics) {
 	write.table(tmp_out, paste0(filedir, "cepo_celltype_step1.txt"), quote=F, row.names=F, sep="\t")
 	# rm(tmp_out)
 
-	tmp_out <- tmp_out %>% mutate(cepo = if_else(P.adj < 0.05, "Significant", "Not Significant"))
-	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, cepo)
+	# tmp_out <- tmp_out %>% mutate(cepo = if_else(P.adj < 0.05, "Significant", "Not Significant"))
+	tmp_out_subset = tmp_out %>% select(Dataset, Cell_type, P.adj)
+	colnames(tmp_out_subset)[3] <- "cepo"
 	if (nrow(all_data) == 0) {
 		all_data <- tmp_out_subset
 	} else {

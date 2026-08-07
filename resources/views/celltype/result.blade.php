@@ -78,7 +78,9 @@
 					</select>
 				</span>
 				<div id="perDatasetPlot" style="overflow-x: auto;"></div>
-				<table id="geneRankingTable" class="table table-striped table-sm display compact dt-body-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+				<<table id="geneRankingTable"
+					class="table table-sm compact"
+					width="100%">
 					<h4>Summary of significant cell types (corrected per datasets) across each gene metrics</h4>
 					<thead>
 						<tr>

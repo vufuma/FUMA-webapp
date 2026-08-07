@@ -193,29 +193,68 @@ function countJobs() {
 	});
 }
 
+// const geneRankingTable = function(){
+// 	const file = "celltype_step1_allGeneRankingMetrics.txt";
+// 	var id = pageState.get("id");
+// 	$('#geneRankingTable').DataTable({
+// 		"processing": true,
+// 		serverSide: false,
+// 		select: true,
+// 		"ajax": {
+// 			url: "DTfile",
+// 			type: "POST",
+// 			data: {
+// 				jobID: id,
+// 				prefix: pageState.get("prefix"),
+// 				infile: file,
+// 				header: "Dataset:Cell_type:fumaCelltype:ewce:cellex:cepo"
+// 			}
+// 		},
+// 		error: function () {
+// 			alert("Table error");
+// 		},
+// 		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+// 		"iDisplayLength": 10
+// 	});
+// }
+
 const geneRankingTable = function(){
-	const file = "celltype_step1_allGeneRankingMetrics.txt";
-	var id = pageState.get("id");
-	$('#geneRankingTable').DataTable({
-		"processing": true,
-		serverSide: false,
-		select: true,
-		"ajax": {
-			url: "DTfile",
-			type: "POST",
-			data: {
-				jobID: id,
-				prefix: pageState.get("prefix"),
-				infile: file,
-				header: "Dataset:Cell_type:fumaCelltype:ewce:cellex:cepo"
-			}
-		},
-		error: function () {
-			alert("Table error");
-		},
-		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-		"iDisplayLength": 10
-	});
+    const file = "celltype_step1_allGeneRankingMetrics.txt";
+    var id = pageState.get("id");
+
+    $('#geneRankingTable').DataTable({
+        processing: true,
+        serverSide: false,
+        select: true,
+        ajax: {
+            url: "DTfile",
+            type: "POST",
+            data: {
+                jobID: id,
+                prefix: pageState.get("prefix"),
+                infile: file,
+                header: "Dataset:Cell_type:fumaCelltype:ewce:cellex:cepo"
+            }
+        },
+        columnDefs: [{
+            targets: [2, 3, 4, 5],   // fumaCelltype, ewce, cellex, cepo
+            createdCell: function(td, cellData) {
+                const p = parseFloat(cellData);
+
+                if (isNaN(p)) return;
+
+                $(td).css({
+                    "background-color": p < 0.05 ? "#d4edda" : "#e9ecef",
+                    "color": "#000"
+                });
+            }
+        }],
+        error: function () {
+            alert("Table error");
+        },
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        iDisplayLength: 10
+    });
 }
 
 export default CellTypeSetup;

@@ -213,10 +213,10 @@
                                             </span>
                                             <div class="alert alert-info">
                                                 <strong> Select metrics that identify important genes per cell type:</strong>
-                                                <p><strong>FUMA Cell Type:</strong> this is gene ranking metric used in FUMA Cell Type prior to version 2.x.x and is based on mean expression per cell type. The statistical procedure is MAGMA gene property analysis. </p>
-                                                <p><strong>EWCE:</strong> a specificity metric that has higher values when genes are predominantly expressed in one cell type. The statistical procedure is MAGMA gene set (top 10% of specificity genes). </p>
-                                                <p><strong>Cellex:</strong> from the CELLEX pipeline. We utilized the average of four metrics, two based on log fold expression, two based on specificity/differential expression. The statistical procedure is MAGMA gene property analysis. </p>
-                                                <p><strong>Cepo:</strong> a metric that assumes that genes with larger stability (i.e. genes that have a smaller proportion of zeros and a small coefficient of variation) are under tight control and therefore relevant to the cell type. The statistical procedure is MAGMA gene set analysis. </p>
+                                                <p><strong>FUMA Cell Type:</strong> this metric assumes higher weight for higher expressed genes, tested using MAGMA gene property analysis of mean expression per cell type with average expression as a covariate. For details see Watanabe et al., 2019. This is the metric used in FUMA prior to version 2.x.x. </p>
+                                                <p><strong>EWCE:</strong> this metric assumes higher weight for more specifically expressed genes. See Skene and Grant 2016, Bryois et al., 2020. The top 10% most specifically expressed genes per cell type are tested using MAGMA gene set analysis. </p>
+                                                <p><strong>Cellex:</strong> this metric is a average of four metrics: specificity, gene enrichment score, normalised specificity index and differential expression t-statistic. See Timshel 2020 for details. This metric is tested using MAGMA gene property analysis. </p>
+                                                <p><strong>Cepo:</strong> this metric assumes higher weight for genes with larger stability (i.e. lower variance and smaller proportion of zeros, assuming these genes are under tight control). See Kim et al., 2021. The top 10% most stable genes per cell type are tested using MAGMA gene set analysis.</p>
 
                                             </div>
                                             <select multiple class="form-select" name="geneRanking[]" id="geneRanking">
