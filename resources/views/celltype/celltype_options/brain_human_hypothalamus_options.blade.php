@@ -35,8 +35,12 @@ data-section="Brain/Human/Hypothalamus/Postnatal/Level1" data-key="7">
 data-section="Brain/Human/Hypothalamus/Postnatal/Level1" data-key="8">
 514_Tadross_Human_2025_Hypothalamus_Tadross_level1</option>
 
+<option value="514_Tadross_Human_2025_Hypothalamus_Tadross_level2"
+data-section="Brain/Human/Hypothalamus/Postnatal/Level2" data-key="9">
+514_Tadross_Human_2025_Hypothalamus_Tadross_level2</option>
+
 <option value="515_Tadross_Human_2025_Hypothalamus_Siletti_level1"
-data-section="Brain/Human/Hypothalamus/Postnatal/Level1" data-key="9">
+data-section="Brain/Human/Hypothalamus/Postnatal/Level1" data-key="10">
 515_Tadross_Human_2025_Hypothalamus_Siletti_level1</option>
 
 <!-- postnatal level 2 -->
