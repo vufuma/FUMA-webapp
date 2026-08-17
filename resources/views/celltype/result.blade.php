@@ -47,17 +47,13 @@
 				<br><br>
 				<span class="form-inline">
 					Dataset :
-					<select id="dataset_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot(); plotAllGeneRanking();">
+					<select id="dataset_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot();">
 					</select>
 				</span>
 				<br>
 				<span class="form-inline">
 					Gene ranking metrics :
 					<select id="geneRanking_select" class="form-select" style="width: auto;" onchange="updatePerDatasetPlot();">
-						<option value="fumaCelltype" selected>FUMA Cell type</option>
-						<option value="ewce">EWCE</option>
-						<option value="cellex">Cellex</option>
-						<option value="cepo">CEPO</option>
 					</select>
 				</span>
 				<br>
@@ -78,16 +74,10 @@
 					</select>
 				</span>
 				<div id="perDatasetPlot" style="overflow-x: auto;"></div>
-				<<table id="geneRankingTable"
+				<h4>Summary of significant cell types (corrected per datasets) across each gene metrics</h4>
+				<table id="geneRankingTable"
 					class="table table-sm compact"
 					width="100%">
-					<h4>Summary of significant cell types (corrected per datasets) across each gene metrics</h4>
-					<thead>
-						<tr>
-							<th>Dataset</th><th>Cell_type</th><th>fumaCelltype</th><th>ewce</th><th>cellex</th><th>cepo</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
 				</table>
 			</div>
 		</div>
@@ -109,6 +99,12 @@
 				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step1Plot", "step1","svg");'>SVG</button>
 				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDown("step1Plot", "step1","pdf");'>PDF</button>
 				<br><br>
+				<span class="form-inline">
+					Gene ranking metrics :
+					<select id="geneRanking_select_step1" class="form-select" style="width: auto;" onchange="updateStepPlot();">
+					</select>
+				</span>
+				<br>
 				<span class="form-inline">
 					Order cell type by :
 					<select id="celltype_order_panel2" class="form-select" style="width: auto;">

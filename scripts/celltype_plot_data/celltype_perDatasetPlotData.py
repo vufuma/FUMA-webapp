@@ -4,7 +4,7 @@ import os
 import re
 import numpy as np
 import pandas as pd
-import ConfigParser
+import configparser
 import json
 
 def main():
@@ -14,7 +14,7 @@ def main():
 
 	##### get command line arguments #####
 	filedir = sys.argv[1]
-	ds = sys.argv[2]
+	ds = sys.argv[2].strip()
 	geneRanking = sys.argv[3]
 
 	##### add '/' to the filedir #####
@@ -23,7 +23,7 @@ def main():
 		filedir += '/'
 
 	##### get Parameters #####
-	param = ConfigParser.RawConfigParser()
+	param = configparser.RawConfigParser()
 	param.optionxform = str
 	param.read(filedir+'params.config')
 	suffix = ".gsa.out"
@@ -42,10 +42,10 @@ def main():
 			out_data = chunk[np.where(chunk[:,0]==ds)][:,[1,6,7,8]]
 
 	out_data = out_data[np.argsort(out_data[:,0])]
-	out_data = np.c_[out_data, range(0,len(out_data))]
+	out_data = np.c_[out_data, list(range(0,len(out_data)))]
 	out_data = out_data[np.argsort(out_data[:,1])]
-	out_data = np.c_[out_data, range(0, len(out_data))]
+	out_data = np.c_[out_data, list(range(0, len(out_data)))]
 
-	print json.dumps([list(l) for l in out_data])
+	print(json.dumps([list(l) for l in out_data]))
 
 if __name__ == "__main__": main()

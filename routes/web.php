@@ -280,11 +280,13 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/checkJobStatus/{jobID}', [CellController::class, 'checkJobStatus']);
             Route::post('/checkFileList', [CellController::class, 'checkFileList']);
             Route::post('/getDataList', [CellController::class, 'getDataList']);
+            Route::post('/getGeneRankingList', [CellController::class, 'getGeneRankingList']);
             Route::post('/filedown', [CellController::class, 'filedown']);
             Route::post('/getPerDatasetData', [CellController::class, 'getPerDatasetData']);
             Route::post('/getStepPlotData', [CellController::class, 'getStepPlotData']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
             Route::post('/DTfile', [CellController::class, 'DTfile']);
+            Route::post('/DTfileNoHeader', [CellController::class, 'DTfileNoHeader']);
         });
     });
 });

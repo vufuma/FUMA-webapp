@@ -43,8 +43,7 @@
                                                 <h5>Select from an existing SNP2GENE job</h5>
                                                 <span class="info"><i class="fa fa-info fa-sm"></i>
                                                     You can only select one of the successful SNP2GENE jobs in your account.<br>
-                                                    When you select a job ID, FUMA will automatically check if MAGMA was performed in the
-                                                    selected job.
+                                                    When you select a job ID, FUMA will automatically check if MAGMA was performed in the selected job.
                                                 </span>
                                                 <select class="form-select" id="s2gID" name="s2gID" onchange="window.CheckInput();">
                                                 </select>
@@ -347,11 +346,13 @@
                 import {
                     ImgDownDS,
                     ImgDown,
-                    updatePerDatasetPlot
+                    updatePerDatasetPlot,
+                    updateStepPlot
                 } from "{{ Vite::appjs('utils/cell_results.js') }}";
                 window.ImgDownDS = ImgDownDS;
                 window.ImgDown = ImgDown;
                 window.updatePerDatasetPlot = updatePerDatasetPlot;
+                window.updateStepPlot = updateStepPlot;
                 $(function() {
                     SidebarSetup();
                     CellTypeSetup();

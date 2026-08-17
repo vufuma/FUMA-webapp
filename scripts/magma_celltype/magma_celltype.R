@@ -238,24 +238,25 @@ if ("cepo" %in% geneRankingMetrics) {
 }
 
 
-if (!"fumaCelltype" %in% names(all_data)) {
-  all_data$fumaCelltype <- "Metric not specified"
-}
+# if (!"fumaCelltype" %in% names(all_data)) {
+#   all_data$fumaCelltype <- "Metric not specified"
+# }
 
-if (!"ewce" %in% names(all_data)) {
-  all_data$ewce <- "Metric not specified"
-}
+# if (!"ewce" %in% names(all_data)) {
+#   all_data$ewce <- "Metric not specified"
+# }
 
-if (!"cellex" %in% names(all_data)) {
-  all_data$cellex <- "Metric not specified"
-}
+# if (!"cellex" %in% names(all_data)) {
+#   all_data$cellex <- "Metric not specified"
+# }
 
-if (!"cepo" %in% names(all_data)) {
-  all_data$cepo <- "Metric not specified"
-}
+# if (!"cepo" %in% names(all_data)) {
+#   all_data$cepo <- "Metric not specified"
+# }
 
 
-all_data = all_data %>% select(Dataset, Cell_type, fumaCelltype, ewce, cellex, cepo)
+all_data <- all_data %>%
+  select(Dataset, Cell_type, any_of(c("fumaCelltype", "ewce", "cellex", "cepo")))
 
 write.table(all_data, paste0(filedir, "celltype_step1_allGeneRankingMetrics.txt"), quote=F, row.names=F, sep="\t")
 

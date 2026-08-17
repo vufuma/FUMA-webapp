@@ -94,6 +94,20 @@ class myFile
         }
     }
 
+        public static function processCsvDataNoHeaders(string $file_path)
+    {
+        $data = array();
+        $file = fopen(Storage::path($file_path), "r");
+        $header = fgetcsv($file, 0, "\t");
+
+        while ($row = fgetcsv($file, 0, "\t")) {
+            array_push($data, $row);
+        }
+
+        fclose($file);
+        return json_encode(array("header" => $header, "data" => $data));
+    }
+
     public static function csv_file_to_array(string $file_path)
     {
         $data = array();

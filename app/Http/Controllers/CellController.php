@@ -11,6 +11,7 @@ use App\CustomClasses\DockerApi\DockerNamesBuilder;
 use App\Jobs\CelltypeProcess;
 use App\Models\SubmitJob;
 use App\CustomClasses\myFile;
+use Illuminate\Support\Facades\Log;
 
 
 class CellController extends Controller
@@ -264,6 +265,15 @@ class CellController extends Controller
         return json_encode($ds);
     }
 
+    public function getGeneRankingList(Request $request)
+    {
+        $id = $request->input('jobID');
+        $filedir = config('app.jobdir') . '/celltype/' . $id;
+        $params = parse_ini_string(Storage::get($filedir . '/params.config'), false, INI_SCANNER_RAW);
+        $geneRanking = explode(":", $params['geneRankingMetrics']);
+        return json_encode($geneRanking);
+    }
+
     public function filedown(Request $request)
     {
         $id = $request->input('jobID');
@@ -351,13 +361,15 @@ class CellController extends Controller
     public function getStepPlotData(Request $request)
     {
         $jobID = $request->input('jobID');
+        $geneRanking = escapeshellarg(escapeshellcmd($request->input('geneRanking')));
 
         $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_stepPlotData.py $job_location/'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_stepPlotData.py $job_location/ $geneRanking'";
         $json = shell_exec($cmd);
+        Log::info("cmd: " . $cmd);
         return $json;
     }
 
@@ -371,5 +383,17 @@ class CellController extends Controller
         $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . $fin;
 
         return myFile::processCsvDataWithHeaders($file_path, $cols);
+    }
+
+        public function DTfileNoHeader(Request $request)
+    {
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
+        $prefix = $request->input('prefix');
+        $fin = $request->input('infile');
+        // $cols = $request->input('header');
+
+        $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . $fin;
+
+        return myFile::processCsvDataNoHeaders($file_path);
     }
 }

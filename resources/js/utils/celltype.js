@@ -222,39 +222,72 @@ const geneRankingTable = function(){
     const file = "celltype_step1_allGeneRankingMetrics.txt";
     var id = pageState.get("id");
 
-    $('#geneRankingTable').DataTable({
-        processing: true,
-        serverSide: false,
-        select: true,
-        ajax: {
-            url: "DTfile",
-            type: "POST",
-            data: {
-                jobID: id,
-                prefix: pageState.get("prefix"),
-                infile: file,
-                header: "Dataset:Cell_type:fumaCelltype:ewce:cellex:cepo"
-            }
-        },
-        columnDefs: [{
-            targets: [2, 3, 4, 5],   // fumaCelltype, ewce, cellex, cepo
-            createdCell: function(td, cellData) {
-                const p = parseFloat(cellData);
+	// Fetch header+data first so we can build the table header dynamically
+	$.ajax({
+		url: "DTfileNoHeader",
+		type: "POST",
+		dataType: 'json',
+		data: {
+			jobID: id,
+			prefix: pageState.get("prefix"),
+			infile: file
+		},
+		success: function(res) {
+			// Expecting: { header: [...], data: [...] }
+			var header = res.header || [];
+			var data = res.data || [];
 
-                if (isNaN(p)) return;
+			// If already initialized, destroy existing DataTable instance
+			if ($.fn.DataTable.isDataTable('#geneRankingTable')) {
+				$('#geneRankingTable').DataTable().clear().destroy();
+				$('#geneRankingTable').empty();
+			}
 
-                $(td).css({
-                    "background-color": p < 0.05 ? "#d4edda" : "#e9ecef",
-                    "color": "#000"
-                });
-            }
-        }],
-        error: function () {
-            alert("Table error");
-        },
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        iDisplayLength: 10
-    });
+			// Replace existing thead/tbody with dynamic header
+			$('#geneRankingTable').find('thead').remove();
+			$('#geneRankingTable').find('tbody').remove();
+			var thead = '<thead><tr>';
+			header.forEach(function(h){ thead += '<th>' + h + '</th>'; });
+			thead += '</tr></thead>';
+			$('#geneRankingTable').append(thead + '<tbody></tbody>');
+
+			// Build columns (DataTables will map array data by index)
+			var columns = header.map(function(h){ return { title: h }; });
+
+			$('#geneRankingTable').DataTable({
+				processing: true,
+				serverSide: false,
+				select: true,
+				data: data,
+				columns: columns,
+				// Reapply coloring on every draw so styles persist across sorting/paging
+				drawCallback: function(settings) {
+					var cols = [2, 3, 4, 5]; // indices for fumaCelltype, ewce, cellex, cepo
+					var api = this.api();
+					api.rows({ page: 'current' }).every(function() {
+						var rowNode = this.node();
+						cols.forEach(function(ci) {
+							var $cell = $(rowNode).find('td').eq(ci);
+							var p = parseFloat($cell.text());
+							if (!isNaN(p)) {
+								$cell.css({ 'color': p < 0.05 ? 'blue' : 'black'});
+							} else {
+								$cell.css({ 'background-color': '', 'color': '' });
+							}
+						});
+					});
+				},
+				error: function () {
+					alert("Table error");
+				},
+				lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+				iDisplayLength: 10
+			});
+		},
+		error: function() {
+			alert("Table error");
+		}
+	});
 }
 
 export default CellTypeSetup;
