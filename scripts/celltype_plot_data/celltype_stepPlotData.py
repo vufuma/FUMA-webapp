@@ -23,11 +23,11 @@ def main():
 	if re.match(".+\/$", filedir) is None:
 		filedir += '/'
 
-	if os.path.exists(os.path.join(filedir, "step1_2_summary.txt")):
-		data1 = pd.read_csv(os.path.join(filedir, "step1_2_summary.txt"), header=0, sep="\t", usecols=["Dataset", "Cell_type", "P", "step3"])
+	if os.path.exists(os.path.join(filedir, geneRanking + "_step1_2_summary.txt")):
+		data1 = pd.read_csv(os.path.join(filedir, geneRanking + "_step1_2_summary.txt"), header=0, sep="\t", usecols=["Dataset", "Cell_type", "P", "step3"])
 		data1 = np.array(data1)
 	else:
-		data1 = pd.read_csv(os.path.join(filedir, geneRanking + "_celltype_step1.txt"), header=0, sep="\t", usecols=["Dataset", "Cell_type", "P", "P.adj"])
+		data1 = pd.read_csv(os.path.join(filedir, geneRanking + "_step1.txt"), header=0, sep="\t", usecols=["Dataset", "Cell_type", "P", "P.adj"])
 		data1 = np.array(data1)
 
 		# # Remove rows with invalid values in the fourth column

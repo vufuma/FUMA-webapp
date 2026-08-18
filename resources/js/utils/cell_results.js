@@ -91,20 +91,20 @@ export function loadResults(id){
 
 
 	// Get plot data for step 1-3
-	$.ajax({
-		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getStepPlotData',
-		type: 'POST',
-		data: {
-			jobID: id
-		},
-		error: function(){alert("getStepPlotData error")},
-		success: function(data){
-			data = JSON.parse(data);
-			// PlotStep1(data.step1);
-			PlotStep2(data.step2);
-			PlotStep3(data.step3, data.step2);
-		}
-	});
+	// $.ajax({
+	// 	url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getStepPlotData',
+	// 	type: 'POST',
+	// 	data: {
+	// 		jobID: id
+	// 	},
+	// 	error: function(){alert("getStepPlotData error")},
+	// 	success: function(data){
+	// 		data = JSON.parse(data);
+	// 		PlotStep1(data.step1);
+	// 		PlotStep2(data.step2);
+	// 		PlotStep3(data.step3, data.step2);
+	// 	}
+	// });
 
 }
 
@@ -146,6 +146,8 @@ export function updateStepPlot(){
 			data = data.replaceAll('NaN', '0.0');
 			data = JSON.parse(data);
 			PlotStep1(data.step1);
+			PlotStep2(data.step2);
+			PlotStep3(data.step3, data.step2);
 		}
 	});
 }

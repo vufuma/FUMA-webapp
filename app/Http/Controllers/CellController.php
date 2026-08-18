@@ -369,7 +369,7 @@ class CellController extends Controller
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_stepPlotData.py $job_location/ $geneRanking'";
         $json = shell_exec($cmd);
-        Log::info("cmd: " . $cmd);
+        Log::info("result: " . $json);
         return $json;
     }
 
