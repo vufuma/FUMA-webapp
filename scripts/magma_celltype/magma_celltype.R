@@ -89,7 +89,7 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	}
 	##### Step 1 #####
 	step1_string = as.character(step1_command_map[metric])
-	print(step1_string)
+	print(as.character(step1_command_map[metric]))
 	step1_command <- sapply(datasets_full, function(x){gsub("\\[ds\\]", x, step1_string)})
 	write.table(step1_command, paste0(filedir, metric, "_step1.sh"), quote=F, row.names=F, col.names=F)
 	system(paste0("bash ", filedir, metric, "_step1.sh"))
@@ -138,7 +138,7 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 			for(ds in names(step2_ds)[step2_ds>1]){
 				if (metric == "fumaCelltype") {
 					step2_command <- c(step2_command, paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-							" --gene-covar ", magmafiles, "/celltype/", ds, "_", metric, ".txt --model condition-hide=Average direction=greater",
+							" --gene-covar ", magmafiles, "/celltype/", ds, "_", metric, ".txt --model correct=all condition-hide=Average direction=greater",
 							" analyse=list,", paste(step1$VARIABLE[step1$ds==ds], collapse=","), " joint-pairs",
 							" --out ", filedir, metric, "_step2_", ds))
 				} else if (metric == "ewce") {
@@ -146,8 +146,14 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 							" --set-annot ", magmafiles, "/celltype/", ds, "_", metric, ".txt --model correct=all",
 							" analyse=list,", paste(step1$VARIABLE[step1$ds==ds], collapse=","), " joint-pairs",
 							" --out ", filedir, metric, "_step2_", ds))
-				} 
+				} else if (metric == "cellex") {
+					step2_command <- c(step2_command, paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
+							" --gene-covar ", magmafiles, "/celltype/", ds, "_", metric, ".txt --model correct=all  direction=greater",
+							" analyse=list,", paste(step1$VARIABLE[step1$ds==ds], collapse=","), " joint-pairs",
+							" --out ", filedir, metric, "_step2_", ds))
+				}
 			}
+			# print(step2_command)
 			write.table(step2_command, paste0(filedir, metric, "_step2.sh"), quote=F, row.names=F, col.names=F)
 			system(paste0("bash ", filedir, metric, "_step2.sh"))
 			rm(step2_command)
@@ -334,28 +340,28 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	    step3_cond <- data.frame()
 	    for(i in 1:(length(step3_ds)-1)){
 	      ds1 <- step3_ds[i]
-	      exp1 <- fread(paste0(magmafiles, "/celltype/", ds1, ".txt"), data.table=F)
+	      exp1 <- fread(paste0(magmafiles, "/celltype/", ds1, "_", metric, ".txt"), data.table=F)
 	      exp1 <- exp1[,c("GENE", step1$VARIABLE[step1$ds==ds1], "Average")]
 	      colnames(exp1)[2:ncol(exp1)] <- paste(ds1, colnames(exp1)[2:ncol(exp1)], sep=":")
 	      colnames(exp1)[ncol(exp1)] <- "Average1"
 	      for(j in (i+1):length(step3_ds)){
 	        ds2 <- step3_ds[j]
-	        exp2 <- fread(paste0(magmafiles, "/celltype/", ds2, ".txt"), data.table=F)
+	        exp2 <- fread(paste0(magmafiles, "/celltype/", ds2, "_", metric, ".txt"), data.table=F)
 	        exp2 <- exp2[,c("GENE", step1$VARIABLE[step1$ds==ds2], "Average")]
 	        colnames(exp2)[2:ncol(exp2)] <- paste(ds2, colnames(exp2)[2:ncol(exp2)], sep=":")
 	        colnames(exp2)[ncol(exp2)] <- "Average2"
 	        exp <- cbind(exp1, exp2[match(exp1$GENE, exp2$GENE), -1])
 	        exp <- exp[!is.na(exp$Average2),]
-	        write.table(exp, paste0(filedir, "step3_exp.txt"), quote=F, row.names=F, sep="\t")
+	        write.table(exp, paste0(filedir, metric, "_step3_exp.txt"), quote=F, row.names=F, sep="\t")
 	        step3_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-	                                " --gene-covar ", filedir, "step3_exp.txt max-miss=0.1 --model condition-hide=Average1,Average2 direction=greater",
-	                                " --out ", filedir, "magma_celltype_step3_avg")
+	                                " --gene-covar ", filedir, metric, "_step3_exp.txt max-miss=0.1 --model condition-hide=Average1,Average2 direction=greater",
+	                                " --out ", filedir, metric, "_step3_avg")
 	        res <- system(step3_command, ignore.stdout = T)
 	        if(res>0){
 	          #!!! implement for error
 	          print(paste("error: Average ", ds1, ds2))
 	        }else{
-	          tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "magma_celltype_step3_avg.gsa.out"), data.table=F)
+	          tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, metric, "_step3_avg.gsa.out"), data.table=F)
 	          if("FULL_NAME" %in% colnames(tmp)){
 	            tmp$VARIABLE <- tmp$FULL_NAME
 	            tmp <- tmp[,-ncol(tmp)]
@@ -366,8 +372,8 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	          step3_avg <- rbind(step3_avg, tmp)
 	        }
 	        step3_command <- paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-	                                " --gene-covar ", filedir, "step3_exp.txt max-miss=0.1 --model condition-hide=Average1,Average2 direction=greater joint-pairs",
-	                                " --out ", filedir, "magma_celltype_step3")
+	                                " --gene-covar ", filedir, metric, "_step3_exp.txt max-miss=0.1 --model condition-hide=Average1,Average2 direction=greater joint-pairs",
+	                                " --out ", filedir, metric, "_step3")
 	        res <- system(step3_command, ignore.stdout = T)
 	        if(res>0){
 	          tmp_ts <- colnames(exp)[-1]
@@ -380,7 +386,7 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	          }
 	          tmp$MODEL <- rep(1:(nrow(tmp)/2), each=2)
 	        }else{
-	          tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, "magma_celltype_step3.gsa.out"), data.table=F)
+	          tmp <- fread(cmd=paste0("grep -v '^#' ", filedir, metric, "_step3.gsa.out"), data.table=F)
 	          if("FULL_NAME" %in% colnames(tmp)){
 	            tmp$VARIABLE <- tmp$FULL_NAME
 	            tmp <- tmp[,-ncol(tmp)]
@@ -395,7 +401,7 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	    }
 
 	    rm(exp, exp1, exp2)
-	    system(paste0("rm ", filedir, "step3_exp.txt"))
+	    system(paste0("rm ", filedir, metric, "_step3_exp.txt"))
 
 	    ### add within dataset conditional analyses
 	    step3_cond <- step3_cond[,-2]
@@ -424,7 +430,7 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	    step3_cond$Marginal.P <- step1$P[match(paste(step3_cond$Dataset, step3_cond$Cell_type, sep=":"), paste(step1$ds, step1$VARIABLE, sep=":"))]
   		step3_cond$PS <- -log10(step3_cond$P)/-log10(with(step3_cond, ifelse(is.na(CDM.P), Marginal.P, CDM.P)))
   		step3_cond$PS.avg <- -log10(step3_cond$CDM.P)/-log10(step3_cond$Marginal.P)
-	    write.table(step3_cond, paste0(filedir, "magma_celltype_step3.txt"), quote=F, row.names=F, sep="\t")
+	    write.table(step3_cond, paste0(filedir, metric, "_step3.txt"), quote=F, row.names=F, sep="\t")
 	  }
 	}
 }

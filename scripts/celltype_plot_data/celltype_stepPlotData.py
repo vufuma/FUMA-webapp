@@ -65,8 +65,8 @@ def main():
 		check.append(data2[i,1])
 
 	data3 = []
-	if os.path.exists(filedir+"magma_celltype_step3.txt"):
-		data3 = pd.read_csv(filedir+"magma_celltype_step3.txt", header=0, sep="\t", usecols=["Dataset", "Cell_type", "PS"])
+	if os.path.exists(os.path.join(filedir, geneRanking + "_step3.txt")):
+		data3 = pd.read_csv(os.path.join(filedir, geneRanking + "_step3.txt"), header=0, sep="\t", usecols=["Dataset", "Cell_type", "PS"])
 		data3["PS"] = data3["PS"].fillna(-1)
 		data3 = np.array(data3)
 		data2_label = np.c_[data2[:,1], [":".join([l[0], l[1].replace(" ", "")]) for l in data2[:,0:2]]]
