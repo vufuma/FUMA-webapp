@@ -1,8 +1,8 @@
 <div id="result" class="sidePanel container" style="padding-top:50px;">
 	<div class="card">
-	    <div class="card-header">
-	        <div class="card-title">Download MAGMA results</div>
-	    </div>
+		<div class="card bg-primary text-white">
+			<div class="card-body">Download MAGMA results</div>
+		</div>
 	    <div class="card-body">
 			<form action="{{ Config::get('app.subdir') }}/{{$page}}/filedown" method="post" target="_blank">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -35,9 +35,12 @@
 		</form>
 
 		<div class="card">
-		    <div class="card-header">
-		        <div class="card-title">Per-dataset cell type specificity</div>
-		    </div>
+			<div class="card bg-primary text-white">
+				<div class="card-body">Per-dataset cell type specificity</div>
+			</div>
+			<div class="alert alert-info" role="alert">
+				A plot is generated per dataset for each metric that you selected. Click on each option to select the specific dataset and metric that you want to view the result.
+			</div>
 		    <div class="card-body">
 				Download the plot as
 				<button class="btn btn-default btn-sm ImgDown" onclick='ImgDownDS("perDatasetPlot","png");'>PNG</button>
@@ -83,9 +86,9 @@
 		</div>
 
 		<div class="card">
-		    <div class="card-header">
-		        <div class="card-title">Significant cell types across datasets (Step 1)</div>
-		    </div>
+			<div class="card bg-primary text-white">
+				<div class="card-body">Significant cell types across datasets (Step 1)</div>
+			</div>
 		    <div class="card-body">
 				<span class="info"><i class="fa fa-info"></i>
 					The plot is only displayed when there is at least one significant cell type after
@@ -104,6 +107,9 @@
 					<select id="geneRanking_select_step1" class="form-select" style="width: auto;" onchange="updateStepPlot();">
 					</select>
 				</span>
+				<div class="alert alert-info" role="alert">
+				Note that the gene ranking metrics selection applies across all steps.
+				</div>
 				<br>
 				<span class="form-inline">
 					Order cell type by :
@@ -117,9 +123,9 @@
 		</div>
 
 		<div class="card">
-		    <div class="card-header">
-		        <div class="card-title">Independent cell type associations based on within-dataset conditional analyses (Step 2)</div>
-		    </div>
+			<div class="card bg-primary text-white">
+				<div class="card-body">Independent cell type associations based on within-dataset conditional analyses (Step 2)</div>
+			</div>
 		    <div class="card-body">
 				<span class="info"><i class="fa fa-info"></i>
 					The plot is only displayed when there is at least one significant cell type after
@@ -145,9 +151,9 @@
 		</div>
 
 		<div class="card">
-		    <div class="card-header">
-		        <div class="card-title">Pair-wise cross-datasets conditional analyses (Step 3)</div>
-		    </div>
+			<div class="card bg-primary text-white">
+				<div class="card-body">Pair-wise cross-datasets conditional analyses (Step 3)</div>
+			</div>
 		    <div class="card-body">
 				<span class="info"><i class="fa fa-info"></i>
 					The plot is only displayed when there is at least one significant cell type after

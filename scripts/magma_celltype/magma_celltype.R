@@ -63,25 +63,6 @@ cepo_step1 = paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.ra
 					" --out ", filedir, "cepo_step1_[ds]")
 step1_command_map = c("fumaCelltype"=fumaCelltype_step1, "ewce"=ewce_step1, "cellex"=cellex_step1, "cepo"=cepo_step1)
 
-# # step 2 commands
-# fumaCelltype_step2 = paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-# 					" --gene-covar ", magmafiles, "/celltype/", ds, ".txt --model correct=all condition-hide=Average direction=greater",
-# 					" analyse=list,", paste(step1$VARIABLE[step1$ds==ds], collapse=","), " joint-pairs",
-# 					" --out ", filedir, "fumaCelltype_step2_[ds]")
-# ewce_step2 = paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-# 					" --set-annot ", magmafiles, "/celltype/[ds].txt --model correct=all joint-pairs",
-# 					" --out ", filedir, "ewce_step2_[ds]")
-# cellex_step2 = paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-# 					" --gene-covar ", magmafiles, "/celltype/[ds].txt",
-# 					" --out ", filedir, "cellex_step2_[ds]",
-# 					" --model correct=all direction=greater joint-pairs")
-# cepo_step2 = paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
-# 					" --set-annot ", magmafiles, "/celltype/[ds].txt --model correct=all joint-pairs",
-# 					" --out ", filedir, "cepo_step2_[ds]")
-# step2_command_map = c("fumaCelltype"=fumaCelltype_step2, "ewce"=ewce_step2, "cellex"=cellex_step2, "cepo"=cepo_step2)
-
-
-
 all_steps = function(metric, all_data, step2_indicator, step3_indicator){
   datasets_full = c()
 	for (i in datasets){
@@ -89,7 +70,6 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	}
 	##### Step 1 #####
 	step1_string = as.character(step1_command_map[metric])
-	print(as.character(step1_command_map[metric]))
 	step1_command <- sapply(datasets_full, function(x){gsub("\\[ds\\]", x, step1_string)})
 	write.table(step1_command, paste0(filedir, metric, "_step1.sh"), quote=F, row.names=F, col.names=F)
 	system(paste0("bash ", filedir, metric, "_step1.sh"))
@@ -124,7 +104,7 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 	rm(tmp_out)
 	rm(tmp_out_subset)
 
-
+	##### Step 2 #####
 	if(step2_indicator==1){
 	step1 <- step1[which(step1$P.adj<0.05),]
 	if(nrow(step1)>1){
@@ -151,9 +131,13 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 							" --gene-covar ", magmafiles, "/celltype/", ds, "_", metric, ".txt --model correct=all  direction=greater",
 							" analyse=list,", paste(step1$VARIABLE[step1$ds==ds], collapse=","), " joint-pairs",
 							" --out ", filedir, metric, "_step2_", ds))
+				} else if (metric == "cepo") {
+					step2_command <- c(step2_command, paste0(magmadir, "/magma --gene-results ", filedir, "magma.genes.raw",
+							" --set-annot ", magmafiles, "/celltype/", ds, "_", metric, ".txt --model correct=all",
+							" analyse=list,", paste(step1$VARIABLE[step1$ds==ds], collapse=","), " joint-pairs",
+							" --out ", filedir, metric, "_step2_", ds))
 				}
 			}
-			# print(step2_command)
 			write.table(step2_command, paste0(filedir, metric, "_step2.sh"), quote=F, row.names=F, col.names=F)
 			system(paste0("bash ", filedir, metric, "_step2.sh"))
 			rm(step2_command)
@@ -331,6 +315,7 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 		rm(step1_out)
 	}
 
+	##### Step 3 #####
 	if(step3==1){
 	  if(length(unique(step1$ds))>1){
 	    step1 <- step1[!grepl("drop", step1$cond_state),]
@@ -437,9 +422,6 @@ all_steps = function(metric, all_data, step2_indicator, step3_indicator){
 
 	return(all_data)
 }
-
-
-
 
 all_data = data.frame()
 
