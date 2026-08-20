@@ -1,6 +1,6 @@
 <div id="result" class="sidePanel container" style="padding-top:50px;">
 	<div class="card">
-		<div class="card bg-primary text-white">
+		<div class="card bg-dark text-white">
 			<div class="card-body">Download MAGMA results</div>
 		</div>
 	    <div class="card-body">
@@ -35,7 +35,7 @@
 		</form>
 
 		<div class="card">
-			<div class="card bg-primary text-white">
+			<div class="card bg-dark text-white">
 				<div class="card-body">Per-dataset cell type specificity</div>
 			</div>
 			<div class="alert alert-info" role="alert">
@@ -86,7 +86,7 @@
 		</div>
 
 		<div class="card">
-			<div class="card bg-primary text-white">
+			<div class="card bg-dark text-white">
 				<div class="card-body">Significant cell types across datasets (Step 1)</div>
 			</div>
 		    <div class="card-body">
@@ -123,7 +123,7 @@
 		</div>
 
 		<div class="card">
-			<div class="card bg-primary text-white">
+			<div class="card bg-dark text-white">
 				<div class="card-body">Independent cell type associations based on within-dataset conditional analyses (Step 2)</div>
 			</div>
 		    <div class="card-body">
@@ -151,7 +151,7 @@
 		</div>
 
 		<div class="card">
-			<div class="card bg-primary text-white">
+			<div class="card bg-dark text-white">
 				<div class="card-body">Pair-wise cross-datasets conditional analyses (Step 3)</div>
 			</div>
 		    <div class="card-body">
