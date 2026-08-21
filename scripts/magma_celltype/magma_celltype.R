@@ -66,7 +66,13 @@ step1_command_map = c("fumaCelltype"=fumaCelltype_step1, "ewce"=ewce_step1, "cel
 all_steps = function(metric, all_data, step2_indicator, step3_indicator){
   datasets_full = c()
 	for (i in datasets){
-		datasets_full = c(datasets_full, paste0(i, "_", metric))
+		dataset_file <- file.path(magmafiles, "celltype", paste0(i, "_", metric, ".txt"))
+		if (file.exists(dataset_file)) {
+			datasets_full = c(datasets_full, paste0(i, "_", metric))
+		} else {
+			cat(paste0("Analysis cannot be performed for ", i, " with the selected metric ", metric, "\n"),
+				file = paste0(filedir, "user_job.log"), append = TRUE)
+		}
 	}
 	##### Step 1 #####
 	step1_string = as.character(step1_command_map[metric])

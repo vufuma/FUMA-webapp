@@ -98,9 +98,12 @@
                                 <p>1. The data are organized by tissue types in alphabetical order. Species are separated out within each tisseue (currently data for human and mouse are available). Within the human brain,the data are further categorized spatially (different regions of the brain) and temporally (different developmental timepoint). </p>
                                 <p> 2. If you would like to add a new scRNAseq dataset that is not currently available here, please email us. </p>
                             </div>
-                            <div class="alert alert-info">
+                            <div class="alert alert-warning">
+                                <strong>Important notes:</strong>
+                                <br>
                                 <p>1. Be selective about which datasets to select. If you select too many datasets, your job will time out after reaching the 8 hours limit. </p>
                                 <p>2. In some datasets, several level of cell type annotation is available. If you would like to run step 2 and 3 (for FUMA Cell type only), do not select all levels for the same datasets. </p>
+                                <p>3. EWCE, Cellex, and Cepo metrics are only available for a subset of 639 brain datasets while fumaCelltype is available for all datasets listed below. If you select a dataset and a metric that is not available for that dataset, the analysis will not be performed for that dataset. </p>
                             </div>
                             <div class="accordion-collapse collapse show" id="NewJobFilesPanel" aria-labelledby="heading1">
                                 <div class="accordion-body">

@@ -39,7 +39,8 @@
 				<div class="card-body">Per-dataset cell type specificity</div>
 			</div>
 			<div class="alert alert-info" role="alert">
-				A plot is generated per dataset for each metric that you selected. Click on each option to select the specific dataset and metric that you want to view the result.
+				A plot is generated per dataset for each metric that you selected. Click on each option to select the specific dataset and metric that you want to view the result. <br>
+				Please note that if the selected metric is not available for the selected dataset, the analysis will not be performed for that dataset, a plot will not be generated.<br>
 			</div>
 		    <div class="card-body">
 				Download the plot as
