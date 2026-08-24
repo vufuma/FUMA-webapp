@@ -248,12 +248,16 @@ class CellController extends Controller
             $step3 = 0;
         } else {
             // $step1 = count(glob($filedir . "/*.gsa.out"));
-            $step1 = count(Helper::my_glob($filedir, "/.*\.gsa\.out/"));
-            $step1_2 = (int) Storage::exists($filedir . "/step1_2_summary.txt");
-            $step2 = (int) Storage::exists($filedir . "/magma_celltype_step2.txt");
-            $step3 = (int) Storage::exists($filedir . "/magma_celltype_step3.txt");
+            // $step1 = count(Helper::my_glob($filedir, "/.*\.gsa\.out/"));
+            $step1 = count(Helper::my_glob($filedir, "/step1/"));
+            // $step1_2 = (int) Storage::exists($filedir . "/step1_2_summary.txt");
+            // $step2 = (int) Storage::exists($filedir . "/magma_celltype_step2.txt");
+            // $step3 = (int) Storage::exists($filedir . "/magma_celltype_step3.txt");
+            $step2 = count(Helper::my_glob($filedir, "/step2/"));
+            $step3 = count(Helper::my_glob($filedir, "/step3/"));
         }
-        return json_encode([$step1, $step1_2, $step2, $step3]);
+        // return json_encode([$step1, $step1_2, $step2, $step3]);
+        return json_encode([$step1, $step2, $step3]);
     }
 
     public function getDataList(Request $request)
@@ -284,30 +288,17 @@ class CellController extends Controller
         $checked = $request->input('files');
         $files = [];
         $files[] = "params.config";
+        $files[] = "user_job.log";
 
-        if (in_array("step1", $checked)) {
-            $ds = explode(":", $params['datasets']);
-            if ($params['MAGMA'] == "v1.06") {
-                for ($i = 0; $i < count($ds); $i++) {
-                    $files[] = "magma_celltype_" . $ds[$i] . ".gcov.out";
-                    $files[] = "magma_celltype_" . $ds[$i] . ".log";
-                }
-            } else {
-                for ($i = 0; $i < count($ds); $i++) {
-                    $files[] = "magma_celltype_" . $ds[$i] . ".gsa.out";
-                    $files[] = "magma_celltype_" . $ds[$i] . ".log";
+        foreach (["step1", "step2", "step3"] as $step) {
+            if (in_array($step, $checked)) {
+                foreach (Storage::files($filedir) as $file) {
+                    $filename = basename($file);
+                    if (str_contains($filename, $step)) {
+                        $files[] = $filename;
+                    }
                 }
             }
-            $files[] = "magma_celltype_step1.txt";
-        }
-        if (in_array("step1_2", $checked)) {
-            $files[] = "step1_2_summary.txt";
-        }
-        if (in_array("step2", $checked)) {
-            $files[] = "magma_celltype_step2.txt";
-        }
-        if (in_array("step3", $checked)) {
-            $files[] = "magma_celltype_step3.txt";
         }
 
         # check if zip file exists, if yes, delete it

@@ -11,9 +11,11 @@ export function loadResults(id){
 		success: function(data){
 			data = JSON.parse(data);
 			if(data[0]==0){$('#step1_file').prop('checked', false); $('#step1_file').prop('disabled', true);}
-			if(data[1]==0){$('#step1_2_file').prop('checked', false); $('#step1_2_file').prop('disabled', true);}
-			if(data[2]==0){$('#step2_file').prop('checked', false); $('#step2_file').prop('disabled', true);}
-			if(data[3]==0){$('#step3_file').prop('checked', false); $('#step3_file').prop('disabled', true);}
+			if(data[1]==0){$('#step2_file').prop('checked', false); $('#step2_file').prop('disabled', true);}
+			if(data[2]==0){$('#step3_file').prop('checked', false); $('#step3_file').prop('disabled', true);}
+			// if(data[1]==0){$('#step1_2_file').prop('checked', false); $('#step1_2_file').prop('disabled', true);}
+			// if(data[2]==0){$('#step2_file').prop('checked', false); $('#step2_file').prop('disabled', true);}
+			// if(data[3]==0){$('#step3_file').prop('checked', false); $('#step3_file').prop('disabled', true);}
 		}
 	});
 

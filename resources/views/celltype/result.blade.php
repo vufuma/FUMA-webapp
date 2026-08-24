@@ -1,18 +1,23 @@
 <div id="result" class="sidePanel container" style="padding-top:50px;">
 	<div class="card">
 		<div class="card bg-dark text-white">
-			<div class="card-body">Download MAGMA results</div>
+			<div class="card-body">Download Results</div>
+
 		</div>
+		<div class="alert alert-info" role="alert">
+			Note that the log file (user_job.log) is always included in the download files.
+		</div>
+		
 	    <div class="card-body">
 			<form action="{{ Config::get('app.subdir') }}/{{$page}}/filedown" method="post" target="_blank">
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				<input type="hidden" name="jobID" value="{{$id}}"/>
 				<input type="hidden" name="prefix" value="{{$prefix}}"/>
 				<div id="downFileCheck">
-					<input checked class="form-check-input" type="checkbox" value="step1" name="files[]" id="step1_file" onchange="DownloadFiles()"> Per dataset MAGMA output (Step 1)<br>
-					<input checked class="form-check-input" type="checkbox" value="step2" name="files[]" id="step2_file" onchange="DownloadFiles()"> Full results of per dataset conditional analyses (Step 2)<br>
-					<input checked class="form-check-input" type="checkbox" value="step1_2" name="files[]" id="step1_2_file" onchange="DownloadFiles()"> Summary of step 1 and 2<br>
-					<input checked class="form-check-input" type="checkbox" value="step3" name="files[]" id="step3_file" onchange="DownloadFiles()"> Full results of cross-datasets conditional analyses (Step 3)<br>
+					<input checked class="form-check-input" type="checkbox" value="step1" name="files[]" id="step1_file" onchange="DownloadFiles()"> All step 1 results<br>
+					<input checked class="form-check-input" type="checkbox" value="step2" name="files[]" id="step2_file" onchange="DownloadFiles()"> All step 2 results<br>
+					<!-- <input checked class="form-check-input" type="checkbox" value="step1_2" name="files[]" id="step1_2_file" onchange="DownloadFiles()"> Summary of step 1 and 2<br> -->
+					<input checked class="form-check-input" type="checkbox" value="step3" name="files[]" id="step3_file" onchange="DownloadFiles()"> All step 3 results<br>
 				</div>
 				<br>
 				<span class="form-inline">
@@ -40,7 +45,7 @@
 			</div>
 			<div class="alert alert-info" role="alert">
 				A plot is generated per dataset for each metric that you selected. Click on each option to select the specific dataset and metric that you want to view the result. <br>
-				Please note that if the selected metric is not available for the selected dataset, the analysis will not be performed for that dataset, a plot will not be generated.<br>
+				Please note that if the selected metric is not available for the selected dataset, the analysis will not be performed for that dataset, a plot will not be generated. Check the log file (user_job.log, downloaded with the results) for more details on which datasets were dropped for that metric.<br>
 			</div>
 		    <div class="card-body">
 				Download the plot as

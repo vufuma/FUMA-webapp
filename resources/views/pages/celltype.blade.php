@@ -88,22 +88,21 @@
                             <h2 class="accordion-header" id="heading1">
                                 <button class="accordion-button fs-5" type="button" data-bs-target="#NewJobFilesPanel"
                                     data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobFilesPanel">
-                                    2. Select single-cell expression data sets
-                                    Select single-cell expression data sets to perform MAGMA gene-property analysis<br>
+                                    2. Select single-cell expression data sets<br>
                                 </button>
                             </h2> <br>
                             <div class="alert alert-info">
 			                    <strong>Data structure:</strong> 
                                 <br> 
-                                <p>1. The data are organized by tissue types in alphabetical order. Species are separated out within each tisseue (currently data for human and mouse are available). Within the human brain,the data are further categorized spatially (different regions of the brain) and temporally (different developmental timepoint). </p>
+                                <p>1. The data are organized by tissue types in alphabetical order. Species are separated out within each tissue (currently data for human and mouse are available). Within the human brain, the data are further categorized spatially (different regions of the brain) and temporally (different developmental timepoints). </p>
                                 <p> 2. If you would like to add a new scRNAseq dataset that is not currently available here, please email us. </p>
                             </div>
                             <div class="alert alert-warning">
                                 <strong>Important notes:</strong>
                                 <br>
                                 <p>1. Be selective about which datasets to select. If you select too many datasets, your job will time out after reaching the 8 hours limit. </p>
-                                <p>2. In some datasets, several level of cell type annotation is available. If you would like to run step 2 and 3 (for FUMA Cell type only), do not select all levels for the same datasets. </p>
-                                <p>3. EWCE, Cellex, and Cepo metrics are only available for a subset of 639 brain datasets while fumaCelltype is available for all datasets listed below. If you select a dataset and a metric that is not available for that dataset, the analysis will not be performed for that dataset. </p>
+                                <p>2. In some datasets, several levels of cell type annotation is available. If you would like to run step 2 and 3, do not select all levels for the same datasets. </p>
+                                <p>3. EWCE, Cellex, and Cepo metrics are only available for a subset of 639 brain datasets while fumaCelltype is available for all datasets listed below. If you select a dataset and a metric that is not available for that dataset, the analysis will not be performed for that dataset. Check the log file (user_job.log, downloaded with the results) for more details on which datasets were dropped for that metric.</p>
                             </div>
                             <div class="accordion-collapse collapse show" id="NewJobFilesPanel" aria-labelledby="heading1">
                                 <div class="accordion-body">
@@ -215,9 +214,9 @@
                                             </span>
                                             <div class="alert alert-info">
                                                 <strong> Select metrics that identify important genes per cell type:</strong>
-                                                <p><strong>FUMA Cell Type:</strong> this metric assumes higher weight for higher expressed genes, tested using MAGMA gene property analysis of mean expression per cell type with average expression as a covariate. For details see Watanabe et al., 2019. This is the metric used in FUMA prior to version 2.x.x. </p>
+                                                <p><strong>FUMA Cell Type:</strong> this metric assumes higher weight for higher expressed genes, tested using MAGMA gene property analysis of mean expression per cell type with average expression as a covariate. For details see Watanabe et al., 2019. This is the metric used in FUMA prior to version 2.1.8. </p>
                                                 <p><strong>EWCE:</strong> this metric assumes higher weight for more specifically expressed genes. See Skene and Grant 2016, Bryois et al., 2020. The top 10% most specifically expressed genes per cell type are tested using MAGMA gene set analysis. </p>
-                                                <p><strong>Cellex:</strong> this metric is a average of four metrics: specificity, gene enrichment score, normalised specificity index and differential expression t-statistic. See Timshel 2020 for details. This metric is tested using MAGMA gene property analysis. </p>
+                                                <p><strong>Cellex:</strong> this metric is an average of four metrics: specificity, gene enrichment score, normalised specificity index and differential expression t-statistic. See Timshel 2020 for details. This metric is tested using MAGMA gene property analysis. </p>
                                                 <p><strong>Cepo:</strong> this metric assumes higher weight for genes with larger stability (i.e. lower variance and smaller proportion of zeros, assuming these genes are under tight control). See Kim et al., 2021. The top 10% most stable genes per cell type are tested using MAGMA gene set analysis.</p>
 
                                             </div>
