@@ -11,7 +11,12 @@
 		</p>
 		<strong style="font-size: large;">Announcements</strong><br>
 
-			<div class="alert alert-info">
+		<div class="alert alert-info">
+			<strong>September 8 2026: </strong>
+			<p> FUMA will be unavailable from Monday September 14 2026. FUMA Cell type module will be updated. Please make sure to download results and plots from your FUMA Cell type jobs before this date if needed. Expect a few days of downtime.</p>
+		</div>
+
+		<div>
 			<strong>August 31 2026: </strong>
 			<p> A new version of FUMA Cell type is scheduled to be released in mid September 2026. There are a lot of changes to this module and therefore it is not backward compatible. If you have FUMA Cell type jobs, please make sure to download your results and plots within the next 2 weeks. After the update, you will need to resubmit your jobs.</p>
 		</div>
