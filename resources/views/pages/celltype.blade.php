@@ -90,22 +90,22 @@
                                     data-bs-toggle="collapse" aria-expanded="false" aria-controls="NewJobFilesPanel">
                                     2. Select single-cell expression data sets<br>
                                 </button>
-                            </h2> <br>
-                            <div class="alert alert-info">
-			                    <strong>Data structure:</strong> 
-                                <br> 
-                                <p>1. The data are organized by tissue types in alphabetical order. Species are separated out within each tissue (currently data for human and mouse are available). Within the human brain, the data are further categorized spatially (different regions of the brain) and temporally (different developmental timepoints). </p>
-                                <p> 2. If you would like to add a new scRNAseq dataset that is not currently available here, please email us. </p>
-                            </div>
-                            <div class="alert alert-warning">
-                                <strong>Important notes:</strong>
-                                <br>
-                                <p>1. Be selective about which datasets to select. If you select too many datasets, your job will time out after reaching the 8 hours limit. </p>
-                                <p>2. In some datasets, several levels of cell type annotation is available. If you would like to run step 2 and 3, do not select all levels for the same datasets. </p>
-                                <p>3. EWCE, Cellex, and Cepo metrics are only available for a subset of 639 brain datasets while fumaCelltype is available for all datasets listed below. If you select a dataset and a metric that is not available for that dataset, the analysis will not be performed for that dataset. Check the log file (user_job.log, downloaded with the results) for more details on which datasets were dropped for that metric.</p>
-                            </div>
+                            </h2>
                             <div class="accordion-collapse collapse show" id="NewJobFilesPanel" aria-labelledby="heading1">
                                 <div class="accordion-body">
+                                    <div class="alert alert-info">
+                                        <strong>Data structure:</strong> 
+                                        <br> 
+                                        <p>1. The data are organized by tissue types in alphabetical order. Species are separated out within each tissue (currently data for human and mouse are available). Within the human brain, the data are further categorized spatially (different regions of the brain) and temporally (different developmental timepoints). </p>
+                                        <p> 2. If you would like to add a new scRNAseq dataset that is not currently available here, please email us. </p>
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <strong>Important notes:</strong>
+                                        <br>
+                                        <p>1. Be selective about which datasets to select. If you select too many datasets, your job will time out after reaching the 8 hours limit. </p>
+                                        <p>2. In some datasets, several levels of cell type annotation is available. If you would like to run step 2 and 3, do not select all levels for the same datasets. </p>
+                                        <p>3. EWCE, Cellex, and Cepo metrics are only available for a subset of 639 brain datasets while fumaCelltype is available for all datasets listed below. If you select a dataset and a metric that is not available for that dataset, the analysis will not be performed for that dataset. Check the log file (user_job.log, downloaded with the results) for more details on which datasets were dropped for that metric.</p>
+                                    </div>
                                     <table class="table table-bordered inputTable" id="SingleCellData" style="width: auto;">
                                         <tr>
                                             <td>
@@ -349,12 +349,14 @@
                     ImgDownDS,
                     ImgDown,
                     updatePerDatasetPlot,
-                    updateStepPlot
+                    updateStepPlot,
+                    DownloadFiles
                 } from "{{ Vite::appjs('utils/cell_results.js') }}";
                 window.ImgDownDS = ImgDownDS;
                 window.ImgDown = ImgDown;
                 window.updatePerDatasetPlot = updatePerDatasetPlot;
                 window.updateStepPlot = updateStepPlot;
+                window.DownloadFiles = DownloadFiles;
                 $(function() {
                     SidebarSetup();
                     CellTypeSetup();

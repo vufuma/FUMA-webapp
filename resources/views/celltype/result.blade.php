@@ -14,10 +14,10 @@
 				<input type="hidden" name="jobID" value="{{$id}}"/>
 				<input type="hidden" name="prefix" value="{{$prefix}}"/>
 				<div id="downFileCheck">
-					<input checked class="form-check-input" type="checkbox" value="step1" name="files[]" id="step1_file" onchange="DownloadFiles()"> All step 1 results<br>
-					<input checked class="form-check-input" type="checkbox" value="step2" name="files[]" id="step2_file" onchange="DownloadFiles()"> All step 2 results<br>
+					<input checked class="form-check-input" type="checkbox" value="step1" name="files[]" id="step1_file" onchange="window.DownloadFiles()"> All step 1 results<br>
+					<input checked class="form-check-input" type="checkbox" value="step2" name="files[]" id="step2_file" onchange="window.DownloadFiles()"> All step 2 results<br>
 					<!-- <input checked class="form-check-input" type="checkbox" value="step1_2" name="files[]" id="step1_2_file" onchange="DownloadFiles()"> Summary of step 1 and 2<br> -->
-					<input checked class="form-check-input" type="checkbox" value="step3" name="files[]" id="step3_file" onchange="DownloadFiles()"> All step 3 results<br>
+					<input checked class="form-check-input" type="checkbox" value="step3" name="files[]" id="step3_file" onchange="window.DownloadFiles()"> All step 3 results<br>
 				</div>
 				<br>
 				<span class="form-inline">

@@ -123,7 +123,7 @@ export function CheckInput(){
 				complete: function(){
 					if(!filecheck){
 						check = false;
-						$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> The seleted SNP2GENE job does not have valid MAGMA output.</div></td>');
+						$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> The selected SNP2GENE job does not have valid MAGMA output.</div></td>');
 					}else if(fileName.length>0){
 						$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> Both SNP2GENE job ID and upload file are provided. Selected SNP2GENE job will be used.</div></td>');
 					}else{
@@ -136,7 +136,7 @@ export function CheckInput(){
 				$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-check"></i> OK. The selected file will be uploaded.</div></td>');
 			}else{
 				check = false;
-				$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> The seleted file does not have extension "genes.raw".</div></td>');
+				$(magmaTable.rows[0].cells[1]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'+'<i class="fa fa-ban"></i> The selected file does not have extension "genes.raw".</div></td>');
 			}
 		}
 	}
