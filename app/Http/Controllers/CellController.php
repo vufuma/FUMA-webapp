@@ -339,7 +339,7 @@ class CellController extends Controller
 
         // $container_name = DockerNamesBuilder::containerName($jobID);
         $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'celltype_plot_data');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
         $python_command = "python celltype_perDatasetPlotData.py $job_location/ $ds $geneRanking";
@@ -355,7 +355,7 @@ class CellController extends Controller
         $geneRanking = escapeshellarg(escapeshellcmd($request->input('geneRanking')));
 
         $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
-        $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'celltype_plot_data');
+        $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
         $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_stepPlotData.py $job_location/ $geneRanking'";
