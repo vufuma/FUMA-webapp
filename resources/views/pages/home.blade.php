@@ -12,6 +12,11 @@
 		<strong style="font-size: large;">Announcements</strong><br>
 
 		<div class="alert alert-info">
+			<strong>September 14 2026: </strong>
+			<p> FUMA has been updated to version 2.2.0. In this update, FUMA Cell Type module is updated with additional gene ranking metrics. Check <a href="{{ Config::get('app.subdir') }}/wiki#celltype">the Cell Type wiki page</a> for an overview.</p>
+		</div>
+
+		<div>
 			<strong>September 8 2026: </strong>
 			<p> FUMA will be unavailable from Monday September 14 2026. FUMA Cell type module will be updated. Please make sure to download results and plots from your FUMA Cell type jobs before this date if needed. Expect a few days of downtime.</p>
 		</div>
