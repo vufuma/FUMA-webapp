@@ -6,6 +6,15 @@
 			<h2>FUMA GWAS</h2>
 			<h2>Functional Mapping and Annotation of Genome-Wide Association Studies</h2>
 		</div>
+		<div id="home-btn" class="animated zoomIn">
+
+		<div id="home-btn" class="animated zoomIn">
+		<h5 style="color:blue;">If you use FUMA and find it useful for your research, please help to maintain and further develop the platform by donating to our FUMA funds. More information on the donation process can be found by clicking on the button below:</h5>
+		<a class="btn  btn-default btn-lg btn-general btn-white smooth-scroll" 
+			href="http://www.yumpu.com/fr/embed/view/OPR2Gbw5Ml83hkp4" target="_blank"> 
+			Donate here
+		</a>
+		</div>
 		<br>
 
 		</p>
