@@ -6,6 +6,22 @@
 			<h2>FUMA GWAS</h2>
 			<h2>Functional Mapping and Annotation of Genome-Wide Association Studies</h2>
 		</div>
+		<div id="home-btn" class="animated zoomIn">
+
+		<div id="home-btn" class="animated zoomIn">
+			<div class="alert alert-primary d-inline-block">
+				<h3> Support FUMA! </h3>
+				<h5>FUMA is freely available, but keeping it running is not free. Maintaining and developing FUMA requires ongoing funding for staff, data hosting, and computational resources.
+					If you find FUMA useful and would like to help us keep it available and continue improving it, please consider making a donation. Every contribution helps — whether it is €20 or a much larger amount.
+					Donations are entirely voluntary, and access to FUMA does not depend on contributing. Your support helps us keep FUMA alive, accessible, and useful to the research community.
+					Thank you for supporting FUMA!</h5>
+				<a class="btn  btn-default btn-lg btn-general btn-white smooth-scroll" 
+					href="https://steun.vu.nl/fuma-donation-page" target="_blank"> 
+					Donate here
+				</a>
+			</div>
+		
+		</div>
 		<br>
 
 		</p>
