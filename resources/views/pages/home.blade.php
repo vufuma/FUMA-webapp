@@ -16,7 +16,7 @@
 					Donations are entirely voluntary, and access to FUMA does not depend on contributing. Your support helps us keep FUMA alive, accessible, and useful to the research community.
 					Thank you for supporting FUMA!</h5>
 				<a class="btn  btn-default btn-lg btn-general btn-white smooth-scroll" 
-					href="http://www.yumpu.com/fr/embed/view/OPR2Gbw5Ml83hkp4" target="_blank"> 
+					href="https://steun.vu.nl/fuma-donation-page" target="_blank"> 
 					Donate here
 				</a>
 			</div>
