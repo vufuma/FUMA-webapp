@@ -13,6 +13,11 @@
 	<span>genes.</span><br><br>
 	<div id="remakeGeneManhattan"></div>
 
+	<h4 style="color: #00004d">QQ plot (GWAS summary statistics)</h4>
+	<input type="file" class="form-control-file" name="qq" id="qqFile" accept=".txt" onchange="window.QQplotUpload(event)" /><br>
+	<span class="info">Upload the tab-delimited QQSNPs.txt file with <code>obs</code> and <code>exp</code> columns.</span><br><br>
+	<div id="QQMessage" role="alert"></div>
+	<div id="remakeQQ"></div>
 </div>
 
 <script type="module">
@@ -20,4 +25,6 @@
 	window.ManhattanplotUpload = ManhattanplotUpload;
 	import { GeneManhattanplotUpload } from "{{ Vite::appjs('utils/RemakePlots.js') }}";
 	window.GeneManhattanplotUpload = GeneManhattanplotUpload;
+	import { QQplotUpload } from "{{ Vite::appjs('utils/RemakePlots.js') }}";
+	window.QQplotUpload = QQplotUpload;
 </script>

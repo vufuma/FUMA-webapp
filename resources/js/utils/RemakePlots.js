@@ -296,5 +296,203 @@ export const GeneManhattanplotUpload = function (event) {
 	reader.readAsText(file);
 };
 
+function drawQQplot(data) {
+	var margin = { top: 30, right: 30, bottom: 50, left: 50 },
+		width = 300,
+		height = 300;
+
+	var qqSNP = d3.select("#remakeQQ").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	var qqGene = d3.select("#remakeGeneQQplot").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+
+	for (let [key, value] of Object.entries(data)) {
+		if (key == 'QQSNPs.txt') {
+			value.forEach(function (d) {
+				d.obs = +d['obs'];
+				d.exp = +d['exp'];
+			});
+
+			const x = d3.scaleLinear().range([0, width]);
+			const y = d3.scaleLinear().range([height, 0]);
+			const xMax = d3.max(value, function (d) { return d.exp; });
+			const minP = d3.max(value, function (d) { if (d.obs < 300) { return d.obs } });
+			const lowP = d3.max(value, function (d) { return d.obs; });
+			let yMax = Number.isFinite(minP) ? minP : 300;
+			if (lowP > 300) {
+				if (yMax >= 300) { yMax = 360; }
+				else { yMax = yMax * 1.2 + 10; }
+			}
+			x.domain([0, (xMax + xMax * 0.01)]);
+			y.domain([0, (yMax + yMax * 0.01)]);
+			const yAxis = d3.axisLeft(y);
+			const xAxis = d3.axisBottom(x);
+
+			// var maxP = Math.min(d3.max(data, function(d){return d.exp;}), d3.max(data, function(d){return d.obs;}));
+			const maxP = Math.min(xMax, yMax);
+
+			qqSNP.selectAll("dot.QQ").data(value).enter()
+				.append("circle")
+				.attr("r", 2)
+				.attr("cx", function (d) { return x(d.exp) })
+				.attr("cy", function (d) { return d.obs > 300 ? y(yMax) : y(d.obs); })
+				.attr("fill", "grey");
+			qqSNP.append("g").attr("class", "x axis")
+				.attr("transform", "translate(0," + height + ")").call(xAxis)
+				.selectAll('text').style('font-size', '11px');
+			qqSNP.append("g").attr("class", "y axis").call(yAxis)
+				.selectAll('text')
+				.each(function (d) {
+					if (d >= minP * 1.2) { this.remove() }
+				})
+				.style('font-size', '11px');
+			if (lowP > 300) {
+				qqSNP.append("text")
+					.attr("x", -32).attr("y", y(yMax) + 2)
+					.text(">300")
+					.style("font-size", '11px')
+					.style("font-family", "sans-serif");
+				qqSNP.append("text")
+					.attr("x", 0).attr("y", y(yMax) * 5)
+					.text("\u2248")
+					.attr("text-anchor", "middle")
+					.style("font-size", '20px')
+					.style("font-family", "sans-serif");
+			}
+			qqSNP.append("line")
+				.attr("x1", 0).attr("x2", x(maxP))
+				.attr("y1", y(0)).attr("y2", y(maxP))
+				.style("stroke", "red")
+				.style("stroke-dasharray", ("3,3"));
+			qqSNP.append("text").attr("text-anchor", "middle")
+				.attr("transform", "translate(" + (-35) + "," + height / 2 + ")rotate(-90)")
+				.text("Observed -log10 P-value");
+			qqSNP.append("text").attr("text-anchor", "middle")
+				.attr("transform", "translate(" + (width / 2) + "," + (height + 35) + ")")
+				.text("Expected -log10 P-value");
+			qqSNP.selectAll('path').style('fill', 'none').style('stroke', 'grey');
+			qqSNP.selectAll('.axis').selectAll('line').style('fill', 'none').style('stroke', 'grey');
+			qqSNP.selectAll('text').style("font-family", "sans-serif");
+		} else if (key == 'magma.genes.out') {
+			if (value == null || value.length == 0) {
+				$("#geneQQplot").html('<div style="text-align:center; padding-top:24px; padding-bottom:50px;"><span style="color: red; font-size: 22px;"><i class="fa fa-ban"></i>'
+					+ ' MAGMA was not able to perform.</span><br></div>');
+			} else {
+
+				let obs = [];
+				let c = 0;
+				for (let i = 0; i < value.length; i++) {
+					c++;
+					obs.push(-Math.log10(value[i]["P"]));
+				}
+				obs.sort(function (a, b) { return a - b; });
+				let step = (1 - 1 / c) / c;
+				var all_row = [];
+				for (let i = 0; i < c; i++) {
+					all_row.push({
+						obs: obs[i],
+						exp: -Math.log10(1 - i * step),
+						n: i + 1
+					});
+				}
+				all_row.forEach(function (d) {
+					d.obs = +d.obs;
+					d.exp = +d.exp;
+					d.n = +d.n;
+				});
+
+				const x = d3.scaleLinear().range([0, width]);
+				const y = d3.scaleLinear().range([height, 0]);
+				const xMax = d3.max(all_row, function (d) { return d.exp; });
+				const yMax = d3.max(all_row, function (d) { return d.obs; });
+				x.domain([0, (xMax + xMax * 0.01)]);
+				y.domain([0, (yMax + yMax * 0.01)]);
+				const yAxis = d3.axisLeft(y);
+				const xAxis = d3.axisBottom(x);
+
+				// var maxP = Math.min(d3.max(all_row, function(d){return d.exp;}), d3.max(all_row, function(d){return d.obs;}));
+				const maxP = Math.min(xMax, yMax);
+
+				qqGene.selectAll("dot.geneQQ").data(all_row).enter()
+					.append("circle")
+					.attr("r", 2)
+					.attr("cx", function (d) { return x(d.exp) })
+					.attr("cy", function (d) { return y(d.obs) })
+					.attr("fill", "grey");
+				qqGene.append("g").attr("class", "x axis")
+					.attr("transform", "translate(0," + height + ")").call(xAxis)
+					.selectAll('text').style('font-size', '11px');
+				qqGene.append("g").attr("class", "y axis").call(yAxis)
+					.selectAll('text').style('font-size', '11px');
+				qqGene.append("line")
+					.attr("x1", 0).attr("x2", x(maxP))
+					.attr("y1", y(0)).attr("y2", y(maxP))
+					.style("stroke", "red")
+					.style("stroke-dasharray", ("3,3"));
+				qqGene.append("text").attr("text-anchor", "middle")
+					.attr("transform", "translate(" + (-35) + "," + height / 2 + ")rotate(-90)")
+					.text("Observed -log10 P-value");
+				qqGene.append("text").attr("text-anchor", "middle")
+					.attr("transform", "translate(" + (width / 2) + "," + (height + 35) + ")")
+					.text("Expected -log10 P-value");
+				qqGene.selectAll('path').style('fill', 'none').style('stroke', 'grey');
+				qqGene.selectAll('.axis').selectAll('line').style('fill', 'none').style('stroke', 'grey');
+				qqGene.selectAll("text").style("font-family", "sans-serif");
+			}
+		}
+	}
+}
+
+export function QQplotUpload(event) {
+	const file = event.currentTarget.files[0];
+	const message = $("#QQMessage");
+	message.removeClass("alert alert-danger alert-success").empty();
+
+	if (!file) {
+		return;
+	}
+
+	const reader = new FileReader();
+	reader.onerror = function () {
+		message.addClass("alert alert-danger").text("Unable to read the selected file.");
+	};
+	reader.onload = function () {
+		if (typeof reader.result !== "string") {
+			message.addClass("alert alert-danger").text("Unable to read the selected file as text.");
+			return;
+		}
+
+		const rows = d3.tsvParse(reader.result);
+		const requiredColumns = ["obs", "exp"];
+		if (rows.length === 0 || !requiredColumns.every(column => rows.columns.includes(column))) {
+			message.addClass("alert alert-danger")
+				.text("The file must be a tab-delimited QQSNPs file with obs and exp columns.");
+			return;
+		}
+
+		const validRows = rows.filter(row =>
+			Number.isFinite(Number(row.obs)) && Number.isFinite(Number(row.exp))
+		);
+		if (validRows.length === 0) {
+			message.addClass("alert alert-danger").text("The file contains no valid QQ plot data.");
+			return;
+		}
+
+		d3.select("#remakeQQ").selectAll("*").remove();
+		drawQQplot({ "QQSNPs.txt": validRows });
+		message.addClass("alert alert-success").text("QQ plot created.");
+	};
+	reader.readAsText(file);
+}
+
 
 export default GWplot;
