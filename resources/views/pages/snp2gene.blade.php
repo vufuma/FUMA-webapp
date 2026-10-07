@@ -29,6 +29,9 @@
 			<div id="logSide">
                 <li><a href="#s2gLogs">Logs<i class="sub_icon fa fa-file"></i></a></li>
             </div>
+			<div id="remakePlotsSide">
+                <li><a href="#s2gRemakePlots">Remake plots<i class="sub_icon fas fa-chart-line"></i></a></li>
+            </div>
 		</ul>
 	</div>
 
@@ -44,6 +47,7 @@
 			@include('snp2gene.result_tables')
 			@include('snp2gene.filedown')
 			@include('snp2gene.log')
+			@include('snp2gene.remake_plots')
 		</div>
 	</div>
 </div>
