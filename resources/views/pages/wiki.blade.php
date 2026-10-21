@@ -12,6 +12,7 @@
         <ul class="sidebar-nav" id="sidebar">
             <li class="active"><a href="#overview">Wiki Overview<span class="sub_icon fa fa-circle-info"></span></a></li>
             <li><a href="#snp2gene">SNP2GENE<span class="sub_icon fa fa-circle-info"></span></a></li>
+            <li><a href="#celltype">Cell Type<span class="sub_icon fa fa-circle-info"></span></a></li>
             <li><a href="#flames">FLAMES<span class="sub_icon fa fa-circle-info"></span></a></li>
             <li><a href="#xqtls">QTLs Analysis<span class="sub_icon fa fa-circle-info"></span></a></li>
             <li><a href="#faqs">FAQs<span class="sub_icon fa fa-circle-info"></span></a></li>
@@ -45,6 +46,23 @@
                     <h5>What is new in SNP2GENE in FUMA v2.0.0?</h5>
                     <video width="600" controls>
                     <source src="{{ asset('storage/whatisnewinsnp2gene_fumav2.mp4') }}" type="video/mp4">
+                    Your browser does not support HTML video.
+                    </video>
+                </div>
+            </div>
+            <div id="celltype" class="sidePanel container" style="padding-top:50px; display: none; min-height:80vh;">
+                <h2>Cell Type</h2>
+                <div style="margin-left: 40px;">
+                    <h4>Resources on running Cell Type on FUMA</h4>
+                    <h5>Submit a Cell Type job</h5>
+                    <video width="600" controls>
+                    <source src="{{ asset('storage/celltype_submission.mp4') }}" type="video/mp4">
+                    Your browser does not support HTML video.
+                    </video>
+                    <br>
+                    <h5>Viewing results from a Cell Type job</h5>
+                    <video width="600" controls>
+                    <source src="{{ asset('storage/celltype_results.mp4') }}" type="video/mp4">
                     Your browser does not support HTML video.
                     </video>
                 </div>

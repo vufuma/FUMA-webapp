@@ -332,7 +332,7 @@ def main():
             dest = shutil.copyfile(snp_ori, snp_dest)
             
             #subset the snp_dest
-            snp2gene_input_snp_orig = pd.read_csv(snp_dest, sep="\t")
+            snp2gene_input_snp_orig = pd.read_csv(snp_dest, sep="\t", dtype={'p': str})
             snp2gene_input_snp = snp2gene_input_snp_orig[['chr', 'bp', 'non_effect_allele', 'effect_allele', 'rsID', 'p', 'beta']]
             snp2gene_input_snp.to_csv(os.path.join(filedir, "input.gwas.tmp"), sep="\t", index=False)
             
