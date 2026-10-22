@@ -120,6 +120,11 @@ border-color: rgba(0,0,0,0.1);
                                     id="drugsets"
                                     onchange="window.CheckAll()">
                             </div>
+                            <br>
+
+                            <div class="alert alert-warning">
+                            If you clicked the option to run the drug set analysis, please make sure to click on running MAGMA above. 
+                            </div>
 
                             <div class="accordion-collapse collapse" id="drugsetsParams">
                                 <div style="font-weight: bold;color: #007bff;">Do you want to test individual drugs?</div>
@@ -202,18 +207,18 @@ border-color: rgba(0,0,0,0.1);
                                 <div class="accordion-body">
                                     <i>5. Correct for drug gene set covariance during enrichment testing?</i><br>
                                     <label>
-                                        <input type="radio" name="correct_cov_drug" value="TRUE" onchange="window.CheckAll()" checked>
+                                        <input type="radio" name="correct_cov" value="TRUE" onchange="window.CheckAll()" checked>
                                         TRUE
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="correct_cov_drug" value="FALSE" onchange="window.CheckAll()">
+                                        <input type="radio" name="correct_cov" value="FALSE" onchange="window.CheckAll()">
                                         FALSE
                                     </label><br>
                                 </div>
 
                                 <div class="accordion-body">
                                     <i>6. Minimum gene set size</i><br>
-                                    <input type="number" class="form-control" id="min_set_size" name="min_set_size"
+                                    <input type="number" class="form-control" id="min_set_size_drug" name="min_set_size_drug"
                                 value="2" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
                                 oninput="window.CheckAll();" />
                                 </div>
@@ -282,30 +287,18 @@ border-color: rgba(0,0,0,0.1);
                                 <div class="accordion-body">
                                     <i>2. Conditional Analysis?</i><br>
                                     <label>
-                                        <input type="radio" name="conditional" value="yes" onchange="window.CheckAll()" checked>
+                                        <input type="radio" name="conditional_moa" value="yes" onchange="window.CheckAll()" checked>
                                         yes
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="conditional" value="no" onchange="window.CheckAll()">
+                                        <input type="radio" name="conditional_moa" value="no" onchange="window.CheckAll()">
                                         no
                                     </label><br>
                                 </div>
 
                                 <div class="accordion-body">
-                                    <i>3. Correct for drug gene set covariance during enrichment testing?</i><br>
-                                    <label>
-                                        <input type="radio" name="correct_cov" value="TRUE" onchange="window.CheckAll()" checked>
-                                        TRUE
-                                    </label><br>
-                                    <label>
-                                        <input type="radio" name="correct_cov" value="FALSE" onchange="window.CheckAll()">
-                                        FALSE
-                                    </label><br>
-                                </div>
-
-                                <div class="accordion-body">
                                     <i>4. Minimum gene set size</i><br>
-                                    <input type="number" class="form-control" id="min_set_size" name="min_set_size"
+                                    <input type="number" class="form-control" id="min_set_size_moa" name="min_set_size_moa"
                                 value="2" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
                                 oninput="window.CheckAll();" />
                                 </div>
@@ -313,11 +306,11 @@ border-color: rgba(0,0,0,0.1);
                                 <div class="accordion-body">
                                     <i>5. Multiple testing correction</i><br>
                                     <label>
-                                        <input type="radio" name="multiple_testing" value="bonf" onchange="window.CheckAll()">
+                                        <input type="radio" name="multiple_testing_moa" value="bonf" onchange="window.CheckAll()">
                                         Bonferroni
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="multiple_testing" value="fdr" onchange="window.CheckAll()" checked>
+                                        <input type="radio" name="multiple_testing_moa" value="fdr" onchange="window.CheckAll()" checked>
                                         FDR
                                     </label><br>
                                 </div>
@@ -325,11 +318,11 @@ border-color: rgba(0,0,0,0.1);
                                 <div class="accordion-body">
                                     <i>6. Use PoPs scores?</i><br>
                                     <label>
-                                        <input type="radio" name="use_pops" value="yes" onchange="window.CheckAll()">
+                                        <input type="radio" name="use_pops_moa" value="yes" onchange="window.CheckAll()">
                                         yes
                                     </label><br>
                                     <label>
-                                        <input type="radio" name="use_pops" value="no" onchange="window.CheckAll()" checked>
+                                        <input type="radio" name="use_pops_moa" value="no" onchange="window.CheckAll()" checked>
                                         no
                                     </label><br>
                                 </div>

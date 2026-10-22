@@ -42,15 +42,20 @@ def main():
         
     drugsets_selection = param.get('magma', 'drugsets_selection')
     dgidb = param.get('magma', 'dgidb')
-    conditional = param.get('magma', 'conditional')
+    conditional_drug = param.get('magma', 'conditional_drug')
     enrich = param.get('magma', 'enrich')
     correct_cov = param.get('magma', 'correct_cov')
-    min_set_size = param.get('magma', 'min_set_size')
+    min_set_size_drug = param.get('magma', 'min_set_size_drug')
     min_sample_size = param.get('magma', 'min_sample_size')
-    multiple_testing = param.get('magma', 'multiple_testing')
-    use_pops = param.get('magma', 'use_pops')
-    
-    if use_pops == "yes":
+    multiple_testing_drug = param.get('magma', 'multiple_testing_drug')
+    use_pops_drug = param.get('magma', 'use_pops_drug')
+    moasets = param.get('magma', 'moasets')
+    conditional_moa = param.get('magma', 'conditional_moa')
+    min_set_size_moa = param.get('magma', 'min_set_size_moa')
+    multiple_testing_moa = param.get('magma', 'multiple_testing_moa')
+    use_pops_moa = param.get('magma', 'use_pops_moa')
+
+    if use_pops_drug == "yes":
         if not os.path.exists(os.path.join(filedir, "input.preds")):
             logger.error(f"File {os.path.join(filedir, 'input.preds')} does not exist. This file needs to be present to run drug sets with the pops option.")
             sys.exit(2)
@@ -61,11 +66,11 @@ def main():
             "--raw_file", f"{filedir}/magma.genes.raw",
             "--drugsets", f"{drugsets_selection}",
             "--magma", "/app/magma",
-            "--conditional", f"{conditional}",
+            "--conditional", f"{conditional_drug}",
             "--correct_cov", f"{correct_cov}",
-            "--setsize", f"{min_set_size}",
+            "--setsize", f"{min_set_size_drug}",
             "--nsize", f"{min_sample_size}",
-            "--correct", f"{multiple_testing}",
+            "--correct", f"{multiple_testing_drug}",
             "--use_pops", f"{filedir}/magma.genes.out", f"{filedir}/input.preds",
             "--adj_pops", "no",
             "--out", f"{filedir}/drugsets_output",
@@ -98,11 +103,11 @@ def main():
             "--drugsets", f"{drugsets_selection}",
             "--dgidb_filter", f"{dgidb}",
             "--magma", "/app/magma",
-            "--conditional", f"{conditional}",
+            "--conditional", f"{conditional_drug}",
             "--correct_cov", f"{correct_cov}",
-            "--setsize", f"{min_set_size}",
+            "--setsize", f"{min_set_size_drug}",
             "--nsize", f"{min_sample_size}",
-            "--gsa_correct", f"{multiple_testing}",
+            "--gsa_correct", f"{multiple_testing_drug}",
             "--out", f"{filedir}/drugsets_output",
             "--gene_id", "ensembl"
             ]
@@ -122,30 +127,112 @@ def main():
             )
             logger.error("stderr: %s", e.stderr)
             sys.exit(4)
-        
-    logger.info("Post-processing drugsets results")
-    with open(f"{filedir}/drugsets_output.drug.gsa.out.fmt", "w") as out:
-        grep = subprocess.Popen(
-            ["grep", "-v", "#", f"{filedir}/drugsets_output.drug.gsa.out"],
-            stdout=subprocess.PIPE,
-            text=True,
-        )
+    
+    # remove the # from the output file for formatting into a table
+    logger.info("Removing the # from the output file for formatting into a table")
+    with open(f"{filedir}/drugsets_output.{drugsets_selection}.drugs.out", "r") as infile, open(f"{filedir}/drugs.out.fmt", "w") as outfile:
+        for line in infile:
+            if not line.startswith("#"):
+                outfile.write(line)
+    #TO DELETE: Post-processing drugsets results is not needed anymore since the output is already in the correct format
+    # logger.info("Post-processing drugsets results")
+    # with open(f"{filedir}/drugsets_output.drug.gsa.out.fmt", "w") as out:
+    #     grep = subprocess.Popen(
+    #         ["grep", "-v", "#", f"{filedir}/drugsets_output.drug.gsa.out"],
+    #         stdout=subprocess.PIPE,
+    #         text=True,
+    #     )
 
-        awk = subprocess.run(
-            ["awk", '{print $8"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7}'],
-            stdin=grep.stdout,
-            stdout=out,
-            text=True,
-            check=True,
-        )
+    #     awk = subprocess.run(
+    #         ["awk", '{print $8"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6"\t"$7}'],
+    #         stdin=grep.stdout,
+    #         stdout=out,
+    #         text=True,
+    #         check=True,
+    #     )
 
-        grep.stdout.close()
-        grep.wait()
+    #     grep.stdout.close()
+    #     grep.wait()
         
-    drugsets_results = pd.read_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt", sep="\t")
-    n_obs = drugsets_results.shape[0]
-    drugsets_results_sig = drugsets_results[drugsets_results["P"] <= (0.05/n_obs)]
-    drugsets_results_sig.to_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt.sig", sep="\t", index=False)
+    # drugsets_results = pd.read_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt", sep="\t")
+    # n_obs = drugsets_results.shape[0]
+    # drugsets_results_sig = drugsets_results[drugsets_results["P"] <= (0.05/n_obs)]
+    # drugsets_results_sig.to_csv(f"{filedir}/drugsets_output.drug.gsa.out.fmt.sig", sep="\t", index=False)
+    
+    # moa
+    if moasets != "none":
+        if use_pops_moa == "yes":
+            logger.info("Running moa with PoPS")
+            try:
+                moasets_cmd = [
+                "python",
+                "/app/drugsets-dev/drugsets.py",
+                "--raw_file", f"{filedir}/magma.genes.raw",
+                "--drugsets", f"{moasets}",
+                "--magma", "/app/magma",
+                "--conditional", f"{conditional_moa}",
+                "--setsize", f"{min_set_size_moa}",
+                "--correct", f"{multiple_testing_moa}",
+                "--use_pops", f"{filedir}/magma.genes.out", f"{filedir}/input.preds",
+                "--adj_pops", "no",
+                "--out", f"{filedir}/moasets_output",
+                "--gene_id", "ensembl"
+                ]
+            
+                logger.info(f"Running moasets with command {moasets_cmd}")
+
+                subprocess.run(
+                    moasets_cmd,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Moasets analysis is successful")
+            except subprocess.CalledProcessError as e:
+                logger.error(
+                    "moasets failed"
+                )
+                logger.error("stderr: %s", e.stderr)
+                sys.exit(5)
+        else:
+            logger.info("Running moa without PoPS")
+            try:
+                moasets_cmd = [
+                "python",
+                "/app/drugsets-dev/drugsets.py",
+                "--raw_file", f"{filedir}/magma.genes.raw",
+                "--drugsets", f"{moasets}",
+                "--magma", "/app/magma",
+                "--conditional", f"{conditional_moa}",
+                "--setsize", f"{min_set_size_moa}",
+                "--gsa_correct", f"{multiple_testing_moa}",
+                "--out", f"{filedir}/moasets_output",
+                "--gene_id", "ensembl"
+                ]
+            
+                logger.info(f"Running moasets with command {moasets_cmd}")
+
+                subprocess.run(
+                    moasets_cmd,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Moasets analysis is successful")
+            except subprocess.CalledProcessError as e:
+                logger.error(
+                    "moasets failed"
+                )
+                logger.error("stderr: %s", e.stderr)
+                sys.exit(6)
+        
+        # remove the # from the output file for formatting into a table
+        logger.info("Removing the # from the output moa file for formatting into a table")
+        with open(f"{filedir}/moasets_output.{moasets}.moa.out", "r") as infile, open(f"{filedir}/moa.out.fmt", "w") as outfile:
+            for line in infile:
+                if not line.startswith("#"):
+                    outfile.write(line)
+    
 
 if __name__ == "__main__":
     main()

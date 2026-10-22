@@ -983,7 +983,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 		"iDisplayLength": 10
 	});
 
-	file = "drugsets_output.drug.gsa.out.fmt.sig";
+	file = "drugs.out.fmt";
 	var drugTable = $('#drugTable').DataTable({
 		processing: true,
 		serverSide: false,
@@ -995,15 +995,15 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "FULL_NAME:TYPE:NGENES:BETA:BETA_STD:SE:P"
+				header: "FULL_NAME:VARIABLE:TYPE:NGENES:BETA:BETA_STD:SE:STAT:P_MAGMA:P_EMP:P:P_SOURCE:P_ADJ:ADJ_METHOD:N_TESTS:SIG:N_DUP:DUP_MEMBERS"
 			}
 		},
 		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"iDisplayLength": 10
 	});
 
-	file = "enrich.corrected.groups.out";
-	var drugGroupTable = $('#drugGroupTable').DataTable({
+	file = "moa.out.fmt";
+	var moaTable = $('#moaTable').DataTable({
 		processing: true,
 		serverSide: false,
 		select: false,
@@ -1014,7 +1014,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtl
 				jobID: id,
 				prefix: prefix,
 				infile: file,
-				header: "GROUP:BETA:SE:CI_lower:CI_upper:T:DF:P:GROUP_N"
+				header: "FULL_NAME:VARIABLE:TYPE:NGENES:BETA:BETA_STD:SE:STAT:P_MAGMA:P_EMP:P:P_SOURCE:P_ADJ:ADJ_METHOD:N_TESTS:SIG:N_DUP:DUP_MEMBERS"
 			}
 		},
 		"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],

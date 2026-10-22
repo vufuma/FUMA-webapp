@@ -879,25 +879,35 @@ class S2GController extends Controller
         $drugsets = 0;
         $drugsets_selection = "NA";
         $dgidb = "NA";
-        $conditional = "NA";
+        $conditional_drug = "NA";
         $enrich = "NA";
         $correct_cov = "NA";
-        $min_set_size = "NA";
+        $min_set_size_drug = "NA";
         $min_sample_size = "NA";
-        $multiple_testing = "NA";
-        $use_pops = "NA";
+        $multiple_testing_drug = "NA";
+        $use_pops_drug = "NA";
+        $moasets = "NA";
+        $conditional_moa = "NA";
+        $min_set_size_moa = "NA";
+        $multiple_testing_moa = "NA";
+        $use_pops_moa = "NA";
 
         if ($request->filled('drugsets')) {
             $drugsets = 1;
             $drugsets_selection = $request->input('drugsets');
             $dgidb = $request->input('dgidb');
-            $conditional = $request->input('conditional_drug');
+            $conditional_drug = $request->input('conditional_drug');
             $enrich = $request->input('enrich');
-            $correct_cov = $request->input('correct_cov_drug');
-            $min_set_size = $request->input('min_set_size');
+            $correct_cov = $request->input('correct_cov');
+            $min_set_size_drug = $request->input('min_set_size_drug');
             $min_sample_size = $request->input('min_sample_size');
-            $multiple_testing = $request->input('multiple_testing_drug');
-            $use_pops = $request->input('use_pops_drug');
+            $multiple_testing_drug = $request->input('multiple_testing_drug');
+            $use_pops_drug = $request->input('use_pops_drug');
+            $moasets = $request->input('moasets');
+            $conditional_moa = $request->input('conditional_moa');
+            $min_set_size_moa = $request->input('min_set_size_moa');
+            $multiple_testing_moa = $request->input('multiple_testing_moa');
+            $use_pops_moa = $request->input('use_pops_moa');
         }
 
         $app_config = parse_ini_file(Helper::scripts_path('app.config'), false, INI_SCANNER_RAW);
@@ -970,13 +980,18 @@ class S2GController extends Controller
         Storage::append($paramfile, "drugsets=$drugsets");
         Storage::append($paramfile, "drugsets_selection=$drugsets_selection");
         Storage::append($paramfile, "dgidb=$dgidb");
-        Storage::append($paramfile, "conditional=$conditional");
+        Storage::append($paramfile, "conditional_drug=$conditional_drug");
         Storage::append($paramfile, "enrich=$enrich");
         Storage::append($paramfile, "correct_cov=$correct_cov");
-        Storage::append($paramfile, "min_set_size=$min_set_size");
+        Storage::append($paramfile, "min_set_size_drug=$min_set_size_drug");
         Storage::append($paramfile, "min_sample_size=$min_sample_size");
-        Storage::append($paramfile, "multiple_testing=$multiple_testing");
-        Storage::append($paramfile, "use_pops=$use_pops");
+        Storage::append($paramfile, "multiple_testing_drug=$multiple_testing_drug");
+        Storage::append($paramfile, "use_pops_drug=$use_pops_drug");
+        Storage::append($paramfile, "moasets=$moasets");
+        Storage::append($paramfile, "conditional_moa=$conditional_moa");
+        Storage::append($paramfile, "min_set_size_moa=$min_set_size_moa");
+        Storage::append($paramfile, "multiple_testing_moa=$multiple_testing_moa");
+        Storage::append($paramfile, "use_pops_moa=$use_pops_moa");
 
         Storage::append($paramfile, "\n[posMap]");
         Storage::append($paramfile, "posMap=$posMap");
@@ -1497,13 +1512,12 @@ class S2GController extends Controller
         }
 
         if ($request->filled('drugfile')) {
-            $files[] = "drugsets_output.drug.gsa.out";
-            $files[] = "drugsets_output.drug.gsa.sets.genes.out";
-            $files[] = "drugsets_output.drug.gsa.genes.out";
-            $files[] = "drugsets_output.drug.gsa.out.fmt.sig";
-            if (Storage::exists($filedir . "enrich.corrected.groups.out")) {
-                $files[] = "enrich.corrected.groups.out";
+            if (Storage::exists($filedir . "drugs.out.fmt")) {
+                $files[] = "drugs.out.fmt";
             }
+            // if (Storage::exists($filedir . "enrich.corrected.groups.out")) {
+            //     $files[] = "enrich.corrected.groups.out";
+            // }
         }
 
         if ($request->filled('xqtlsfile')) {

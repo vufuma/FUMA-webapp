@@ -257,17 +257,22 @@
 
 			<div role="tabpanel" class="tab-pane" id="drugTablePane" aria-labelledby="drugTablePane-tab">
 				<br>
+				<h6 style="color: #00004d">Results from testing individual drugs.</h6>
+				<i>Note that the table is empty if there are no results.</i>
 				<table id="drugTable" class="display dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>FULL_NAME</th><th>TYPE</th><th>NGENES</th><th>BETA</th><th>BETA_STD</th><th>SE</th><th>P</th><
+							<th>FULL_NAME</th><th>VARIABLE</th><th>TYPE</th><th>NGENES</th><th>BETA</th><th>BETA_STD</th><th>SE</th><th>STAT</th><th>P_MAGMA</th><th>P_EMP</th><th>P</th><th>P_SOURCE</th><th>P_ADJ</th><th>ADJ_METHOD</th><th>N_TESTS</th><th>SIG</th><th>N_DUP</th><th>DUP_MEMBERS</th>
 						</tr>
 					</thead>
 				</table>
-				<table id="drugGroupTable" class="display dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
+
+				<h6 style="color: #00004d">Results from testing for enrichment of ATC3 groups.</h6>
+				<i>Note that the table is empty if there are no results.</i>
+				<table id="moaTable" class="display dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
 						<tr>
-							<th>GROUP</th><th>BETA</th><th>SE</th><th>CI_lower</th><th>CI_upper</th><th>T</th><th>DF</th><th>P</th><th>GROUP_N</th><
+							<th>FULL_NAME</th><th>VARIABLE</th><th>TYPE</th><th>NGENES</th><th>BETA</th><th>BETA_STD</th><th>SE</th><th>STAT</th><th>P_MAGMA</th><th>P_EMP</th><th>P</th><th>P_SOURCE</th><th>P_ADJ</th><th>ADJ_METHOD</th><th>N_TESTS</th><th>SIG</th><th>N_DUP</th><th>DUP_MEMBERS</th>
 						</tr>
 					</thead>
 				</table>
