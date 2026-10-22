@@ -41,6 +41,7 @@ def main():
         sys.exit(1)
         
     drugsets_selection = param.get('magma', 'drugsets_selection')
+    dgidb = param.get('magma', 'dgidb')
     conditional = param.get('magma', 'conditional')
     enrich = param.get('magma', 'enrich')
     correct_cov = param.get('magma', 'correct_cov')
@@ -96,13 +97,14 @@ def main():
             "/app/drugsets-dev/drugsets.py",
             "--raw_file", f"{filedir}/magma.genes.raw",
             "--drugsets", f"{drugsets_selection}",
+            "--dgidb_filter", f"{dgidb}",
             "--magma", "/app/magma",
             "--conditional", f"{conditional}",
             "--enrich", f"{enrich}",
             "--correct_cov", f"{correct_cov}",
             "--setsize", f"{min_set_size}",
             "--nsize", f"{min_sample_size}",
-            "--correct", f"{multiple_testing}",
+            "--gsa_correct", f"{multiple_testing}",
             "--out", f"{filedir}/drugsets_output",
             "--gene_id", "ensembl"
             ]

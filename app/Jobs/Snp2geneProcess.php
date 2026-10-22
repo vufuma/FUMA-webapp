@@ -391,7 +391,7 @@ class Snp2geneProcess implements ShouldQueue
         $image_name = DockerNamesBuilder::imageName('laradock-fuma-js', 'drugsets');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'snp2gene');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'python run_drugsets.py --filedir $job_location >>$job_location/job.log 2>>$job_location/error.log'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " " . $image_name . " /bin/sh -c 'conda run --no-capture-output -n drugsets python run_drugsets.py --filedir $job_location >>$job_location/job.log 2>>$job_location/error.log'";
         Storage::append($this->logfile, "Command to be executed:");
         Storage::append($this->logfile, $cmd . "\n");
 
