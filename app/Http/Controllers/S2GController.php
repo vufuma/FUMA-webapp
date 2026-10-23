@@ -1515,6 +1515,9 @@ class S2GController extends Controller
             if (Storage::exists($filedir . "drugs.out.fmt")) {
                 $files[] = "drugs.out.fmt";
             }
+            if (Storage::exists($filedir . "moa.out.fmt")) {
+                $files[] = "moa.out.fmt";
+            }
             // if (Storage::exists($filedir . "enrich.corrected.groups.out")) {
             //     $files[] = "enrich.corrected.groups.out";
             // }

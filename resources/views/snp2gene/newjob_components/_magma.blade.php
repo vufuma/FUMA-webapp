@@ -132,6 +132,11 @@ border-color: rgba(0,0,0,0.1);
                                     <i>1. Select drugs by clinical phase:</i><br>
 
                                     <label>
+                                        <input type="radio" name="drugsets" value="none" onchange="window.CheckAll()" checked>
+                                        Not testing individual drugs
+                                    </label><br>
+
+                                    <label>
                                         <input type="radio" name="drugsets" value="drug_mp0" onchange="window.CheckAll()" checked>
                                         drug_mp0
                                     </label><br>

@@ -256,6 +256,24 @@
 			</div>
 
 			<div role="tabpanel" class="tab-pane" id="drugTablePane" aria-labelledby="drugTablePane-tab">
+				<div class="alert alert-info">
+					For results from testing individual drugs and mechanisms of actions, explanation of the headers are below: <br>
+					FULL_NAME: Drug or MoA name<br>
+					VARIABLE, TYPE: MAGMA set name and type<br>
+					NGENES: Number of genes analysed by MAGMA<br>
+					BETA, BETA_STD, SE: MAGMA effect size, standardised effect size and standard error<br>
+					STAT: Test statistic, BETA / SE <br>
+					P_MAGMA: MAGMA p-value<br>
+					P_EMP: Empirical p-value (PoPS runs); `NA` otherwise<br>
+					P: p-value used for testing: P_EMP for PoPS runs with an empirical null, otherwise P_MAGMA<br>
+					P_SOURCE: `empirical` or `magma`<br>
+					P_ADJ: `P` corrected for multiple testing<br>
+					ADJ_METHOD: Correction method (`fdr` or `bonf`)<br>
+					N_TESTS: Number of tests corrected for (unique sets)<br>
+					SIG: `True` if `P_ADJ` < 0.05<br>
+					N_DUP: Number of sets with identical results (1 = unique)<br>
+					DUP_MEMBERS: Names of all sets with identical results, `;`-separated<br>
+				</div>
 				<br>
 				<h6 style="color: #00004d">Results from testing individual drugs.</h6>
 				<i>Note that the table is empty if there are no results.</i>
@@ -267,7 +285,7 @@
 					</thead>
 				</table>
 
-				<h6 style="color: #00004d">Results from testing for enrichment of ATC3 groups.</h6>
+				<h6 style="color: #00004d">Results from testing mechanisms of action (MoA)</h6>
 				<i>Note that the table is empty if there are no results.</i>
 				<table id="moaTable" class="display dt-body-right dt-head-center" width="100%" cellspacing="0" style="display: block; overflow-x: auto;">
 					<thead>
