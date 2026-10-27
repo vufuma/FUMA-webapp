@@ -197,46 +197,23 @@ border-color: rgba(0,0,0,0.1);
                                         no
                                     </label><br>
                                 </div>
-                                <div class="accordion-body">
-                                    <i>4. Enrich: Specify drug group type to test for enrichment</i><br>
-                                    <label>
-                                        <input type="radio" name="enrich" value="None" onchange="window.CheckAll()">
-                                        None
-                                    </label><br>
-                                    <label>
-                                        <input type="radio" name="enrich" value="atc3" onchange="window.CheckAll()" checked>
-                                        atc3
-                                    </label><br>
-                                </div>
 
                                 <div class="accordion-body">
-                                    <i>5. Correct for drug gene set covariance during enrichment testing?</i><br>
-                                    <label>
-                                        <input type="radio" name="correct_cov" value="TRUE" onchange="window.CheckAll()" checked>
-                                        TRUE
-                                    </label><br>
-                                    <label>
-                                        <input type="radio" name="correct_cov" value="FALSE" onchange="window.CheckAll()">
-                                        FALSE
-                                    </label><br>
-                                </div>
-
-                                <div class="accordion-body">
-                                    <i>6. Minimum gene set size</i><br>
+                                    <i>4. Minimum gene set size</i><br>
                                     <input type="number" class="form-control" id="min_set_size_drug" name="min_set_size_drug"
                                 value="2" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
                                 oninput="window.CheckAll();" />
                                 </div>
 
                                 <div class="accordion-body">
-                                    <i>7. Minimum drug group sample size for enrichment testing</i><br>
+                                    <i>5. Minimum drug group sample size for enrichment testing</i><br>
                                     <input type="number" class="form-control" id="min_sample_size" name="min_sample_size"
                                 value="5" onkeyup="window.CheckAll();" onpaste="window.CheckAll();"
                                 oninput="window.CheckAll();" />
                                 </div>
 
                                 <div class="accordion-body">
-                                    <i>8. Multiple testing correction</i><br>
+                                    <i>6. Multiple testing correction</i><br>
                                     <label>
                                         <input type="radio" name="multiple_testing_drug" value="bonf" onchange="window.CheckAll()">
                                         Bonferroni
@@ -248,7 +225,7 @@ border-color: rgba(0,0,0,0.1);
                                 </div>
 
                                 <div class="accordion-body">
-                                    <i>9. Use PoPs scores?</i><br>
+                                    <i>7. Use PoPs scores?</i><br>
                                     <label>
                                         <input type="radio" name="use_pops_drug" value="yes" onchange="window.CheckAll()">
                                         yes
@@ -256,6 +233,32 @@ border-color: rgba(0,0,0,0.1);
                                     <label>
                                         <input type="radio" name="use_pops_drug" value="no" onchange="window.CheckAll()" checked>
                                         no
+                                    </label><br>
+                                </div>
+
+                                <div style="font-weight: bold;color: #008cff;">Optional enrichment analysis of ATC3 groups (for testing individual drugs only):</div>
+
+                                <div class="accordion-body">
+                                    <i>Enrich: Specify drug group type to test for enrichment</i><br>
+                                    <label>
+                                        <input type="radio" name="enrich" value="None" onchange="window.CheckAll()">
+                                        None
+                                    </label><br>
+                                    <label>
+                                        <input type="radio" name="enrich" value="atc3" onchange="window.CheckAll()" checked>
+                                        atc3
+                                    </label><br>
+                                </div>
+
+                                <div class="accordion-body">
+                                    <i>Correct for drug gene set covariance during enrichment testing?</i><br>
+                                    <label>
+                                        <input type="radio" name="correct_cov" value="TRUE" onchange="window.CheckAll()" checked>
+                                        TRUE
+                                    </label><br>
+                                    <label>
+                                        <input type="radio" name="correct_cov" value="FALSE" onchange="window.CheckAll()">
+                                        FALSE
                                     </label><br>
                                 </div>
 
