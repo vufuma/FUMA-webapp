@@ -62,7 +62,7 @@ def main():
         try:
             drugsets_cmd = [
             "python",
-            "/app/drugsets-dev/drugsets.py",
+            "/app/drugsets/drugsets.py",
             "--raw_file", f"{filedir}/magma.genes.raw",
             "--drugsets", f"{drugsets_selection}",
             "--magma", "/app/magma",
@@ -100,7 +100,7 @@ def main():
             try:
                 drugsets_cmd = [
                 "python",
-                "/app/drugsets-dev/drugsets.py",
+                "/app/drugsets/drugsets.py",
                 "--raw_file", f"{filedir}/magma.genes.raw",
                 "--drugsets", f"{drugsets_selection}",
                 "--dgidb_filter", f"{dgidb}",
@@ -134,7 +134,7 @@ def main():
             try:
                 drugsets_cmd = [
                 "python",
-                "/app/drugsets-dev/drugsets.py",
+                "/app/drugsets/drugsets.py",
                 "--raw_file", f"{filedir}/magma.genes.raw",
                 "--drugsets", f"{drugsets_selection}",
                 "--dgidb_filter", f"{dgidb}",
@@ -204,7 +204,7 @@ def main():
             try:
                 moasets_cmd = [
                 "python",
-                "/app/drugsets-dev/drugsets.py",
+                "/app/drugsets/drugsets.py",
                 "--raw_file", f"{filedir}/magma.genes.raw",
                 "--drugsets", f"{moasets}",
                 "--magma", "/app/magma",
@@ -237,7 +237,7 @@ def main():
             try:
                 moasets_cmd = [
                 "python",
-                "/app/drugsets-dev/drugsets.py",
+                "/app/drugsets/drugsets.py",
                 "--raw_file", f"{filedir}/magma.genes.raw",
                 "--drugsets", f"{moasets}",
                 "--magma", "/app/magma",
