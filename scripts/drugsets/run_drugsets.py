@@ -95,38 +95,76 @@ def main():
             
     else:
         logger.info("PoPS is not used, running drugsets without PoPS")
-        try:
-            drugsets_cmd = [
-            "python",
-            "/app/drugsets-dev/drugsets.py",
-            "--raw_file", f"{filedir}/magma.genes.raw",
-            "--drugsets", f"{drugsets_selection}",
-            "--dgidb_filter", f"{dgidb}",
-            "--magma", "/app/magma",
-            "--conditional", f"{conditional_drug}",
-            "--correct_cov", f"{correct_cov}",
-            "--setsize", f"{min_set_size_drug}",
-            "--nsize", f"{min_sample_size}",
-            "--gsa_correct", f"{multiple_testing_drug}",
-            "--out", f"{filedir}/drugsets_output",
-            "--gene_id", "ensembl"
-            ]
-            
-            logger.info(f"Running drugsets with command {drugsets_cmd}")
+        if enrich == "None":
+            logger.info("Enrichment is not selected, running drugsets without enrichment")
+            try:
+                drugsets_cmd = [
+                "python",
+                "/app/drugsets-dev/drugsets.py",
+                "--raw_file", f"{filedir}/magma.genes.raw",
+                "--drugsets", f"{drugsets_selection}",
+                "--dgidb_filter", f"{dgidb}",
+                "--magma", "/app/magma",
+                "--conditional", f"{conditional_drug}",
+                "--correct_cov", f"{correct_cov}",
+                "--setsize", f"{min_set_size_drug}",
+                "--nsize", f"{min_sample_size}",
+                "--gsa_correct", f"{multiple_testing_drug}",
+                "--out", f"{filedir}/drugsets_output",
+                "--gene_id", "ensembl"
+                ]
+                
+                logger.info(f"Running drugsets with command {drugsets_cmd}")
 
-            subprocess.run(
-                drugsets_cmd,
-                check=True,
-                capture_output=True,
-                text=True
-            )
-            logger.info("Drugsets analysis is successful")
-        except subprocess.CalledProcessError as e:
-            logger.error(
-                "drugsets failed"
-            )
-            logger.error("stderr: %s", e.stderr)
-            sys.exit(4)
+                subprocess.run(
+                    drugsets_cmd,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Drugsets analysis is successful")
+            except subprocess.CalledProcessError as e:
+                logger.error(
+                    "drugsets failed"
+                )
+                logger.error("stderr: %s", e.stderr)
+                sys.exit(4)
+        else:
+            logger.info("Enrichment is selected, running drugsets with enrichment")
+            try:
+                drugsets_cmd = [
+                "python",
+                "/app/drugsets-dev/drugsets.py",
+                "--raw_file", f"{filedir}/magma.genes.raw",
+                "--drugsets", f"{drugsets_selection}",
+                "--dgidb_filter", f"{dgidb}",
+                "--magma", "/app/magma",
+                "--conditional", f"{conditional_drug}",
+                "--correct_cov", f"{correct_cov}",
+                "--setsize", f"{min_set_size_drug}",
+                "--nsize", f"{min_sample_size}",
+                "--gsa_correct", f"{multiple_testing_drug}",
+                "--enrich", "atc3",
+                "--correct_cov", f"{correct_cov}",
+                "--out", f"{filedir}/drugsets_output",
+                "--gene_id", "ensembl"
+                ]
+                
+                logger.info(f"Running drugsets with command {drugsets_cmd}")
+
+                subprocess.run(
+                    drugsets_cmd,
+                    check=True,
+                    capture_output=True,
+                    text=True
+                )
+                logger.info("Drugsets analysis is successful")
+            except subprocess.CalledProcessError as e:
+                logger.error(
+                    "drugsets failed"
+                )
+                logger.error("stderr: %s", e.stderr)
+                sys.exit(4)
     
     # remove the # from the output file for formatting into a table
     logger.info("Removing the # from the output file for formatting into a table")
