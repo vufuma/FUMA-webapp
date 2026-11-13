@@ -4,8 +4,9 @@
 // with the php macro values for the rendered page
 console.log("Initialize S2G page");
 
-import { CheckAll, loadParams, ciFileDel, ciFileCheck } from "../utils/NewJobParameters.js";
+import { CheckAll, AlertFileType, ciFileDel, ciFileCheck, loadParams } from "../utils/NewJobParameters.js";
 window.CheckAll = CheckAll;
+window.AlertFileType = AlertFileType;
 window.loadParams = loadParams;
 window.ciFileDel = ciFileDel;
 window.ciFileCheck = ciFileCheck;
@@ -23,6 +24,9 @@ window.checkPublishInput = checkPublishInput;
 import { geneMapCheckAll } from "../utils/geneMapParameters.js";
 window.geneMapCheckAll = geneMapCheckAll;
 import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
+
+import { tutorialDownloadVariant } from "../utils/tutorial_utils.js";
+window.tutorialDownloadVariant = tutorialDownloadVariant;
 
 import { NewJobSetup } from "../utils/NewJobParameters.js";
 import { Snp2GeneSetup } from "../utils/snp2gene.js";

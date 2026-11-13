@@ -10,6 +10,8 @@ use Auth;
 use App\CustomClasses\DockerApi\DockerNamesBuilder;
 use App\Jobs\CelltypeProcess;
 use App\Models\SubmitJob;
+use App\CustomClasses\myFile;
+use Illuminate\Support\Facades\Log;
 
 
 class CellController extends Controller
@@ -123,11 +125,39 @@ class CellController extends Controller
         return Helper::deleteJob(config('app.jobdir') . '/celltype/', $jobID);
     }
 
+    private function getNumberScheduledJobs($user_id): int
+    {
+        $results = (new SubmitJob)->getScheduledJobs_celltype($user_id);
+        return count($results);
+    }
+
+    private function getQueueCap()
+    {
+        return config('queue.jobLimits.queue_cap', 10);
+    }
+
     public function newJob(Request $request)
     {
         $date = date('Y-m-d H:i:s');
         $email = Auth::user()->email;
         $user_id = Auth::user()->id;
+
+        // Implement the cap on max jobs in queue
+        $numSchedJobs = $this->getNumberScheduledJobs($user_id);
+        $queueCap = $this->getQueueCap();
+
+        if (!is_null($queueCap) && ($numSchedJobs >= $queueCap)) {
+            // flash a warning to the user about the queue cap
+            $name = Auth::user()->name;
+            $message = <<<MSG
+                Job submission temporarily blocked for user: $name!<br>
+                The maximum number of jobs: $queueCap, has been reached. <br>
+                Please wait for some jobs to complete.
+                MSG;
+            $request->session()->flash("alert-warning", $message);
+            return redirect()->back();
+        }
+
 
         $s2gID = $request->input('s2gID');
         $ensg = 0;
@@ -138,6 +168,7 @@ class CellController extends Controller
             $ensg = 1;
         }
         $ds = implode(":", $request->input('cellDataSets'));
+        $geneRankingMetrics = implode(":", $request->input('geneRanking'));
         $adjPmeth = $request->input('adjPmeth');
         $step2 = 0;
         if ($request->filled('step2')) {
@@ -195,10 +226,11 @@ class CellController extends Controller
         Storage::append($paramfile, "inputfile=$inputfile");
         Storage::append($paramfile, "ensg_id=$ensg");
         Storage::append($paramfile, "datasets=$ds");
+        Storage::append($paramfile, "geneRankingMetrics=$geneRankingMetrics");
         Storage::append($paramfile, "adjPmeth=$adjPmeth");
         Storage::append($paramfile, "step2=$step2");
         Storage::append($paramfile, "step3=$step3");
-
+        
         $this->queueNewJobs();
 
         return redirect("/celltype#joblist");
@@ -216,12 +248,16 @@ class CellController extends Controller
             $step3 = 0;
         } else {
             // $step1 = count(glob($filedir . "/*.gsa.out"));
-            $step1 = count(Helper::my_glob($filedir, "/.*\.gsa\.out/"));
-            $step1_2 = (int) Storage::exists($filedir . "/step1_2_summary.txt");
-            $step2 = (int) Storage::exists($filedir . "/magma_celltype_step2.txt");
-            $step3 = (int) Storage::exists($filedir . "/magma_celltype_step3.txt");
+            // $step1 = count(Helper::my_glob($filedir, "/.*\.gsa\.out/"));
+            $step1 = count(Helper::my_glob($filedir, "/step1/"));
+            // $step1_2 = (int) Storage::exists($filedir . "/step1_2_summary.txt");
+            // $step2 = (int) Storage::exists($filedir . "/magma_celltype_step2.txt");
+            // $step3 = (int) Storage::exists($filedir . "/magma_celltype_step3.txt");
+            $step2 = count(Helper::my_glob($filedir, "/step2/"));
+            $step3 = count(Helper::my_glob($filedir, "/step3/"));
         }
-        return json_encode([$step1, $step1_2, $step2, $step3]);
+        // return json_encode([$step1, $step1_2, $step2, $step3]);
+        return json_encode([$step1, $step2, $step3]);
     }
 
     public function getDataList(Request $request)
@@ -231,6 +267,15 @@ class CellController extends Controller
         $params = parse_ini_string(Storage::get($filedir . '/params.config'), false, INI_SCANNER_RAW);
         $ds = explode(":", $params['datasets']);
         return json_encode($ds);
+    }
+
+    public function getGeneRankingList(Request $request)
+    {
+        $id = $request->input('jobID');
+        $filedir = config('app.jobdir') . '/celltype/' . $id;
+        $params = parse_ini_string(Storage::get($filedir . '/params.config'), false, INI_SCANNER_RAW);
+        $geneRanking = explode(":", $params['geneRankingMetrics']);
+        return json_encode($geneRanking);
     }
 
     public function filedown(Request $request)
@@ -243,30 +288,17 @@ class CellController extends Controller
         $checked = $request->input('files');
         $files = [];
         $files[] = "params.config";
+        $files[] = "user_job.log";
 
-        if (in_array("step1", $checked)) {
-            $ds = explode(":", $params['datasets']);
-            if ($params['MAGMA'] == "v1.06") {
-                for ($i = 0; $i < count($ds); $i++) {
-                    $files[] = "magma_celltype_" . $ds[$i] . ".gcov.out";
-                    $files[] = "magma_celltype_" . $ds[$i] . ".log";
-                }
-            } else {
-                for ($i = 0; $i < count($ds); $i++) {
-                    $files[] = "magma_celltype_" . $ds[$i] . ".gsa.out";
-                    $files[] = "magma_celltype_" . $ds[$i] . ".log";
+        foreach (["step1", "step2", "step3"] as $step) {
+            if (in_array($step, $checked)) {
+                foreach (Storage::files($filedir) as $file) {
+                    $filename = basename($file);
+                    if (str_contains($filename, $step)) {
+                        $files[] = $filename;
+                    }
                 }
             }
-            $files[] = "magma_celltype_step1.txt";
-        }
-        if (in_array("step1_2", $checked)) {
-            $files[] = "step1_2_summary.txt";
-        }
-        if (in_array("step2", $checked)) {
-            $files[] = "magma_celltype_step2.txt";
-        }
-        if (in_array("step3", $checked)) {
-            $files[] = "magma_celltype_step3.txt";
         }
 
         # check if zip file exists, if yes, delete it
@@ -303,13 +335,14 @@ class CellController extends Controller
     {
         $jobID = $request->input('jobID');
         $ds = escapeshellarg(escapeshellcmd($request->input('ds')));
+        $geneRanking = escapeshellarg(escapeshellcmd($request->input('geneRanking')));
 
         // $container_name = DockerNamesBuilder::containerName($jobID);
         $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
-        $python_command = "python celltype_perDatasetPlotData.py $job_location/ $ds";
+        $python_command = "python celltype_perDatasetPlotData.py $job_location/ $ds $geneRanking";
         $cmd = 'docker run --rm --net=none --name ' . $container_name . ' -v ' . config('app.abs_path_to_jobs_dir_on_host') . ':' . config('app.abs_path_to_jobs_dir_on_host') . ' -w /app ' . $image_name . ' /bin/sh -c "' . $python_command . '"';
         // $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_perDatasetPlotData.py $job_location/ $ds'";
         $json = shell_exec($cmd);
@@ -319,13 +352,39 @@ class CellController extends Controller
     public function getStepPlotData(Request $request)
     {
         $jobID = $request->input('jobID');
+        $geneRanking = escapeshellarg(escapeshellcmd($request->input('geneRanking')));
 
         $container_name = escapeshellarg(DockerNamesBuilder::containerName($jobID));
         $image_name = DockerNamesBuilder::imageName('laradock-fuma', 'celltype_plot_data');
         $job_location = DockerNamesBuilder::jobLocation($jobID, 'cellType');
 
-        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_stepPlotData.py $job_location/'";
+        $cmd = "docker run --rm --net=none --name " . $container_name . " -v " . config('app.abs_path_to_jobs_dir_on_host') . ":" . config('app.abs_path_to_jobs_dir_on_host') . " -w /app " . $image_name . " /bin/sh -c 'python celltype_stepPlotData.py $job_location/ $geneRanking'";
         $json = shell_exec($cmd);
+        Log::info("result: " . $json);
         return $json;
+    }
+
+    public function DTfile(Request $request)
+    {
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
+        $prefix = $request->input('prefix');
+        $fin = $request->input('infile');
+        $cols = $request->input('header');
+
+        $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . $fin;
+
+        return myFile::processCsvDataWithHeaders($file_path, $cols);
+    }
+
+        public function DTfileNoHeader(Request $request)
+    {
+        $id = (new SubmitJob)->get_job_id_from_old_or_new_id_prioritizing_public($request->input('jobID'));
+        $prefix = $request->input('prefix');
+        $fin = $request->input('infile');
+        // $cols = $request->input('header');
+
+        $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . $fin;
+
+        return myFile::processCsvDataNoHeaders($file_path);
     }
 }

@@ -253,4 +253,88 @@ return [
                             ",
         'type' => 'err',
     ],
+    19 => [
+        'short_name' => 'ERROR:coloc',
+        'long_name' => 'Error code coloc',
+        'description' => 'An error occurred during colocalization analysis',
+        'email_message' => '<p>An error occurred during colocalization analysis.</p>',
+        'type' => 'err',
+    ],
+    20 => [
+        'short_name' => 'ERROR:lava',
+        'long_name' => 'Error code lava',
+        'description' => 'An error occurred during LAVA analysis',
+        'email_message' => '<p>An error occurred during LAVA analysis.</p>',
+        'type' => 'err',
+    ],
+    22 => [
+        'short_name' => 'ERROR:colocNoGenesInLocus',
+        'long_name' => 'Error code no genes in locus',
+        'description' => 'No genes found in the locus',
+        'email_message' => '<p>No genes were found in the locus.</p>',
+        'type' => 'err',
+    ],
+    23 => [
+        'short_name' => 'ERROR:inputGwasHeader',
+        'long_name' => 'Error code incorrect header format for input gwas summary statistics',
+        'description' => 'Incorrect header format for the input gwas summary statistics for the locus',
+        'email_message' => '<p>Incorrect header format for the input gwas summary statistics for the locus.</p>',
+        'type' => 'err',
+    ],
+    24 => [
+        'short_name' => 'ERROR:inputGwasProcessing',
+        'long_name' => 'Error code error occurs when processing input gwas summary statistics',
+        'description' => 'An error occurs when processing the input gwas summary statistics for the locus',
+        'email_message' => '<p>An error occurs when processing the input gwas summary statistics for the locus.</p>',
+        'type' => 'err',
+    ],
+    25 => [
+        'short_name' => 'ERROR:xQTLFormatting',
+        'long_name' => 'Error code error occurs when formatting xQTL datasets',
+        'description' => 'An error occurs when formatting the xQTL datasets for LAVA and colocalization',
+        'email_message' => '<p>An error occurs when formatting the xQTL datasets for LAVA and colocalization.</p>',
+        'type' => 'err',
+    ],
+    26 => [
+        'short_name' => 'ERROR:GRCh38NotFound',
+        'long_name' => 'Error code error occurs when converted file locus_range_grch38.txt not found',
+        'description' => 'An error occurs when converted file locus_range_grch38.txt not found',
+        'email_message' => '<p>An error occurs when converted file locus_range_grch38.txt not found.</p>',
+        'type' => 'err'
+    ],
+    27 => [
+        'short_name' => 'ERROR:GRCh38Morethan1Line',
+        'long_name' => 'Error code error occurs because GRCh37 to GRCh38 expects one line but more than one line were found',
+        'description' => 'An error occurs because GRCh37 to GRCh38 expects one line but more than one line were found ',
+        'email_message' => '<p>An error occurs GRCh37 to GRCh38 expects one line but more than one line were found.</p>',
+        'type' => 'err'
+    ],
+    28 => [
+        'short_name' => 'ERROR:grchr38ChrNotMatch',
+        'long_name' => 'Error code error occurs because after GRCh37 to GRCh38 conversion, the chromosome does not match',
+        'description' => 'An error occurs because after GRCh37 to GRCh38 conversion, the chromosome does not match',
+        'email_message' => '<p>An error occurs because after GRCh37 to GRCh38 conversion, the chromosome does not match.</p>',
+        'type' => 'err'
+    ],
+    29 => [
+        'short_name' => 'ERROR:grchr38Convert',
+        'long_name' => 'Error code error occurs when converting genomic locus from GRCh37 to GRCh38',
+        'description' => 'An error occurs when converting genomic locus from GRCh37 to GRCh38',
+        'email_message' => '<p>An error occurs when converting genomic locus from GRCh37 to GRCh38.</p>',
+        'type' => 'err'
+    ],
+    30 => [
+        'short_name' => 'ERROR:xQTLsMap',
+        'long_name' => 'Error code error occurs in xQTLs mapping',
+        'description' => 'An error occurs in xQTLs mapping',
+        'email_message' => '<p>An error occurs in xQTLs mapping.</p>',
+        'type' => 'err'
+    ],
+    31 => [
+        'short_name' => 'ERROR:flames',
+        'long_name' => 'An error occurs while running FLAMES',
+        'description' => 'An error occurs while running FLAMES',
+        'email_message' => '<p>An error occurs while running FLAMES. Check the logs for more information.</p>',
+        'type' => 'err'
+    ]
 ];

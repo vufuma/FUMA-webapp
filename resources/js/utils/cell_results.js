@@ -11,9 +11,11 @@ export function loadResults(id){
 		success: function(data){
 			data = JSON.parse(data);
 			if(data[0]==0){$('#step1_file').prop('checked', false); $('#step1_file').prop('disabled', true);}
-			if(data[1]==0){$('#step1_2_file').prop('checked', false); $('#step1_2_file').prop('disabled', true);}
-			if(data[2]==0){$('#step2_file').prop('checked', false); $('#step2_file').prop('disabled', true);}
-			if(data[3]==0){$('#step3_file').prop('checked', false); $('#step3_file').prop('disabled', true);}
+			if(data[1]==0){$('#step2_file').prop('checked', false); $('#step2_file').prop('disabled', true);}
+			if(data[2]==0){$('#step3_file').prop('checked', false); $('#step3_file').prop('disabled', true);}
+			// if(data[1]==0){$('#step1_2_file').prop('checked', false); $('#step1_2_file').prop('disabled', true);}
+			// if(data[2]==0){$('#step2_file').prop('checked', false); $('#step2_file').prop('disabled', true);}
+			// if(data[3]==0){$('#step3_file').prop('checked', false); $('#step3_file').prop('disabled', true);}
 		}
 	});
 
@@ -41,33 +43,84 @@ export function loadResults(id){
 		}
 	});
 
-	// Get plot data for step 1-3
+	// Get list of gene metrics
 	$.ajax({
-		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getStepPlotData',
+		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getGeneRankingList',
 		type: 'POST',
 		data: {
 			jobID: id
 		},
-		error: function(){alert("getStepPlotData error")},
+		error: function(){alert("getGeneRankingList error")},
 		success: function(data){
 			data = JSON.parse(data);
-			PlotStep1(data.step1);
-			PlotStep2(data.step2);
-			PlotStep3(data.step3, data.step2);
+			let i = 0;
+			data.forEach(function(d){
+				if(i==0){
+					$('#geneRanking_select').append('<option value="'+d+'" selected>'+d+'</option>');
+					i += 1;
+				}else{
+					$('#geneRanking_select').append('<option value="'+d+'">'+d+'</option>');
+				}
+			})
+		}, complete: function(){
+			updatePerDatasetPlot();
 		}
-	});
+	})
+
+		// Get list of gene metrics
+	$.ajax({
+		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getGeneRankingList',
+		type: 'POST',
+		data: {
+			jobID: id
+		},
+		error: function(){alert("getGeneRankingList error")},
+		success: function(data){
+			data = JSON.parse(data);
+			let i = 0;
+			data.forEach(function(d){
+				if(i==0){
+					$('#geneRanking_select_step1').append('<option value="'+d+'" selected>'+d+'</option>');
+					i += 1;
+				}else{
+					$('#geneRanking_select_step1').append('<option value="'+d+'">'+d+'</option>');
+				}
+			})
+		}, complete: function(){
+			updateStepPlot();
+		}
+	})
+
+
+	// Get plot data for step 1-3
+	// $.ajax({
+	// 	url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getStepPlotData',
+	// 	type: 'POST',
+	// 	data: {
+	// 		jobID: id
+	// 	},
+	// 	error: function(){alert("getStepPlotData error")},
+	// 	success: function(data){
+	// 		data = JSON.parse(data);
+	// 		PlotStep1(data.step1);
+	// 		PlotStep2(data.step2);
+	// 		PlotStep3(data.step3, data.step2);
+	// 	}
+	// });
 
 }
 
 export function updatePerDatasetPlot(){
 	let ds = $('#dataset_select').val();
+	let geneRanking = $('#geneRanking_select').val();
 	$('#perDatasetPlot').html('<center><i class="fa fa-spinner fa-spin fa-5x"></i></center>')
 	$.ajax({
 		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getPerDatasetData',
 		type: 'POST',
 		data: {
 			jobID: pageState.get("id"),
-			ds: ds
+			ds: ds,
+			geneRanking: geneRanking
 		},
 		error: function(){alert("getPlotData error")},
 		success: function(data){
@@ -77,6 +130,32 @@ export function updatePerDatasetPlot(){
 			PlotPerDataset(data);
 		}
 	});
+}
+
+export function updateStepPlot(){
+	let geneRanking = $('#geneRanking_select_step1').val();
+	$('#step1Plot').html('<center><i class="fa fa-spinner fa-spin fa-5x"></i></center>')
+	$.ajax({
+		url: pageState.get("subdir") +'/'+ pageState.get("page") +'/getStepPlotData',
+		type: 'POST',
+		data: {
+			jobID: pageState.get("id"),
+			geneRanking: geneRanking
+		},
+		error: function(){alert("getStepPlotData error")},
+		success: function(data){
+			// TODO - why do we get NaN values here?
+			data = data.replaceAll('NaN', '0.0');
+			data = JSON.parse(data);
+			PlotStep1(data.step1);
+			PlotStep2(data.step2);
+			PlotStep3(data.step3, data.step2);
+		}
+	});
+}
+
+export function selectUserMetrics(){
+
 }
 
 function PlotPerDataset(data){

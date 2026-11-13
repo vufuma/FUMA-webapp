@@ -583,7 +583,7 @@ export function ciMapCircosPlot(data) {
 	$('#ciMapCircosPlot').html(images);
 }
 
-export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMap, orcol, becol, secol) {
+export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, xqtlsMap, ciMap, orcol, becol, secol) {
 	$('#plotClear').hide();
 	$('#download').attr('disabled', false);
 	if (eqtlMap == 0) {
@@ -593,6 +593,10 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 		$('#eqtlfiledown').hide();
 		$('#eqtlfile').prop('checked', false);
 	}
+
+	// if (xqtlsMap == 0) {
+	// 	$('#xqtlsTableTab').hide();
+	// }
 
 	if (ciMap == 0) {
 		$('#ciTableTab').hide();
@@ -634,7 +638,14 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 			jobID: id
 		},
 		success: function (data) {
-			$('#sumTable').append(data);
+			data = JSON.parse(data);
+			var table = '<table class="table table-condensed table-bordered" style="width:auto;text-align:right;">"<h4 style="color: #00004d">Summary of SNPs and mapped genes</h4><tbody>'
+			data.forEach(function(d){
+				// if(d[0]!="created_at"){d[1] = d[1].replace(/:/g, ', ');}
+				table += '<tr><td>'+d[0]+'</td><td>'+d[1]+'</td></tr>'
+			})
+			table += '</tbody></table>'
+			$('#sumTable').html(table);
 		},
 		complete: function () {
 			$.ajax({
@@ -642,7 +653,7 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 				type: 'POST',
 				data: {
 					jobID: id,
-					fileNames: ['annov.stats.txt', 'interval_sum.txt']
+					fileNames: ['annov.stats.txt', 'interval_sum.txt', 'qtls_hits.tsv']
 				},
 				error: function () {
 					alert("JobQuery get file contents error");
@@ -651,10 +662,27 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 				success: function (data) {
 					PlotSNPAnnot(data['annov.stats.txt']);
 					PlotLocuSum(data['interval_sum.txt']);
+					// PlotUpSet(data['qtls_hits.tsv']);
 				}
 			});
 		}
 	});
+
+	// var fakeSets = ["Set A", "Set B", "Set C", "Set D"];
+
+	// var fakeData = [
+	// 	{ combination: ["Set A"], size: 120 },
+	// 	{ combination: ["Set B"], size: 90 },
+	// 	{ combination: ["Set C"], size: 75 },
+	// 	{ combination: ["Set A", "Set B"], size: 60 },
+	// 	{ combination: ["Set A", "Set C"], size: 45 },
+	// 	{ combination: ["Set B", "Set C"], size: 30 },
+	// 	{ combination: ["Set A", "Set B", "Set C"], size: 20 },
+	// 	{ combination: ["Set D"], size: 55 },
+	// 	{ combination: ["Set A", "Set D"], size: 25 }
+	// ];
+
+	// PlotUpSet(fakeData, fakeSets);
 
 	var file = "GenomicRiskLoci.txt";
 	var lociTable = $('#lociTable').DataTable({
@@ -844,6 +872,29 @@ export function showResultTables(subdir, page, prefix, id, posMap, eqtlMap, ciMa
 					prefix: prefix,
 					infile: file,
 					header: "uniqID:chr:pos:testedAllele:db:tissue:gene:symbol:p:FDR:signed_stats:RiskIncAllele:alignedDirection"
+				}
+			},
+			"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			"iDisplayLength": 10
+		});
+	}
+
+	if (xqtlsMap == 1) {
+		console.log("show xqtls table");
+		file = "xqtls.txt";
+		var xqtlsTable = $('#xqtlsTable').DataTable({
+			processing: true,
+			serverSide: true,
+			searchDelay: 3000,
+			select: false,
+			ajax: {
+				url: 'DTfileServerSide',
+				type: "POST",
+				data: {
+					jobID: id,
+					prefix: prefix,
+					infile: file,
+					header: "uniqID:db:tissue:protein:type:qtl_type:genomicriskloci:ensemble_id:originalPhenotype"
 				}
 			},
 			"lengthMenue": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -1553,6 +1604,188 @@ export function PlotLocuSum(data) {
 	svg.selectAll('.axis').selectAll('line').style('fill', 'none').style('stroke', 'grey');
 	svg.selectAll('text').style('font-family', 'sans-serif');
 	svg.selectAll('.axis').selectAll('text').style('font-size', '11px');
+}
+
+export function PlotUpSet(jsonData) {
+
+	// ==========================
+	// 1. Group by gene
+	// ==========================
+
+	var geneMap = {};
+
+	jsonData.forEach(function (d) {
+
+		if (!geneMap[d.gene]) {
+			geneMap[d.gene] = new Set();
+		}
+
+		geneMap[d.gene].add(d.type);
+	});
+
+	// ==========================
+	// 2. Extract unique sets
+	// ==========================
+
+	var sets = Array.from(
+		new Set(jsonData.map(function (d) { return d.type; }))
+	);
+
+	// ==========================
+	// 3. Compute intersections
+	// ==========================
+
+	var comboCount = {};
+
+	Object.keys(geneMap).forEach(function (gene) {
+
+		var combo = Array.from(geneMap[gene]).sort();
+		var key = combo.join("|");
+
+		if (!comboCount[key]) {
+			comboCount[key] = 0;
+		}
+
+		comboCount[key]++;
+	});
+
+	var data = Object.keys(comboCount).map(function (key) {
+		return {
+			combination: key.split("|"),
+			size: comboCount[key]
+		};
+	});
+
+	// Sort descending
+	data.sort(function (a, b) {
+		return b.size - a.size;
+	});
+
+	// ==========================
+	// 4. Plot (your original logic)
+	// ==========================
+
+	var margin = { top: 60, right: 30, bottom: 60, left: 120 },
+		width = 800,
+		matrixHeight = 25 * sets.length,
+		barHeight = 200,
+		height = barHeight + matrixHeight + 40;
+
+	var combinations = data.map(function (d, i) { return "C" + i; });
+
+	var x = d3.scaleBand()
+		.domain(combinations)
+		.range([0, width])
+		.padding(0.2);
+
+	var yBar = d3.scaleLinear()
+		.domain([0, d3.max(data, function (d) { return d.size; })])
+		.range([barHeight, 0]);
+
+	var yMatrix = d3.scaleBand()
+		.domain(sets)
+		.range([0, matrixHeight])
+		.padding(0.2);
+
+	var svg = d3.select('#upsetPlot').append('svg')
+		.attr("class", 'plotSVG')
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append('g')
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	// tooltips
+	var tip_size = d3Tip()
+		.attr('class', 'd3-tip')
+		.offset([-5, 0])
+		.html(function (d) { return d.size; });
+
+	svg.call(tip_size);
+
+	// ==========================
+	// Top bars
+	// ==========================
+
+	svg.selectAll("rect.intersection")
+		.data(data)
+		.enter()
+		.append("rect")
+		.attr("class", "bar")
+		.attr("x", function (d, i) { return x("C" + i); })
+		.attr("y", function (d) { return yBar(d.size); })
+		.attr("width", x.bandwidth())
+		.attr("height", function (d) { return barHeight - yBar(d.size); })
+		.attr("fill", "steelblue")
+		.on("mouseover", tip_size.show)
+		.on("mouseout", tip_size.hide);
+
+	var maxVal = d3.max(data, function (d) { return d.size; });
+
+	svg.append('g')
+    .attr("class", "y axis")
+    .call(
+        d3.axisLeft(yBar)
+            .tickValues(d3.range(0, maxVal + 1))
+    );
+
+	svg.append("text")
+		.attr("text-anchor", "middle")
+		.attr("transform", "translate(" + (width / 2) + ",-20)")
+		// .text("Intersection Size");
+
+	// ==========================
+	// Matrix
+	// ==========================
+
+	var matrixGroup = svg.append("g")
+		.attr("transform", "translate(0," + (barHeight + 40) + ")");
+
+	matrixGroup.append('g')
+		.attr("class", "y axis")
+		.call(d3.axisLeft(yMatrix));
+
+	data.forEach(function (d, i) {
+
+		var colX = x("C" + i) + x.bandwidth() / 2;
+
+		sets.forEach(function (setName) {
+
+			matrixGroup.append("circle")
+				.attr("cx", colX)
+				.attr("cy", yMatrix(setName) + yMatrix.bandwidth() / 2)
+				.attr("r", 6)
+				.attr("fill", d.combination.indexOf(setName) !== -1 ? "black" : "#ddd");
+		});
+
+		var activeSets = sets.filter(function (s) {
+			return d.combination.indexOf(s) !== -1;
+		});
+
+		if (activeSets.length > 1) {
+
+			matrixGroup.append("line")
+				.attr("x1", colX)
+				.attr("x2", colX)
+				.attr("y1", yMatrix(activeSets[0]) + yMatrix.bandwidth() / 2)
+				.attr("y2", yMatrix(activeSets[activeSets.length - 1]) + yMatrix.bandwidth() / 2)
+				.attr("stroke", "black")
+				.attr("stroke-width", 2);
+		}
+	});
+
+	svg.selectAll('.axis').selectAll('path')
+		.style('fill', 'none')
+		.style('stroke', 'grey');
+
+	svg.selectAll('.axis').selectAll('line')
+		.style('fill', 'none')
+		.style('stroke', 'grey');
+
+	svg.selectAll('text')
+		.style('font-family', 'sans-serif');
+
+	svg.selectAll('.axis').selectAll('text')
+		.style('font-size', '11px');
 }
 
 export function Chr15Select() {

@@ -1,0 +1,3 @@
+# gwas_file.py dependencies
+pytabix
+configparser

@@ -241,3 +241,93 @@ export const setAnnotPlotPageState = function(
 		loggedin, 
 	);
 }
+
+export const XqtlsState = new PageState ([
+        ["status", ""],
+        ["id", ""],
+        ["prefix", ""],
+        ["page", ""],
+        ["subdir", ""],
+        ["loggedin", ""]
+    ]);
+
+XqtlsState.setState = function(
+    status,
+    id,
+    prefix,
+    page,
+    subdir,
+    loggedin, 
+) {
+    this.set('status', status);
+    this.set('id', id);
+    this.set('prefix', prefix);
+    this.set('page', page);
+    this.set('subdir', subdir);
+    this.set('loggedin', loggedin);
+}
+
+// Set xqtls page state values
+export const setXqtlsPageState = function(
+	status,
+	id,
+	prefix,
+	page,
+	subdir,
+	loggedin,
+
+) {
+	XqtlsState.setState(
+		status,
+		id,
+		prefix,
+		page,
+		subdir,
+		loggedin, 		
+	)
+}
+
+export const FlamesState = new PageState ([
+        ["status", ""],
+        ["id", ""],
+        ["prefix", ""],
+        ["page", ""],
+        ["subdir", ""],
+        ["loggedin", ""]
+    ]);
+
+FlamesState.setState = function(
+    status,
+    id,
+    prefix,
+    page,
+    subdir,
+    loggedin, 
+) {
+    this.set('status', status);
+    this.set('id', id);
+    this.set('prefix', prefix);
+    this.set('page', page);
+    this.set('subdir', subdir);
+    this.set('loggedin', loggedin);
+}
+
+// Set flames page state values
+export const setFlamesPageState = function(
+	status,
+	id,
+	prefix,
+	page,
+	subdir,
+	loggedin,
+
+) {
+	FlamesState.setState(
+		status,
+		id,
+		prefix,
+		page,
+		subdir,
+		loggedin, 		
+	)
+}

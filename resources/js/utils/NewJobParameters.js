@@ -1,9 +1,25 @@
 //import $ from 'jquery';
 //window.$ = $;
 //window.jQuery = $;
+import swal from 'sweetalert';
 var gwasFileSize = 0;
 var ciFileSize = 0;
 import { S2GPageState as pageState}  from "../pages/pageStateComponents.js";
+
+export const AlertFileType = function(){
+	if ($('#GWASsummary').val().length!==0) {
+		var span = document.createElement("span");
+		span.innerHTML = "For a standard SNP2GENE, follow <a href='https://fuma-docs.readthedocs.io/en/latest/snp2gene/prepare_input_files.html' target='_blank'>instruction</a> to prepare your input files.<br> For a SNP2GENE job intended for FLAMES, follow <a href='https://fuma-docs.readthedocs.io/en/latest/flames/prepare_input_files.html' target='_blank'>instruction</a> to prepare your input files.<br><div class='alert alert-danger'>Your job will fail if the input files are not prepared correctly.</div>";
+		swal({
+			title: "Did you check your input file format?",
+			content: span,
+			icon: "warning",
+			showCancelButton: false,
+			closeModal: true,
+		});
+	}
+
+}
 
 export const CheckAll = function() {
 	var submit = true;
@@ -62,20 +78,6 @@ export const CheckAll = function() {
 				+'<i class="fa fa-check"></i> OK. Please check your input file format.</div></td>');
 			submit=true;
 		}
-	}
-	if ($('#GRCh38').is(":checked")==true) {
-		if($('#chrcol').val().length==0 || $('#poscol').val().length==0 || $('#eacol').val().length==0 || $('#neacol').val().length==0){
-			$(table.rows[2].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br> <br> <strong> Please fill in the column names above and unclick then reclick this button. </strong> <br></div></td>');
-				submit=false;
-				tablecheck=false;
-			}else{
-			$(table.rows[2].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-exclamation-circle"></i> OK. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br> The chromosome and position must be on build GRCh38.<br></div></td>');
-		}
-	}else{
-		$(table.rows[2].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-			+'<i class="fa fa-exclamation-circle"></i> Optional. <br>This is only valid when the column names of the chromosome, position, effect allele, and noneffect allele have been specified above.<br>The chromosome and position must be on build GRCh38.</div></td>');
 	}
 
 	if($('#leadSNPs').val().length==0){
@@ -320,12 +322,12 @@ export const CheckAll = function() {
 	}else{
 		$('.posMapOptions').hide();
 		$('#posMapOptFilt').hide();
-		if($('#eqtlMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
+		if($('#eqtlMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
 			submit=false;
 			tablecheck=false;
 		}
@@ -439,6 +441,7 @@ export const CheckAll = function() {
 		$('#eqtlMapGts option').each(function(){
 			if($(this).is(":checked")==true){ts++;}
 		});
+		
 		if(ts>0){
 			$(table.rows[1].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-check"></i> OK.</div></td>');
@@ -474,13 +477,281 @@ export const CheckAll = function() {
 		}
 	}else{
 		$('.eqtlMapOptions').hide();
-		$('#eqtlMapOptFilt').hide();
-		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true){
+		// $('#eqtlMapOptFilt').hide();
+		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
+			submit=false;
+			tablecheck=false;
+		}
+	}
+
+	tablecheck=true;
+	table = $('#NewJobXqtlsMap')[0];
+	if($('#xqtlsMap').is(":checked")==true){
+		$('.xqtlsMapOptions').show();
+		$(table.rows[0].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+			+'<i class="fa fa-check"></i> OK.</div></td>');
+		let ds = 0;
+
+		$('#eqtlAdiposeDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlAdrenalGlandDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlArteryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlBladderDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlBloodDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlBrainDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlBreastDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlColonDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlEsophagusDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlHeartDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlKidneyDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlLiverDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlLungDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlMuscleDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlNerveDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlOvaryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlPancreasDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlPituitaryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlProstateDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSalivaryGlandDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSkinDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSmallIntestineDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlSpleenDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlStomachDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlTestisDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlThyroidDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlUterusDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#eqtlVaginaDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlAdiposeDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlAdrenalGlandDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlArteryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlBladderDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlBloodDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlBrainDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlBreastDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlColonDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlEsophagusDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlHeartDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlKidneyDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlLiverDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlLungDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlMuscleDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlNerveDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlOvaryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlPancreasDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlPituitaryDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlProstateDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlSalivaryGlandDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlSkinDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlSmallIntestineDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlSpleenDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlStomachDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlTestisDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlThyroidDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlUterusDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sqtlVaginaDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#pqtlPlasmaDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+		$('#pqtlBrainDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+		$('#pqtlCsfDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		$('#sceqtlBrainDs option').each(function(){
+			if($(this).is(":checked")==true){ds++;}
+		});
+
+		if(ds>0){
+			$(table.rows[2].cells[2]).html('<td><div class="alert alert-success" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-check"></i> OK.</div></td>');
+		}else{
+			$(table.rows[2].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-ban"></i> Please select at least one dataset.</div></td>');
+			submit=false;
+			tablecheck=false;
+		}
+	} else {
+		$('.xqtlsMapOptions').hide();
+		if($('#posMap').is(":checked")==true || $('#ciMap').is(':checked')==true || $('#eqtlMap').is(":checked")==true){
+			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
+		}else{
+			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
 			submit=false;
 			tablecheck=false;
 		}
@@ -702,12 +973,12 @@ export const CheckAll = function() {
 	}else{
 		$('.ciMapOptions').hide();
 		$('#ciMapOptFilt').hide();
-		if($('#posMap').is(':checked')==true || $('#eqtlMap').is(':checked')==true){
+		if($('#posMap').is(':checked')==true || $('#eqtlMap').is(':checked')==true || $('#xqtlsMap').is(':checked')==true){
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-info" style="display: table-cell; padding-top:0; padding-bottom:0;">'
 				+'<i class="fa fa-exclamation-circle"></i> Optional.</div></td>');
 		}else{
 			$(table.rows[0].cells[2]).html('<td><div class="alert alert-danger" style="display: table-cell; padding-top:0; padding-bottom:0;">'
-				+'<i class="fa fa-ban"></i> Please select at least one of the positional, eQTL or chromatin interaction mapping.</div></td>');
+				+'<i class="fa fa-ban"></i> Please select at least one of the positional, xQTLs, eQTL or chromatin interaction mapping.</div></td>');
 			tablecheck=false;
 			submit=false;
 		}
@@ -933,6 +1204,16 @@ export const NewJobSetup = function(){
 		CheckAll();
 	});
 
+	// Global "Clear all selections"
+		$('#clearAllEqtlSelections').on('click', function (e) {
+			e.preventDefault();
+	
+			// Clear all selects inside the eQTL section
+			$('#eqtlAdiposeDs option, #eqtlAdrenalGlandDs option, #eqtlArteryDs option, #eqtlBladderDs option, #eqtlBloodDs option, #eqtlBrainDs option, #eqtlBreastDs option, #eqtlColonDs option, #eqtlEsophagusDs option, #eqtlHeartDs option, #eqtlKidneyDs option, #eqtlLiverDs option, #eqtlLungDs option, #eqtlMuscleDs option, #eqtlNerveDs option, #eqtlOvaryDs option, #eqtlPancreasDs option, #eqtlPituitaryDs option, #eqtlProstateDs option, #eqtlSalivaryGlandDs option, #eqtlSkinDs option, #eqtlSmallIntestineDs option, #eqtlSpleenDs option, #eqtlStomachDs option, #eqtlTestisDs option, #eqtlThyroidDs option, #eqtlUterusDs option, #eqtlVaginaDs option, #sqtlAdiposeDs option, #sqtlAdrenalGlandDs option, #sqtlArteryDs option, #sqtlBladderDs option, #sqtlBloodDs option, #sqtlBrainDs option, #sqtlBreastDs option, #sqtlColonDs option, #sqtlEsophagusDs option, #sqtlHeartDs option, #sqtlKidneyDs option, #sqtlLiverDs option, #sqtlLungDs option, #sqtlMuscleDs option, #sqtlNerveDs option, #sqtlOvaryDs option, #sqtlPancreasDs option, #sqtlPituitaryDs option, #sqtlProstateDs option, #sqtlSalivaryGlandDs option, #sqtlSkinDs option, #sqtlSmallIntestineDs option, #sqtlSpleenDs option, #sqtlStomachDs option, #sqtlTestisDs option, #sqtlThyroidDs option, #sqtlUterusDs option, #sqtlVaginaDs option, #pqtlPlasmaDs option, #pqtlBrainDs option, #pqtlCsfDs option, #sceqtlBrainDs option').prop('selected', false);
+	
+			CheckAll();
+		});
+
 	$("#GWASsummary").on('change', function(){
 		if($(this).val().length>0){
 			gwasFileSize = this.files[0].size;
@@ -1144,6 +1425,43 @@ function setParams(data){
 		});
 		$('#eqtlMapAnnoMeth').val(data.eqtlMapAnnoMeth);
 	}
+
+	// xqtls mapping
+	if(data.xqtlsMap == "1"){$('#xqtlsMap').prop("checked", true)}
+	else{$('#xqtlsMap').prop("checked", false)}
+	if(data.xqtlsMapdss != "NA"){
+		let dsList = data.xqtlsMapdss.split(":");
+
+		// clear previous selections
+		$('select[id$="Ds"] option').prop('selected', false);
+
+		dsList.forEach(function (ds) {
+
+			// if (ds === "all") {
+			// 	$('select[id$="Ds"] option').prop('selected', true);
+			// 	return;
+			// }
+
+			let fileName = ds.split("/")[3]
+				.replace(".txt.gz", "");
+
+			let baseTissue = fileName.split("_")[0];
+
+			let qtlType = ds.split("/")[0].toLowerCase();
+
+			// console.log(qtlType);
+
+			let selectId = "#" + qtlType + baseTissue + "Ds";
+
+			$(selectId + ' option[value="' + ds + '"]')
+				.prop('selected', true);
+
+		});
+		CheckAll();
+		// if(data.eqtlMapSig=="1"){$('#sigeqtlCheck').prop("checked", true);}
+		// else{$('#sigeqtlCheck').prop("checked", false);$('#eqtlP').val(data.eqtlMapP);}
+	}
+
 	if(data.ciMap!=null){
 		if(data.ciMap=="1"){
 			$('#ciMap').prop('checked', true);

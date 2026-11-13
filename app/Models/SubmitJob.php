@@ -109,6 +109,24 @@ class SubmitJob extends Model
             ->get();
     }
 
+    public function getNewJobs_xqtls_only($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['xqtls'])
+            ->where('status', 'NEW')
+            ->whereNull('removed_at')
+            ->get();
+    }
+
+        public function getNewJobs_flames_only($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['flames'])
+            ->where('status', 'NEW')
+            ->whereNull('removed_at')
+            ->get();
+    }
+
     public function updateStatus($job_id, $status): void
     {
         $this->where('jobID', $job_id)
@@ -134,5 +152,41 @@ class SubmitJob extends Model
     public function get_job_id_from_old_or_new_id_prioritizing_public($id): int
     {
         return $this->get_job_from_old_or_new_id_prioritizing_public($id)->jobID;
+    }
+
+    public function getScheduledJobs_g2f($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['gene2func'])
+            ->wherein('status', ['QUEUED', 'RUNNING', 'NEW'])
+            ->whereNull('removed_at')
+            ->get();
+    }
+
+    public function getScheduledJobs_celltype($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['celltype'])
+            ->wherein('status', ['QUEUED', 'RUNNING', 'NEW'])
+            ->whereNull('removed_at')
+            ->get();
+    }
+
+    public function getScheduledJobs_flames($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['flames'])
+            ->wherein('status', ['QUEUED', 'RUNNING', 'NEW'])
+            ->whereNull('removed_at')
+            ->get();
+    }
+
+    public function getScheduledJobs_xqtls($user_id): Collection
+    {
+        return $this->where('user_id', $user_id)
+            ->wherein('type', ['xqtls'])
+            ->wherein('status', ['QUEUED', 'RUNNING', 'NEW'])
+            ->whereNull('removed_at')
+            ->get();
     }
 }

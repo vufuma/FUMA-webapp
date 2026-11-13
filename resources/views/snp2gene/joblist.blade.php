@@ -25,6 +25,7 @@
 						<th>Jump to GENE2FUNC</th>
 						<th>Publish</th>
 						<th>Select</th>
+						<th>Logs</th>
 					</tr>
 				</thead>
 				<tbody>

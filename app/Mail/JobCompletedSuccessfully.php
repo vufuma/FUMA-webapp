@@ -38,6 +38,13 @@ class JobCompletedSuccessfully extends Mailable
      */
     public function content(): Content
     {
+        $page = null;
+
+        if ($this->job->type == 'xqtls') {
+            $page = '#xqtlTables';
+        } elseif ($this->job->type == 'flames') {
+            $page = '#flamesResults';
+        }
         return new Content(
             view: 'emails.jobComplete',
             with: [
@@ -45,6 +52,8 @@ class JobCompletedSuccessfully extends Mailable
                 'jobtitle' => $this->job->title,
                 'status' => $this->job->status,
                 'msg' => $this->msg,
+                'job_type' => $this->job->type,
+                'page' => $page,
             ],
         );
     }

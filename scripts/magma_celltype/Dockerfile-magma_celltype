@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl unzip buil
     && rm magma_v1.10_static.zip \
     && rm -rf /var/lib/apt/lists/*
     
-RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc'))"
+RUN Rscript -e "install.packages(c('rprojroot', 'whereami', 'data.table', 'kimisc', 'dplyr'))"
 
 COPY app.config ./
 COPY magma_celltype/magma_celltype.R ./

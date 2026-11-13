@@ -5,6 +5,8 @@ use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\FumaController;
 use App\Http\Controllers\LoggingController;
 use App\Http\Controllers\S2GController;
+use App\Http\Controllers\FLAMESController;
+use App\Http\Controllers\XQTLSController;
 use App\Http\Controllers\G2FController;
 use App\Http\Controllers\CellController;
 use App\Http\Controllers\AdminController;
@@ -48,14 +50,10 @@ Route::get('downloadPage', function () {
     return view('pages.downloadPage');
 });
 
-Route::get('/links', function () {
-    return view('pages.links');
-});
-
 Route::get('/updates', [UpdateController::class, 'showUpdates']);
 
-Route::get('/faq', function () {
-    return view('pages.faq');
+Route::get('/wiki', function () {
+    return view('pages.wiki');
 });
 
 Auth::routes();
@@ -208,6 +206,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/circos_image/{prefix}/{jobID}/{file}', [FumaController::class, 'circos_image']);
             Route::post('/circosDown', [FumaController::class, 'circosDown']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
+            Route::post('/downloadResults', [S2GController::class, 'downloadResults']);
         });
     });
 
@@ -233,6 +232,40 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
+    // ********************** FLAMES ************************
+    Route::prefix('flames')->group(function () {
+        Route::get('/', [FLAMESController::class, 'index']);
+        Route::get('/getFLAMESHistory', [FLAMESController::class, 'getFLAMESHistory']);
+        Route::post('/getS2GIDs', [FLAMESController::class, 'getS2GIDs']);
+        Route::post('/submit', [FLAMESController::class, 'newJob']);
+        
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::post('/checkSNP2GENEFiles', [FLAMESController::class, 'checkSNP2GENEFiles']);
+            Route::get('/{jobID}', [FLAMESController::class, 'viewJob']); 
+            Route::post('/deleteJob', [FLAMESController::class, 'deleteJob']);
+            Route::post('/DTfile', [FLAMESController::class, 'DTfile']);
+            Route::post('/downloadResults', [FLAMESController::class, 'downloadResults']);
+            
+        });
+    });
+
+    // ********************** XQTLS ************************
+    Route::prefix('xqtls')->group(function () {
+        Route::get('/', [XQTLSController::class, 'index']);
+        Route::get('/getQTLSHistory', [XQTLSController::class, 'getQTLSHistory']);
+        Route::post('/getQTLsAnalysisIDs', [XQTLSController::class, 'getQTLsAnalysisIDs']);
+        Route::post('/submit', [XQTLSController::class, 'newJob']);
+        
+        Route::group(['middleware' => ['jobBelongsToLoggedInUser']], function () {
+            Route::post('/loadParams', [XQTLSController::class, 'loadParams']);
+            Route::get('/{jobID}', [XQTLSController::class, 'viewJob']); 
+            Route::post('/DTfile', [XQTLSController::class, 'DTfile']);
+            Route::post('/deleteJob', [XQTLSController::class, 'deleteJob']);
+            Route::post('/downloadResults', [XQTLSController::class, 'downloadResults']);
+            
+        });
+    });
+
     // ********************** Cell Type ************************
     Route::prefix('celltype')->group(function () {
         Route::get('/', [CellController::class, 'index']);
@@ -247,10 +280,13 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/checkJobStatus/{jobID}', [CellController::class, 'checkJobStatus']);
             Route::post('/checkFileList', [CellController::class, 'checkFileList']);
             Route::post('/getDataList', [CellController::class, 'getDataList']);
+            Route::post('/getGeneRankingList', [CellController::class, 'getGeneRankingList']);
             Route::post('/filedown', [CellController::class, 'filedown']);
             Route::post('/getPerDatasetData', [CellController::class, 'getPerDatasetData']);
             Route::post('/getStepPlotData', [CellController::class, 'getStepPlotData']);
             Route::post('/imgdown', [FumaController::class, 'imgdown']);
+            Route::post('/DTfile', [CellController::class, 'DTfile']);
+            Route::post('/DTfileNoHeader', [CellController::class, 'DTfileNoHeader']);
         });
     });
 });

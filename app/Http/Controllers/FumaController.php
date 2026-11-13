@@ -95,7 +95,7 @@ class FumaController extends Controller
         $prefix = $request->input('prefix');
         $file_path = config('app.jobdir') . '/' . $prefix . '/' . $id . '/' . 'summary.txt';
 
-        return myFile::summary_table_in_html($file_path);
+        return myFile::summary_table_in_json($file_path);
     }
 
     public function locusPlot(Request $request)
@@ -596,9 +596,6 @@ class FumaController extends Controller
                 break;
             case "MAGMAgenev110":
                 $name = "ENSGv110.coding.genes.txt";
-                break;
-            case "GRCh382rsID":
-                $name = "GRCh38_to_rsID_dbSNPv152.txt.gz";
                 break;
             
             // MAGMA gene sets 
