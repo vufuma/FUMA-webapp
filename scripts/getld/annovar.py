@@ -8,12 +8,12 @@ import pandas as pd
 import numpy as np
 import tabix
 import glob
-import ConfigParser
+import configparser
 from bisect import bisect_left
 
 ##### Return index of a1 which do not exist in a2 #####
 def ArrayNotIn(a1, a2):
-    tmp = np.where(np.in1d(a1, a2))[0]
+    tmp = np.where(np.isin(a1, a2))[0]
     return list(set(range(0,len(a1)))-set(tmp))
 
 def getAnnov(snps, chrom, annovin, dbSNP):
@@ -80,7 +80,7 @@ def main():
 		filedir += '/'
 
 	##### get config files #####
-	cfg = ConfigParser.ConfigParser()
+	cfg = configparser.ConfigParser()
 	cfg.read(os.path.dirname(os.path.realpath(__file__))+'/app.config')
 	dbSNP = dbSNP = cfg.get('data', 'dbSNP')
 	annov = cfg.get('annovar', 'annovdir')

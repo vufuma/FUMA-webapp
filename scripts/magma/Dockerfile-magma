@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.11
 
 WORKDIR /app
 
@@ -6,7 +6,7 @@ COPY magma/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl unzip build-essential r-base \
-    && curl https://vu.data.surfsara.nl/index.php/s/zkKbNeNOZAhFXZB/download -o magma_v1.10_static.zip\
+    && curl -L https://vu.data.surfsara.nl/index.php/s/zkKbNeNOZAhFXZB/download -o magma_v1.10_static.zip\
     && unzip magma_v1.10_static.zip -d /usr/local/share/MAGMA \
     && chmod +x /usr/local/share/MAGMA/* \
     && rm magma_v1.10_static.zip \

@@ -13,7 +13,7 @@ filedir = sys.argv[1]
 if re.match(".+\/$", filedir) is None:
 	filedir += '/'
 
-GWAS = pd.read_csv(filedir+"input.snps", delim_whitespace=True, usecols=["chr", "bp", "p"], dtype="str")
+GWAS = pd.read_csv(filedir+"input.snps", sep=r'\s+', usecols=["chr", "bp", "p"], dtype="str")
 GWAS = np.array(GWAS)
 chrcol = 0
 poscol = 1
@@ -84,4 +84,4 @@ for chrom in range(1,24):
 	# write SNPs to file
 	for i in plotSNPs:
 		outfile.write("\t".join(i)+"\n")
-	print "Chromosome ",chrom," done!!"
+	print("Chromosome", chrom, "done!!")

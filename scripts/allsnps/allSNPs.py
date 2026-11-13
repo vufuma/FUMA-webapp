@@ -23,11 +23,11 @@ def main():
 
 	for snps in pd.read_csv(filedir+"input.snps", dtype=str, sep="\t", usecols = ['chr', 'bp', 'p'], chunksize=50000):
 		snps = snps.dropna()
-		snps.loc[:,'chr'] = snps.chr.astype(int)
+		snps.loc[:,'chr'] = snps.chr.astype(int).astype(str)
 		snps = snps[(snps.bp.apply(lambda x: x.isdigit())) & (snps.p.apply(is_float))]
 		snps.to_csv(filedir+'all.txt', header=False, index=False, sep="\t", mode="a")
 
 	os.system("bgzip "+filedir+"all.txt")
-	os.system("tabix -p vcf "+filedir+"all.txt.gz")
+	os.system("tabix -s 1 -b 2 -e 2 "+filedir+"all.txt.gz")
 
 if __name__ == "__main__": main()
