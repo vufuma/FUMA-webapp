@@ -3,7 +3,7 @@ FROM r-base:4.2.3
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl unzip build-essential r-base \
-    && curl https://vu.data.surfsara.nl/index.php/s/zkKbNeNOZAhFXZB/download -o magma_v1.10_static.zip\
+    && curl -L https://vu.data.surfsara.nl/index.php/s/zkKbNeNOZAhFXZB/download -o magma_v1.10_static.zip\
     && unzip magma_v1.10_static.zip -d /usr/local/share/MAGMA \
     && chmod +x /usr/local/share/MAGMA/* \
     && rm magma_v1.10_static.zip \
@@ -32,3 +32,5 @@ RUN groupadd --gid ${PGID} $USERNAME && \
     usermod -a -G scistor_share_r,reference_data_r,users_data_c $USERNAME
 
 USER $USERNAME
+
+CMD ["R", "--vanilla"]

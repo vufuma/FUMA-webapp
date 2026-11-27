@@ -7,7 +7,7 @@ import pandas as pd
 import json
 
 def ArrayIn(a1, a2):
-	return np.where(np.in1d(a1, a2))[0]
+	return np.where(np.isin(a1, a2))[0]
 
 def main():
 	##### check argument #####

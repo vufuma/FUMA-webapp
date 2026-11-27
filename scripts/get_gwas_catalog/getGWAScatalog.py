@@ -18,7 +18,7 @@ def unique(a):
 ##### Return index of a1 which exists in a2 #####
 def ArrayIn(a1, a2):
 	# results = [i for i, x in enumerate(a1) if x in a2]
-	results = np.where(np.in1d(a1, a2))[0]
+	results = np.where(np.isin(a1, a2))[0]
 	return results
 
 def getGWAScatSNPs(snps, snpshead, gwascat_file):

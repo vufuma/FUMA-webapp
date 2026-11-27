@@ -42,7 +42,7 @@ header = list(fin.columns.values)
 fin = np.array(fin)
 
 if len(fin)==0:
-	print '{"data":[]}'
+	print('{"data":[]}')
 	sys.exit()
 
 hind = []
@@ -80,4 +80,4 @@ for l in fin:
 	out += "],"
 out = re.sub(r'],$', ']', out)
 out += ']}'
-print out
+print(out)
