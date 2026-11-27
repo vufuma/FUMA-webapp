@@ -279,12 +279,31 @@ def run_flames(filedir, flames, s2gdir, s2g_id, logger):
         logger.error("stderr: %s", e.stderr)
         sys.exit(10)
         
+def fuma_locus_from_filename(filenames):
+    """FLAMES numbers loci by the order of its input files (0, 1, 2, ...), which no
+    longer matches the FUMA GenomicLocus once a locus fails fine-mapping.
+    The FUMA locus number is in the annotated file name: annotated_locus_<N>.txt"""
+    locus = filenames.astype(str).str.extract(r"locus_(\d+)\.txt$", expand=False)
+    if locus.isna().any():
+        bad = filenames[locus.isna()].unique()[:3]
+        raise ValueError(f"Could not get the FUMA locus number from filename(s): {list(bad)}")
+    return locus.astype(int)
+
+
 def format_pred_output(filedir, logger):
     try:
+        # .pred: displayed on the website (via FLAMES_scores_fmt.pred) and downloadable
         pred_input = pd.read_csv(os.path.join(filedir, "FLAMES_scores.pred"), sep="\t")
+        pred_input["locus"] = fuma_locus_from_filename(pred_input["filename"])
         pred_input = pred_input[["locus", "symbol", "ensg", "FLAMES_scaled", "FLAMES_raw", "estimated_cumulative_precision"]]
-        pred_input[["locus"]] = pred_input[["locus"]] + 1
         pred_input.to_csv(os.path.join(filedir, "FLAMES_scores_fmt.pred"), sep="\t", index=False)
+
+        # .raw: downloadable, has the same 0-based locus numbering
+        raw_fp = os.path.join(filedir, "FLAMES_scores.raw")
+        if os.path.exists(raw_fp):
+            raw = pd.read_csv(raw_fp, sep="\t")
+            raw["locus"] = fuma_locus_from_filename(raw["filename"])
+            raw.to_csv(raw_fp, sep="\t", index=False)
     except Exception as e:
         logger.error("Error formatting prediction output: %s", str(e))
         sys.exit(9)
